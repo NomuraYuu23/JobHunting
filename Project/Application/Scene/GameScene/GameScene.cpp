@@ -97,6 +97,10 @@ void GameScene::Initialize() {
 		spotLightDatas_[i].used = false; // 使用している
 	}
 
+	//プレイヤー
+	player_ = std::make_unique<Player>();
+	player_->Initialize(playerModel_.get(), playerWeaponModel_.get());
+
 }
 
 /// <summary>
@@ -134,12 +138,13 @@ void GameScene::Update() {
 	pointLightManager_->Update(pointLightDatas_);
 	spotLightManager_->Update(spotLightDatas_);
 
+	player_->Update();
+
 	// あたり判定
 	collisionManager_->ListClear();
 	//collisionManager_->ListRegister();
 	collisionManager_->CheakAllCollision();
 
-	
 	// 影
 	ShadowUpdate();
 
@@ -185,6 +190,9 @@ void GameScene::Draw() {
 
 	// スカイドーム
 	skydome_->Draw(camera_);
+
+	// プレイヤー
+	player_->Draw(camera_);
 
 #ifdef _DEBUG
 
@@ -302,6 +310,10 @@ void GameScene::ModelCreate()
 
 	// スカイドーム
 	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
+	
+	//プレイヤー
+	playerModel_.reset(Model::Create("Resources/Model/Player/", "Player.gltf", dxCommon_, textureHandleManager_.get()));
+	playerWeaponModel_.reset(Model::Create("Resources/Model/Player/", "playerWeapon.obj", dxCommon_, textureHandleManager_.get()));
 
 }
 

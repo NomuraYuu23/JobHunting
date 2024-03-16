@@ -20,6 +20,9 @@
 #include "../../../Engine/Collision2D/Collision2DManager.h"
 #include "../../../Engine/Collision2D/Collision2DDebugDraw.h"
 
+// プレイヤー
+#include "../../Player/Player.h"
+
 class GameScene : public IScene
 {
 
@@ -115,5 +118,10 @@ private:
 	// スポットライト
 	std::unique_ptr<SpotLightManager> spotLightManager_;
 	std::array<SpotLightData, SpotLightManager::kNumInstanceMax_> spotLightDatas_;
-	
+
+	// プレイヤー
+	std::unique_ptr<Player> player_;
+	std::unique_ptr<Model> playerModel_;
+	std::unique_ptr<Model> playerWeaponModel_;
+
 };

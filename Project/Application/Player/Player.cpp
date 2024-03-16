@@ -6,16 +6,15 @@
 void Player::Initialize(Model* model, Model* weaponModel)
 {
 
+	// モデル
+	model_ = model;
+
 	// マテリアル
 	material_.reset(Material::Create());
 	material_->SetEnableLighting(BlinnPhongReflection);
 
 	// ワールドトランスフォーム
-	worldTransform_.Initialize();
-	worldTransform_.transform_.translate.y = height_;
-	worldTransform_.transform_.translate.x = 10.0f;
-	worldTransform_.transform_.rotate.y = 0.1f;
-	worldTransform_.UpdateMatrix();
+	worldTransform_.Initialize(model_->GetRootNode());
 
 	// コマンド
 	playerCommand_ = PlayerCommand::GetInstance();
@@ -27,9 +26,6 @@ void Player::Initialize(Model* model, Model* weaponModel)
 	// ステート
 	StateInitialize();
 
-	// モデル
-	model_ = model;
-
 	// パーツ
 	PartInitialize();
 
@@ -38,7 +34,7 @@ void Player::Initialize(Model* model, Model* weaponModel)
 
 	// 武器モデル
 	weaponModel_ = weaponModel;
-	weaponWorldTransfrom_.Initialize();
+	weaponWorldTransfrom_.Initialize(weaponModel_->GetRootNode());
 	weaponWorldTransfrom_.parent_ = &worldTransform_;
 	weaponWorldTransfrom_.transform_.rotate.x = 1.57f;
 	weaponWorldTransfrom_.transform_.rotate.z = 1.57f;
@@ -63,7 +59,6 @@ void Player::Update()
 	// ステート
 	StateUpdate();
 
-	worldTransform_.transform_.translate.y = height_;
 	worldTransform_.UpdateMatrix();
 
 	// コライダー
