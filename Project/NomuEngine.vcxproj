@@ -113,6 +113,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\AudioManager\ClearAudioManager.cpp" />
     <ClCompile Include="Application\AudioManager\GameAudioManager.cpp" />
     <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp" />
+    <ClCompile Include="Application\Camera\FollowCamera.cpp" />
     <ClCompile Include="Application\Object\Sample\SampleObject.cpp" />
     <ClCompile Include="Application\Player\Player.cpp" />
     <ClCompile Include="Application\Player\PlayerAttack\PlayerAttack.cpp" />
@@ -231,6 +232,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\AudioManager\ClearAudioManager.h" />
     <ClInclude Include="Application\AudioManager\GameAudioManager.h" />
     <ClInclude Include="Application\AudioManager\TitleAudioManager.h" />
+    <ClInclude Include="Application\Camera\FollowCamera.h" />
     <ClInclude Include="Application\Collider2D\ColliderParentObject2D.h" />
     <ClInclude Include="Application\Collider2D\CollisionConfig2D.h" />
     <ClInclude Include="Application\Collider\ColliderParentObject.h" />

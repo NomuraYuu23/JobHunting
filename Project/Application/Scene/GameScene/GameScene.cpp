@@ -100,6 +100,11 @@ void GameScene::Initialize() {
 	//プレイヤー
 	player_ = std::make_unique<Player>();
 	player_->Initialize(playerModel_.get(), playerWeaponModel_.get());
+	// 追従カメラ
+	followCamera_ = std::make_unique<FollowCamera>();
+	followCamera_->Initialize();
+	followCamera_->SetTarget(player_->GetWorldTransformAdress());
+	player_->SetCamera(static_cast<BaseCamera*>(followCamera_.get()));
 
 }
 
@@ -137,6 +142,11 @@ void GameScene::Update() {
 
 	pointLightManager_->Update(pointLightDatas_);
 	spotLightManager_->Update(spotLightDatas_);
+
+	// 追従カメラ
+	followCamera_->Update();
+
+	camera_ = static_cast<BaseCamera>(*followCamera_.get());
 
 	player_->Update();
 

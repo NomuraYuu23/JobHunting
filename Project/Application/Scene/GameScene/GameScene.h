@@ -22,6 +22,7 @@
 
 // プレイヤー
 #include "../../Player/Player.h"
+#include "../../Camera/FollowCamera.h"
 
 class GameScene : public IScene
 {
@@ -123,5 +124,8 @@ private:
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<Model> playerModel_;
 	std::unique_ptr<Model> playerWeaponModel_;
+
+	// 追加カメラ
+	std::unique_ptr<FollowCamera> followCamera_;
 
 };
