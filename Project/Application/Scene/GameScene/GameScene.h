@@ -8,6 +8,7 @@
 #include "../../UI/UIManager.h"
 #include "../../AudioManager/GameAudioManager.h"
 #include "../../Skydome/Skydome.h"
+#include "../../Ground/Ground.h"
 #include "../../../Engine/3D/OutLineData.h"
 #include "../../ShadowManager/ShadowManager.h"
 
@@ -127,5 +128,10 @@ private:
 
 	// 追加カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
+
+	// 地面
+	std::unique_ptr<Ground> ground_;
+	std::unique_ptr<Model> groundModel_;
+
 
 };

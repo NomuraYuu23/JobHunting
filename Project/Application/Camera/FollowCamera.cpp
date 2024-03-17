@@ -12,8 +12,6 @@ void FollowCamera::Initialize() {
 	BaseCamera::Initialize();
 
 	//y固定
-	transform_.translate.y = 10.0f;
-	transform_.rotate.x = 0.1f;
 
 	BaseCamera::Update();
 
@@ -53,6 +51,9 @@ void FollowCamera::Update() {
 		//destinationAngle_.x = 0.2f;
 	}
 
+	transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngle_.y, rotateRate_);
+	transform_.rotate.x = Math::LerpShortAngle(transform_.rotate.x, destinationAngle_.x, rotateRate_);
+
 	//追従対象がいれば
 	if (target_) {
 		// 追従座標の補間
@@ -66,9 +67,6 @@ void FollowCamera::Update() {
 
 	}
 
-	transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngle_.y, rotateRate_);
-	transform_.rotate.x = Math::LerpShortAngle(transform_.rotate.x, destinationAngle_.x, rotateRate_);
-
 	//ビュー更新
 	BaseCamera::Update();
 }
@@ -78,7 +76,7 @@ Vector3 FollowCamera::OffsetCalc() const
 {
 
 	//追従対象からカメラまでのオフセット
-	Vector3 offset = { 0.0f, 5.0f, offsetLength_ };
+	Vector3 offset = { 0.0f, 3.0f, offsetLength_ };
 
 	Matrix4x4 rotateMatrix;
 

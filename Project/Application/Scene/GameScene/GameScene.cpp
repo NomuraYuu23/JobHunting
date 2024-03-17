@@ -63,6 +63,10 @@ void GameScene::Initialize() {
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(skydomeModel_.get());
 
+	// 地面
+	ground_ = std::make_unique<Ground>();
+	ground_->Initialize(groundModel_.get());
+
 	//影
 	//shadowManager_ = std::make_unique<ShadowManager>();
 	//shadowManager_->Initialize(shadowModel_.get());
@@ -161,6 +165,9 @@ void GameScene::Update() {
 	// スカイドーム
 	skydome_->Update();
 
+	// 地面
+	ground_->Update();
+
 	//uiManager_->Update();
 
 	// デバッグカメラ
@@ -200,6 +207,8 @@ void GameScene::Draw() {
 
 	// スカイドーム
 	skydome_->Draw(camera_);
+	// 地面
+	ground_->Draw(camera_);
 
 	// プレイヤー
 	player_->Draw(camera_);
@@ -323,7 +332,10 @@ void GameScene::ModelCreate()
 	
 	//プレイヤー
 	playerModel_.reset(Model::Create("Resources/Model/Player/", "Player.gltf", dxCommon_, textureHandleManager_.get()));
-	playerWeaponModel_.reset(Model::Create("Resources/Model/Player/", "playerWeapon.obj", dxCommon_, textureHandleManager_.get()));
+	playerWeaponModel_.reset(Model::Create("Resources/Model/Player/", "PlayerWeapon.gltf", dxCommon_, textureHandleManager_.get()));
+
+	// 地面
+	groundModel_.reset(Model::Create("Resources/Model/Ground/", "Ground.obj", dxCommon_, textureHandleManager_.get()));
 
 }
 
