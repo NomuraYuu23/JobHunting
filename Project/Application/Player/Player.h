@@ -7,6 +7,7 @@
 #include "../../Engine/Collision/CollisionData.h"
 #include "../../Engine/Camera/BaseCamera.h"
 #include "../../Engine/3D/Model.h"
+#include "../../Engine/Animation/Animation.h"
 
 /// <summary>
 /// プレイヤーのモーション一覧
@@ -158,6 +159,9 @@ private: // パーツ,アニメーション変数
 
 	// 武器ワールドトランスフォーム
 	WorldTransform weaponWorldTransfrom_;
+
+	//ノードアニメーション
+	Animation animation_;
 
 private:  // パーツ,アニメーション定数
 

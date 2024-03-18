@@ -16,6 +16,34 @@ void Player::Initialize(Model* model, Model* weaponModel)
 	// ワールドトランスフォーム
 	worldTransform_.Initialize(model_->GetRootNode());
 
+	// 初期ローカル座標
+	std::vector<Vector3> initPositions;
+	initPositions.resize(worldTransform_.GetNodeDatas().size());
+	for (uint32_t i = 0; i < initPositions.size(); ++i) {
+		initPositions[i] = { 0.0f, 0.0f, 0.0f };
+	}
+
+	std::vector<Quaternion> initRotations;
+	initRotations.resize(worldTransform_.GetNodeDatas().size());
+	for (uint32_t i = 0; i < initRotations.size(); ++i) {
+		initRotations[i] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	}
+
+	std::vector<Vector3> initScalings;
+	initScalings.resize(worldTransform_.GetNodeDatas().size());
+	for (uint32_t i = 0; i < initScalings.size(); ++i) {
+		initScalings[i] = { 1.0f, 1.0f, 1.0f };
+	}
+
+	animation_.Initialize(
+		model_->GetNodeAnimationData(),
+		initPositions,
+		initRotations,
+		initScalings,
+		worldTransform_.GetNodeNames());
+
+	animation_.startAnimation(2, true);
+
 	// コマンド
 	playerCommand_ = PlayerCommand::GetInstance();
 	playerCommand_->Initialize();
@@ -58,6 +86,8 @@ void Player::Update()
 
 	// ステート
 	StateUpdate();
+
+	worldTransform_.SetNodeLocalMatrix(animation_.AnimationUpdate());
 
 	worldTransform_.UpdateMatrix();
 
