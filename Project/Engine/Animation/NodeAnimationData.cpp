@@ -38,23 +38,32 @@ void NodeAnimationData::Initialize(const aiNodeAnim& nodeAnim)
 
 	for (uint32_t i = 0; i < rotationKeyNum_; ++i) {
 
-		//animationQuaternionKey.value_.x = nodeAnim.mRotationKeys[0].mValue.x + 
-		//	-1 * (nodeAnim.mRotationKeys[i].mValue.x
-		//		- nodeAnim.mRotationKeys[0].mValue.x);
-		//animationQuaternionKey.value_.y = nodeAnim.mRotationKeys[0].mValue.y +
-		//	-1 * (nodeAnim.mRotationKeys[i].mValue.y
-		//		- nodeAnim.mRotationKeys[0].mValue.y);
-
-		//animationQuaternionKey.value_.z = nodeAnim.mRotationKeys[i].mValue.z;
-
-		//animationQuaternionKey.value_.w = nodeAnim.mRotationKeys[i].mValue.w;
+		animationQuaternionKey.value_.x = (
+			nodeAnim.mRotationKeys[i].mValue.x
+				- nodeAnim.mRotationKeys[0].mValue.x);
+		animationQuaternionKey.value_.y = -1.0f * (
+			nodeAnim.mRotationKeys[i].mValue.y
+			- nodeAnim.mRotationKeys[0].mValue.y);
+		animationQuaternionKey.value_.z = -1.0f * (
+			nodeAnim.mRotationKeys[i].mValue.z
+			- nodeAnim.mRotationKeys[0].mValue.z);
+		animationQuaternionKey.value_.w = (
+			nodeAnim.mRotationKeys[i].mValue.w
+			- nodeAnim.mRotationKeys[0].mValue.w);
 
 		//animationQuaternionKey.value_ = Quaternion::Normalize(animationQuaternionKey.value_);
 
-		animationQuaternionKey.value_.x = nodeAnim.mRotationKeys[i].mValue.x;
-		animationQuaternionKey.value_.y = -nodeAnim.mRotationKeys[i].mValue.y;
-		animationQuaternionKey.value_.z = -nodeAnim.mRotationKeys[i].mValue.z;
-		animationQuaternionKey.value_.w = nodeAnim.mRotationKeys[i].mValue.w;
+		animationQuaternionKey.value_.x += nodeAnim.mRotationKeys[0].mValue.x;
+		animationQuaternionKey.value_.y += nodeAnim.mRotationKeys[0].mValue.y;
+		animationQuaternionKey.value_.z += nodeAnim.mRotationKeys[0].mValue.z;
+		animationQuaternionKey.value_.w += nodeAnim.mRotationKeys[0].mValue.w;
+
+		animationQuaternionKey.value_ = Quaternion::Normalize(animationQuaternionKey.value_);
+
+		//animationQuaternionKey.value_.x = nodeAnim.mRotationKeys[i].mValue.x;
+		//animationQuaternionKey.value_.y = nodeAnim.mRotationKeys[i].mValue.y;
+		//animationQuaternionKey.value_.z = nodeAnim.mRotationKeys[i].mValue.z;
+		//animationQuaternionKey.value_.w = nodeAnim.mRotationKeys[i].mValue.w;
 
 		animationQuaternionKey.time_ = nodeAnim.mRotationKeys[i].mTime / kSecondsConversion;
 
