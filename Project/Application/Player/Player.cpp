@@ -42,7 +42,7 @@ void Player::Initialize(Model* model, Model* weaponModel)
 		initScalings,
 		worldTransform_.GetNodeNames());
 
-	animation_.startAnimation(2, true);
+	animation_.startAnimation(0, true);
 
 	// コマンド
 	playerCommand_ = PlayerCommand::GetInstance();

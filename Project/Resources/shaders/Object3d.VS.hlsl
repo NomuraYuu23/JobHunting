@@ -49,10 +49,13 @@ VertexShaderOutput main(VertexShaderInput input, uint32_t vertexId : SV_VertexID
 
 	output.position = mul(input.position, comb);
 	output.position = mul(output.position, gViewProjectionMatrix.Matrix);
+	output.position.x *= -1;
 
 	output.normal = normalize(mul(input.normal, (float32_t3x3)combInverseTranspose));
+	output.normal.x *= -1;
 	
 	output.worldPosition = mul(input.position, comb).xyz;
+	output.worldPosition.x *= -1;
 	
 	return output;
 }
