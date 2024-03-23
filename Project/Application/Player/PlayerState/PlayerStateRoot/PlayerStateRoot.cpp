@@ -5,17 +5,17 @@
 void PlayerStateRoot::Initialize()
 {
 
-	runningSpeed_ = 5.0f;
+	runningSpeed_ = 1.0f;
 
-	walkSpeed_ = 2.0f;
+	walkSpeed_ = 0.5f;
 
-	dashSpeed_ = 7.0f;
+	dashSpeed_ = 1.5f;
 
 	targetDirection_ = { 0.0f, 0.0f, 1.0f };
 
 	targetAngleT_ = 0.1f;
 
-	playerMotionNo_ = kPlayerMotionStand;
+	playerMotionNo_ = kPlayerMotionWait;
 
 }
 
@@ -53,7 +53,7 @@ void PlayerStateRoot::Update()
 			playerMotionNo_ = kPlayerMotionWalk;
 		}
 		else {
-			playerMotionNo_ = kPlayerMotionStand;
+			playerMotionNo_ = kPlayerMotionWait;
 		}
 
 		// 角度補間

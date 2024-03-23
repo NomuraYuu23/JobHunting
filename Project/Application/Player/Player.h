@@ -13,8 +13,8 @@
 /// プレイヤーのモーション一覧
 /// </summary>
 enum PlayerMotionIndex {
-	kPlayerMotionStand, // 通常時
 	kPlayerMotionRun, // 走行時
+	kPlayerMotionWait, // 通常時
 	kPlayerMotionDash, // ダッシュ時
 	kPlayerMotionWalk, // 歩行時
 	kPlayerMotionGuard, // ガード時
@@ -131,6 +131,11 @@ private: // パーツ構成関数
 	/// </summary>
 	void ColliderUpdate();
 
+	/// <summary>
+	/// アニメーション更新
+	/// </summary>
+	void AnimationUpdate();
+
 private: // パーツ,アニメーション変数
 
 	// モデル
@@ -148,12 +153,6 @@ private: // パーツ,アニメーション変数
 	// 前のモーション番号
 	uint32_t prevMotionNo_;
 
-	// アニメーションカウント
-	uint32_t animationCount_;
-
-	// アニメーションカウント上限
-	uint32_t animationCountLimit_;
-
 	// 武器モデル
 	Model* weaponModel_ = nullptr;
 
@@ -170,8 +169,8 @@ private:  // パーツ,アニメーション定数
 
 	// モーション名
 	const std::array<const std::string, PlayerMotionIndex::kPlayerMotionIndexOfCount> motionNames_ = {
-		"Stand",
 		"Run",
+		"Wait",
 		"Dash",
 		"Walk",
 		"Guard",

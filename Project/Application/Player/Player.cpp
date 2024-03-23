@@ -42,8 +42,6 @@ void Player::Initialize(Model* model, Model* weaponModel)
 		initScalings,
 		worldTransform_.GetNodeNames());
 
-	animation_.startAnimation(0, true);
-
 	// コマンド
 	playerCommand_ = PlayerCommand::GetInstance();
 	playerCommand_->Initialize();
@@ -86,6 +84,8 @@ void Player::Update()
 
 	// ステート
 	StateUpdate();
+
+	AnimationUpdate();
 
 	worldTransform_.SetNodeLocalMatrix(animation_.AnimationUpdate());
 
@@ -196,16 +196,13 @@ void Player::PartInitialize()
 {
 
 	// 現在のモーション番号
-	currentMotionNo_ = PlayerMotionIndex::kPlayerMotionStand;
+	currentMotionNo_ = PlayerMotionIndex::kPlayerMotionWait;
 
 	// 前のモーション番号
-	prevMotionNo_ = PlayerMotionIndex::kPlayerMotionStand;
+	prevMotionNo_ = PlayerMotionIndex::kPlayerMotionWait;
 
-	// アニメーションカウント
-	animationCount_ = 0u;
-
-	// アニメーションカウント上限
-	animationCountLimit_ = 0u;
+	// 待ちアニメーション
+	animation_.startAnimation(kPlayerMotionWait, true);
 
 }
 
@@ -237,6 +234,21 @@ void Player::ColliderUpdate()
 	};
 	Vector3 diff = { 0.0f,0.0f,0.0f };
 
+
+}
+
+void Player::AnimationUpdate()
+{
+
+	prevMotionNo_ = currentMotionNo_;
+	currentMotionNo_ = playerState_->GetPlaryerMotionNo();
+
+	if (currentMotionNo_ != prevMotionNo_) {
+		if (currentMotionNo_ < 2) {
+			animation_.stopAnimation(prevMotionNo_);
+			animation_.startAnimation(currentMotionNo_,true);
+		}
+	}
 
 }
 
