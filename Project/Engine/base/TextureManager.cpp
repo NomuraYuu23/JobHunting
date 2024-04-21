@@ -128,11 +128,21 @@ const D3D12_RESOURCE_DESC TextureManager::GetResourceDesc(uint32_t textureHandle
 void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, UINT rootParamIndex, uint32_t textureHandle) {
 
 	assert(textureHandle < textures_.size());
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 	
 	//シェーダーリソースビューをセット
 	commandList->SetGraphicsRootDescriptorTable(rootParamIndex, textures_[textureHandle].gpuDescHandleSRV);
+
+}
+
+void TextureManager::SetComputeRootDescriptorTable(ID3D12GraphicsCommandList* commandList, UINT rootParamIndex, uint32_t textureHandle)
+{
+
+	assert(textureHandle < textures_.size());
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	//シェーダーリソースビューをセット
+	commandList->SetComputeRootDescriptorTable(rootParamIndex, textures_[textureHandle].gpuDescHandleSRV);
 
 }
 

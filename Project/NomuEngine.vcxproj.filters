@@ -364,17 +364,11 @@
     <ClCompile Include="Application\UI\UIManager.cpp">
       <Filter>Application\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\AudioManager\ClearAudioManager.cpp">
       <Filter>Application\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Application\Scene\TutorialScene\TutorialScene.cpp">
       <Filter>Application\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\ShadowManager\ShadowManager.cpp">
-      <Filter>Application\ShadowManager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Quaternion.cpp">
       <Filter>Engine\Math</Filter>
@@ -402,12 +396,6 @@
     </ClCompile>
     <ClCompile Include="Application\Object\Sample\SampleObject.cpp">
       <Filter>Application\Object\Sample</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Light\PointLight\PointLight.cpp">
-      <Filter>Engine\Light\PointLight</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Light\SpotLight\SpotLight.cpp">
-      <Filter>Engine\Light\SpotLight</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Light\PointLight\PointLightManager.cpp">
       <Filter>Engine\Light\PointLight</Filter>
@@ -507,6 +495,57 @@
     </ClCompile>
     <ClCompile Include="Engine\base\SwapChain.cpp">
       <Filter>Engine\Base\DxCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2D\WindowSprite.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\FogManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\LargeNumberOfObjects.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\ModelDraw.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\OneOfManyObjects.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Animation\LocalMatrixManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\CompileShader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\TextureUAV.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Collider2D\Segment2D.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ContactRecord\ContactRecord.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\Spring.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\String.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\StructuralSpring.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PostEffect\PostEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PostEffect\ShockWaveManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PostEffect\Velocity2DData.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp">
+      <Filter>Application\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Application\Player\PlayerAttack\PlayerAttack.cpp">
       <Filter>ソース ファイル</Filter>
@@ -777,17 +816,11 @@
     <ClInclude Include="Application\UI\UIManager.h">
       <Filter>Application\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Application\AudioManager\TitleAudioManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\AudioManager\ClearAudioManager.h">
       <Filter>Application\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Application\Scene\TutorialScene\TutorialScene.h">
       <Filter>Application\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\ShadowManager\ShadowManager.h">
-      <Filter>Application\ShadowManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Quaternion.h">
       <Filter>Engine\Math</Filter>
@@ -825,14 +858,8 @@
     <ClInclude Include="Application\Object\Sample\SampleObject.h">
       <Filter>Application\Object\Sample</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Light\PointLight\PointLight.h">
-      <Filter>Engine\Light\PointLight</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Light\PointLight\PointLightData.h">
       <Filter>Engine\Light\PointLight</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Light\SpotLight\SpotLight.h">
-      <Filter>Engine\Light\SpotLight</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Light\SpotLight\SpotLightData.h">
       <Filter>Engine\Light\SpotLight</Filter>
@@ -962,6 +989,72 @@
     </ClInclude>
     <ClInclude Include="Engine\base\SwapChain.h">
       <Filter>Engine\Base\DxCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2D\WindowSprite.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\FogData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\FogManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\LargeNumberOfObjects.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\ModelDraw.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\ModelNodeData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\OneOfManyObjects.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\VertexInfluence.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Animation\LocalMatrix.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Animation\LocalMatrixManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\CompileShader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\TextureUAV.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Collider2D\Segment2D.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ContactRecord\ContactRecord.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\Spring.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\String.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\StructuralSpring.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\PostEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\ShockWaveData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\ShockWaveManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\Velocity2DData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\AudioManager\TitleAudioManager.h">
+      <Filter>Application\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Application\Player\PlayerAttack\PlayerAttack.h">
       <Filter>ヘッダー ファイル</Filter>

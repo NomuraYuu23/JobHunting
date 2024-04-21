@@ -10,7 +10,6 @@
 #include "../../Skydome/Skydome.h"
 #include "../../Ground/Ground.h"
 #include "../../../Engine/3D/OutLineData.h"
-#include "../../ShadowManager/ShadowManager.h"
 
 #include "../../Object/Sample/SampleObject.h" // サンプルオブジェクト
 
@@ -108,10 +107,6 @@ private:
 	// スカイドーム
 	std::unique_ptr<Skydome> skydome_;
 	std::unique_ptr<Model> skydomeModel_;
-
-	//影
-	//std::unique_ptr<ShadowManager> shadowManager_;
-	//std::unique_ptr<Model> shadowModel_;
 
 	// 点光源
 	std::unique_ptr<PointLightManager> pointLightManager_;

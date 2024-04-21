@@ -61,10 +61,6 @@ void TutorialScene::Initialize() {
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(skydomeModel_.get());
 
-	//影
-	shadowManager_ = std::make_unique<ShadowManager>();
-	shadowManager_->Initialize(shadowModel_.get());
-
 }
 
 /// <summary>
@@ -104,9 +100,6 @@ void TutorialScene::Update() {
 	//collisionManager_->ListRegister();
 	collisionManager_->CheakAllCollision();
 
-	// 影
-	ShadowUpdate();
-
 	// スカイドーム
 	skydome_->Update();
 
@@ -129,73 +122,6 @@ void TutorialScene::Update() {
 /// </summary>
 void TutorialScene::Draw() {
 
-	//ゲームの処理 
-
-#pragma region 背景スプライト描画
-	// 背景スプライト描画前処理
-	Sprite::PreDraw(dxCommon_->GetCommadList());
-
-	// スプライト描画後処理
-	Sprite::PostDraw();
-	// 深度バッファクリア
-	renderTargetTexture_->ClearDepthBuffer();
-
-
-#pragma endregion
-
-	Model::PreDraw(dxCommon_->GetCommadList());
-
-	//光源
-	//directionalLight_->Draw(dxCommon_->GetCommadList());
-	//3Dオブジェクトはここ
-
-	// スカイドーム
-	skydome_->Draw(camera_);
-
-#ifdef _DEBUG
-
-	// デバッグ描画
-	//colliderDebugDraw_->Draw(camera_);
-
-#endif // _DEBUG
-
-	Model::PostDraw();
-
-#pragma region アウトライン描画
-	Model::PreDrawOutLine(dxCommon_->GetCommadList());
-
-	Model::PostDraw();
-
-#pragma endregion
-
-#pragma region パーティクル描画
-	Model::PreParticleDraw(dxCommon_->GetCommadList(), camera_.GetViewProjectionMatrix());
-
-	//光源
-	//directionalLight_->Draw(dxCommon_->GetCommadList());
-
-	// パーティクルはここ
-	particleManager_->Draw();
-
-	Model::PostDraw();
-
-#pragma endregion
-
-#pragma region 前景スプライト描画
-	// 前景スプライト描画前処理
-	Sprite::PreDraw(dxCommon_->GetCommadList());
-
-
-	//背景
-	//前景スプライト描画
-
-	// UIマネージャー
-	//uiManager_->Draw();
-
-	// 前景スプライト描画後処理
-	Sprite::PostDraw();
-
-#pragma endregion
 
 }
 
@@ -255,8 +181,6 @@ void TutorialScene::ModelCreate()
 
 	// スカイドーム
 	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
-	// 影
-	shadowModel_.reset(Model::Create("Resources/Model/shadow/", "shadow.obj", dxCommon_, textureHandleManager_.get()));
 
 }
 
@@ -292,22 +216,5 @@ void TutorialScene::LowerVolumeBGM()
 	//		}
 	//	}
 	//}
-
-}
-
-void TutorialScene::ShadowUpdate()
-{
-
-	// リストクリア
-	shadowManager_->ListClear();
-
-	// リスト登録（影を発生させる物）
-	//shadowManager_->CastsShadowObjListRegister();
-
-	// リスト登録（影が現れる物）
-	//shadowManager_->ShadowAppearsObjListRegister();
-
-	// 影が出るか
-	shadowManager_->SeeShadow();
 
 }

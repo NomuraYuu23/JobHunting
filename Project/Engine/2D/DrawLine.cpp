@@ -79,7 +79,7 @@ bool DrawLine::Initialize()
 	assert(sDevice);
 
 	//Sprite用の頂点リソースを作る
-	vertBuff_ = BufferResource::CreateBufferResource(sDevice, sizeof(ColorVertexData) * kVertNum);
+	vertBuff_ = BufferResource::CreateBufferResource(sDevice, ((sizeof(ColorVertexData) + 0xff) & ~0xff) * kVertNum);
 
 	//リソースの先頭のアドレスから使う
 	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
@@ -117,7 +117,7 @@ void DrawLine::Draw(
 	sCommandList->IASetVertexBuffers(0, 1, &vbView_);
 
 	//VP CBufferの場所を設定
-	sCommandList->SetGraphicsRootConstantBufferView(0, camera.GetViewProjectionMatriBuff()->GetGPUVirtualAddress());
+	sCommandList->SetGraphicsRootConstantBufferView(0, camera.GetViewProjectionMatrixBuff()->GetGPUVirtualAddress());
 
 	//描画
 	sCommandList->DrawInstanced(kVertNum, 1, 0, 0);

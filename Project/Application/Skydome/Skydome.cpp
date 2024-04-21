@@ -2,6 +2,7 @@
 #include <cassert>
 #include "../../Engine/2D/ImguiManager.h"
 #include <numbers>
+#include "../../Engine/3D/ModelDraw.h"
 
 Skydome::~Skydome()
 {
@@ -23,6 +24,10 @@ void Skydome::Initialize(Model* model) {
 
 	// ワールド変換データの初期化
 	worldTransform_.Initialize(model_->GetRootNode());
+
+	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
+	localMatrixManager_->Initialize(worldTransform_.GetNodeDatas());
+
 }
 
 /// <summary>
@@ -34,6 +39,8 @@ void Skydome::Update() {
 
 	worldTransform_.UpdateMatrix();
 
+	localMatrixManager_->Map(worldTransform_.GetNodeDatas());
+
 }
 
 /// <summary>
@@ -42,7 +49,13 @@ void Skydome::Update() {
 /// <param name="viewProjection">ビュープロジェクション</param>
 void Skydome::Draw(BaseCamera& camera) {
 
-	model_->Draw(worldTransform_, camera, material_.get());
+	ModelDraw::AnimObjectDesc desc;
+	desc.camera = &camera;
+	desc.localMatrixManager = localMatrixManager_.get();
+	desc.material = material_.get();
+	desc.model = model_;
+	desc.worldTransform = &worldTransform_;
+	ModelDraw::AnimObjectDraw(desc);
 
 }
 

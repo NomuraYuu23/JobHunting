@@ -8,7 +8,6 @@
 #include "../../AudioManager/GameAudioManager.h"
 #include "../../Skydome/Skydome.h"
 #include "../../../Engine/3D/OutLineData.h"
-#include "../../ShadowManager/ShadowManager.h"
 
 
 class TutorialScene : public IScene
@@ -64,11 +63,6 @@ private:
 	/// </summary>
 	void LowerVolumeBGM();
 
-	/// <summary>
-	/// 影更新
-	/// </summary>
-	void ShadowUpdate();
-
 private:
 
 	// パーティクルマネージャー
@@ -96,9 +90,5 @@ private:
 
 	//アウトライン仮
 	OutLineData outline_;
-
-	//影
-	std::unique_ptr<ShadowManager> shadowManager_;
-	std::unique_ptr<Model> shadowModel_;
 
 };

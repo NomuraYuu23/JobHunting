@@ -6,6 +6,7 @@
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../Particle/EmitterName.h"
 #include "../../../Engine/Math/DeltaTime.h"
+#include "../../../Engine/3D/ModelDraw.h"
 
 GameScene::~GameScene()
 {
@@ -199,10 +200,15 @@ void GameScene::Draw() {
 
 #pragma region モデル描画
 
-	Model::PreDraw(dxCommon_->GetCommadList(), pointLightManager_.get(), spotLightManager_.get());
+	ModelDraw::PreDrawDesc preDrawDesc;
+	preDrawDesc.commandList = dxCommon_->GetCommadList();
+	preDrawDesc.directionalLight = directionalLight_.get();
+	preDrawDesc.fogManager = FogManager::GetInstance();
+	preDrawDesc.pipelineStateIndex = ModelDraw::kPipelineStateIndexAnimObject;
+	preDrawDesc.pointLightManager = pointLightManager_.get();
+	preDrawDesc.spotLightManager = spotLightManager_.get();
+	ModelDraw::PreDraw(preDrawDesc);
 
-	//光源
-	directionalLight_->Draw(dxCommon_->GetCommadList(), 6);
 	//3Dオブジェクトはここ
 
 	// スカイドーム
@@ -220,36 +226,19 @@ void GameScene::Draw() {
 
 #endif // _DEBUG
 
-	Model::PostDraw();
-
-#pragma endregion
-
-#pragma region 線描画
-	// 前景スプライト描画前処理
-	DrawLine::PreDraw(dxCommon_->GetCommadList());
-
-	// 前景スプライト描画後処理
-	DrawLine::PostDraw();
-
-#pragma endregion
-	
-#pragma region アウトライン描画
-	Model::PreDrawOutLine(dxCommon_->GetCommadList());
-	
-	Model::PostDraw();
+	ModelDraw::PostDraw();
 
 #pragma endregion
 
 #pragma region パーティクル描画
-	Model::PreParticleDraw(dxCommon_->GetCommadList(), camera_.GetViewProjectionMatrix());
 
-	//光源
-	directionalLight_->Draw(dxCommon_->GetCommadList(), 6);
+	preDrawDesc.pipelineStateIndex = ModelDraw::kPipelineStateIndexParticle;
+	ModelDraw::PreDraw(preDrawDesc);
 
 	// パーティクルはここ
-	particleManager_->Draw();
+	particleManager_->Draw(camera_.GetViewProjectionMatrix());
 
-	Model::PostDraw();
+	ModelDraw::PostDraw();
 
 #pragma endregion
 

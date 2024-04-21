@@ -45,6 +45,10 @@ Model::ModelData ModelLoader::LoadModelFile(const std::string& directoryPath, co
 				aiVertexWeight* weights = bone[i]->mWeights;
 				for (uint32_t j = 0; j < bone[i]->mNumWeights; ++j) {
 					
+					if (weights[j].mWeight == 0.0f) {
+						continue;
+					}
+
 					std::pair<uint32_t, float> boneData;
 					boneData.first = weights[j].mVertexId;
 					boneData.second = weights[j].mWeight;
@@ -53,15 +57,19 @@ Model::ModelData ModelLoader::LoadModelFile(const std::string& directoryPath, co
 				}
 				aiString name = bone[i]->mName;
 				aiMatrix4x4 aiMatrix = bone[i]->mOffsetMatrix;
-				aiMatrix.Transpose();
+
+				aiVector3D scale, translate;
+				aiQuaternion rotate;
+				aiMatrix.Decompose(scale, rotate, translate);
 
 				std::pair<std::string, Matrix4x4> boneOffsetMatrix;
 				boneOffsetMatrix.first = name.C_Str();
-				for (uint32_t y = 0; y < 4; ++y) {
-					for (uint32_t x = 0; x < 4; ++x) {
-						boneOffsetMatrix.second.m[y][x] = aiMatrix[y][x];
-					}
-				}
+				boneOffsetMatrix.second =
+					Matrix4x4::MakeAffineMatrix(
+						{ scale.x, scale.y, scale.z },
+						{ rotate.x, -rotate.y, -rotate.z, rotate.w },
+						{ -translate.x,translate.y, translate.z }
+				);
 				boneOffsetMatrixes_.push_back(boneOffsetMatrix);
 
 			}
@@ -80,12 +88,9 @@ Model::ModelData ModelLoader::LoadModelFile(const std::string& directoryPath, co
 				aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
 
 				VertexData vertex;
-				vertex.position = { position.x, position.y, position.z, 1.0f };
-				vertex.normal = { normal.x, normal.y, normal.z };
+				vertex.position = { -position.x, position.y, position.z, 1.0f };
+				vertex.normal = { -normal.x, normal.y, normal.z };
 				vertex.texcoord = { texcoord.x, texcoord.y };
-				// aiProcess_MakeLeftHandedはx*=-1で、右手->左手に変換するので手動で対処
-				//vertex.position.x *= -1.0f;
-				//vertex.normal.x *= -1.0f;
 
 				// テクスチャを移動
 				if (thisObj) {
@@ -95,59 +100,47 @@ Model::ModelData ModelLoader::LoadModelFile(const std::string& directoryPath, co
 					vertex.texcoord.x += mesh->mMaterialIndex * 2.0f;
 				}
 
+				VertexInfluence vertexInfluence;
+
 				// ボーン情報取得
 				if (mesh->HasBones()) {
-					vertex.wegiht0 = 0.0f;
-					vertex.wegiht1 = 0.0f;
-					vertex.wegiht2 = 0.0f;
-					vertex.matrixIndex0 = 1000;
-					vertex.matrixIndex1 = 1000;
-					vertex.matrixIndex2 = 1000;
-					vertex.matrixIndex3 = 1000;
+					for (uint32_t i = 0; i < kNumMaxInfluence; ++i) {
+						vertexInfluence.weights[i] = 0.0f;
+						vertexInfluence.indecis[i] = 1000;
+					}
+
 					// 重みデータ
 					for (uint32_t i = 0; i < boneDatas.size(); ++i) {
 						for (uint32_t j = 0; j < boneDatas[i].size(); ++j) {
 							if (boneDatas[i][j].first == vertexIndex) {
 								// 空いている場所
-								if (vertex.matrixIndex0 == 1000) {
-									vertex.matrixIndex0 = i + scene->mNumMeshes + 1;
-									vertex.wegiht0 = boneDatas[i][j].second;
-									break;
-								}
-								else if (vertex.matrixIndex1 == 1000) {
-									vertex.matrixIndex1 = i + scene->mNumMeshes + 1;
-									vertex.wegiht1 = boneDatas[i][j].second;
-									break;
-								}
-								else if (vertex.matrixIndex2 == 1000) {
-									vertex.matrixIndex2 = i + scene->mNumMeshes + 1;
-									vertex.wegiht2 = boneDatas[i][j].second;
-									break;
-								}
-								else if (vertex.matrixIndex3 == 1000) {
-									vertex.matrixIndex3 = i + scene->mNumMeshes + 1;
-									break;
+								for (uint32_t k = 0; k < kNumMaxInfluence; ++k) {
+									if (vertexInfluence.weights[k] == 0.0f) {
+										vertexInfluence.weights[k] = boneDatas[i][j].second;
+										vertexInfluence.indecis[k] = i + scene->mNumMeshes + 1;
+										break;
+									}
 								}
 							}
 						}
 					}
 				}
 				else {
-					vertex.wegiht0 = 1.0f;
-					vertex.wegiht1 = 0.0f;
-					vertex.wegiht2 = 0.0f;
+					for (uint32_t i = 1; i < kNumMaxInfluence; ++i) {
+						vertexInfluence.weights[i] = 0.0f;
+						vertexInfluence.indecis[i] = 1000;
+					}
+					vertexInfluence.weights[0] = 1.0f;
 					if (scene->mNumMeshes == 1) {
-						vertex.matrixIndex0 = meshIndex; // 親ノード分＋1
+						vertexInfluence.indecis[0] = meshIndex; // 親ノード分＋1
 					}
 					else {
-						vertex.matrixIndex0 = meshIndex + 1; // 親ノード分＋1
+						vertexInfluence.indecis[0] = meshIndex + 1; // 親ノード分＋1
 					}
-					vertex.matrixIndex1 = 1000;
-					vertex.matrixIndex2 = 1000;
-					vertex.matrixIndex3 = 1000;
 				}
 
 				modelData.vertices.push_back(vertex);
+				modelData.vertexInfluences.push_back(vertexInfluence);
 
 			}
 
@@ -204,12 +197,16 @@ ModelNode ModelLoader::ReadNode(aiNode* node)
 	ModelNode result;
 
 	aiMatrix4x4 aiLocalMatrix = node->mTransformation; // nodeのlocalMatrixを取得
-	aiLocalMatrix.Transpose(); // 列ベクトル形式を行ベクトル形式に転置
-	for (uint32_t y = 0; y < 4; ++y) {
-		for (uint32_t x = 0; x < 4; ++x) {
-			result.localMatrix.m[y][x] = aiLocalMatrix[y][x];
-		}
-	}
+	aiVector3D scale, translate;
+	aiQuaternion rotate;
+	aiLocalMatrix.Decompose(scale, rotate, translate);
+
+	result.localMatrix =
+		Matrix4x4::MakeAffineMatrix(
+			{ scale.x, scale.y, scale.z },
+			{ rotate.x, -rotate.y, -rotate.z, rotate.w },
+			{ -translate.x,translate.y, translate.z }
+	);
 
 	result.offsetMatrix = Matrix4x4::MakeIdentity4x4();
 	if (!boneOffsetMatrixes_.empty()) {
