@@ -190,6 +190,15 @@
     <Filter Include="shaders\PostEffect">
       <UniqueIdentifier>{bb8c5e74-1d42-431a-a81b-b1a379c467cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Contactrecord">
+      <UniqueIdentifier>{b78d0397-b950-4950-ac76-2fee455b2694}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\PostEffect">
+      <UniqueIdentifier>{9529b762-701a-4790-8a8d-63cfc032316a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Physics\Spring">
+      <UniqueIdentifier>{7a9cc686-8766-4211-817f-206d6be69ea8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -496,56 +505,56 @@
     <ClCompile Include="Engine\base\SwapChain.cpp">
       <Filter>Engine\Base\DxCommon</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\2D\WindowSprite.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3D\FogManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3D\LargeNumberOfObjects.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3D\ModelDraw.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3D\OneOfManyObjects.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Animation\LocalMatrixManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\CompileShader.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\TextureUAV.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Collider2D\Segment2D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ContactRecord\ContactRecord.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Physics\Spring.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Physics\String.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Physics\StructuralSpring.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\PostEffect\PostEffect.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\PostEffect\ShockWaveManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\PostEffect\Velocity2DData.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp">
       <Filter>Application\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2D\WindowSprite.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\TextureUAV.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\CompileShader.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ContactRecord\ContactRecord.cpp">
+      <Filter>Engine\Contactrecord</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\FogManager.cpp">
+      <Filter>Engine\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\LargeNumberOfObjects.cpp">
+      <Filter>Engine\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\OneOfManyObjects.cpp">
+      <Filter>Engine\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PostEffect\PostEffect.cpp">
+      <Filter>Engine\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PostEffect\ShockWaveManager.cpp">
+      <Filter>Engine\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PostEffect\Velocity2DData.cpp">
+      <Filter>Engine\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Collider2D\Segment2D.cpp">
+      <Filter>Engine\Collider2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Animation\LocalMatrixManager.cpp">
+      <Filter>Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\ModelDraw.cpp">
+      <Filter>Engine\3D\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\Spring.cpp">
+      <Filter>Engine\Physics\Spring</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\String.cpp">
+      <Filter>Engine\Physics\Spring</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\StructuralSpring.cpp">
+      <Filter>Engine\Physics\Spring</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -951,71 +960,71 @@
     <ClInclude Include="Engine\base\SwapChain.h">
       <Filter>Engine\Base\DxCommon</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\2D\WindowSprite.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3D\FogData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3D\FogManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3D\LargeNumberOfObjects.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3D\ModelDraw.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3D\ModelNodeData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3D\OneOfManyObjects.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3D\VertexInfluence.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Animation\LocalMatrix.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Animation\LocalMatrixManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\CompileShader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\TextureUAV.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Collider2D\Segment2D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ContactRecord\ContactRecord.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Physics\Spring.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Physics\String.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Physics\StructuralSpring.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\PostEffect\PostEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\PostEffect\ShockWaveData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\PostEffect\ShockWaveManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\PostEffect\Velocity2DData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\AudioManager\TitleAudioManager.h">
       <Filter>Application\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2D\WindowSprite.h">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\TextureUAV.h">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\CompileShader.h">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ContactRecord\ContactRecord.h">
+      <Filter>Engine\Contactrecord</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\FogData.h">
+      <Filter>Engine\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\FogManager.h">
+      <Filter>Engine\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\LargeNumberOfObjects.h">
+      <Filter>Engine\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\OneOfManyObjects.h">
+      <Filter>Engine\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\Velocity2DData.h">
+      <Filter>Engine\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\ShockWaveManager.h">
+      <Filter>Engine\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\ShockWaveData.h">
+      <Filter>Engine\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\PostEffect.h">
+      <Filter>Engine\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Collider2D\Segment2D.h">
+      <Filter>Engine\Collider2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Animation\LocalMatrixManager.h">
+      <Filter>Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Animation\LocalMatrix.h">
+      <Filter>Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\ModelDraw.h">
+      <Filter>Engine\3D\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\ModelNodeData.h">
+      <Filter>Engine\3D\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\VertexInfluence.h">
+      <Filter>Engine\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\StructuralSpring.h">
+      <Filter>Engine\Physics\Spring</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\Spring.h">
+      <Filter>Engine\Physics\Spring</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\String.h">
+      <Filter>Engine\Physics\Spring</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
