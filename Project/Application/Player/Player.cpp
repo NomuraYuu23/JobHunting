@@ -30,13 +30,13 @@ void Player::Initialize(Model* model, Model* weaponModel)
 	std::vector<Quaternion> initRotations;
 	initRotations.resize(worldTransform_.GetNodeDatas().size());
 	for (uint32_t i = 0; i < initRotations.size(); ++i) {
-		initRotations[i] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		initRotations[i] = { 0.707107f, 0.0f, 0.0f, 0.707107f };
 	}
 
 	std::vector<Vector3> initScalings;
 	initScalings.resize(worldTransform_.GetNodeDatas().size());
 	for (uint32_t i = 0; i < initScalings.size(); ++i) {
-		initScalings[i] = { 1.0f, 1.0f, 1.0f };
+		initScalings[i] = { 0.01f, 0.01f, 0.01f };
 	}
 
 	animation_.Initialize(
