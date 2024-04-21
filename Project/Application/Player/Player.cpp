@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "../../Engine/Collider/Capsule/Capsule.h"
 #include "../../Engine/2D/ImguiManager.h"
+#include "../../Engine/3D/ModelDraw.h"
 //#include "../Enemy/Enemy.h"
 
 void Player::Initialize(Model* model, Model* weaponModel)
@@ -15,6 +16,9 @@ void Player::Initialize(Model* model, Model* weaponModel)
 
 	// ワールドトランスフォーム
 	worldTransform_.Initialize(model_->GetRootNode());
+
+	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
+	localMatrixManager_->Initialize(worldTransform_.GetNodeDatas());
 
 	// 初期ローカル座標
 	std::vector<Vector3> initPositions;
@@ -67,6 +71,9 @@ void Player::Initialize(Model* model, Model* weaponModel)
 	weaponWorldTransfrom_.transform_.translate.y = -2.0f;
 	weaponWorldTransfrom_.UpdateMatrix();
 
+	weaponLocalMatrixManager_ = std::make_unique<LocalMatrixManager>();
+	weaponLocalMatrixManager_->Initialize(weaponWorldTransfrom_.GetNodeDatas());
+
 	// hp
 	hp_ = 3;
 	initHp_ = 3;
@@ -89,12 +96,15 @@ void Player::Update()
 
 	worldTransform_.SetNodeLocalMatrix(animation_.AnimationUpdate());
 
+	localMatrixManager_->Map(worldTransform_.GetNodeDatas());
+
 	worldTransform_.UpdateMatrix();
 
 	// コライダー
 	ColliderUpdate();
 
 	// 武器
+	weaponLocalMatrixManager_->Map(weaponWorldTransfrom_.GetNodeDatas());
 	weaponWorldTransfrom_.UpdateMatrix();
 
 }
@@ -102,9 +112,19 @@ void Player::Update()
 void Player::Draw(BaseCamera& camera)
 {
 
-	model_->Draw(worldTransform_, camera, material_.get());
+	ModelDraw::AnimObjectDesc desc;
+	desc.camera = &camera;
+	desc.localMatrixManager = localMatrixManager_.get();
+	desc.material = material_.get();
+	desc.model = model_;
+	desc.worldTransform = &worldTransform_;
+	ModelDraw::AnimObjectDraw(desc);
 
-	weaponModel_->Draw(weaponWorldTransfrom_, camera, material_.get());
+
+	desc.localMatrixManager = weaponLocalMatrixManager_.get();
+	desc.model = weaponModel_;
+	desc.worldTransform = &weaponWorldTransfrom_;
+	ModelDraw::AnimObjectDraw(desc);
 
 }
 
@@ -202,7 +222,7 @@ void Player::PartInitialize()
 	prevMotionNo_ = PlayerMotionIndex::kPlayerMotionWait;
 
 	// 待ちアニメーション
-	animation_.startAnimation(kPlayerMotionWait, true);
+	animation_.StartAnimation(kPlayerMotionWait, true);
 
 }
 
@@ -245,8 +265,8 @@ void Player::AnimationUpdate()
 
 	if (currentMotionNo_ != prevMotionNo_) {
 		if (currentMotionNo_ < 2) {
-			animation_.stopAnimation(prevMotionNo_);
-			animation_.startAnimation(currentMotionNo_,true);
+			animation_.StopAnimation(prevMotionNo_);
+			animation_.StartAnimation(currentMotionNo_,true);
 		}
 	}
 

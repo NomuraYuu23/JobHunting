@@ -162,6 +162,12 @@ private: // パーツ,アニメーション変数
 	//ノードアニメーション
 	Animation animation_;
 
+	// ローカル行列
+	std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
+
+	//  武器ローカル行列
+	std::unique_ptr<LocalMatrixManager> weaponLocalMatrixManager_ = nullptr;
+
 private:  // パーツ,アニメーション定数
 
 	// オブジェクト名

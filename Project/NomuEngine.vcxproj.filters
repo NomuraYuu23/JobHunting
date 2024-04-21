@@ -562,6 +562,36 @@
     <ClCompile Include="Application\Ground\Ground.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Player\PlayerState\PlayerStateRoot\PlayerStateRoot.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\Player.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerAttack\PlayerAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerCommand\PlayerCommand.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerState\PlayerStateAttack\PlayerStateAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerState\PlayerStateAvoidance\PlayerStateAvoidance.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerState\PlayerStateFactory.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerState\PlayerStateGuard\PlayerStateGuard.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerState\PlayerStateRecovery\PlayerStateRecovery.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerState\IPlayerState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -978,9 +1008,6 @@
     <ClInclude Include="Engine\base\CompileShader.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ContactRecord\ContactRecord.h">
-      <Filter>Engine\Contactrecord</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\3D\FogData.h">
       <Filter>Engine\3D</Filter>
     </ClInclude>
@@ -1070,6 +1097,9 @@
     </ClInclude>
     <ClInclude Include="Application\Ground\Ground.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ContactRecord\ContactRecord.h">
+      <Filter>Engine\Contactrecord</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

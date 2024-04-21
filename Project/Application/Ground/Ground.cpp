@@ -1,4 +1,5 @@
 #include "Ground.h"
+#include "../../Engine/3D/ModelDraw.h"
 
 void Ground::Initialize(Model* model)
 {
@@ -13,7 +14,9 @@ void Ground::Initialize(Model* model)
 
 	// ワールド変換データの初期化
 	worldTransform_.Initialize(model_->GetRootNode());
-	worldTransform_.UpdateMatrix();
+
+	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
+	localMatrixManager_->Initialize(worldTransform_.GetNodeDatas());
 
 }
 
@@ -22,11 +25,19 @@ void Ground::Update()
 
 	worldTransform_.UpdateMatrix();
 
+	localMatrixManager_->Map(worldTransform_.GetNodeDatas());
+
 }
 
 void Ground::Draw(BaseCamera& camera)
 {
 
-	model_->Draw(worldTransform_, camera, material_.get());
+	ModelDraw::AnimObjectDesc desc;
+	desc.camera = &camera;
+	desc.localMatrixManager = localMatrixManager_.get();
+	desc.material = material_.get();
+	desc.model = model_;
+	desc.worldTransform = &worldTransform_;
+	ModelDraw::AnimObjectDraw(desc);
 
 }

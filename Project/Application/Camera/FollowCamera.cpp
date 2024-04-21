@@ -27,7 +27,7 @@ void FollowCamera::Initialize() {
 
 }
 
-void FollowCamera::Update() {
+void FollowCamera::Update(float elapsedTime) {
 
 	//インスタンス
 	Input* input = Input::GetInstance();
