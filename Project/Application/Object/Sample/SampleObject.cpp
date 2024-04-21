@@ -4,6 +4,7 @@
 #include "../../../Engine/Physics/InertiaTensor.h"
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../../Engine/Input/Input.h"
+#include "../../../Engine/3D/ModelDraw.h"
 
 SampleObject::~SampleObject()
 {
@@ -17,24 +18,27 @@ void SampleObject::Initialize(Model* model)
 
 	material_.reset(Material::Create());
 
-	worldtransform_.Initialize(model_->GetRootNode());
+	worldTransform_.Initialize(model_->GetRootNode());
+
+	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
+	localMatrixManager_->Initialize(worldTransform_.GetNodeDatas());
 
 	// 初期ローカル座標
 	std::vector<Vector3> initPositions;
-	initPositions.resize(worldtransform_.GetNodeDatas().size());
+	initPositions.resize(worldTransform_.GetNodeDatas().size());
 	for (uint32_t i = 0; i < initPositions.size(); ++i) {
 		initPositions[i] = { 0.0f, 0.0f, 0.0f };
 	}
 	//initPositions[2] = { 20.0f, 0.0f, 0.0f };
 
 	std::vector<Quaternion> initRotations;
-	initRotations.resize(worldtransform_.GetNodeDatas().size());
+	initRotations.resize(worldTransform_.GetNodeDatas().size());
 	for (uint32_t i = 0; i < initRotations.size(); ++i) {
 		initRotations[i] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	}
 
 	std::vector<Vector3> initScalings;
-	initScalings.resize(worldtransform_.GetNodeDatas().size());
+	initScalings.resize(worldTransform_.GetNodeDatas().size());
 	for (uint32_t i = 0; i < initScalings.size(); ++i) {
 		initScalings[i] = { 1.0f, 1.0f, 1.0f };
 	}
@@ -44,10 +48,10 @@ void SampleObject::Initialize(Model* model)
 		initPositions,
 		initRotations,
 		initScalings,
-		worldtransform_.GetNodeNames());
+		worldTransform_.GetNodeNames());
 
-	animation_.startAnimation(0, true);
-	//animation_.startAnimation(1, true);
+	//animation_.StartAnimation(0, true);
+	animation_.StartAnimation(1, true);
 
 	enableLighting_ = 0;
 
@@ -72,6 +76,14 @@ void SampleObject::Initialize(Model* model)
 	//Quaternion angularAcceleration; // 角加速度
 	rigidBody_.angularMomentum = { 0.0f,0.0f,0.0f }; // 角運動量
 
+
+	velocity2DDataBuff_ = BufferResource::CreateBufferResource(DirectXCommon::GetInstance()->GetDevice(), ((sizeof(Velocity2DData) + 0xff) & ~0xff));
+	velocity2DDataBuff_->Map(0, nullptr, reinterpret_cast<void**>(&velocity2DDataMap_));
+
+	velocity2DDataMap_->velocity = { 1.0f, 0.0f };
+
+	velocity_ = { 1.0f,0.0f,0.0f };
+
 }
 
 void SampleObject::Update()
@@ -79,7 +91,9 @@ void SampleObject::Update()
 
 	ApplyGlobalVariables();
 
-	worldtransform_.SetNodeLocalMatrix(animation_.AnimationUpdate());
+	worldTransform_.SetNodeLocalMatrix(animation_.AnimationUpdate());
+
+	localMatrixManager_->Map(worldTransform_.GetNodeDatas());
 
 	//rigidBody_.postureMatrix =  RigidBody::PostureCalc(rigidBody_.postureMatrix, rigidBody_.angularVelocity, kDeltaTime_);
 
@@ -95,7 +109,7 @@ void SampleObject::Update()
 
 	rigidBody_.torque = { 0.0f,0.0f,0.0f };
 
-	worldtransform_.UpdateMatrix();
+	worldTransform_.UpdateMatrix();
 
 	material_->SetEnableLighting(enableLighting_);
 	material_->SetShininess(shininess_);
@@ -105,7 +119,15 @@ void SampleObject::Update()
 void SampleObject::Draw(BaseCamera camera)
 {
 
-	model_->Draw(worldtransform_, camera, material_.get());
+	velocity2DDataMap_->SetVelocity(velocity_, camera.GetViewMatrix());
+
+	ModelDraw::AnimObjectDesc desc;
+	desc.camera = &camera;
+	desc.localMatrixManager = localMatrixManager_.get();
+	desc.material = material_.get();
+	desc.model = model_;
+	desc.worldTransform = &worldTransform_;
+	ModelDraw::AnimObjectDraw(desc);
 
 }
 
@@ -127,6 +149,9 @@ void SampleObject::ImGuiDraw()
 
 	ImGui::DragFloat("shininess", &shininess_);
 
+	ImGui::Text("velocity");
+	ImGui::DragFloat3("value", &velocity_.x, 0.01f);
+
 	ImGui::End();
 
 }
@@ -140,11 +165,11 @@ void SampleObject::RegisteringGlobalVariables()
 	const std::string groupName = "SampleObject";
 
 	// スケール
-	globalVariables->AddItem(groupName, "Scale", worldtransform_.transform_.scale);
+	globalVariables->AddItem(groupName, "Scale", worldTransform_.transform_.scale);
 	// 回転
-	globalVariables->AddItem(groupName, "Rotate", worldtransform_.transform_.rotate);
+	globalVariables->AddItem(groupName, "Rotate", worldTransform_.transform_.rotate);
 	// 位置
-	globalVariables->AddItem(groupName, "Transform", worldtransform_.transform_.translate);
+	globalVariables->AddItem(groupName, "Transform", worldTransform_.transform_.translate);
 
 }
 
@@ -157,10 +182,10 @@ void SampleObject::ApplyGlobalVariables()
 	const std::string groupName = "SampleObject";
 
 	// スケール
-	worldtransform_.transform_.scale = globalVariables->GetVector3Value(groupName, "Scale");
+	worldTransform_.transform_.scale = globalVariables->GetVector3Value(groupName, "Scale");
 	// 回転
-	worldtransform_.transform_.rotate = globalVariables->GetVector3Value(groupName, "Rotate");
+	worldTransform_.transform_.rotate = globalVariables->GetVector3Value(groupName, "Rotate");
 	// 位置
-	worldtransform_.transform_.translate = globalVariables->GetVector3Value(groupName, "Transform");
+	worldTransform_.transform_.translate = globalVariables->GetVector3Value(groupName, "Transform");
 
 }

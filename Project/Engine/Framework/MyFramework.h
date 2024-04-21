@@ -44,8 +44,17 @@
 // パーティクル
 #include "../Particle/ParticleManager.h"
 
-// ディスクリプタヒープ
-#include ".../../../base/SRVDescriptorHerpManager.h"
+// Windowサイズのスプライト
+#include "../2D/WindowSprite.h"
+
+// PostEffect
+#include "../PostEffect/PostEffect.h"
+
+// FogManager
+#include "../3D/FogManager.h"
+
+// モデル描画
+#include "../3D/ModelDraw.h"
 
 class MyFramework
 {

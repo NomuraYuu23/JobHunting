@@ -6,25 +6,10 @@
 #include <wrl.h>
 #include <d3d12.h>
 #include "ModelNode.h"
+#include "ModelNodeData.h"
 
 class WorldTransform
 {
-
-public:
-
-	/// <summary>
-	/// ノードデータ
-	/// </summary>
-	struct NodeData
-	{
-		Matrix4x4 localMatrix; // ローカル行列
-		uint32_t meshNum; // メッシュ番号
-		std::string name; // 名前
-		WorldTransform::NodeData* parent; // 親
-		int32_t parentIndex;
-		Matrix4x4 matrix; //最終的なワールド行列
-		Matrix4x4 offsetMatrix; //
-	};
 
 public:
 
@@ -63,31 +48,13 @@ public:
 	/// <summary>
 	/// マップ
 	/// </summary>
-	/// <param name="viewProjectionMatrix">ビュープロジェクション</param>
 	void Map(const Matrix4x4& viewProjectionMatrix);
-
-	/// <summary>
-	/// SRVを作る
-	/// </summary>
-	void SRVCreate();
-
-	/// <summary>
-	/// GPUに送る
-	/// </summary>
-	/// <param name="cmdList">コマンドリスト</param>
-	/// <param name="rootParameterIndex">ルートパラメータインデックス</param>
-	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* cmdList, uint32_t rootParameterIndex);
 
 	/// <summary>
 	/// ノードデータ設定
 	/// </summary>
 	/// <param name="modelNode">モデルのノード</param>
 	void SetNodeDatas(const ModelNode& modelNode, int32_t parentIndex);
-
-	/// <summary>
-	/// 消す前に行う処理
-	/// </summary>
-	void Finalize();
 
 	/// <summary>
 	/// ワールドポジション取得
@@ -118,6 +85,12 @@ public:
 	/// </summary>
 	void SetNodeLocalMatrix(const std::vector<Matrix4x4> matrix);
 
+	/// <summary>
+	/// トランスフォームバッファ取得
+	/// </summary>
+	/// <returns></returns>
+	ID3D12Resource* GetTransformationMatrixBuff() { return transformationMatrixBuff_.Get(); }
+
 public:
 
 	//トランスフォーム
@@ -142,19 +115,10 @@ public:
 	WorldTransform* parent_ = nullptr;
 
 	//WVP用のリソースを作る。
-	Microsoft::WRL::ComPtr<ID3D12Resource> transformationMatrixesBuff_;
+	Microsoft::WRL::ComPtr<ID3D12Resource> transformationMatrixBuff_;
 	
 	//書き込むためのアドレスを取得
-	TransformationMatrix* transformationMatrixesMap_{};
-
-	// CPUハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_;
-
-	// GPUハンドル
-	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_;
-
-	// ディスクリプタヒープの位置
-	uint32_t indexDescriptorHeap_ = 0;
+	TransformationMatrix* transformationMatrixMap_{};
 
 	// ノードデータ
 	std::vector<NodeData> nodeDatas_;

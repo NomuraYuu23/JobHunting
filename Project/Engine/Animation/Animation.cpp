@@ -19,19 +19,16 @@ void Animation::Initialize(const std::vector<AnimationData>& animationDatas, con
 	}
 
 	// 初期データ
-	initPositions_ = initPositions;
-	initRotations_ = initRotations;
-	initScalings_ = initScalings;
-	nodeNum_ = static_cast<uint32_t>(initPositions_.size());
+	nodeNum_ = static_cast<uint32_t>(initPositions.size());
 
 	// 計算データ
-	positions_.resize(initPositions_.size());
-	rotations_.resize(initPositions_.size());
-	scalings_.resize(initPositions_.size());
+	positions_.resize(initPositions.size());
+	rotations_.resize(initRotations.size());
+	scalings_.resize(initScalings.size());
 	for (uint32_t i = 0; i < nodeNum_; ++i) {
-		positions_[i] = initPositions_[i];
-		rotations_[i] = initRotations_[i];
-		scalings_[i] = initScalings_[i];
+		positions_[i] = initPositions[i];
+		rotations_[i] = initRotations[i];
+		scalings_[i] = initScalings[i];
 	}
 
 	// その他
@@ -89,6 +86,7 @@ std::vector<Matrix4x4> Animation::AnimationUpdate()
 				// 終了
 				else {
 					animationDatas_[i].isFinished = true;
+					animationDatas_[i].isRun = false;
 				}
 			}
 			if (!animationDatas_[i].isFinished) {
@@ -111,12 +109,15 @@ std::vector<Matrix4x4> Animation::AnimationUpdate()
 			targetPositions_[i] *= (1.0f / positionAddCount_[i]);
 		}
 		else {
-			targetPositions_[i] = initPositions_[i];
+			targetPositions_[i] = positions_[i];
 		}
 
 		// カウントされている
-		if (rotationAddCount_[i] == 0) {
-			targetRotations_[i] = initRotations_[i];
+		if (rotationAddCount_[i] != 0) {
+			targetRotations_[i] *= (1.0f / rotationAddCount_[i]);
+		}
+		else {
+			targetRotations_[i] = rotations_[i];
 		}
 
 		// カウントされている
@@ -124,13 +125,8 @@ std::vector<Matrix4x4> Animation::AnimationUpdate()
 			targetScalings_[i] *= (1.0f / scalingAddCount_[i]);
 		}
 		else {
-			targetScalings_[i] = initScalings_[i];
+			targetScalings_[i] = scalings_[i];
 		}
-
-		// 現在値
-		//positions_[i] = targetPositions_[i];
-		//rotations_[i] = targetRotations_[i];
-		//scalings_[i] = targetScalings_[i];
 
 		positions_[i] = Ease::Easing(Ease::EaseName::Lerp, positions_[i], targetPositions_[i], moveT_);
 		rotations_[i] = Quaternion::Slerp(rotations_[i], targetRotations_[i], moveT_);
@@ -144,7 +140,7 @@ std::vector<Matrix4x4> Animation::AnimationUpdate()
 	return result;
 }
 
-void Animation::startAnimation(uint32_t animationNum, bool isLoop)
+void Animation::StartAnimation(uint32_t animationNum, bool isLoop)
 {
 
 	animationDatas_[animationNum].isRun = true;
@@ -153,7 +149,7 @@ void Animation::startAnimation(uint32_t animationNum, bool isLoop)
 
 }
 
-void Animation::stopAnimation(uint32_t animationNum)
+void Animation::StopAnimation(uint32_t animationNum)
 {
 
 	animationDatas_[animationNum].isRun = false;
@@ -169,6 +165,19 @@ std::vector<bool> Animation::FinishedAnimations()
 	}
 
 	return result;
+}
+
+std::vector<bool> Animation::GetRunningAnimations()
+{
+	
+	std::vector<bool> result;
+
+	for (uint32_t i = 0; i < animationCalcDataNum_; ++i) {
+		result.push_back(animationDatas_[i].isRun);
+	}
+
+	return result;
+
 }
 
 void Animation::NodeAnimationUpdate(uint32_t index, double timer)
@@ -238,12 +247,7 @@ void Animation::NodeAnimationUpdate(uint32_t index, double timer)
 					}
 				}
 
-				if (rotationAddCount_[name] == 0) {
-					targetRotations_[name] = rotation;
-				}
-				else {
-					targetRotations_[name] *= rotation;
-				}
+				targetRotations_[name] += rotation;
 				rotationAddCount_[name]++;
 				break;
 			}

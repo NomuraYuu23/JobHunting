@@ -5,6 +5,7 @@
 #include "../Math/DeltaTime.h"
 #include "../../Application/Particle/MakeEmitter.h"
 #include "../base/SRVDescriptorHerpManager.h"
+#include "../3D/ModelDraw.h"
 
 uint32_t ParticleManager::kNumInstanceMax_ = 32768;
 
@@ -78,12 +79,17 @@ void ParticleManager::Update(BaseCamera& camera)
 
 }
 
-void ParticleManager::Draw()
+void ParticleManager::Draw(const Matrix4x4& viewProjectionMatrix)
 {
 
+	Map(viewProjectionMatrix);
+
+	ModelDraw::ParticleDesc desc;
+	desc.particleManager = this;
 	for (uint32_t i = 0; i < kCountofParticleModelIndex; i++) {
 		currentModel_ = i;
-		particleDatas_[i].model_->ParticleDraw();
+		desc.model = particleDatas_[i].model_;
+		ModelDraw::ParticleDraw(desc);
 	}
 
 }
@@ -150,7 +156,7 @@ void ParticleManager::BillBoardUpdate(BaseCamera& camera)
 	Matrix4x4 cameraTransformMatrix = Matrix4x4::MakeAffineMatrix(
 		{ 1.0f, 1.0f, 1.0f },
 		Vector3{ camera.GetRotate().x, 0.0f, 0.0f },
-		camera.GetTransform());
+		camera.GetTranslate());
 	billBoardMatrixX_ = Matrix4x4::Multiply(backToFrontMatrix, cameraTransformMatrix);
 	billBoardMatrixX_.m[3][0] = 0.0f;
 	billBoardMatrixX_.m[3][1] = 0.0f;
@@ -160,7 +166,7 @@ void ParticleManager::BillBoardUpdate(BaseCamera& camera)
 	cameraTransformMatrix = Matrix4x4::MakeAffineMatrix(
 		{ 1.0f, 1.0f, 1.0f },
 		Vector3{ 0.0f, camera.GetRotate().y, 0.0f},
-		camera.GetTransform());
+		camera.GetTranslate());
 	billBoardMatrixY_ = Matrix4x4::Multiply(backToFrontMatrix, cameraTransformMatrix);
 	billBoardMatrixY_.m[3][0] = 0.0f;
 	billBoardMatrixY_.m[3][1] = 0.0f;
@@ -170,7 +176,7 @@ void ParticleManager::BillBoardUpdate(BaseCamera& camera)
 	cameraTransformMatrix = Matrix4x4::MakeAffineMatrix(
 		{ 1.0f, 1.0f, 1.0f },
 		Vector3{ 0.0f, 0.0f, camera.GetRotate().z },
-		camera.GetTransform());
+		camera.GetTranslate());
 	billBoardMatrixZ_ = Matrix4x4::Multiply(backToFrontMatrix, cameraTransformMatrix);
 	billBoardMatrixZ_.m[3][0] = 0.0f;
 	billBoardMatrixZ_.m[3][1] = 0.0f;

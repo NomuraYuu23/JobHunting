@@ -2,6 +2,7 @@
 #include "../../../Engine/3D/Model.h"
 #include "../../../Engine/Physics/RigidBody.h"
 #include "../../../Engine/Animation/Animation.h"
+#include "../../../Engine/PostEffect/Velocity2DData.h"
 
 class SampleObject
 {
@@ -17,6 +18,8 @@ public:
 	void Draw(BaseCamera camera);
 
 	void ImGuiDraw();
+
+	ID3D12Resource* GetVelocity2DData() { return velocity2DDataBuff_.Get(); }
 
 private:
 
@@ -37,7 +40,10 @@ private:
 	// マテリアル
 	std::unique_ptr<Material> material_ = nullptr;
 	// ワールドトランスフォーム
-	WorldTransform worldtransform_;
+	WorldTransform worldTransform_;
+
+	// ローカル行列
+	std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
 
 	// 
 	int32_t enableLighting_;
@@ -48,6 +54,13 @@ private:
 	Animation animation_;
 
 	RigidBody rigidBody_;
+
+	// 速度バッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> velocity2DDataBuff_;
+
+	Velocity2DData* velocity2DDataMap_;
+
+	Vector3 velocity_;
 
 };
 

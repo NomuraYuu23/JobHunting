@@ -15,6 +15,7 @@
 #include "../Math/Vector4.h"
 #include "../Math/Matrix4x4.h"
 #include "VertexData.h"
+#include "VertexInfluence.h"
 #include "TransformationMatrix.h"
 #include "TransformStructure.h"
 
@@ -33,11 +34,13 @@
 #include "OutLineData.h"
 #include "../Light/PointLight/PointLightManager.h"
 #include "../Light/SpotLight/SpotLightManager.h"
+#include "../Light/DirectionalLight/DirectionalLight.h"
 
 #include "Mesh.h"
 #include "ModelNode.h"
 #include "../Animation/NodeAnimationData.h"
 #include "../Animation/AnimationData.h"
+#include "../Animation/LocalMatrixManager.h"
 
 class Model
 {
@@ -52,6 +55,7 @@ public:
 
 		// 頂点
 		std::vector<VertexData> vertices;
+		std::vector<VertexInfluence> vertexInfluences;
 		// マテリアル
 		MaterialData material;
 		// ノード
@@ -63,66 +67,34 @@ public:
 
 	};
 
-	enum PipelineStateName {
-		kPipelineStateNameModel,
-		kPipelineStateNameParticle,
-		kPipelineStateNameOutLine,
-		kPipelineStateNameOfCount
-	};
-
 	/// <summary>
 	/// 静的初期化
 	/// </summary>
 	/// <param name="device">デバイス</param>
-	static void StaticInitialize(ID3D12Device* device,
-		const std::array<ID3D12RootSignature*, PipelineStateName::kPipelineStateNameOfCount>& rootSignature,
-		const std::array<ID3D12PipelineState*, PipelineStateName::kPipelineStateNameOfCount>& pipelineState);
-
-	/// <summary>
-	/// 静的前処理
-	/// </summary>
-	/// <param name="cmdList">描画コマンドリスト</param>
-	static void PreDraw(ID3D12GraphicsCommandList* cmdList, PointLightManager* pointLightManager = nullptr, SpotLightManager* spotLightManager = nullptr);
-
-	/// <summary>
-	/// 静的前処理
-	/// </summary>
-	/// <param name="cmdList">描画コマンドリスト</param>
-	static void PreParticleDraw(ID3D12GraphicsCommandList* cmdList, const Matrix4x4& viewProjectionMatrix);
-
-	/// <summary>
-	/// 静的前処理
-	/// </summary>
-	/// <param name="cmdList">描画コマンドリスト</param>
-	static void PreDrawOutLine(ID3D12GraphicsCommandList* cmdList);
-
-	/// <summary>
-	/// 描画後処理
-	/// </summary>
-	static void PostDraw();
+	static void StaticInitialize(ID3D12Device* device);
 
 	/// <summary>
 	/// 3Dモデル生成
 	/// </summary>
 	/// <returns></returns>
-	static Model* Create(const std::string& directoryPath, const std::string& filename, DirectXCommon* dxCommon, ITextureHandleManager* textureHandleManager);
+	static Model* Create(
+		const std::string& directoryPath, 
+		const std::string& filename, 
+		DirectXCommon* dxCommon, 
+		ITextureHandleManager* textureHandleManager);
+
+	/// <summary>
+	/// デフォルトマテリアル取得
+	/// </summary>
+	/// <returns></returns>
+	static Material* GetDefaultMaterial() { return sDefaultMaterial.get(); };
 
 private:
 
 	// デバイス
 	static ID3D12Device* sDevice;
-	// ディスクリプタサイズ
-	static UINT sDescriptorHandleIncrementSize;
-	// コマンドリスト
-	static ID3D12GraphicsCommandList* sCommandList;
-	// ルートシグネチャ
-	static ID3D12RootSignature* sRootSignature[PipelineStateName::kPipelineStateNameOfCount];
-	// パイプラインステートオブジェクト
-	static ID3D12PipelineState* sPipelineState[PipelineStateName::kPipelineStateNameOfCount];
-	// ポイントライトマネージャ
-	static PointLightManager* pointLightManager_;
-	//	スポットライトマネージャ
-	static SpotLightManager* spotLightManager_;
+	// デフォルトマテリアル
+	static std::unique_ptr<Material> sDefaultMaterial;
 
 public:
 
@@ -132,25 +104,11 @@ public:
 	void Initialize(const std::string& directoryPath, const std::string& filename, DirectXCommon* dxCommon, ITextureHandleManager* textureHandleManager);
 
 	/// <summary>
-	/// 更新
-	/// </summary>
-	void Update();
-
-	/// <summary>
-	/// 描画
-	/// </summary>
-	void Draw(WorldTransform& worldTransform, BaseCamera& camera);
-	void Draw(WorldTransform& worldTransform, BaseCamera& camera, Material* material);
-	void Draw(WorldTransform& worldTransform, BaseCamera& camera, Material* material,uint32_t texureHandle);
-	void ParticleDraw();
-	void OutLineDraw(WorldTransform& worldTransform, BaseCamera& camera,OutLineData& outLineData);
-
-	/// <summary>
 	/// テクスチャハンドルの設定
 	/// </summary>
 	/// <param name="textureHandle"></param>
 	void SetTextureHandle(uint32_t textureHandle, uint32_t index);
-	std::vector<UINT> GetTextureHandle() { return textureHandles_; }
+	std::vector<UINT> GetTextureHandles() { return textureHandles_; }
 
 	/// <summary>
 	/// ローカルマトリックス取得
@@ -168,6 +126,18 @@ public:
 	/// <returns></returns>
 	std::vector<AnimationData> GetNodeAnimationData() { return modelData_.animations; }
 
+	/// <summary>
+	/// メッシュ取得
+	/// </summary>
+	/// <returns></returns>
+	Mesh* GetMesh() { return mesh_.get(); }
+
+	/// <summary>
+	/// モデルデータ取得
+	/// </summary>
+	/// <returns></returns>
+	Model::ModelData GetModelData() { return modelData_; }
+
 private:
 
 	//モデル読み込み
@@ -181,8 +151,5 @@ private:
 
 	// リソース設定
 	std::vector<D3D12_RESOURCE_DESC> resourceDescs_;
-
-	// デフォルトマテリアル
-	std::unique_ptr<Material> defaultMaterial_;
 
 };
