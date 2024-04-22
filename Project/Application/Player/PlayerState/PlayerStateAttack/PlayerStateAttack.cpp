@@ -5,7 +5,7 @@
 // コンボ定数表
 const std::array<PlayerStateAttack::ConstAttack, PlayerStateAttack::kComboNum> PlayerStateAttack::kConstAttaks = {
 	{
-		{ { 16, 16, 10, 10}, { 2.0f, 0.0f, 0.0f, 0.0f} },
+		{ { 16, 16, 10, 10}, { 0.1f, 0.0f, 0.2f, 0.0f} },
 		{ { 16, 16, 10, 10}, { 2.0f, 0.0f, 0.0f, 0.0f} },
 	}
 };

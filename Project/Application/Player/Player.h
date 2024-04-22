@@ -13,6 +13,7 @@
 /// プレイヤーのモーション一覧
 /// </summary>
 enum PlayerMotionIndex {
+	kPlayerMotionAttack1st, // 攻撃時(1段目)
 	kPlayerMotionWait, // 通常時
 	kPlayerMotionRun, // 走行時
 	kPlayerMotionDash, // ダッシュ時
@@ -21,7 +22,6 @@ enum PlayerMotionIndex {
 	kPlayerMotionGuardWalk, // ガード歩行時
 	kPlayerMotionAvoidance, // 回避時
 	kPlayerMotionRecovery, // 回復時
-	kPlayerMotionAttack1st, // 攻撃時(1段目)
 	kPlayerMotionAttack2nd, // 攻撃時(2段目)
 	kPlayerMotionIndexOfCount // 数
 };
@@ -175,15 +175,15 @@ private:  // パーツ,アニメーション定数
 
 	// モーション名
 	const std::array<const std::string, PlayerMotionIndex::kPlayerMotionIndexOfCount> motionNames_ = {
-		"Run",
+		"Attack1st",
 		"Wait",
+		"Run",
 		"Dash",
 		"Walk",
 		"Guard",
 		"GuardWalk",
 		"Avoidance",
 		"Recovery",
-		"Attack1st",
 		"Attack2nd",
 	};
 
