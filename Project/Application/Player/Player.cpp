@@ -18,33 +18,12 @@ void Player::Initialize(Model* model, Model* weaponModel)
 	worldTransform_.Initialize(model_->GetRootNode());
 
 	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
-	localMatrixManager_->Initialize(worldTransform_.GetNodeDatas());
-
-	// 初期ローカル座標
-	std::vector<Vector3> initPositions;
-	initPositions.resize(worldTransform_.GetNodeDatas().size());
-	for (uint32_t i = 0; i < initPositions.size(); ++i) {
-		initPositions[i] = { 0.0f, 0.0f, 0.0f };
-	}
-
-	std::vector<Quaternion> initRotations;
-	initRotations.resize(worldTransform_.GetNodeDatas().size());
-	for (uint32_t i = 0; i < initRotations.size(); ++i) {
-		initRotations[i] = { 0.707107f, 0.0f, 0.0f, 0.707107f };
-	}
-
-	std::vector<Vector3> initScalings;
-	initScalings.resize(worldTransform_.GetNodeDatas().size());
-	for (uint32_t i = 0; i < initScalings.size(); ++i) {
-		initScalings[i] = { 0.01f, 0.01f, 0.01f };
-	}
+	localMatrixManager_->Initialize(model_->GetRootNode());
 
 	animation_.Initialize(
 		model_->GetNodeAnimationData(),
-		initPositions,
-		initRotations,
-		initScalings,
-		worldTransform_.GetNodeNames());
+		localMatrixManager_->GetInitTransform(),
+		localMatrixManager_->GetNodeNames());
 
 	// コマンド
 	playerCommand_ = PlayerCommand::GetInstance();
@@ -72,7 +51,7 @@ void Player::Initialize(Model* model, Model* weaponModel)
 	weaponWorldTransfrom_.UpdateMatrix();
 
 	weaponLocalMatrixManager_ = std::make_unique<LocalMatrixManager>();
-	weaponLocalMatrixManager_->Initialize(weaponWorldTransfrom_.GetNodeDatas());
+	weaponLocalMatrixManager_->Initialize(weaponModel_->GetRootNode());
 
 	// hp
 	hp_ = 3;
@@ -94,9 +73,9 @@ void Player::Update()
 
 	AnimationUpdate();
 
-	worldTransform_.SetNodeLocalMatrix(animation_.AnimationUpdate());
+	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
 
-	localMatrixManager_->Map(worldTransform_.GetNodeDatas());
+	localMatrixManager_->Map();
 
 	worldTransform_.UpdateMatrix();
 
@@ -104,7 +83,7 @@ void Player::Update()
 	ColliderUpdate();
 
 	// 武器
-	weaponLocalMatrixManager_->Map(weaponWorldTransfrom_.GetNodeDatas());
+	weaponLocalMatrixManager_->Map();
 	weaponWorldTransfrom_.UpdateMatrix();
 
 }

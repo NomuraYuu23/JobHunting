@@ -21,34 +21,32 @@ void SampleObject::Initialize(Model* model)
 	worldTransform_.Initialize(model_->GetRootNode());
 
 	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
-	localMatrixManager_->Initialize(worldTransform_.GetNodeDatas());
+	localMatrixManager_->Initialize(model_->GetRootNode());
 
 	// 初期ローカル座標
 	std::vector<Vector3> initPositions;
-	initPositions.resize(worldTransform_.GetNodeDatas().size());
+	initPositions.resize(localMatrixManager_->GetNodeDatas().size());
 	for (uint32_t i = 0; i < initPositions.size(); ++i) {
 		initPositions[i] = { 0.0f, 0.0f, 0.0f };
 	}
 	//initPositions[2] = { 20.0f, 0.0f, 0.0f };
 
 	std::vector<Quaternion> initRotations;
-	initRotations.resize(worldTransform_.GetNodeDatas().size());
+	initRotations.resize(localMatrixManager_->GetNodeDatas().size());
 	for (uint32_t i = 0; i < initRotations.size(); ++i) {
 		initRotations[i] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	}
 
 	std::vector<Vector3> initScalings;
-	initScalings.resize(worldTransform_.GetNodeDatas().size());
+	initScalings.resize(localMatrixManager_->GetNodeDatas().size());
 	for (uint32_t i = 0; i < initScalings.size(); ++i) {
 		initScalings[i] = { 1.0f, 1.0f, 1.0f };
 	}
 
 	animation_.Initialize(
 		model_->GetNodeAnimationData(),
-		initPositions,
-		initRotations,
-		initScalings,
-		worldTransform_.GetNodeNames());
+		localMatrixManager_->GetInitTransform(),
+		localMatrixManager_->GetNodeNames());
 
 	//animation_.StartAnimation(0, true);
 	animation_.StartAnimation(1, true);
@@ -91,9 +89,9 @@ void SampleObject::Update()
 
 	ApplyGlobalVariables();
 
-	worldTransform_.SetNodeLocalMatrix(animation_.AnimationUpdate());
+	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
 
-	localMatrixManager_->Map(worldTransform_.GetNodeDatas());
+	localMatrixManager_->Map();
 
 	//rigidBody_.postureMatrix =  RigidBody::PostureCalc(rigidBody_.postureMatrix, rigidBody_.angularVelocity, kDeltaTime_);
 

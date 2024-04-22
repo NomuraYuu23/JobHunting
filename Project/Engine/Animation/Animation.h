@@ -1,5 +1,6 @@
 #pragma once
 #include "AnimationData.h"
+#include "../3D/TransformStructure.h"
 
 class Animation
 {
@@ -26,15 +27,11 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="AnimationData">アニメーションデータ</param>
-	/// <param name="initPositions">初期位置(ノード数)</param>
-	/// <param name="initRotations_">初期回転(ノード数)</param>
-	/// <param name="initScalings">初期大きさ(ノード数)</param>
+	/// <param name="initTransforms">初期トランスフォーム(ノード数)</param>
 	/// <param name="nodeNames">ノード名前</param>
 	void Initialize(
 		const std::vector<AnimationData>& animationDatas,
-		const std::vector<Vector3>& initPositions,
-		const std::vector<Quaternion>& initRotations,
-		const std::vector<Vector3>& initScalings,
+		const std::vector<QuaternionTransform>& initTransforms,
 		const std::vector<std::string>& nodeNames);
 
 	/// <summary>
@@ -93,12 +90,8 @@ private:
 	// ノード数
 	uint32_t nodeNum_;
 
-	// 位置 初期行列と同じ分だけ
-	std::vector <Vector3> positions_;
-	// 回転 初期行列と同じ分だけ
-	std::vector <Quaternion> rotations_;
-	// 大きさ 初期行列と同じ分だけ
-	std::vector <Vector3> scalings_;
+	// トランスフォーム
+	std::vector<QuaternionTransform> transforms_;
 
 	// アニメーション速度
 	double animationSpeed_;
@@ -107,18 +100,19 @@ private:
 	std::vector<std::string> nodeNames_;
 
 	// 目指す位置 初期行列と同じ分だけ
-	std::vector<Vector3> targetPositions_;
+	//std::vector<Vector3> targetPositions_;
 	std::vector<uint32_t> positionAddCount_;
 	// 目指す回転 初期行列と同じ分だけ
-	std::vector<Quaternion> targetRotations_;
+	//std::vector<Quaternion> targetRotations_;
 	std::vector<uint32_t> rotationAddCount_;
 	// 目指す大きさ 初期行列と同じ分だけ
-	std::vector<Vector3> targetScalings_;
+	//std::vector<Vector3> targetScalings_;
 	std::vector<uint32_t> scalingAddCount_;
+
+	// 目指すトランスフォーム
+	std::vector<QuaternionTransform> targetTransforms_;
 
 	// 移動補間係数
 	float moveT_ = 0.2f;
 
 };
-
-
