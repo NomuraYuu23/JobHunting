@@ -41,14 +41,14 @@ uint32_t PlayerCommand::Command()
 		}
 
 	}
-	// 回復
-	else if(input_->TriggerJoystick(JoystickButton::kJoystickButtonX)){
-		resultState = PlayerState::kPlayerStateRecovery;
-	}
-	// ガード
-	else if (input_->PushJoystick(JoystickButton::kJoystickButtonLB)) {
-		resultState = PlayerState::kPlayerStateGuard;
-	}	
+	//// 回復
+	//else if(input_->TriggerJoystick(JoystickButton::kJoystickButtonX)){
+	//	resultState = PlayerState::kPlayerStateRecovery;
+	//}
+	//// ガード
+	//else if (input_->PushJoystick(JoystickButton::kJoystickButtonLB)) {
+	//	resultState = PlayerState::kPlayerStateGuard;
+	//}	
 	// 攻撃
 	else if (input_->TriggerJoystick(JoystickButton::kJoystickButtonRB)) {
 		resultState = PlayerState::kPlayerStateAttack;

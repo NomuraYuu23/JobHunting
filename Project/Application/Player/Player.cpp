@@ -243,10 +243,8 @@ void Player::AnimationUpdate()
 	currentMotionNo_ = playerState_->GetPlaryerMotionNo();
 
 	if (currentMotionNo_ != prevMotionNo_) {
-		if (currentMotionNo_ < 3) {
-			animation_.StopAnimation(prevMotionNo_);
-			animation_.StartAnimation(currentMotionNo_,true);
-		}
+		animation_.StopAnimation(prevMotionNo_);
+		animation_.StartAnimation(currentMotionNo_, true);
 	}
 
 }
