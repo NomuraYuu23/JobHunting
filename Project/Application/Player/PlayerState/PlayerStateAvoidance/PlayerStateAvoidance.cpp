@@ -5,15 +5,12 @@
 void PlayerStateAvoidance::Initialize()
 {
 
-	spped_ = 5.0f;
+	spped_ = 0.5f;
 
-	frame_ = 30;
+	frame_ = 50;
 
 	frameCount_ = 0;
 
-	avoidanceHeight_ = 5.0f;
-
-	standHeight_ = 20.0f;
 
 	playerStateNo_ = PlayerState::kPlayerStateAvoidance;
 
@@ -42,8 +39,6 @@ void PlayerStateAvoidance::Update()
 
 	worldTransform->transform_.translate = Vector3::Add(worldTransform->transform_.translate, velocity);
 
-	HeightUpdate();
-
 	if (++frameCount_ >= frame_) {
 		playerStateNo_ = PlayerState::kPlayerStateRoot;
 	}
@@ -51,23 +46,3 @@ void PlayerStateAvoidance::Update()
 
 }
 
-void PlayerStateAvoidance::HeightUpdate()
-{
-
-	float height = 0.0f;
-
-	if(frameCount_ < 10){
-		float t = static_cast<float>(frameCount_) / 10.0f;
-		height = Ease::Easing(Ease::EaseName::Lerp, standHeight_, avoidanceHeight_, t);
-	}
-	else if (frameCount_ < 20) {
-		height = avoidanceHeight_;
-	}
-	else {
-		float t = static_cast<float>(frameCount_ - 20) / 10.0f;
-		height = Ease::Easing(Ease::EaseName::Lerp, avoidanceHeight_, standHeight_, t);
-	}
-
-	player_->SetHeight(height);
-
-}

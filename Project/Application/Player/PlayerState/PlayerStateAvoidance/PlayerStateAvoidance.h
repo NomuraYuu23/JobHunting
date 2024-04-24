@@ -18,13 +18,6 @@ public: // メンバ関数
 	/// </summary>
 	void Update() override;
 
-private: // メンバ関数
-
-	/// <summary>
-	/// 高さ変更
-	/// </summary>
-	void HeightUpdate();
-
 private: // メンバ変数
 
 	// 回避速度
@@ -35,12 +28,6 @@ private: // メンバ変数
 
 	// フレームカウント
 	uint32_t frameCount_;
-
-	// 回避高さ
-	float avoidanceHeight_;
-
-	// 立ち高さ
-	float standHeight_;
 
 };
 
