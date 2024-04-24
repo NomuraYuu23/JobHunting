@@ -59,6 +59,7 @@ void Player::Update()
 	// ステート
 	StateUpdate();
 
+	// アニメーション
 	AnimationUpdate();
 
 	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
