@@ -199,6 +199,18 @@
     <Filter Include="Engine\Physics\Spring">
       <UniqueIdentifier>{7a9cc686-8766-4211-817f-206d6be69ea8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Player">
+      <UniqueIdentifier>{b293918d-2bcb-4225-ae76-acb6b9fdcf73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Ground">
+      <UniqueIdentifier>{e917c0ca-a557-40fe-a0d9-772802f38ce3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Player\State">
+      <UniqueIdentifier>{9fff1f53-4f9e-4c83-b3b7-78059ae992e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Player\System">
+      <UniqueIdentifier>{072e4e32-ee4e-4e4e-90e7-21f4d6cbdbb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -557,39 +569,63 @@
       <Filter>Engine\Physics\Spring</Filter>
     </ClCompile>
     <ClCompile Include="Application\Camera\FollowCamera.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\FollowCamera</Filter>
     </ClCompile>
     <ClCompile Include="Application\Ground\Ground.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Ground</Filter>
     </ClCompile>
     <ClCompile Include="Application\Player\PlayerState\PlayerStateRoot\PlayerStateRoot.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Player\Player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Player\PlayerAttack\PlayerAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Player\PlayerCommand\PlayerCommand.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
     <ClCompile Include="Application\Player\PlayerState\PlayerStateAttack\PlayerStateAttack.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
     <ClCompile Include="Application\Player\PlayerState\PlayerStateAvoidance\PlayerStateAvoidance.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
     <ClCompile Include="Application\Player\PlayerState\PlayerStateFactory.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
     <ClCompile Include="Application\Player\PlayerState\PlayerStateGuard\PlayerStateGuard.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
     <ClCompile Include="Application\Player\PlayerState\PlayerStateRecovery\PlayerStateRecovery.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
     <ClCompile Include="Application\Player\PlayerState\IPlayerState.cpp">
+      <Filter>Application\Object\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerCommand\PlayerCommand.cpp">
+      <Filter>Application\Object\Player\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerAttack\PlayerAttack.cpp">
+      <Filter>Application\Object\Player\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\Player.cpp">
+      <Filter>Application\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\Enemy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyAttack\EnemyAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyCommand\EnemyCommand.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateFactory.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyState\IEnemyState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateDashSwingDown\EnemyStateDashSwingDown.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateMowingDown\EnemyStateMowingDown.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1059,47 +1095,71 @@
     <ClInclude Include="Engine\Physics\String.h">
       <Filter>Engine\Physics\Spring</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\PlayerAttack\PlayerAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Player\PlayerCommand\PlayerCommand.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\PlayerStateAttack\PlayerStateAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\PlayerStateAvoidance\PlayerStateAvoidance.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\PlayerStateGuard\PlayerStateGuard.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\PlayerStateRecovery\PlayerStateRecovery.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\PlayerStateRoot\PlayerStateRoot.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\IPlayerState.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\PlayerStateFactory.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Player\Player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\ContactRecord\ContactRecord.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Camera\FollowCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Ground\Ground.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ContactRecord\ContactRecord.h">
       <Filter>Engine\Contactrecord</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Camera\FollowCamera.h">
+      <Filter>Application\FollowCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Ground\Ground.h">
+      <Filter>Application\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\PlayerState\IPlayerState.h">
+      <Filter>Application\Object\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\PlayerState\PlayerStateRoot\PlayerStateRoot.h">
+      <Filter>Application\Object\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\PlayerState\PlayerStateAttack\PlayerStateAttack.h">
+      <Filter>Application\Object\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\PlayerState\PlayerStateAvoidance\PlayerStateAvoidance.h">
+      <Filter>Application\Object\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\PlayerState\PlayerStateFactory.h">
+      <Filter>Application\Object\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\PlayerState\PlayerStateGuard\PlayerStateGuard.h">
+      <Filter>Application\Object\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\PlayerState\PlayerStateRecovery\PlayerStateRecovery.h">
+      <Filter>Application\Object\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\PlayerAttack\PlayerAttack.h">
+      <Filter>Application\Object\Player\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\Player.h">
+      <Filter>Application\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\PlayerCommand\PlayerCommand.h">
+      <Filter>Application\Object\Player\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\Enemy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyAttack\EnemyAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyCommand\EnemyCommand.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateFactory.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyState\IEnemyState.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateDashSwingDown\EnemyStateDashSwingDown.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateMowingDown\EnemyStateMowingDown.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
