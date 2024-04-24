@@ -41,18 +41,6 @@ void Player::Initialize(Model* model, Model* weaponModel)
 	// コライダー
 	ColliderInitialize();
 
-	// 武器モデル
-	weaponModel_ = weaponModel;
-	weaponWorldTransfrom_.Initialize(weaponModel_->GetRootNode());
-	weaponWorldTransfrom_.parent_ = &worldTransform_;
-	weaponWorldTransfrom_.transform_.rotate.x = 1.57f;
-	weaponWorldTransfrom_.transform_.rotate.z = 1.57f;
-	weaponWorldTransfrom_.transform_.translate.y = -2.0f;
-	weaponWorldTransfrom_.UpdateMatrix();
-
-	weaponLocalMatrixManager_ = std::make_unique<LocalMatrixManager>();
-	weaponLocalMatrixManager_->Initialize(weaponModel_->GetRootNode());
-
 	// hp
 	hp_ = 3;
 	initHp_ = 3;
@@ -82,10 +70,6 @@ void Player::Update()
 	// コライダー
 	ColliderUpdate();
 
-	// 武器
-	weaponLocalMatrixManager_->Map();
-	weaponWorldTransfrom_.UpdateMatrix();
-
 }
 
 void Player::Draw(BaseCamera& camera)
@@ -97,12 +81,6 @@ void Player::Draw(BaseCamera& camera)
 	desc.material = material_.get();
 	desc.model = model_;
 	desc.worldTransform = &worldTransform_;
-	ModelDraw::AnimObjectDraw(desc);
-
-
-	desc.localMatrixManager = weaponLocalMatrixManager_.get();
-	desc.model = weaponModel_;
-	desc.worldTransform = &weaponWorldTransfrom_;
 	ModelDraw::AnimObjectDraw(desc);
 
 }

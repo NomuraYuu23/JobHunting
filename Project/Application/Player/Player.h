@@ -153,20 +153,11 @@ private: // パーツ,アニメーション変数
 	// 前のモーション番号
 	uint32_t prevMotionNo_;
 
-	// 武器モデル
-	Model* weaponModel_ = nullptr;
-
-	// 武器ワールドトランスフォーム
-	WorldTransform weaponWorldTransfrom_;
-
 	//ノードアニメーション
 	Animation animation_;
 
 	// ローカル行列
 	std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
-
-	//  武器ローカル行列
-	std::unique_ptr<LocalMatrixManager> weaponLocalMatrixManager_ = nullptr;
 
 private:  // パーツ,アニメーション定数
 
