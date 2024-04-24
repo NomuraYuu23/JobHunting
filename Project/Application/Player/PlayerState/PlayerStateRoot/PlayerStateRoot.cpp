@@ -39,7 +39,7 @@ void PlayerStateRoot::Update()
 			if (input_->PushJoystick(JoystickButton::kJoystickButtonB)) {
 				// ダッシュ
 				Move(move, worldTransform, dashSpeed_);
-				playerMotionNo_ = kPlayerMotionDash;
+				//playerMotionNo_ = kPlayerMotionDash;
 			}
 			else {
 				//ランニング
@@ -50,7 +50,7 @@ void PlayerStateRoot::Update()
 		else if (Vector3::Length(move) > kThresholdWalk) {
 			// walk
 			//Move(move, worldTransform, walkSpeed_);
-			playerMotionNo_ = kPlayerMotionWalk;
+			//playerMotionNo_ = kPlayerMotionWalk;
 		}
 		else {
 			playerMotionNo_ = kPlayerMotionWait;
