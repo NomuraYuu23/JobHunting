@@ -24,6 +24,9 @@
 #include "../../Player/Player.h"
 #include "../../Camera/FollowCamera.h"
 
+// エネミー
+#include "../../Enemy/Enemy.h"
+
 class GameScene : public IScene
 {
 
@@ -120,6 +123,10 @@ private:
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<Model> playerModel_;
 	std::unique_ptr<Model> playerWeaponModel_;
+
+	// ボス
+	std::unique_ptr<Enemy> enemy_;
+	std::unique_ptr<Model> enemyModel_;
 
 	// 追加カメラ
 	std::unique_ptr<FollowCamera> followCamera_;

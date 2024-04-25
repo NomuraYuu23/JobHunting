@@ -111,6 +111,9 @@ void GameScene::Initialize() {
 	followCamera_->SetTarget(player_->GetWorldTransformAdress());
 	player_->SetCamera(static_cast<BaseCamera*>(followCamera_.get()));
 
+	enemy_ = std::make_unique<Enemy>();
+	enemy_->Initialize(enemyModel_.get());
+
 }
 
 /// <summary>
@@ -154,6 +157,8 @@ void GameScene::Update() {
 	camera_ = static_cast<BaseCamera>(*followCamera_.get());
 
 	player_->Update();
+
+	enemy_->Update();
 
 	// あたり判定
 	collisionManager_->ListClear();
@@ -218,6 +223,9 @@ void GameScene::Draw() {
 
 	// プレイヤー
 	player_->Draw(camera_);
+
+	// エネミー
+	enemy_->Draw(camera_);
 
 #ifdef _DEBUG
 
@@ -325,6 +333,9 @@ void GameScene::ModelCreate()
 
 	// 地面
 	groundModel_.reset(Model::Create("Resources/Model/Ground/", "Ground.obj", dxCommon_, textureHandleManager_.get()));
+
+	// エネミー
+	enemyModel_.reset(Model::Create("Resources/Model/Boss/", "Boss.gltf", dxCommon_, textureHandleManager_.get()));
 
 }
 
