@@ -5,8 +5,11 @@
 #include <cassert>
 #include "../../Engine/3D/ModelDraw.h"
 
-void Enemy::Initialize(Model* model, Model* weaponModel)
+void Enemy::Initialize(Model* model)
 {
+
+	// モデル
+	model_ = model;
 
 	// マテリアル
 	material_.reset(Material::Create());
@@ -32,9 +35,6 @@ void Enemy::Initialize(Model* model, Model* weaponModel)
 
 	// ステート
 	StateInitialize();
-
-	// モデル
-	model_ = model;
 
 	// パーツ
 	PartInitialize();
@@ -154,7 +154,7 @@ void Enemy::PartInitialize()
 	prevMotionNo_ = EnemyMotionIndex::kEnemyMotionStand;
 
 	// 待ちアニメーション
-	animation_.StartAnimation(kEnemyMotionStand, true);
+	//animation_.StartAnimation(kEnemyMotionStand, true);
 
 }
 
@@ -194,10 +194,10 @@ void Enemy::AnimationUpdate()
 	prevMotionNo_ = currentMotionNo_;
 	currentMotionNo_ = enemyState_->GetEnemyMotionNo();
 
-	if (currentMotionNo_ != prevMotionNo_) {
-		animation_.StopAnimation(prevMotionNo_);
-		animation_.StartAnimation(currentMotionNo_, true);
-	}
+	//if (currentMotionNo_ != prevMotionNo_) {
+	//	animation_.StopAnimation(prevMotionNo_);
+	//	animation_.StartAnimation(currentMotionNo_, true);
+	//}
 
 
 }

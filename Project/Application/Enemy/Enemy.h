@@ -28,7 +28,7 @@ public: // ベースのメンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* model, Model* weaponModel);
+	void Initialize(Model* model);
 
 	/// <summary>
 	/// 更新
