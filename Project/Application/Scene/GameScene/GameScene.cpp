@@ -163,7 +163,8 @@ void GameScene::Update() {
 
 	// あたり判定
 	collisionManager_->ListClear();
-	//collisionManager_->ListRegister();
+	collisionManager_->ListRegister(player_->GetCollider());
+	collisionManager_->ListRegister(enemy_->GetCollider());
 	collisionManager_->CheakAllCollision();
 
 	// 影

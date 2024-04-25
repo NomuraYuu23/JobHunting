@@ -166,10 +166,10 @@ private:  // パーツ,アニメーション定数
 private: // エネミーデータ
 
 	// 高さ
-	float height_ = 30.0f;
+	float height_ = 3.0f;
 
 	// 幅
-	float width_ = 20.0f;
+	float width_ = 2.0f;
 
 	// プレイヤー
 	Player* player_ = nullptr;
@@ -208,6 +208,8 @@ public: // アクセッサ
 	void SetHeight(float height) { height_ = height; }
 
 	float GetWidth() { return width_; }
+
+	ColliderShape GetCollider() { return collider_.get(); }
 
 	void SetPlayer(Player* player) { player_ = player; }
 

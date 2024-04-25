@@ -181,10 +181,10 @@ private:  // パーツ,アニメーション定数
 private: // プレイヤーデータ
 
 	// 高さ
-	float height_ = 20.0f;
+	float height_ = 2.0f;
 
 	// 幅
-	float width_ = 10.0f;
+	float width_ = 1.0f;
 
 	// カメラ
 	BaseCamera* camera_ = nullptr;

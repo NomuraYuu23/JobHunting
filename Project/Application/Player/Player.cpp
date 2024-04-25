@@ -2,7 +2,7 @@
 #include "../../Engine/Collider/Capsule/Capsule.h"
 #include "../../Engine/2D/ImguiManager.h"
 #include "../../Engine/3D/ModelDraw.h"
-//#include "../Enemy/Enemy.h"
+#include "../Enemy/Enemy.h"
 
 void Player::Initialize(Model* model, Model* weaponModel)
 {
@@ -122,9 +122,9 @@ void Player::ImGuiDraw()
 void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	//if (std::holds_alternative<Enemy*>(colliderPartner)) {
-	//	OnCollisionEnemy(colliderPartner, collisionData);
-	//}
+	if (std::holds_alternative<Enemy*>(colliderPartner)) {
+		OnCollisionEnemy(colliderPartner, collisionData);
+	}
 
 }
 
@@ -191,27 +191,21 @@ void Player::ColliderInitialize()
 	collider_ = std::make_unique<Capsule>();
 	collider_->SetCollisionAttribute(collisionAttribute_);
 	collider_->SetCollisionMask(collisionMask_);
-	collider_->radius_ = 1.0f;
 
-		//計算用
 	Segment segment = {
-		{ 0.0f,0.0f,0.0f },
-		{ 0.0f,0.0f,0.0f },
+		worldTransform_.GetWorldPosition(),
+		{ 0.0f, height_,0.0f }
 	};
-	Vector3 diff = { 0.0f,0.0f,0.0f };
+
+	collider_->Initialize(segment, 1.0f, this);
 
 }
 
 void Player::ColliderUpdate()
 {
 
-	//計算用
-	Segment segment = {
-		{ 0.0f,0.0f,0.0f },
-		{ 0.0f,0.0f,0.0f },
-	};
-	Vector3 diff = { 0.0f,0.0f,0.0f };
-
+	collider_->segment_.origin_ = worldTransform_.GetWorldPosition();
+	collider_->segment_.diff_ = { 0.0f, height_,0.0f };
 
 }
 
@@ -231,27 +225,26 @@ void Player::AnimationUpdate()
 void Player::OnCollisionEnemy(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	//Enemy* enemy = std::get<Enemy*>(colliderPartner);
+	Enemy* enemy = std::get<Enemy*>(colliderPartner);
 
-	//// 位置
-	//Vector3 playerPosition = worldTransform_.GetWorldPosition();
-	//playerPosition.y = 0.0f;
+	// 位置
+	Vector3 playerPosition = worldTransform_.GetWorldPosition();
+	playerPosition.y = 0.0f;
 
-	//Vector3 enemyPosition = enemy->GetWorldTransformAdress()->GetWorldPosition();
-	//enemyPosition.y = 0.0f;
+	Vector3 enemyPosition = enemy->GetWorldTransformAdress()->GetWorldPosition();
+	enemyPosition.y = 0.0f;
 
-	//// 向き
-	//Vector3 direction = Vector3Calc::Normalize(Vector3Calc::Subtract(playerPosition, enemyPosition));
+	// 向き
+	Vector3 direction = Vector3::Normalize(Vector3::Subtract(playerPosition, enemyPosition));
 
-	//// 距離
-	//float distance = width_ + enemy->GetWidth();
+	// 距離
+	float distance = width_ + enemy->GetWidth();
 
-	//// 移動
-	//Vector3 move = Vector3Calc::Multiply(distance, direction);
+	// 移動
+	Vector3 move = Vector3::Multiply(distance, direction);
 
-	//worldTransform_.transform_.translate = Vector3Calc::Add(enemyPosition, move);
-	//worldTransform_.transform_.translate.y = height_;
-	//worldTransform_.UpdateMatrix();
+	worldTransform_.transform_.translate = Vector3::Add(enemyPosition, move);
+	worldTransform_.UpdateMatrix();
 
 }
 
