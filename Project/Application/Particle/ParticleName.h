@@ -2,5 +2,6 @@
 
 enum ParticleName {
 	kDefaultParticle,
+	kBloadParticle,
 	kCountOfParticleName,
 };

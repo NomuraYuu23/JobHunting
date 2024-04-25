@@ -8,6 +8,10 @@
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../../Engine/3D/ModelDraw.h"
 
+// 仮
+
+#include "../../Player/PlayerState/PlayerStateAttack/PlayerStateAttack.h"
+
 GameScene::~GameScene()
 {
 
@@ -165,6 +169,14 @@ void GameScene::Update() {
 	collisionManager_->ListClear();
 	collisionManager_->ListRegister(player_->GetCollider());
 	collisionManager_->ListRegister(enemy_->GetCollider());
+
+	// プレイヤーの攻撃
+	if (player_->GetCurrentStateNo() == kPlayerStateAttack) {
+		if (static_cast<PlayerStateAttack*>(player_->GetPlayerState())->GetIsAttackJudgment()) {
+			collisionManager_->ListRegister(static_cast<PlayerStateAttack*>(player_->GetPlayerState())->GetCollider());
+		}
+	}
+
 	collisionManager_->CheakAllCollision();
 
 	// 影

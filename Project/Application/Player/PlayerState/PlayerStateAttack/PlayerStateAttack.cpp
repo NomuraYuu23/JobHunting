@@ -22,14 +22,14 @@ void PlayerStateAttack::Initialize()
 
 	// あたり判定ワールドトランスフォーム
 	attackWorldTransform_.Initialize();
-	//attackWorldTransform_.parent_ = player_->GetPart(kPlayerPartRightHand)->GetWorldTransformAdress();
+	attackWorldTransform_.parent_ = player_->GetWorldTransformAdress();
 	attackWorldTransform_.UpdateMatrix();
 
 	// 攻撃球の半径
-	attackRadius_ = 10.0f;
+	attackRadius_ = 2.0f;
 
 	// 攻撃球と手の距離
-	attackLength_ = { 0.0f, 0.0f, 10.0f };
+	attackLength_ = { 0.0f, 0.0f, 1.0f };
 
 	// 攻撃球のプレイヤーからのローカル位置
 	attackCenter_ = { -10000.0f,-10000.0f,-10000.0f };
