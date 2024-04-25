@@ -63,7 +63,7 @@ void Enemy::Update()
 	// アニメーション
 	AnimationUpdate();
 
-	worldTransform_.transform_.translate.y = height_;
+	//worldTransform_.transform_.translate.y = height_;
 
 	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
 
