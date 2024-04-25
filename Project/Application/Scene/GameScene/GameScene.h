@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "../../../Engine/Scene/IScene/IScene.h"
 #include "../../../Engine/Collider/ColliderDebugDraw/ColliderDebugDraw.h"// コライダーデバッグ描画
 #include"../../../Engine/Collision/CollisionManager.h"
@@ -100,8 +102,8 @@ private:
 	std::unique_ptr<CollisionManager> collisionManager_;
 
 	// UIマネージャー
-	//std::unique_ptr<UIManager> uiManager_;
-	//std:::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount> uiTextureHandles_;
+	std::unique_ptr<UIManager> uiManager_;
+	std::array<uint32_t, UIIndex::kUIIndexOfCount> uiTextureHandles_;
 
 	// オーディオマネージャー
 	std::unique_ptr<GameAudioManager> audioManager_;

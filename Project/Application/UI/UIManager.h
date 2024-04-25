@@ -5,64 +5,41 @@
 #include "UI.h"
 #include "../AudioManager/GameAudioManager.h"
 
-enum UITextureHandleIndex {
-	kUITextureHandleIndexSample, // サンプル
-	kUITextureHandleIndexOfCount
-};
-
 enum UIIndex {
-	kUIIndexSample, // サンプル
-	kUIIndexOfCount
-};
-
-struct UIManagerUpdateDesc {
-
+	kUIIndexAttack, // 攻撃
+	kUIIndexRolling,// 回避
+	kUIIndexHP,// HP
+	kUIIndexOfCount,
 };
 
 class UIManager
 {
 
-public: // メンバ関数
-
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	void Initialize(const std::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount>& textureHandles);
-
-	/// <summary>
-	/// 更新
-	/// </summary>
-	void Update(const UIManagerUpdateDesc& uiManagerUpdateDesc);
-
-	/// <summary>
-	/// 描画
-	/// </summary>
-	void Draw();
-
-private: // メンバ関数
-
-	/// <summary>
-	/// UIごとの初期化
-	/// </summary>
-	void UIInitialize();
-
-private: // メンバ変数
-
-	// テクスチャハンドル
-	std::array<uint32_t, UITextureHandleIndex::kUITextureHandleIndexOfCount> textureHandles_;
-
-	// UI
-	std::array<std::unique_ptr<UI>, UIIndex::kUIIndexOfCount> UIs_;
-
-	// UI位置
-	std::array<Vector2, UIIndex::kUIIndexOfCount> UIInitPositions_;
-
-	// オーディオマネージャー
-	GameAudioManager* audioManager_;
-
 public:
 
-	void SetAudioManager(GameAudioManager* audioManager) { audioManager_ = audioManager; }
+	// 初期化
+	void Initialize(const std::array<uint32_t, kUIIndexOfCount>& textureHandles);
+
+	// 更新
+	void Update(float playerRatioHP, float enemyRatioHP);
+
+	// 描画
+	void Draw();
+
+private:
+
+	// 操作UI
+	std::unique_ptr<Sprite> attackSprite_;
+	std::unique_ptr<Sprite> rollingSprite_;
+
+	// HP
+	std::unique_ptr<Sprite> playerHPSprite_;
+	std::unique_ptr<Sprite> playerHPFrameSprite_;
+	float playerHPSizeX_;
+	std::unique_ptr<Sprite> enemyHPSprite_;
+	std::unique_ptr<Sprite> enemyHPFrameSprite_;
+	float enemyHPSizeX_;
+
+	std::array<uint32_t, kUIIndexOfCount> textureHandles_;
 
 };
-

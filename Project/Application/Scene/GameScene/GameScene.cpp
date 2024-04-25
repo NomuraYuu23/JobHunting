@@ -55,9 +55,9 @@ void GameScene::Initialize() {
 	collisionManager_.reset(new CollisionManager);
 	collisionManager_->Initialize();
 
-	//UIマネージャー
-	//uiManager_ = std::make_unique<UIManager>();
-	//uiManager_->Initialize(uiTextureHandles_);
+	// UI
+	uiManager_ = std::make_unique<UIManager>();
+	uiManager_->Initialize(uiTextureHandles_);
 
 	// オーディオマネージャー
 	audioManager_ = std::make_unique<GameAudioManager>();
@@ -189,7 +189,7 @@ void GameScene::Update() {
 	// 地面
 	ground_->Update();
 
-	//uiManager_->Update();
+	uiManager_->Update(player_->RatioHP(), enemy_->RatioHP());
 
 	// デバッグカメラ
 	DebugCameraUpdate();
@@ -281,7 +281,7 @@ void GameScene::Draw() {
 	//前景スプライト描画
 
 	// UIマネージャー
-	//uiManager_->Draw();
+	uiManager_->Draw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
@@ -356,6 +356,13 @@ void GameScene::ModelCreate()
 
 void GameScene::TextureLoad()
 {
+
+	// UI
+	uiTextureHandles_ = {
+		TextureManager::Load("Resources/UI/attack.png", dxCommon_, textureHandleManager_.get()),
+		TextureManager::Load("Resources/UI/rolling.png", dxCommon_, textureHandleManager_.get()),
+		TextureManager::Load("Resources/default/white2x2.png", dxCommon_, textureHandleManager_.get()),
+	};
 
 }
 
