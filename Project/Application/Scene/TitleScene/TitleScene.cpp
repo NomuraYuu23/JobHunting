@@ -27,80 +27,63 @@ void TitleScene::Initialize()
 	audioManager_->StaticInitialize();
 	audioManager_->Initialize();
 
-	// ビュープロジェクション
-	EulerTransform baseCameraTransform = {
-		1.0f, 1.0f, 1.0f,
-		0.0f,0.0f,0.0f,
-		0.0f, 0.0f, -35.0f };
-	camera_.SetTransform(baseCameraTransform);
+	titleSprite_.reset(Sprite::Create(titleTextureHandle_, { 640.0f, 360.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
+	buttonSprite_.reset(Sprite::Create(buttonTextureHandle_, { 640.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
+	buttonAlphaT_ = 0.0f;
+	buttonAlphaTSpeed_ = 0.01f;
+	buttonItIncreaseAlphaT_ = true;
+	buttonColor_ = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	// スカイドーム
-	skydome_ = std::make_unique<Skydome>();
-	skydome_->Initialize(skydomeModel_.get());
-
-	//アウトライン
-	outline_.Initialize();
-	outline_.Map();
 }
 
 void TitleScene::Update()
 {
 
-#ifdef _DEBUG
-	ImguiDraw();
-#endif // _DEBUG
-
-	if ((input_->TriggerJoystick(JoystickButton::kJoystickButtonA) || input_->TriggerKey(DIK_SPACE)) &&
-		requestSceneNo == kTitle) {
+	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
 		// 行きたいシーンへ
 		requestSceneNo = kGame;
 	}
 
-	// BGM音量下げる
-	if (requestSceneNo == kTutorial && isDecreasingVolume) {
-		LowerVolumeBGM();
+	// ボタンスプライト
+	if (buttonItIncreaseAlphaT_) {
+		buttonAlphaT_ += buttonAlphaTSpeed_;
+		if (buttonAlphaT_ >= 1.0f) {
+			buttonAlphaT_ = 1.0f;
+			buttonItIncreaseAlphaT_ = false;
+		}
 	}
-	
-	// カメラ
-	camera_.Update();
-	
-	// スカイドーム
-	skydome_->Update();
+	else {
+		buttonAlphaT_ -= buttonAlphaTSpeed_;
+		if (buttonAlphaT_ <= 0.0f) {
+			buttonAlphaT_ = 0.0f;
+			buttonItIncreaseAlphaT_ = true;
+		}
+	}
+	buttonColor_.w = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 1.0f, buttonAlphaT_);
+	buttonSprite_->SetColor(buttonColor_);
+
+	// ボタンスプライト
+	if (buttonItIncreaseAlphaT_) {
+		buttonAlphaT_ += buttonAlphaTSpeed_;
+		if (buttonAlphaT_ >= 1.0f) {
+			buttonAlphaT_ = 1.0f;
+			buttonItIncreaseAlphaT_ = false;
+		}
+	}
+	else {
+		buttonAlphaT_ -= buttonAlphaTSpeed_;
+		if (buttonAlphaT_ <= 0.0f) {
+			buttonAlphaT_ = 0.0f;
+			buttonItIncreaseAlphaT_ = true;
+		}
+	}
+	buttonColor_.w = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 1.0f, buttonAlphaT_);
+	buttonSprite_->SetColor(buttonColor_);
 
 }
 
 void TitleScene::Draw()
 {
-
-#pragma region 背景スプライト描画
-	// 背景スプライト描画前処理
-	Sprite::PreDraw(dxCommon_->GetCommadList());
-
-	// スプライト描画後処理
-	Sprite::PostDraw();
-	// 深度バッファクリア
-	renderTargetTexture_->ClearDepthBuffer();
-
-
-#pragma endregion
-
-	ModelDraw::PreDrawDesc preDrawDesc;
-	preDrawDesc.commandList = dxCommon_->GetCommadList();
-	preDrawDesc.directionalLight = nullptr;
-	preDrawDesc.fogManager = FogManager::GetInstance();
-	preDrawDesc.pipelineStateIndex = ModelDraw::kPipelineStateIndexAnimObject;
-	preDrawDesc.pointLightManager = nullptr;
-	preDrawDesc.spotLightManager = nullptr;
-	ModelDraw::PreDraw(preDrawDesc);
-
-	//3Dオブジェクトはここ
-
-	// スカイドーム
-	if (isDrawSkydome_) {
-		skydome_->Draw(camera_);
-	}
-
-	ModelDraw::PostDraw();
 
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
@@ -108,6 +91,8 @@ void TitleScene::Draw()
 
 	//背景
 	//前景スプライト描画
+	titleSprite_->Draw();
+	buttonSprite_->Draw();
 
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
@@ -120,9 +105,7 @@ void TitleScene::ImguiDraw()
 {
 
 #ifdef _DEBUG
-	ImGui::Begin("Title");
-	ImGui::Checkbox("isDrawSkydome", &isDrawSkydome_);
-	ImGui::End();
+
 #endif // _DEBUG
 
 }
@@ -130,13 +113,13 @@ void TitleScene::ImguiDraw()
 void TitleScene::ModelCreate()
 {
 
-	// スカイドーム
-	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
-
 }
 
 void TitleScene::TextureLoad()
 {
+
+	titleTextureHandle_ = TextureManager::Load("Resources/OutGame/title.png", dxCommon_, textureHandleManager_.get());
+	buttonTextureHandle_ = TextureManager::Load("Resources/OutGame/button.png", dxCommon_, textureHandleManager_.get());
 
 }
 
