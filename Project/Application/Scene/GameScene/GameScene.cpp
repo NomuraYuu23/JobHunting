@@ -113,6 +113,7 @@ void GameScene::Initialize() {
 
 	enemy_ = std::make_unique<Enemy>();
 	enemy_->Initialize(enemyModel_.get());
+	enemy_->SetPlayer(player_.get());
 
 }
 
