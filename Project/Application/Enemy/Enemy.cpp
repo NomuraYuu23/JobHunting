@@ -63,8 +63,6 @@ void Enemy::Update()
 	// アニメーション
 	AnimationUpdate();
 
-	//worldTransform_.transform_.translate.y = height_;
-
 	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
 
 	localMatrixManager_->Map();
@@ -165,26 +163,21 @@ void Enemy::ColliderInitialize()
 	collider_ = std::make_unique<Capsule>();
 	collider_->SetCollisionAttribute(collisionAttribute_);
 	collider_->SetCollisionMask(collisionMask_);
-	collider_->radius_ = 1.0f;
 
-	//計算用
 	Segment segment = {
-		{ 0.0f,0.0f,0.0f },
-		{ 0.0f,0.0f,0.0f },
+		worldTransform_.GetWorldPosition(),
+		{ 0.0f, height_,0.0f }
 	};
-	Vector3 diff = { 0.0f,0.0f,0.0f };
+
+	collider_->Initialize(segment, 1.0f, this);
 
 }
 
 void Enemy::ColliderUpdate()
 {
 
-	//計算用
-	Segment segment = {
-		{ 0.0f,0.0f,0.0f },
-		{ 0.0f,0.0f,0.0f },
-	};
-	Vector3 diff = { 0.0f,0.0f,0.0f };
+	collider_->segment_.origin_ = worldTransform_.GetWorldPosition();
+	collider_->segment_.diff_ = { 0.0f, height_,0.0f };
 
 }
 

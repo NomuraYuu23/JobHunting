@@ -5,11 +5,11 @@
 void PlayerStateRoot::Initialize()
 {
 
-	runningSpeed_ = 1.0f;
+	runningSpeed_ = 0.5f;
 
 	walkSpeed_ = 0.5f;
 
-	dashSpeed_ = 1.5f;
+	dashSpeed_ = 0.8f;
 
 	targetDirection_ = { 0.0f, 0.0f, 1.0f };
 
