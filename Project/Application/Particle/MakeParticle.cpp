@@ -17,6 +17,10 @@ IParticle* MakeParticle::Run(uint32_t paeticleName, const Vector3& position, con
 		particle = new IParticle();
 		particle->Initialize(position, size);
 		break;
+	case kBloadParticle:
+		particle = new BloadParticle();
+		particle->Initialize(position, size);
+		break;
 	case kCountOfParticleName:
 	default:
 		assert(0);
