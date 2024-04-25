@@ -24,52 +24,61 @@ void ClearScene::Initialize()
 	TextureLoad();
 
 	audioManager_ = std::make_unique<ClearAudioManager>();
-	audioManager_->StaticInitialize();
 	audioManager_->Initialize();
 
-	// ビュープロジェクション
-	EulerTransform baseCameraTransform = {
-		1.0f, 1.0f, 1.0f,
-		0.0f,0.0f,0.0f,
-		0.0f, 0.0f, -35.0f };
-	camera_.SetTransform(baseCameraTransform);
-
-	// スカイドーム
-	skydome_ = std::make_unique<Skydome>();
-	skydome_->Initialize(skydomeModel_.get());
+	clearSprite_.reset(Sprite::Create(clearTextureHandle_, { 640.0f, 360.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
+	buttonSprite_.reset(Sprite::Create(buttonTextureHandle_, { 640.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
+	buttonAlphaT_ = 0.0f;
+	buttonAlphaTSpeed_ = 0.01f;
+	buttonItIncreaseAlphaT_ = true;
+	buttonColor_ = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 }
 
 void ClearScene::Update()
 {
 
-#ifdef _DEBUG
-
-	ImguiDraw();
-
-#endif // _DEBUG
-
-	if ((input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) &&
-		requestSceneNo == kClear) {
+	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
 		// 行きたいシーンへ
 		requestSceneNo = kTitle;
 	}
 
-	// BGM音量下げる
-	if (requestSceneNo == kTitle && isDecreasingVolume) {
-		LowerVolumeBGM();
+	// ボタンスプライト
+	if (buttonItIncreaseAlphaT_) {
+		buttonAlphaT_ += buttonAlphaTSpeed_;
+		if (buttonAlphaT_ >= 1.0f) {
+			buttonAlphaT_ = 1.0f;
+			buttonItIncreaseAlphaT_ = false;
+		}
 	}
-
-	// カメラ
-	camera_.Update();
-
-	// スカイドーム
-	skydome_->Update();
+	else {
+		buttonAlphaT_ -= buttonAlphaTSpeed_;
+		if (buttonAlphaT_ <= 0.0f) {
+			buttonAlphaT_ = 0.0f;
+			buttonItIncreaseAlphaT_ = true;
+		}
+	}
+	buttonColor_.w = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 1.0f, buttonAlphaT_);
+	buttonSprite_->SetColor(buttonColor_);
 	
 }
 
 void ClearScene::Draw()
 {
+
+#pragma region 前景スプライト描画
+	// 前景スプライト描画前処理
+	Sprite::PreDraw(dxCommon_->GetCommadList());
+
+	//背景
+	//前景スプライト描画
+	clearSprite_->Draw();
+	buttonSprite_->Draw();
+
+	// 前景スプライト描画後処理
+	Sprite::PostDraw();
+
+#pragma endregion
 
 }
 
@@ -84,13 +93,13 @@ void ClearScene::ImguiDraw()
 void ClearScene::ModelCreate()
 {
 
-	// スカイドーム
-	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
-
 }
 
 void ClearScene::TextureLoad()
 {
+
+	clearTextureHandle_ = TextureManager::Load("Resources/OutGame/clear.png", dxCommon_, textureHandleManager_.get());
+	buttonTextureHandle_ = TextureManager::Load("Resources/OutGame/button.png", dxCommon_, textureHandleManager_.get());
 
 }
 

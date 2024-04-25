@@ -139,12 +139,13 @@ void GameScene::Update() {
 		return;
 	}
 
-	// リスタート
-	//if () {
-	//	resetScene_ = true;
-	//	isBeingReset_ = true;
-	//	isDecreasingVolume = true;
-	//}
+	// タイトルへ
+	if (enemy_->GetIsDead()) {
+		requestSceneNo = kClear;
+	}
+	if (player_->GetIsDead()) {
+		//requestSceneNo = kGameOver;
+	}
 
 	//光源
 	DirectionalLightData directionalLightData;
