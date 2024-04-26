@@ -152,7 +152,7 @@ void Enemy::PartInitialize()
 	prevMotionNo_ = EnemyMotionIndex::kEnemyMotionStand;
 
 	// 待ちアニメーション
-	//animation_.StartAnimation(kEnemyMotionStand, true);
+	animation_.StartAnimation(kEnemyMotionStand, true);
 
 }
 
@@ -187,11 +187,10 @@ void Enemy::AnimationUpdate()
 	prevMotionNo_ = currentMotionNo_;
 	currentMotionNo_ = enemyState_->GetEnemyMotionNo();
 
-	//if (currentMotionNo_ != prevMotionNo_) {
-	//	animation_.StopAnimation(prevMotionNo_);
-	//	animation_.StartAnimation(currentMotionNo_, true);
-	//}
-
+	if (currentMotionNo_ != prevMotionNo_) {
+		animation_.StopAnimation(prevMotionNo_);
+		animation_.StartAnimation(currentMotionNo_, true);
+	}
 
 }
 
@@ -218,5 +217,6 @@ void Enemy::OnCollisionPlayerAttack(ColliderParentObject colliderPartner, const 
 {
 
 
+	animation_.StartAnimation(kEnemyMotionDamage, false);
 
 }
