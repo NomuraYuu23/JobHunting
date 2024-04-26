@@ -16,6 +16,7 @@ void Player::Initialize(Model* model, Model* weaponModel)
 
 	// ワールドトランスフォーム
 	worldTransform_.Initialize(model_->GetRootNode());
+	worldTransform_.transform_.translate.z = -5.0f;
 
 	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
 	localMatrixManager_->Initialize(model_->GetRootNode());
