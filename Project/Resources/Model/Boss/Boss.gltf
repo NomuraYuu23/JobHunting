@@ -18,6 +18,70 @@
 			"name":"\u7acb\u65b9\u4f53"
 		}
 	],
+	"animations":[
+		{
+			"channels":[
+				{
+					"sampler":0,
+					"target":{
+						"node":0,
+						"path":"rotation"
+					}
+				}
+			],
+			"name":"00_Wait",
+			"samplers":[
+				{
+					"input":4,
+					"interpolation":"LINEAR",
+					"output":5
+				}
+			]
+		},
+		{
+			"channels":[
+				{
+					"sampler":0,
+					"target":{
+						"node":0,
+						"path":"translation"
+					}
+				},
+				{
+					"sampler":1,
+					"target":{
+						"node":0,
+						"path":"rotation"
+					}
+				},
+				{
+					"sampler":2,
+					"target":{
+						"node":0,
+						"path":"scale"
+					}
+				}
+			],
+			"name":"01_Damage",
+			"samplers":[
+				{
+					"input":6,
+					"interpolation":"LINEAR",
+					"output":7
+				},
+				{
+					"input":6,
+					"interpolation":"LINEAR",
+					"output":8
+				},
+				{
+					"input":6,
+					"interpolation":"LINEAR",
+					"output":9
+				}
+			]
+		}
+	],
 	"materials":[
 		{
 			"doubleSided":true,
@@ -94,6 +158,54 @@
 			"componentType":5123,
 			"count":36,
 			"type":"SCALAR"
+		},
+		{
+			"bufferView":4,
+			"componentType":5126,
+			"count":60,
+			"max":[
+				1
+			],
+			"min":[
+				0.016666666666666666
+			],
+			"type":"SCALAR"
+		},
+		{
+			"bufferView":5,
+			"componentType":5126,
+			"count":60,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":6,
+			"componentType":5126,
+			"count":21,
+			"max":[
+				0.3333333333333333
+			],
+			"min":[
+				0
+			],
+			"type":"SCALAR"
+		},
+		{
+			"bufferView":7,
+			"componentType":5126,
+			"count":21,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":8,
+			"componentType":5126,
+			"count":21,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":9,
+			"componentType":5126,
+			"count":21,
+			"type":"VEC3"
 		}
 	],
 	"bufferViews":[
@@ -120,6 +232,36 @@
 			"byteLength":72,
 			"byteOffset":768,
 			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":240,
+			"byteOffset":840
+		},
+		{
+			"buffer":0,
+			"byteLength":960,
+			"byteOffset":1080
+		},
+		{
+			"buffer":0,
+			"byteLength":84,
+			"byteOffset":2040
+		},
+		{
+			"buffer":0,
+			"byteLength":252,
+			"byteOffset":2124
+		},
+		{
+			"buffer":0,
+			"byteLength":336,
+			"byteOffset":2376
+		},
+		{
+			"buffer":0,
+			"byteLength":252,
+			"byteOffset":2712
 		}
 	],
 	"samplers":[
@@ -130,7 +272,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":840,
+			"byteLength":2964,
 			"uri":"Boss.bin"
 		}
 	]
