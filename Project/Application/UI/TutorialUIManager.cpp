@@ -28,12 +28,12 @@ void TutorialUIManager::Initialize(const std::array<uint32_t, kUIIndexOfCount>& 
 	playerHPFrameSprite_->SetAnchorPoint(Vector2{ 0.0f, 0.0f });
 	playerHPFrameSprite_->SetSize(Vector2{ 210.0f, 30.0f });
 
-	position = { 880.0f, 20.0f };
+	position = { 1080.0f, 40.0f };
 	color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	tutorialSprite_.reset(Sprite::Create(textureHandles_[kUIIndexTutorial], position, color));
 
 
-	position = { 880.0f, 100.0f };
+	position = { 1080.0f, 100.0f };
 	goGameSprite_.reset(Sprite::Create(textureHandles_[kUIIndexGoGame], position, color));
 
 }
