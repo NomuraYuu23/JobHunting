@@ -62,7 +62,6 @@ void GameScene::Initialize() {
 	// オーディオマネージャー
 	audioManager_ = std::make_unique<GameAudioManager>();
 	audioManager_->Initialize();
-	//uiManager_->SetAudioManager(audioManager_.get());
 
 	// スカイドーム
 	skydome_ = std::make_unique<Skydome>();
@@ -71,10 +70,6 @@ void GameScene::Initialize() {
 	// 地面
 	ground_ = std::make_unique<Ground>();
 	ground_->Initialize(groundModel_.get());
-
-	//影
-	//shadowManager_ = std::make_unique<ShadowManager>();
-	//shadowManager_->Initialize(shadowModel_.get());
 
 	// 平行光源
 	directionalLight_ = std::make_unique<DirectionalLight>();
@@ -179,9 +174,6 @@ void GameScene::Update() {
 	}
 
 	collisionManager_->CheakAllCollision();
-
-	// 影
-	ShadowUpdate();
 
 	// スカイドーム
 	skydome_->Update();
@@ -387,22 +379,5 @@ void GameScene::LowerVolumeBGM()
 	//		}
 	//	}
 	//}
-
-}
-
-void GameScene::ShadowUpdate()
-{
-
-	// リストクリア
-	//shadowManager_->ListClear();
-
-	// リスト登録（影を発生させる物）
-	//shadowManager_->CastsShadowObjListRegister();
-
-	// リスト登録（影が現れる物）
-	//shadowManager_->ShadowAppearsObjListRegister();
-
-	// 影が出るか
-	//shadowManager_->SeeShadow();
 
 }

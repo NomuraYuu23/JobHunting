@@ -1,17 +1,11 @@
 #pragma once
-
 #include <array>
 
 #include "../../../Engine/Scene/IScene/IScene.h"
-#include "../../../Engine/Collider/ColliderDebugDraw/ColliderDebugDraw.h"// コライダーデバッグ描画
-#include"../../../Engine/Collision/CollisionManager.h"
-#include "../../../Engine/base/ITextureHandleManager.h"
-#include "../../../Engine/Collision/CollisionManager.h"
 #include "../../UI/UIManager.h"
 #include "../../AudioManager/GameAudioManager.h"
 #include "../../Skydome/Skydome.h"
 #include "../../Ground/Ground.h"
-#include "../../../Engine/3D/OutLineData.h"
 
 #include "../../Object/Sample/SampleObject.h" // サンプルオブジェクト
 
@@ -28,6 +22,7 @@
 
 // エネミー
 #include "../../Enemy/Enemy.h"
+
 
 class GameScene : public IScene
 {
@@ -81,11 +76,6 @@ private:
 	/// 音量
 	/// </summary>
 	void LowerVolumeBGM();
-
-	/// <summary>
-	/// 影更新
-	/// </summary>
-	void ShadowUpdate();
 
 private:
 
