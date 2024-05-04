@@ -646,7 +646,7 @@
     <ClCompile Include="Application\UI\TutorialUIManager.cpp">
       <Filter>Application\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Application\TutorialDummy\TutorialDummy.cpp">
+    <ClCompile Include="Application\TutorialEnemy\TutorialEnemy.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1188,7 +1188,7 @@
     <ClInclude Include="Application\UI\TutorialUIManager.h">
       <Filter>Application\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Application\TutorialDummy\TutorialDummy.h">
+    <ClInclude Include="Application\TutorialEnemy\TutorialEnemy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -110,7 +110,7 @@ void TutorialScene::Initialize() {
 	followCamera_->SetTarget(player_->GetWorldTransformAdress());
 	player_->SetCamera(static_cast<BaseCamera*>(followCamera_.get()));
 
-	enemy_ = std::make_unique<Enemy>();
+	enemy_ = std::make_unique<TutorialEnemy>();
 	enemy_->Initialize(enemyModel_.get());
 	enemy_->SetPlayer(player_.get());
 

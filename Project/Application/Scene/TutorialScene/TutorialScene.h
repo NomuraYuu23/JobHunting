@@ -22,7 +22,9 @@
 #include "../../Camera/FollowCamera.h"
 
 // エネミー
-#include "../../Enemy/Enemy.h"
+#include "../../TutorialEnemy/TutorialEnemy.h"
+
+
 #include "../../UI/TutorialUIManager.h"
 
 
@@ -119,7 +121,7 @@ private:
 	std::unique_ptr<Model> playerWeaponModel_;
 
 	// ボス
-	std::unique_ptr<Enemy> enemy_;
+	std::unique_ptr<TutorialEnemy> enemy_;
 	std::unique_ptr<Model> enemyModel_;
 
 	// 追加カメラ

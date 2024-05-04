@@ -6,6 +6,7 @@
 #include "../../Application/Player/PlayerAttack/PlayerAttack.h"
 #include "../../Application/Enemy/Enemy.h"
 #include "../../Application/Enemy/EnemyAttack/EnemyAttack.h"
+#include "../../Application/TutorialEnemy/TutorialEnemy.h"
 
 void CollisionManager::Initialize()
 {

@@ -3,6 +3,7 @@
 #include "../../Engine/2D/ImguiManager.h"
 #include "../../Engine/3D/ModelDraw.h"
 #include "../Enemy/Enemy.h"
+#include "../TutorialEnemy/TutorialEnemy.h"
 
 void Player::Initialize(Model* model, Model* weaponModel)
 {
@@ -126,6 +127,9 @@ void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 	if (std::holds_alternative<Enemy*>(colliderPartner)) {
 		OnCollisionEnemy(colliderPartner, collisionData);
 	}
+	else if (std::holds_alternative<TutorialEnemy*>(colliderPartner)) {
+		OnCollisionTutorialEnemy(colliderPartner, collisionData);
+	}
 
 }
 
@@ -227,6 +231,32 @@ void Player::OnCollisionEnemy(ColliderParentObject colliderPartner, const Collis
 {
 
 	Enemy* enemy = std::get<Enemy*>(colliderPartner);
+
+	// 位置
+	Vector3 playerPosition = worldTransform_.GetWorldPosition();
+	playerPosition.y = 0.0f;
+
+	Vector3 enemyPosition = enemy->GetWorldTransformAdress()->GetWorldPosition();
+	enemyPosition.y = 0.0f;
+
+	// 向き
+	Vector3 direction = Vector3::Normalize(Vector3::Subtract(playerPosition, enemyPosition));
+
+	// 距離
+	float distance = width_ + enemy->GetWidth();
+
+	// 移動
+	Vector3 move = Vector3::Multiply(distance, direction);
+
+	worldTransform_.transform_.translate = Vector3::Add(enemyPosition, move);
+	worldTransform_.UpdateMatrix();
+
+}
+
+void Player::OnCollisionTutorialEnemy(ColliderParentObject colliderPartner, const CollisionData& collisionData)
+{
+
+	TutorialEnemy* enemy = std::get<TutorialEnemy*>(colliderPartner);
 
 	// 位置
 	Vector3 playerPosition = worldTransform_.GetWorldPosition();

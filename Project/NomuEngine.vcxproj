@@ -138,7 +138,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Scene\SelectScene\SelectScene.cpp" />
     <ClCompile Include="Application\Scene\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Application\Scene\TutorialScene\TutorialScene.cpp" />
-    <ClCompile Include="Application\TutorialDummy\TutorialDummy.cpp" />
+    <ClCompile Include="Application\TutorialEnemy\TutorialEnemy.cpp" />
     <ClCompile Include="Application\UI\TutorialUIManager.cpp" />
     <ClCompile Include="Application\UI\UI.cpp" />
     <ClCompile Include="Application\UI\UIManager.cpp" />
@@ -286,7 +286,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Scene\SelectScene\SelectScene.h" />
     <ClInclude Include="Application\Scene\TitleScene\TitleScene.h" />
     <ClInclude Include="Application\Scene\TutorialScene\TutorialScene.h" />
-    <ClInclude Include="Application\TutorialDummy\TutorialDummy.h" />
+    <ClInclude Include="Application\TutorialEnemy\TutorialEnemy.h" />
     <ClInclude Include="Application\UI\TutorialUIManager.h" />
     <ClInclude Include="Application\UI\UI.h" />
     <ClInclude Include="Application\UI\UIManager.h" />
