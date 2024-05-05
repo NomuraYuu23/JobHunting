@@ -338,7 +338,7 @@ void TutorialScene::ModelCreate()
 	groundModel_.reset(Model::Create("Resources/Model/Ground/", "Ground.obj", dxCommon_, textureHandleManager_.get()));
 
 	// エネミー
-	enemyModel_.reset(Model::Create("Resources/Model/Boss/", "Boss.gltf", dxCommon_, textureHandleManager_.get()));
+	enemyModel_.reset(Model::Create("Resources/Model/Tutorial/", "Boss.gltf", dxCommon_, textureHandleManager_.get()));
 }
 
 void TutorialScene::TextureLoad()
