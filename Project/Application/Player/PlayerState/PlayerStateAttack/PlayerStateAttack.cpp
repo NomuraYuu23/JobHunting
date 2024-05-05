@@ -17,35 +17,8 @@ void PlayerStateAttack::Initialize()
 
 	targetAngleT_ = 0.1f;
 
-	// あたり判定コライダー
-	attackCollider_ = std::make_unique<Capsule>();
-
-	// あたり判定ワールドトランスフォーム
-	attackWorldTransform_.Initialize();
-	attackWorldTransform_.parent_ = player_->GetWorldTransformAdress();
-	attackWorldTransform_.UpdateMatrix();
-
-	// 攻撃球の半径
-	attackRadius_ = 2.0f;
-
-	// 攻撃球と手の距離
-	attackLength_ = { 0.0f, 0.0f, 1.0f };
-
-	// 攻撃球のプレイヤーからのローカル位置
-	attackCenter_ = { -10000.0f,-10000.0f,-10000.0f };
-
-	// 前フレームの攻撃球
-	prevAttackCenter_ = { -10000.0f,-10000.0f,-10000.0f };
-
 	playerAttack_ = std::make_unique<PlayerAttack>();
-
-	// あたり判定コライダー初期化
-	attackCollider_->Initialize(Segment{ attackCenter_ , {0.0f,0.0f,0.0f} }, attackRadius_, playerAttack_.get());
-	attackCollider_->SetCollisionAttribute(0x00000001);
-	attackCollider_->SetCollisionMask(0xfffffffe);
-
-	// あたり判定を取るか
-	isAttackJudgment_ = false;
+	playerAttack_->Initialize(player_->GetWorldTransformAdress());
 
 	// 媒介変数
 	parameter_ = 0.0f;
@@ -100,7 +73,7 @@ void PlayerStateAttack::AttackInitialize()
 	parameter_ = 0.0f;
 	DontAttack();
 
-	attackCollider_->worldTransformUpdate();
+	playerAttack_->GetCollider()->worldTransformUpdate();
 
 	periodFrame_ = kConstAttaks[comboIndex_].time_[inComboPhase_];
 
@@ -137,7 +110,7 @@ void PlayerStateAttack::AttackComboPhaseFinished()
 			DontAttack();
 		}
 		else if (inComboPhase_ >= static_cast<uint32_t>(ComboPhase::kSwing)) {
-			isAttackJudgment_ = true;
+			playerAttack_->SetIsAttackJudgment(true);
 		}
 		else {
 			DontAttack();
@@ -176,20 +149,7 @@ void PlayerStateAttack::AttackCombo1st()
 
 	// コライダー更新
 	if (inComboPhase_ == static_cast<uint32_t>(ComboPhase::kSwing)) {
-		attackWorldTransform_.transform_.translate = attackLength_;
-		attackWorldTransform_.UpdateMatrix();
-		if (attackCenter_.x <= -10000.0f) {
-			prevAttackCenter_ = attackWorldTransform_.GetWorldPosition();
-		}
-		else {
-			prevAttackCenter_ = attackCenter_;
-		}
-		attackCenter_ = attackWorldTransform_.GetWorldPosition();
-		Segment segment;
-		segment.origin_ = attackCenter_;
-		segment.diff_ = Vector3::Subtract(prevAttackCenter_, attackCenter_);
-		attackCollider_->segment_ = segment;
-		attackCollider_->radius_ = attackRadius_;
+		playerAttack_->Update();
 	}
 
 }
@@ -201,20 +161,7 @@ void PlayerStateAttack::AttackCombo2nd()
 
 	// コライダー更新
 	if (inComboPhase_ == static_cast<uint32_t>(ComboPhase::kSwing)) {
-		attackWorldTransform_.transform_.translate = attackLength_;
-		attackWorldTransform_.UpdateMatrix();
-		if (attackCenter_.x <= -10000.0f) {
-			prevAttackCenter_ = attackWorldTransform_.GetWorldPosition();
-		}
-		else {
-			prevAttackCenter_ = attackCenter_;
-		}
-		attackCenter_ = attackWorldTransform_.GetWorldPosition();
-		Segment segment;
-		segment.origin_ = attackCenter_;
-		segment.diff_ = Vector3::Subtract(prevAttackCenter_, attackCenter_);
-		attackCollider_->segment_ = segment;
-		attackCollider_->radius_ = attackRadius_;
+		playerAttack_->Update();
 	}
 
 }
@@ -222,12 +169,7 @@ void PlayerStateAttack::AttackCombo2nd()
 void PlayerStateAttack::DontAttack()
 {
 
-	isAttackJudgment_ = false;
-	attackCenter_ = { -10000.0f,-10000.0f,-10000.0f };
-	prevAttackCenter_ = { -10000.0f,-10000.0f,-10000.0f };
-	attackCollider_->segment_.origin_ = attackCenter_;
-	attackCollider_->segment_.diff_ = { 0.0f, 0.0f, 0.0f };
-	attackCollider_->worldTransformUpdate();
+	playerAttack_->Stop();
 
 }
 
