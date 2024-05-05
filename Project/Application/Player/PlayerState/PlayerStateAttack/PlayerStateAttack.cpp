@@ -17,8 +17,7 @@ void PlayerStateAttack::Initialize()
 
 	targetAngleT_ = 0.1f;
 
-	playerAttack_ = std::make_unique<PlayerAttack>();
-	playerAttack_->Initialize(player_->GetWorldTransformAdress());
+	playerAttack_ = player_->GetPlayerAttack();
 
 	// 媒介変数
 	parameter_ = 0.0f;
@@ -138,6 +137,7 @@ void PlayerStateAttack::AttackComboFinished()
 	}
 	else {
 		playerStateNo_ = PlayerState::kPlayerStateRoot;
+		playerAttack_->ClearContactRecord();
 	}
 
 }

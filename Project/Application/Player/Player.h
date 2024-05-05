@@ -3,6 +3,7 @@
 #include "PlayerState/IPlayerState.h"
 #include "PlayerState/PlayerStateFactory.h"
 #include "PlayerCommand/PlayerCommand.h"
+#include "PlayerAttack/PlayerAttack.h"
 #include "../../Engine/Collider/ColliderShape.h"
 #include "../../Engine/Collision/CollisionData.h"
 #include "../../Engine/Camera/BaseCamera.h"
@@ -198,6 +199,9 @@ private: // プレイヤーデータ
 	// 死んだか
 	bool isDead_;
 
+	// プレイヤーの攻撃情報
+	std::unique_ptr<PlayerAttack> playerAttack_;
+
 public:
 
 	/// <summary>
@@ -253,5 +257,7 @@ public: // アクセッサ
 	int32_t GetHp() { return hp_; }
 
 	uint32_t GetInitHp(){ return initHp_; }
+
+	PlayerAttack* GetPlayerAttack() { return playerAttack_.get(); }
 
 };

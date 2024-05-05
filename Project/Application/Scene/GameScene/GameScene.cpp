@@ -167,10 +167,8 @@ void GameScene::Update() {
 	collisionManager_->ListRegister(enemy_->GetCollider());
 
 	// プレイヤーの攻撃
-	if (player_->GetCurrentStateNo() == kPlayerStateAttack) {
-		if (static_cast<PlayerStateAttack*>(player_->GetPlayerState())->GetIsAttackJudgment()) {
-			collisionManager_->ListRegister(static_cast<PlayerStateAttack*>(player_->GetPlayerState())->GetCollider());
-		}
+	if (player_->GetPlayerAttack()->GetIsAttackJudgment()) {
+		collisionManager_->ListRegister(player_->GetPlayerAttack()->GetCollider());
 	}
 
 	collisionManager_->CheakAllCollision();

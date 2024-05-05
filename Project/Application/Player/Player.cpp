@@ -49,6 +49,9 @@ void Player::Initialize(Model* model, Model* weaponModel)
 
 	isDead_ = false;
 
+	playerAttack_ = std::make_unique<PlayerAttack>();
+	playerAttack_->Initialize(&worldTransform_);
+
 }
 
 void Player::Update()
