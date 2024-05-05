@@ -216,7 +216,4 @@ float Enemy::RatioHP()
 void Enemy::OnCollisionPlayerAttack(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-
-	animation_.StartAnimation(kEnemyMotionDamage, false);
-
 }

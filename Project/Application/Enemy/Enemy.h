@@ -15,7 +15,6 @@
 /// </summary>
 enum EnemyMotionIndex {
 	kEnemyMotionStand, // 通常時
-	kEnemyMotionDamage, // ダメージ時
 	kEnemyMotionDashSwingDown, // ダッシュ振り下ろし
 	kEnemyMotionMowingDown, // 薙ぎ払い
 	kEnemyMotionIndexOfCount // 数
@@ -160,7 +159,6 @@ private:  // パーツ,アニメーション定数
 	// モーション名
 	const std::array<const std::string, EnemyMotionIndex::kEnemyMotionIndexOfCount> motionNames_ = {
 		"Stand",
-		"Damage",
 		"DashSwingDown",
 		"MowingDown"
 	};
