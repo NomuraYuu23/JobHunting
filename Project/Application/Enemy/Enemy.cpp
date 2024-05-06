@@ -47,6 +47,9 @@ void Enemy::Initialize(Model* model)
 	initHp_ = 10;
 
 	isDead_ = false;
+	
+	enemyAttack_ = std::make_unique<EnemyAttack>();
+	enemyAttack_->Initialize(&worldTransform_);
 
 }
 

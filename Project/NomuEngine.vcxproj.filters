@@ -223,6 +223,12 @@
     <Filter Include="Application\Object\Enemy\TutorialEnemy">
       <UniqueIdentifier>{acb084f8-26bf-49a1-a3c7-4b2c79a72d17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Enemy\Boss\State">
+      <UniqueIdentifier>{e966230b-558c-4108-b4e3-5d4e69758375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Enemy\Boss\System">
+      <UniqueIdentifier>{ef7763ec-eba8-4767-bc07-73e137a978ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -619,35 +625,35 @@
     <ClCompile Include="Application\Enemy\Enemy.cpp">
       <Filter>Application\Object\Enemy\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyAttack\EnemyAttack.cpp">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyCommand\EnemyCommand.cpp">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateDashSwingDown\EnemyStateDashSwingDown.cpp">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateFactory.cpp">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateMowingDown\EnemyStateMowingDown.cpp">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.cpp">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyState\IEnemyState.cpp">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Particle\Bload\BloadParticle.cpp">
       <Filter>Application\Particle\Bload</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\TutorialUIManager.cpp">
       <Filter>Application\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyAttack\EnemyAttack.cpp">
+      <Filter>Application\Object\Enemy\Boss\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyCommand\EnemyCommand.cpp">
+      <Filter>Application\Object\Enemy\Boss\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateDashSwingDown\EnemyStateDashSwingDown.cpp">
+      <Filter>Application\Object\Enemy\Boss\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateFactory.cpp">
+      <Filter>Application\Object\Enemy\Boss\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateMowingDown\EnemyStateMowingDown.cpp">
+      <Filter>Application\Object\Enemy\Boss\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.cpp">
+      <Filter>Application\Object\Enemy\Boss\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyState\IEnemyState.cpp">
+      <Filter>Application\Object\Enemy\Boss\State</Filter>
+    </ClCompile>
     <ClCompile Include="Application\TutorialEnemy\TutorialEnemy.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Enemy\TutorialEnemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1161,35 +1167,35 @@
     <ClInclude Include="Application\Enemy\Enemy.h">
       <Filter>Application\Object\Enemy\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyAttack\EnemyAttack.h">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyCommand\EnemyCommand.h">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateDashSwingDown\EnemyStateDashSwingDown.h">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateFactory.h">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateMowingDown\EnemyStateMowingDown.h">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.h">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyState\IEnemyState.h">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Particle\Bload\BloadParticle.h">
       <Filter>Application\Particle\Bload</Filter>
     </ClInclude>
     <ClInclude Include="Application\UI\TutorialUIManager.h">
       <Filter>Application\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyAttack\EnemyAttack.h">
+      <Filter>Application\Object\Enemy\Boss\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyCommand\EnemyCommand.h">
+      <Filter>Application\Object\Enemy\Boss\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateDashSwingDown\EnemyStateDashSwingDown.h">
+      <Filter>Application\Object\Enemy\Boss\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateFactory.h">
+      <Filter>Application\Object\Enemy\Boss\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateMowingDown\EnemyStateMowingDown.h">
+      <Filter>Application\Object\Enemy\Boss\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.h">
+      <Filter>Application\Object\Enemy\Boss\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyState\IEnemyState.h">
+      <Filter>Application\Object\Enemy\Boss\State</Filter>
+    </ClInclude>
     <ClInclude Include="Application\TutorialEnemy\TutorialEnemy.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Object\Enemy\TutorialEnemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -76,27 +76,6 @@ private: // メンバ変数
 	// 目指す向きへの補間係数
 	float targetAngleT_;
 
-	// あたり判定コライダー
-	std::unique_ptr<Capsule> attackCollider_;
-
-	// あたり判定ワールドトランスフォーム
-	WorldTransform attackWorldTransform_;
-
-	// 攻撃球の半径
-	float attackRadius_;
-
-	// 攻撃球と手の距離
-	Vector3 attackLength_;
-
-	// 攻撃球のプレイヤーからのローカル位置
-	Vector3 attackCenter_;
-
-	// 前フレームの攻撃球
-	Vector3 prevAttackCenter_;
-
-	// あたり判定を取るか
-	bool isAttackJudgment_;
-
 	// 媒介変数
 	float parameter_;
 
@@ -110,13 +89,7 @@ private: // メンバ変数
 	Vector3 directionLimit = { 0.4f,0.4f,0.4f };
 
 	// 攻撃
-	std::unique_ptr<EnemyAttack> enemyAttack_;
-
-public:
-
-	Capsule* GetCollider() { return attackCollider_.get(); }
-
-	bool GetIsAttackJudgment() { return isAttackJudgment_; }
+	EnemyAttack* enemyAttack_;
 
 };
 

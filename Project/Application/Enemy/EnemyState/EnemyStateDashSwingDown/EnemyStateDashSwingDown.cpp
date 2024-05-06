@@ -14,36 +14,7 @@ void EnemyStateDashSwingDown::Initialize()
 
 	targetAngleT_ = 0.1f;
 
-	// あたり判定コライダー
-	attackCollider_ = std::make_unique<Capsule>();
-
-	// あたり判定ワールドトランスフォーム
-	attackWorldTransform_.Initialize();
-	//attackWorldTransform_.parent_ = enemy_->GetPart(kEnemyPartRightHand)->GetWorldTransformAdress();
-	attackWorldTransform_.UpdateMatrix();
-
-	// 攻撃球の半径
-	attackRadius_ = 30.0f;
-
-	// 攻撃球と手の距離
-	attackLength_ = { 0.0f, 0.0f, 10.0f };
-
-	// 攻撃球のプレイヤーからのローカル位置
-	attackCenter_ = { -10000.0f,-10000.0f,-10000.0f };
-
-	// 前フレームの攻撃球
-	prevAttackCenter_ = { -10000.0f,-10000.0f,-10000.0f };
-
-	// 攻撃
-	enemyAttack_ = std::make_unique<EnemyAttack>();
-
-	// あたり判定コライダー初期化
-	attackCollider_->Initialize(Segment{ attackCenter_ , {0.0f,0.0f,0.0f} }, attackRadius_, enemyAttack_.get());
-	attackCollider_->SetCollisionAttribute(0x00000002);
-	attackCollider_->SetCollisionMask(0xfffffffd);
-
-	// あたり判定を取るか
-	isAttackJudgment_ = false;
+	enemyAttack_ = enemy_->GetEnemyAttack();
 
 	// 媒介変数
 	parameter_ = 0.0f;
@@ -57,7 +28,7 @@ void EnemyStateDashSwingDown::Initialize()
 	AttackInitialize();
 
 	enemyStateNo_ = EnemyState::kEnemyStateDashSwingDown;
-	
+
 	enemyAttack_->ClearContactRecord();
 
 }
@@ -86,7 +57,7 @@ void EnemyStateDashSwingDown::AttackInitialize()
 	parameter_ = 0.0f;
 	DontAttack();
 
-	attackCollider_->worldTransformUpdate();
+	enemyAttack_->GetCollider()->worldTransformUpdate();
 
 	periodFrame_ = kConstAttak.time_[inPhase_];
 
@@ -103,20 +74,7 @@ void EnemyStateDashSwingDown::Attack()
 	// コライダー更新
 	if (inPhase_ == static_cast<uint32_t>(ComboPhase::kSwing) ||
 		(inPhase_ == static_cast<uint32_t>(ComboPhase::kRecovery) && parameter_ <= 0.2f) ) {
-		attackWorldTransform_.transform_.translate = attackLength_;
-		attackWorldTransform_.UpdateMatrix();
-		if (attackCenter_.x <= -10000.0f) {
-			prevAttackCenter_ = attackWorldTransform_.GetWorldPosition();
-		}
-		else {
-			prevAttackCenter_ = attackCenter_;
-		}
-		attackCenter_ = attackWorldTransform_.GetWorldPosition();
-		Segment segment;
-		segment.origin_ = attackCenter_;
-		segment.diff_ = Vector3::Subtract(prevAttackCenter_, attackCenter_);
-		attackCollider_->segment_ = segment;
-		attackCollider_->radius_ = attackRadius_;
+		enemyAttack_->Update();
 	}
 	else {
 		DontAttack();
@@ -127,12 +85,7 @@ void EnemyStateDashSwingDown::Attack()
 void EnemyStateDashSwingDown::DontAttack()
 {
 
-	isAttackJudgment_ = false;
-	attackCenter_ = { -10000.0f,-10000.0f,-10000.0f };
-	prevAttackCenter_ = { -10000.0f,-10000.0f,-10000.0f };
-	attackCollider_->segment_.origin_ = attackCenter_;
-	attackCollider_->segment_.diff_ = { 0.0f, 0.0f, 0.0f };
-	attackCollider_->worldTransformUpdate();
+	enemyAttack_->Stop();
 
 }
 
@@ -220,7 +173,7 @@ void EnemyStateDashSwingDown::AttackPhaseFinished()
 			DontAttack();
 		}
 		else if (inPhase_ >= static_cast<uint32_t>(ComboPhase::kSwing)) {
-			isAttackJudgment_ = true;
+			enemyAttack_->SetIsAttackJudgment(true);
 		}
 		else {
 			DontAttack();

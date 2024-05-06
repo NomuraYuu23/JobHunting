@@ -140,6 +140,7 @@ void GameScene::Update() {
 	}
 	if (player_->GetIsDead()) {
 		//requestSceneNo = kGameOver;
+		assert(0);
 	}
 
 	//光源
@@ -169,6 +170,11 @@ void GameScene::Update() {
 	// プレイヤーの攻撃
 	if (player_->GetPlayerAttack()->GetIsAttackJudgment()) {
 		collisionManager_->ListRegister(player_->GetPlayerAttack()->GetCollider());
+	}
+
+	// エネミーの攻撃
+	if (enemy_->GetEnemyAttack()->GetIsAttackJudgment()) {
+		collisionManager_->ListRegister(enemy_->GetEnemyAttack()->GetCollider());
 	}
 
 	collisionManager_->CheakAllCollision();
