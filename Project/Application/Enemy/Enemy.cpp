@@ -17,6 +17,8 @@ void Enemy::Initialize(Model* model)
 
 	// ワールドトランスフォーム
 	worldTransform_.Initialize(model_->GetRootNode());
+	worldTransform_.transform_.translate.z = 10.0f;
+	worldTransform_.transform_.translate.x = -0.1f;
 
 	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
 	localMatrixManager_->Initialize(model_->GetRootNode());
