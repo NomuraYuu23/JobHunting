@@ -4,7 +4,7 @@
 #include "../../../../Engine/Math/Ease.h"
 
 const EnemyStateDashSwingDown::ConstAttack EnemyStateDashSwingDown::kConstAttak = {
-		{ 10, 20, 30, 10, 35}, { 0.0f, 0.3f, 0.0f, 0.1f, 0.0f} 
+		{ 10, 20, 40, 10, 25}, { 0.0f, 0.3f, 0.0f, 0.1f, 0.0f} 
 };
 
 void EnemyStateDashSwingDown::Initialize()
@@ -72,7 +72,7 @@ void EnemyStateDashSwingDown::Attack()
 	Move();
 
 	// コライダー更新
-	if (inPhase_ == static_cast<uint32_t>(ComboPhase::kSwing) ||
+	if ((inPhase_ == static_cast<uint32_t>(ComboPhase::kSwing) && parameter_ >= 0.3f) ||
 		(inPhase_ == static_cast<uint32_t>(ComboPhase::kRecovery) && parameter_ <= 0.2f) ) {
 		enemyAttack_->Update();
 	}
@@ -171,9 +171,6 @@ void EnemyStateDashSwingDown::AttackPhaseFinished()
 		if (inPhase_ == static_cast<uint32_t>(ComboPhase::kCountOfComboPhase)) {
 			enemyStateNo_ = EnemyState::kEnemyStateRoot;
 			DontAttack();
-		}
-		else if (inPhase_ >= static_cast<uint32_t>(ComboPhase::kSwing)) {
-			enemyAttack_->SetIsAttackJudgment(true);
 		}
 		else {
 			DontAttack();

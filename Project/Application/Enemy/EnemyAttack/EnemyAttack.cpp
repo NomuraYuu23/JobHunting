@@ -16,7 +16,7 @@ void EnemyAttack::Initialize(WorldTransform* parent)
 	radius_ = 2.0f;
 
 	// 攻撃球と手の距離
-	length_ = { 0.0f, 0.0f, 1.0f };
+	length_ = { 0.0f, 0.0f, 2.0f };
 
 	// 攻撃球のプレイヤーからのローカル位置
 	center_ = { -10000.0f,-10000.0f,-10000.0f };
@@ -51,6 +51,7 @@ void EnemyAttack::Update()
 	segment.diff_ = Vector3::Subtract(prevCenter_, center_);
 	collider_->segment_ = segment;
 	collider_->radius_ = radius_;
+	isAttackJudgment_ = true;
 
 }
 
