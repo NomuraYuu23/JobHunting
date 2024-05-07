@@ -131,5 +131,7 @@ private:
 
 	// ゲームオーバーシステム
 	std::unique_ptr<GameOverSystem> gameOverSystem_;
+	uint32_t gameOverButtonTextureHandle_;
+	uint32_t gameOverStringTextureHandle_;
 
 };

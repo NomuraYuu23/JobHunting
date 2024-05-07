@@ -63,15 +63,6 @@ private: // メンバ変数
 	std::unique_ptr<Sprite> titleSprite_;
 	uint32_t titleTextureHandle_;
 
-	// 点滅用媒介変数
-	float titleAlphaT_;
-	// 点滅用媒介変数速度
-	float titleAlphaTSpeed_;
-	// 点滅用媒介変数は増えるか
-	bool titleItIncreaseAlphaT_;
-	// 色
-	Vector4 titleColor_;
-
 	// ボタン
 	std::unique_ptr<Sprite> buttonSprite_;
 	uint32_t buttonTextureHandle_;

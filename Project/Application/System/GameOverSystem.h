@@ -1,13 +1,18 @@
 #pragma once
 #include "../../Engine/Input/Input.h"
+#include "../../Engine/2D/Sprite.h"
 class GameOverSystem
 {
 
 public: // 関数
 
-	void Initialize();
+	void Initialize(
+		uint32_t titleTextureHandle, 
+		uint32_t buttonTextureHandle);
 
 	void Update();
+
+	void UIDraw();
 
 public: // アクセッサ
 
@@ -29,6 +34,22 @@ private: // 変数
 
 	// リセット
 	bool isReset_;
+
+	// ゲームオーバーの文字
+	std::unique_ptr<Sprite> gameOverSprite_;
+	uint32_t gameOverTextureHandle_;
+
+	// ボタン
+	std::unique_ptr<Sprite> buttonSprite_;
+	uint32_t buttonTextureHandle_;
+	// 点滅用媒介変数
+	float buttonAlphaT_;
+	// 点滅用媒介変数速度
+	float buttonAlphaTSpeed_;
+	// 点滅用媒介変数は増えるか
+	bool buttonItIncreaseAlphaT_;
+	// 色
+	Vector4 buttonColor_;
 
 };
 

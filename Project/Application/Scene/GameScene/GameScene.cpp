@@ -115,7 +115,7 @@ void GameScene::Initialize() {
 	enemy_->SetPlayer(player_.get());
 
 	gameOverSystem_ = std::make_unique<GameOverSystem>();
-	gameOverSystem_->Initialize();
+	gameOverSystem_->Initialize(gameOverStringTextureHandle_, gameOverButtonTextureHandle_);
 
 }
 
@@ -308,6 +308,9 @@ void GameScene::Draw() {
 	// UIマネージャー
 	uiManager_->Draw();
 
+	if (gameOverSystem_->GetIsOperation() || isBeingReset_) {
+		gameOverSystem_->UIDraw();
+	}
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -388,6 +391,10 @@ void GameScene::TextureLoad()
 		TextureManager::Load("Resources/UI/rolling.png", dxCommon_, textureHandleManager_.get()),
 		TextureManager::Load("Resources/default/white2x2.png", dxCommon_, textureHandleManager_.get()),
 	};
+
+	// ゲームオーバー
+	gameOverButtonTextureHandle_ = TextureManager::Load("Resources/OutGame/button.png", dxCommon_, textureHandleManager_.get());
+	gameOverStringTextureHandle_ = TextureManager::Load("Resources/UI/gameOver.png", dxCommon_, textureHandleManager_.get());
 
 }
 
