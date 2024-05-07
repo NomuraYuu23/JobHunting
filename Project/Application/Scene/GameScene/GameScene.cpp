@@ -114,6 +114,9 @@ void GameScene::Initialize() {
 	enemy_->Initialize(enemyModel_.get());
 	enemy_->SetPlayer(player_.get());
 
+	gameOverSystem_ = std::make_unique<GameOverSystem>();
+	gameOverSystem_->Initialize();
+
 }
 
 /// <summary>
@@ -139,8 +142,17 @@ void GameScene::Update() {
 		requestSceneNo = kClear;
 	}
 	if (player_->GetIsDead()) {
-		//requestSceneNo = kGameOver;
-		assert(0);
+		gameOverSystem_->SetIsOperation(true);
+	}
+
+	if (gameOverSystem_->GetIsOperation()) {
+		gameOverSystem_->Update();
+		if (gameOverSystem_->GetIsReset()) {
+			resetScene_ = true;
+			isBeingReset_ = true;
+			gameOverSystem_->SetIsReset(false);
+		}
+		return;
 	}
 
 	//光源
@@ -260,6 +272,23 @@ void GameScene::Draw() {
 	ModelDraw::PostDraw();
 
 #pragma endregion
+
+
+	if (gameOverSystem_->GetIsOperation() || isBeingReset_) {
+		renderTargetTexture_->ChangePixelShaderResource(0);
+
+		PostEffect::GetInstance()->GrayScaleCommand(
+			dxCommon_->GetCommadList(),
+			0,
+			renderTargetTexture_->GetSrvGPUHandle(0)
+		);
+
+		renderTargetTexture_->ChangeRenderTarget(0);
+		renderTargetTexture_->ClearDepthBuffer();
+
+		renderTargetTexture_->TextureDraw(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+
+	}
 
 #ifdef _DEBUG
 #pragma region コライダー2d描画

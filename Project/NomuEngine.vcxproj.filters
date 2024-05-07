@@ -229,6 +229,9 @@
     <Filter Include="Application\Object\Enemy\Boss\System">
       <UniqueIdentifier>{ef7763ec-eba8-4767-bc07-73e137a978ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\System">
+      <UniqueIdentifier>{dc265678-a7c1-47a4-bfdc-6a41ffedfd1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -654,6 +657,9 @@
     </ClCompile>
     <ClCompile Include="Application\TutorialEnemy\TutorialEnemy.cpp">
       <Filter>Application\Object\Enemy\TutorialEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\GameOverSystem.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1196,6 +1202,9 @@
     </ClInclude>
     <ClInclude Include="Application\TutorialEnemy\TutorialEnemy.h">
       <Filter>Application\Object\Enemy\TutorialEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\GameOverSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

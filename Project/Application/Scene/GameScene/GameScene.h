@@ -23,6 +23,8 @@
 // エネミー
 #include "../../Enemy/Enemy.h"
 
+// ゲームオーバーシステム
+#include "../../System/GameOverSystem.h"
 
 class GameScene : public IScene
 {
@@ -127,5 +129,7 @@ private:
 	std::unique_ptr<Ground> ground_;
 	std::unique_ptr<Model> groundModel_;
 
+	// ゲームオーバーシステム
+	std::unique_ptr<GameOverSystem> gameOverSystem_;
 
 };
