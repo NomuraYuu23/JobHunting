@@ -208,6 +208,7 @@ void GameScene::Update() {
 #ifdef _DEBUG
 
 	player_->DebugDrawMap(drawLine_);
+	enemy_->DebugDrawMap(drawLine_);
 
 #endif // _DEBUG
 
