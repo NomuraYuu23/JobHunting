@@ -205,6 +205,12 @@ void GameScene::Update() {
 	//パーティクル
 	particleManager_->Update(camera_);
 
+#ifdef _DEBUG
+
+	player_->DebugDrawMap(drawLine_);
+
+#endif // _DEBUG
+
 }
 
 /// <summary>
@@ -257,6 +263,12 @@ void GameScene::Draw() {
 #endif // _DEBUG
 
 	ModelDraw::PostDraw();
+
+#pragma endregion
+
+#pragma region 線描画
+
+	drawLine_->Draw(dxCommon_->GetCommadList(), camera_);
 
 #pragma endregion
 
