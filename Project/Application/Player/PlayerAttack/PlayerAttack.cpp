@@ -2,6 +2,7 @@
 #include "../../Enemy/Enemy.h"
 #include "../../../Engine/Particle/ParticleManager.h"
 #include "../../TutorialEnemy/TutorialEnemy.h"
+#include "../../../Engine/Particle/EmitterDesc.h"
 
 void PlayerAttack::Initialize(WorldTransform* parent)
 {
@@ -104,7 +105,15 @@ void PlayerAttack::OnCollisionEnemy(ColliderParentObject colliderPartner, const 
 	enemy->Damage(damage_);
 
 	EulerTransform transform = { { 5.0f, 5.0f, 5.0f },{ 0.0f, 0.0f, 0.0f}, enemy->GetWorldTransformAdress()->GetWorldPosition() };
-	ParticleManager::GetInstance()->MakeEmitter(transform, 3, 0.005f, 0.1f, ParticleModelIndex::kCircle, ParticleName::kBloadParticle, 0);
+	EmitterDesc emitterDesc{};
+	emitterDesc.transform = &transform;
+	emitterDesc.instanceCount = 3;
+	emitterDesc.frequency = 0.005f;
+	emitterDesc.lifeTime = 0.1f;
+	emitterDesc.paeticleName = ParticleName::kBloadParticle;
+	emitterDesc.particleModelNum = ParticleModelIndex::kCircle;
+
+	ParticleManager::GetInstance()->MakeEmitter(emitterDesc, 0);
 
 }
 
@@ -123,6 +132,14 @@ void PlayerAttack::OnCollisionTutorialEnemy(ColliderParentObject colliderPartner
 	contactRecord_.AddHistory(serialNumber);
 
 	EulerTransform transform = { { 5.0f, 5.0f, 5.0f },{ 0.0f, 0.0f, 0.0f}, enemy->GetWorldTransformAdress()->GetWorldPosition() };
-	ParticleManager::GetInstance()->MakeEmitter(transform, 3, 0.005f, 0.1f, ParticleModelIndex::kCircle, ParticleName::kBloadParticle, 0);
+	EmitterDesc emitterDesc{};
+	emitterDesc.transform = &transform;
+	emitterDesc.instanceCount = 3;
+	emitterDesc.frequency = 0.005f;
+	emitterDesc.lifeTime = 0.1f;
+	emitterDesc.paeticleName = ParticleName::kBloadParticle;
+	emitterDesc.particleModelNum = ParticleModelIndex::kCircle;
+
+	ParticleManager::GetInstance()->MakeEmitter(emitterDesc, 0);
 
 }

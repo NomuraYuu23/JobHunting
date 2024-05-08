@@ -232,7 +232,6 @@ void GameScene::Draw() {
 	preDrawDesc.commandList = dxCommon_->GetCommadList();
 	preDrawDesc.directionalLight = directionalLight_.get();
 	preDrawDesc.fogManager = FogManager::GetInstance();
-	preDrawDesc.pipelineStateIndex = ModelDraw::kPipelineStateIndexAnimObject;
 	preDrawDesc.pointLightManager = pointLightManager_.get();
 	preDrawDesc.spotLightManager = spotLightManager_.get();
 	ModelDraw::PreDraw(preDrawDesc);
@@ -263,13 +262,8 @@ void GameScene::Draw() {
 
 #pragma region パーティクル描画
 
-	preDrawDesc.pipelineStateIndex = ModelDraw::kPipelineStateIndexParticle;
-	ModelDraw::PreDraw(preDrawDesc);
-
 	// パーティクルはここ
-	particleManager_->Draw(camera_.GetViewProjectionMatrix());
-
-	ModelDraw::PostDraw();
+	particleManager_->Draw(camera_.GetViewProjectionMatrix(), dxCommon_->GetCommadList());
 
 #pragma endregion
 

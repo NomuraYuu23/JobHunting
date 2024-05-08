@@ -16,24 +16,49 @@
 class GraphicsPipelineState
 {
 
-public: // 変数
+public: // サブクラス
 
-	enum PipelineStateName {
-		kPipelineStateNameModel, // モデル
-		kPipelineStateNameSprite, //スプライト
-		kPipelineStateNameParticle, // パーティクル
-		kPipelineStateNameOutLine, //アウトライン
-		kPipelineStateNameCollision2DDebugDraw, // コライダーデバッグ2D
-		kPipelineStateNameLine, // 線
-		kPipelineStateNameWindowSprite, // スワップチェーン
-		kPipelineStateNameManyModels, // たくさんのモデル
-		kPipelineStateNameOfCount // 使わない
+	// パイプラインの名前
+	enum PipelineStateIndex {
+		kPipelineStateIndexAnimModel, // アニメーションモデル
+		kPipelineStateIndexNormalModel, // アニメーション無しモデル
+		kPipelineStateIndexAnimInverseModel, // アニメーション反転モデル(右手座標系)
+		kPipelineStateIndexManyAnimModels, // たくさんのアニメーションモデル
+		kPipelineStateIndexManyNormalModels, // たくさんのアニメーション無しモデル
+
+		kPipelineStateIndexNormalOutline, // アニメーション無しモデルアウトライン
+
+		kPipelineStateIndexSprite, //スプライト
+		kPipelineStateIndexWindowSprite, // ウィンドウスプライト
+		kPipelineStateIndexLine, // 線
+		kPipelineStateIndexParticle, // パーティクル
+
+		kPipelineStateIndexCollision2DDebugDraw, // コライダーデバッグ2D
+		kPipelineStateIndexOfCount // 使わない
 	};
 
+	// 作成用引数
+	struct CreateDesc {
+		PipelineStateIndex pipelineStateIndex; // パイプラインステートの名前
+		RootParameterIndex rootParameterIndex; // ルートパラメータの名前
+		SamplerIndex samplerIndex; // サンプラーの名前
+		bool depthEnable; // 深度値をとるか
+		D3D12_DEPTH_WRITE_MASK  depthWriteMask; // 深度値マスク
+		InputLayoutIndex inputLayoutIndex; // インプットレイアウトの名前
+		BlendStateIndex blendStateIndex; // ブレンドの名前
+		D3D12_CULL_MODE cullMode; // カリング情報
+		D3D12_FILL_MODE fillMode; // ワイヤーフレームかどうか
+		std::wstring filePathVS; // 頂点シェーダの名前
+		std::wstring filePathPS; // ピクセルシェーダの名前
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE primitiveTopologyType; // 描き方（線とか三角形）
+	};
+
+public: // 変数
+
 	// ルートシグネチャ
-	static Microsoft::WRL::ComPtr<ID3D12RootSignature> sRootSignature[GraphicsPipelineState::PipelineStateName::kPipelineStateNameOfCount];
+	static Microsoft::WRL::ComPtr<ID3D12RootSignature> sRootSignature[GraphicsPipelineState::PipelineStateIndex::kPipelineStateIndexOfCount];
 	// パイプラインステートオブジェクト
-	static Microsoft::WRL::ComPtr<ID3D12PipelineState> sPipelineState[GraphicsPipelineState::PipelineStateName::kPipelineStateNameOfCount];
+	static Microsoft::WRL::ComPtr<ID3D12PipelineState> sPipelineState[GraphicsPipelineState::PipelineStateIndex::kPipelineStateIndexOfCount];
 
 public: // 関数
 
@@ -42,41 +67,6 @@ public: // 関数
 	/// </summary>
 	/// <param name="sDevice">デバイス</param>
 	static void Initialize(ID3D12Device* sDevice);
-
-private: // グラフィックスパイプライン作成関数
-
-	/// <summary>
-	/// モデル
-	/// </summary>
-	static void CreateForModel();
-	/// <summary>
-	/// スプライト
-	/// </summary>
-	static void CreateForSprite();
-	/// <summary>
-	/// パーティクル
-	/// </summary>
-	static void CreateForParticle();
-	/// <summary>
-	/// アウトライン
-	/// </summary>
-	static void CreateForOutLine();
-	/// <summary>
-	/// コライダーデバッグ2D
-	/// </summary>
-	static void CreateForCollision2DDebugDraw();
-	/// <summary>
-	/// 線
-	/// </summary>
-	static void CreateForLine();
-	/// <summary>
-	/// ポストエフェクト
-	/// </summary>
-	static void CreateForSwapChain();
-	/// <summary>
-	/// たくさんのモデル
-	/// </summary>
-	static void CreateForManyModels();
 
 private: // 以下パイプラインの変数やenum
 
@@ -87,7 +77,7 @@ private: // 以下パイプラインの変数やenum
 	/// PSO用
 	/// </summary>
 	struct CreatePSODesc {
-		PipelineStateName pipelineStateName; // パイプラインステートの名前
+		PipelineStateIndex pipelineStateIndex; // パイプラインステートの名前
 		D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{}; //InputLayout
 		IDxcBlob* vertexShaderBlob = nullptr; //VertexShader
 		IDxcBlob* pixelShaderBlob = nullptr; //PixelShader
@@ -105,12 +95,17 @@ private: // 以下パイプラインの変数やenum
 private: // パイプラインステートオブジェクト作成
 
 	/// <summary>
+	/// 作成
+	/// </summary>
+	static void Create(const CreateDesc& desc);
+
+	/// <summary>
 	/// RootSignature設定
 	/// </summary>
 	/// <param name="pipelineStateName">パイプラインステートの名前</param>
 	/// <param name="rootParameterIndex">ルートパラメータの名前</param>
 	/// <param name="samplerIndex">サンプラーの名前</param>
-	static void RootsignatureSetting(PipelineStateName pipelineStateName, D3D12_ROOT_SIGNATURE_FLAGS rootsignatureFlags,
+	static void RootsignatureSetting(PipelineStateIndex pipelineStateName, D3D12_ROOT_SIGNATURE_FLAGS rootsignatureFlags,
 		RootParameterIndex rootParameterIndex, SamplerIndex samplerIndex);
 
 	/// <summary>

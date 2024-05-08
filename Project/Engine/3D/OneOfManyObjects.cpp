@@ -15,6 +15,13 @@ void OneOfManyObjects::Initialize()
 	// 死んでいるか
 	isDead_ = false;
 
+	//	マテリアルデータ
+	materialData_.color = { 1.0f, 1.0f, 1.0f, 1.0f };
+	materialData_.enableLighting = None;
+	materialData_.shininess = 100.0f;
+	materialData_.uvTransform = Matrix4x4::MakeAffineMatrix(Vector3{ 1.0f,1.0f,1.0f }, Vector3{ 0.0f,0.0f,0.0f }, Vector3{ 0.0f,0.0f,0.0f });
+
+
 }
 
 void OneOfManyObjects::Update()
@@ -37,5 +44,16 @@ void OneOfManyObjects::Update()
 
 	// ワールド行列
 	worldMatrix_ = Matrix4x4::Multiply(scaleMatrix, Matrix4x4::Multiply(rotateMatrix_, translateMatrix));
+
+	//拡大縮小行列
+	scaleMatrix = Matrix4x4::MakeScaleMatrix(Vector3{ 1.0f,1.0f,1.0f });
+	// 親子関係用
+	parentMatrix_ = Matrix4x4::Multiply(scaleMatrix, Matrix4x4::Multiply(rotateMatrix_, translateMatrix));
+
+	// 親子関係
+	if (parent_) {
+		worldMatrix_ = Matrix4x4::Multiply(worldMatrix_, parent_->parentMatrix_);
+		parentMatrix_ = Matrix4x4::Multiply(parentMatrix_, parent_->parentMatrix_);
+	}
 
 }

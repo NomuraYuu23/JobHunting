@@ -7,6 +7,8 @@
 #include "../../../Engine/Math/Math.h"
 #include "../../../Engine/Math/Ease.h"
 
+#include "../../../Engine/Input/Input.h"
+
 void FollowCamera::Initialize() {
 
 	BaseCamera::Initialize();

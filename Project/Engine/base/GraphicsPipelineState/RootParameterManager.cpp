@@ -20,29 +20,32 @@ void RootParameterManager::Initialize()
 	DescriptorRangeInitialize();
 
 	// モデル
-	RootParameterInitializeForModel();
+	CreateForAnimModel();
+	CreateForNormalModel();
+
+	CreateForNormalOutline();
 	// スプライト
 	RootParameterInitializeForSprite();
 	// パーティクル
 	RootParameterInitializeForParticle();
-	// アウトライン
-	RootParameterInitializeForOutLine();
 	// コライダーデバッグ2D
 	RootParameterInitializeForCollision2DDebugDraw();
 	// 線
 	RootParameterInitializeForLine();
 	// スワップチェーン
 	RootParameterInitializeForSwapChain();
-	// 多くのオブジェクト
-	RootParameterInitializeForManyModels();
+	// たくさんのアニメーションモデル
+	RootParameterInitializeForManyAnimModels();
+	// たくさんのアニメーション無しモデル
+	RootParameterInitializeForManyNormalModels();
 
 }
 
-void RootParameterManager::RootParameterInitializeForModel()
+void RootParameterManager::CreateForAnimModel()
 {
 
 	//RootParameter作成
-	D3D12_ROOT_PARAMETER rootParameters[13] = {};
+	D3D12_ROOT_PARAMETER rootParameters[12] = {};
 	
 	// マテリアル
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
@@ -107,7 +110,98 @@ void RootParameterManager::RootParameterInitializeForModel()
 	rootParameters[11].Descriptor.ShaderRegister = 3;
 
 	for (uint32_t i = 0; i < _countof(rootParameters); ++i) {
-		rootParameters_[kRootParameterIndexModel].push_back(rootParameters[i]);
+		rootParameters_[kRootParameterIndexAnimModel].push_back(rootParameters[i]);
+	}
+
+}
+
+void RootParameterManager::CreateForNormalModel()
+{
+
+	//RootParameter作成
+	D3D12_ROOT_PARAMETER rootParameters[11] = {};
+
+	// マテリアル
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[0].Descriptor.ShaderRegister = 0;                   //レジスタ番号0とバインド
+
+	// 平行光源
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[1].Descriptor.ShaderRegister = 1;
+
+	// カメラ
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[2].Descriptor.ShaderRegister = 2;
+
+	// ワールドトランスフォーム
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VertexShaderで使う
+	rootParameters[3].Descriptor.ShaderRegister = 0;
+	
+	// テクスチャ
+	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[4].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexTexture0].data();//Tableの中身の配列を指定
+	rootParameters[4].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexTexture0].size());//Tableで利用する数
+
+	rootParameters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[5].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexTexture1].data();//Tableの中身の配列を指定
+	rootParameters[5].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexTexture1].size());//Tableで利用する数
+
+	rootParameters[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[6].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexTexture2].data();//Tableの中身の配列を指定
+	rootParameters[6].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexTexture2].size());//Tableで利用する数
+
+	rootParameters[7].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[7].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[7].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexTexture3].data();//Tableの中身の配列を指定
+	rootParameters[7].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexTexture3].size());//Tableで利用する数
+
+	// ポイントライト
+	rootParameters[8].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[8].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[8].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexPointLight].data();//Tableの中身の配列を指定
+	rootParameters[8].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexPointLight].size());//Tableで利用する数
+	// スポットライト
+	rootParameters[9].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[9].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[9].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexSpotLight].data();//Tableの中身の配列を指定
+	rootParameters[9].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexSpotLight].size());//Tableで利用する数
+
+	// 霧
+	rootParameters[10].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[10].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[10].Descriptor.ShaderRegister = 3;
+
+	for (uint32_t i = 0; i < _countof(rootParameters); ++i) {
+		rootParameters_[kRootParameterIndexNormalModel].push_back(rootParameters[i]);
+	}
+
+}
+
+void RootParameterManager::CreateForNormalOutline()
+{
+
+	//RootParameter作成
+	D3D12_ROOT_PARAMETER rootParameters[2] = {};
+
+	// ワールドトランスフォーム
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VertexShaderで使う
+	rootParameters[0].Descriptor.ShaderRegister = 0;
+
+	// アウトラインデータ
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VertexShaderで使う
+	rootParameters[1].Descriptor.ShaderRegister = 1;
+
+	for (uint32_t i = 0; i < _countof(rootParameters); ++i) {
+		rootParameters_[kRootParameterIndexNormalOutline].push_back(rootParameters[i]);
 	}
 
 }
@@ -171,30 +265,6 @@ void RootParameterManager::RootParameterInitializeForParticle()
 
 }
 
-void RootParameterManager::RootParameterInitializeForOutLine()
-{
-
-	//RootParameter作成。複数設定できるので配列。今回は1つだけなので長さ1の配列
-	D3D12_ROOT_PARAMETER rootParameters[3] = {};
-	//color
-	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
-	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
-	rootParameters[0].Descriptor.ShaderRegister = 0;                   //レジスタ番号0とバインド
-	//transform
-	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
-	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//PixelShaderで使う
-	rootParameters[1].Descriptor.ShaderRegister = 0;                   //レジスタ番号0とバインド
-	//lineWidth
-	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
-	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//PixelShaderで使う
-	rootParameters[2].Descriptor.ShaderRegister = 1;                   //レジスタ番号0とバインド
-
-	for (uint32_t i = 0; i < 3; ++i) {
-		rootParameters_[kRootParameterIndexOutLine].push_back(rootParameters[i]);
-	}
-
-}
-
 void RootParameterManager::RootParameterInitializeForCollision2DDebugDraw()
 {
 
@@ -207,8 +277,8 @@ void RootParameterManager::RootParameterInitializeForCollision2DDebugDraw()
 	// Collider2DDebugDrawForGPU
 	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VertexShaderで使う
-	rootParameters[1].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDexcriptorRangeIndexCollider2DDebugDrawForGPU].data();//Tableの中身の配列を指定
-	rootParameters[1].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDexcriptorRangeIndexCollider2DDebugDrawForGPU].size());//Tableで利用する数
+	rootParameters[1].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexCollider2DDebugDrawForGPU].data();//Tableの中身の配列を指定
+	rootParameters[1].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexCollider2DDebugDrawForGPU].size());//Tableで利用する数
 	// テクスチャ
 	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
@@ -231,11 +301,16 @@ void RootParameterManager::RootParameterInitializeForLine()
 {
 
 	//RootParameter作成。複数設定できるので配列。
-	D3D12_ROOT_PARAMETER rootParameters[1] = {};
+	D3D12_ROOT_PARAMETER rootParameters[2] = {};
 	// VP
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//PixelShaderで使う
 	rootParameters[0].Descriptor.ShaderRegister = 0;                   //レジスタ番号0とバインド
+	// LineForGPU
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//PixelShaderで使う
+	rootParameters[1].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexLineForGPU].data();//Tableの中身の配列を指定
+	rootParameters[1].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexLineForGPU].size());//Tableで利用する数
 
 	for (uint32_t i = 0; i < _countof(rootParameters); ++i) {
 		rootParameters_[kRootParameterIndexLine].push_back(rootParameters[i]);
@@ -261,15 +336,17 @@ void RootParameterManager::RootParameterInitializeForSwapChain()
 
 }
 
-void RootParameterManager::RootParameterInitializeForManyModels()
+void RootParameterManager::RootParameterInitializeForManyAnimModels()
 {
 
 	//RootParameter作成
-	D3D12_ROOT_PARAMETER rootParameters[13] = {};
+	D3D12_ROOT_PARAMETER rootParameters[12] = {};
 	// マテリアル
-	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
-	rootParameters[0].Descriptor.ShaderRegister = 0;                   //レジスタ番号0とバインド
+	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexMaterials].data();//Tableの中身の配列を指定
+	rootParameters[0].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexMaterials].size());//Tableで利用する数
+
 	// トランスフォームマトリックス
 	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VertexShaderで使う
@@ -299,11 +376,11 @@ void RootParameterManager::RootParameterInitializeForManyModels()
 	// 平行光源
 	rootParameters[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
 	rootParameters[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
-	rootParameters[6].Descriptor.ShaderRegister = 1;
+	rootParameters[6].Descriptor.ShaderRegister = 0;
 	// カメラ
 	rootParameters[7].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
 	rootParameters[7].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
-	rootParameters[7].Descriptor.ShaderRegister = 2;
+	rootParameters[7].Descriptor.ShaderRegister = 1;
 	// ポイントライト
 	rootParameters[8].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[8].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
@@ -317,16 +394,83 @@ void RootParameterManager::RootParameterInitializeForManyModels()
 	// ワールドトランスフォーム
 	rootParameters[10].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[10].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VertexShaderで使う
-	rootParameters[10].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDexcriptorRangeIndexTransformationMatrix].data();//Tableの中身の配列を指定
-	rootParameters[10].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDexcriptorRangeIndexTransformationMatrix].size());//Tableで利用する数
+	rootParameters[10].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexTransformationMatrix].data();//Tableの中身の配列を指定
+	rootParameters[10].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexTransformationMatrix].size());//Tableで利用する数
 
 	// 霧
 	rootParameters[11].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
 	rootParameters[11].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
-	rootParameters[11].Descriptor.ShaderRegister = 3;
+	rootParameters[11].Descriptor.ShaderRegister = 2;
 
 	for (uint32_t i = 0; i < _countof(rootParameters); ++i) {
-		rootParameters_[kRootParameterIndexManyModels].push_back(rootParameters[i]);
+		rootParameters_[kRootParameterIndexManyAnimModels].push_back(rootParameters[i]);
+	}
+
+}
+
+void RootParameterManager::RootParameterInitializeForManyNormalModels()
+{
+
+	//RootParameter作成
+	D3D12_ROOT_PARAMETER rootParameters[11] = {};
+	// マテリアル
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexMaterials].data();//Tableの中身の配列を指定
+	rootParameters[0].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexMaterials].size());//Tableで利用する数
+
+	// テクスチャ
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[1].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexTexture0].data();//Tableの中身の配列を指定
+	rootParameters[1].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexTexture0].size());//Tableで利用する数
+
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[2].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexTexture1].data();//Tableの中身の配列を指定
+	rootParameters[2].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexTexture1].size());//Tableで利用する数
+
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[3].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexTexture2].data();//Tableの中身の配列を指定
+	rootParameters[3].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexTexture2].size());//Tableで利用する数
+
+	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[4].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexTexture3].data();//Tableの中身の配列を指定
+	rootParameters[4].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexTexture3].size());//Tableで利用する数
+
+	// 平行光源
+	rootParameters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[5].Descriptor.ShaderRegister = 0;
+	// カメラ
+	rootParameters[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[6].Descriptor.ShaderRegister = 1;
+	// ポイントライト
+	rootParameters[7].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[7].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[7].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexPointLight].data();//Tableの中身の配列を指定
+	rootParameters[7].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexPointLight].size());//Tableで利用する数
+	// スポットライト
+	rootParameters[8].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[8].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[8].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexSpotLight].data();//Tableの中身の配列を指定
+	rootParameters[8].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexSpotLight].size());//Tableで利用する数
+	// ワールドトランスフォーム
+	rootParameters[9].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[9].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VertexShaderで使う
+	rootParameters[9].DescriptorTable.pDescriptorRanges = descriptorRanges_[kDescriptorRangeIndexTransformationMatrix].data();//Tableの中身の配列を指定
+	rootParameters[9].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[kDescriptorRangeIndexTransformationMatrix].size());//Tableで利用する数
+
+	// 霧
+	rootParameters[10].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[10].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[10].Descriptor.ShaderRegister = 2;
+
+	for (uint32_t i = 0; i < _countof(rootParameters); ++i) {
+		rootParameters_[kRootParameterIndexManyNormalModels].push_back(rootParameters[i]);
 	}
 
 }
@@ -404,7 +548,7 @@ void RootParameterManager::DescriptorRangeInitialize()
 	descriptorRangeForCollider2DDebugDrawForGPU[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRVを使う
 	descriptorRangeForCollider2DDebugDrawForGPU[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
-	descriptorRanges_[kDexcriptorRangeIndexCollider2DDebugDrawForGPU].push_back(descriptorRangeForCollider2DDebugDrawForGPU[0]);
+	descriptorRanges_[kDescriptorRangeIndexCollider2DDebugDrawForGPU].push_back(descriptorRangeForCollider2DDebugDrawForGPU[0]);
 
 	D3D12_DESCRIPTOR_RANGE descriptorRangeForTransformMatrix[1] = {};
 	descriptorRangeForTransformMatrix[0].BaseShaderRegister = 1;//0から始まる
@@ -412,6 +556,22 @@ void RootParameterManager::DescriptorRangeInitialize()
 	descriptorRangeForTransformMatrix[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRVを使う
 	descriptorRangeForTransformMatrix[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
-	descriptorRanges_[kDexcriptorRangeIndexTransformationMatrix].push_back(descriptorRangeForTransformMatrix[0]);
+	descriptorRanges_[kDescriptorRangeIndexTransformationMatrix].push_back(descriptorRangeForTransformMatrix[0]);
+
+	D3D12_DESCRIPTOR_RANGE descriptorRangeForLineForGPU[1] = {};
+	descriptorRangeForLineForGPU[0].BaseShaderRegister = 0;//0から始まる
+	descriptorRangeForLineForGPU[0].NumDescriptors = 1;//数は一つ
+	descriptorRangeForLineForGPU[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRVを使う
+	descriptorRangeForLineForGPU[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	descriptorRanges_[kDescriptorRangeIndexLineForGPU].push_back(descriptorRangeForLineForGPU[0]);
+
+	D3D12_DESCRIPTOR_RANGE descriptorRangeForMaterials[1] = {};
+	descriptorRangeForMaterials[0].BaseShaderRegister = 6;//0から始まる
+	descriptorRangeForMaterials[0].NumDescriptors = 1;//数は一つ
+	descriptorRangeForMaterials[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRVを使う
+	descriptorRangeForMaterials[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	descriptorRanges_[kDescriptorRangeIndexMaterials].push_back(descriptorRangeForMaterials[0]);
 
 }

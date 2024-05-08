@@ -1,4 +1,4 @@
-#include "Object3d.hlsli"
+#include "Model.hlsli"
 
 Texture2D<float32_t4> gTexture : register(t0);
 Texture2D<float32_t4> gTexture1 : register(t1);

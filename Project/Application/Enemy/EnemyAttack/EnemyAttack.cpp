@@ -1,5 +1,6 @@
 #include "EnemyAttack.h"
 #include "../../Player/Player.h"
+#include "../../../Engine/Particle/EmitterDesc.h"
 
 void EnemyAttack::Initialize(WorldTransform* parent)
 {
@@ -106,6 +107,15 @@ void EnemyAttack::OnCollisionPlayer(ColliderParentObject colliderPartner, const 
 	player->Damage(damage_);
 
 	EulerTransform transform = { { 5.0f, 5.0f, 5.0f },{ 0.0f, 0.0f, 0.0f}, player->GetWorldTransformAdress()->GetWorldPosition() };
-	ParticleManager::GetInstance()->MakeEmitter(transform, 3, 0.005f, 0.2f, ParticleModelIndex::kCircle, ParticleName::kBloadParticle, 0);
+
+	EmitterDesc emitterDesc{};
+	emitterDesc.transform = &transform;
+	emitterDesc.instanceCount = 3;
+	emitterDesc.frequency = 0.005f;
+	emitterDesc.lifeTime = 0.2f;
+	emitterDesc.paeticleName = ParticleName::kBloadParticle;
+	emitterDesc.particleModelNum = ParticleModelIndex::kCircle;
+
+	ParticleManager::GetInstance()->MakeEmitter(emitterDesc, 0);
 
 }

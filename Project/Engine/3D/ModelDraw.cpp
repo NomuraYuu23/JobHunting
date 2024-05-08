@@ -19,6 +19,8 @@ PointLightManager* ModelDraw::sPointLightManager_ = nullptr;
 SpotLightManager* ModelDraw::sSpotLightManager_ = nullptr;
 // 霧マネージャー
 FogManager* ModelDraw::sFogManager_ = nullptr;
+// 現在のパイプライン番号
+ModelDraw::PipelineStateIndex ModelDraw::currentPipelineStateIndex_ = kPipelineStateIndexOfCount;
 
 void ModelDraw::Initialize(
 	const std::array<ID3D12RootSignature*, PipelineStateIndex::kPipelineStateIndexOfCount>& rootSignature,
@@ -39,10 +41,6 @@ void ModelDraw::PreDraw(const PreDrawDesc& desc)
 	assert(sCommandList == nullptr);
 
 	sCommandList = desc.commandList;
-
-	//RootSignatureを設定。
-	sCommandList->SetPipelineState(sPipelineState[desc.pipelineStateIndex]);//PS0を設定
-	sCommandList->SetGraphicsRootSignature(sRootSignature[desc.pipelineStateIndex]);
 
 	// SRV
 	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
@@ -69,6 +67,8 @@ void ModelDraw::PostDraw()
 	sSpotLightManager_ = nullptr;
 	sFogManager_ = nullptr;
 
+	currentPipelineStateIndex_ = kPipelineStateIndexOfCount;
+
 }
 
 void ModelDraw::AnimObjectDraw(AnimObjectDesc& desc)
@@ -79,6 +79,13 @@ void ModelDraw::AnimObjectDraw(AnimObjectDesc& desc)
 
 	// ワールドトランスフォームマップ処理
 	desc.worldTransform->Map(desc.camera->GetViewProjectionMatrix());
+
+	// パイプライン設定
+	if (currentPipelineStateIndex_ != kPipelineStateIndexAnimModel) {
+		sCommandList->SetPipelineState(sPipelineState[kPipelineStateIndexAnimModel]);//PS0を設定
+		sCommandList->SetGraphicsRootSignature(sRootSignature[kPipelineStateIndexAnimModel]);
+		currentPipelineStateIndex_ = kPipelineStateIndexAnimModel;
+	}
 
 	//VBVを設定 (インフルエンスと合体)
 	D3D12_VERTEX_BUFFER_VIEW vbvs[2] = {
@@ -138,38 +145,87 @@ void ModelDraw::AnimObjectDraw(AnimObjectDesc& desc)
 
 }
 
-void ModelDraw::ParticleDraw(ParticleDesc& desc)
+void ModelDraw::NormalObjectDraw(NormalObjectDesc& desc)
 {
+
 	// nullptrチェック
 	assert(sCommandList);
 
-	ParticleManager* particleManager = ParticleManager::GetInstance();
+	// ワールドトランスフォームマップ処理
+	desc.worldTransform->Map(desc.camera->GetViewProjectionMatrix());
 
-	sCommandList->IASetVertexBuffers(0, 1, desc.model->GetMesh()->GetVbView()); //VBVを設定
-
-	//マテリアルを設定
-	sCommandList->SetGraphicsRootConstantBufferView(0, Model::GetDefaultMaterial()->GetMaterialBuff()->GetGPUVirtualAddress());
-
-	// 開始位置を設定
-	sCommandList->SetGraphicsRootConstantBufferView(3, particleManager->GetCurrentStartInstanceIdBuff()->GetGPUVirtualAddress());
-
-	//SRVのDescriptorTableの先頭を設定。2はrootParamenter[2]である
-	for (size_t i = 0; i < desc.model->GetModelData().material.textureFilePaths.size(); ++i) {
-		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(sCommandList, 2, desc.model->GetTextureHandles()[i]);
+	// パイプライン設定
+	if (currentPipelineStateIndex_ != kPipelineStateIndexNormalModel) {
+		sCommandList->SetPipelineState(sPipelineState[kPipelineStateIndexNormalModel]);//PS0を設定
+		sCommandList->SetGraphicsRootSignature(sRootSignature[kPipelineStateIndexNormalModel]);
+		currentPipelineStateIndex_ = kPipelineStateIndexNormalModel;
 	}
 
-	sCommandList->SetGraphicsRootDescriptorTable(1, particleManager->GetInstancingSrvHandleGPU());
+	sCommandList->IASetVertexBuffers(0, 1, desc.model->GetMesh()->GetVbView());
+
+	//マテリアルCBufferの場所を設定
+	if (desc.material) {
+		sCommandList->SetGraphicsRootConstantBufferView(0, desc.material->GetMaterialBuff()->GetGPUVirtualAddress());
+	}
+	else {
+		sCommandList->SetGraphicsRootConstantBufferView(0, Model::GetDefaultMaterial()->GetMaterialBuff()->GetGPUVirtualAddress());
+	}
+
+	// 平行光源
+	if (sDirectionalLight_) {
+		sDirectionalLight_->Draw(sCommandList, 1);
+	}
+
+	// カメラCBufferの場所を設定
+	sCommandList->SetGraphicsRootConstantBufferView(2, desc.camera->GetWorldPositionBuff()->GetGPUVirtualAddress());
+
+	// ワールドトランスフォーム
+	sCommandList->SetGraphicsRootConstantBufferView(3, desc.worldTransform->GetTransformationMatrixBuff()->GetGPUVirtualAddress());
+
+	//テクスチャ
+	if (desc.textureHandles.empty()) {
+		for (size_t i = 0; i < desc.model->GetModelData().material.textureFilePaths.size(); ++i) {
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(sCommandList, 4 + static_cast<UINT>(i), desc.model->GetTextureHandles()[i]);
+		}
+	}
+	else {
+		for (size_t i = 0; i < desc.textureHandles.size(); ++i) {
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(sCommandList, 4 + static_cast<UINT>(i), desc.textureHandles[i]);
+		}
+	}
+
+	// ポイントライト
+	if (sPointLightManager_) {
+		sPointLightManager_->Draw(sCommandList, 8);
+	}
+	// スポットライト
+	if (sSpotLightManager_) {
+		sSpotLightManager_->Draw(sCommandList, 9);
+	}
+
+	// 霧
+	sCommandList->SetGraphicsRootConstantBufferView(10, sFogManager_->GetFogDataBuff()->GetGPUVirtualAddress());
 
 	//描画
-	sCommandList->DrawInstanced(UINT(desc.model->GetModelData().vertices.size()), particleManager->GetCurrentInstanceIndex(), 0, 0);
+	sCommandList->DrawInstanced(UINT(desc.model->GetModelData().vertices.size()), 1, 0, 0);
 
 }
 
-void ModelDraw::ManyAnimObjectsDraw(ManyAnimObjectsDesc& desc)
+void ModelDraw::AnimInverseObjectDraw(AnimObjectDesc& desc)
 {
 
 	// nullptrチェック
 	assert(sCommandList);
+
+	// ワールドトランスフォームマップ処理
+	desc.worldTransform->Map(desc.camera->GetViewProjectionMatrix());
+
+	// パイプライン設定
+	if (currentPipelineStateIndex_ != kPipelineStateIndexAnimInverseModel) {
+		sCommandList->SetPipelineState(sPipelineState[kPipelineStateIndexAnimInverseModel]);//PS0を設定
+		sCommandList->SetGraphicsRootSignature(sRootSignature[kPipelineStateIndexAnimInverseModel]);
+		currentPipelineStateIndex_ = kPipelineStateIndexAnimInverseModel;
+	}
 
 	//VBVを設定 (インフルエンスと合体)
 	D3D12_VERTEX_BUFFER_VIEW vbvs[2] = {
@@ -186,13 +242,86 @@ void ModelDraw::ManyAnimObjectsDraw(ManyAnimObjectsDesc& desc)
 		sCommandList->SetGraphicsRootConstantBufferView(0, Model::GetDefaultMaterial()->GetMaterialBuff()->GetGPUVirtualAddress());
 	}
 
+	// 平行光源
+	if (sDirectionalLight_) {
+		sDirectionalLight_->Draw(sCommandList, 1);
+	}
+
+	// カメラCBufferの場所を設定
+	sCommandList->SetGraphicsRootConstantBufferView(2, desc.camera->GetWorldPositionBuff()->GetGPUVirtualAddress());
+
+	// ワールドトランスフォーム
+	sCommandList->SetGraphicsRootConstantBufferView(3, desc.worldTransform->GetTransformationMatrixBuff()->GetGPUVirtualAddress());
+
+	// ローカル行列
+	desc.localMatrixManager->SetGraphicsRootDescriptorTable(sCommandList, 4);
+
+	//テクスチャ
+	if (desc.textureHandles.empty()) {
+		for (size_t i = 0; i < desc.model->GetModelData().material.textureFilePaths.size(); ++i) {
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(sCommandList, 5 + static_cast<UINT>(i), desc.model->GetTextureHandles()[i]);
+		}
+	}
+	else {
+		for (size_t i = 0; i < desc.textureHandles.size(); ++i) {
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(sCommandList, 5 + static_cast<UINT>(i), desc.textureHandles[i]);
+		}
+	}
+
+	// ポイントライト
+	if (sPointLightManager_) {
+		sPointLightManager_->Draw(sCommandList, 9);
+	}
+	// スポットライト
+	if (sSpotLightManager_) {
+		sSpotLightManager_->Draw(sCommandList, 10);
+	}
+
+	// 霧
+	sCommandList->SetGraphicsRootConstantBufferView(11, sFogManager_->GetFogDataBuff()->GetGPUVirtualAddress());
+
+	//描画
+	sCommandList->DrawInstanced(UINT(desc.model->GetModelData().vertices.size()), 1, 0, 0);
+
+}
+
+void ModelDraw::ManyAnimObjectsDraw(ManyAnimObjectsDesc& desc)
+{
+
+	// nullptrチェック
+	assert(sCommandList);
+
+	// パイプライン設定
+	if (currentPipelineStateIndex_ != kPipelineStateIndexManyAnimObjects) {
+		sCommandList->SetPipelineState(sPipelineState[kPipelineStateIndexManyAnimObjects]);//PS0を設定
+		sCommandList->SetGraphicsRootSignature(sRootSignature[kPipelineStateIndexManyAnimObjects]);
+		currentPipelineStateIndex_ = kPipelineStateIndexManyAnimObjects;
+	}
+
+	//VBVを設定 (インフルエンスと合体)
+	D3D12_VERTEX_BUFFER_VIEW vbvs[2] = {
+		*(desc.model->GetMesh())->GetVbView(),
+		*(desc.model->GetMesh())->GetInfluenceView()
+	};
+	sCommandList->IASetVertexBuffers(0, 2, vbvs);
+
+	// マテリアル
+	sCommandList->SetGraphicsRootDescriptorTable(0, *desc.materialsHandle);
+
 	// カメラCBufferの場所を設定
 	sCommandList->SetGraphicsRootConstantBufferView(7, desc.camera->GetWorldPositionBuff()->GetGPUVirtualAddress());
 
 
-	//SRVのDescriptorTableの先頭を設定。2はrootParamenter[2]である
-	for (size_t i = 0; i < desc.model->GetModelData().material.textureFilePaths.size(); ++i) {
-		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(sCommandList, 2 + static_cast<UINT>(i), desc.model->GetTextureHandles()[i]);
+	//テクスチャ
+	if (desc.textureHandles.empty()) {
+		for (size_t i = 0; i < desc.model->GetModelData().material.textureFilePaths.size(); ++i) {
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(sCommandList, 2 + static_cast<UINT>(i), desc.model->GetTextureHandles()[i]);
+		}
+	}
+	else {
+		for (size_t i = 0; i < desc.textureHandles.size(); ++i) {
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(sCommandList, 2 + static_cast<UINT>(i), desc.textureHandles[i]);
+		}
 	}
 
 	// ポイントライト
@@ -217,5 +346,92 @@ void ModelDraw::ManyAnimObjectsDraw(ManyAnimObjectsDesc& desc)
 
 	//描画
 	sCommandList->DrawInstanced(UINT(desc.model->GetModelData().vertices.size()), desc.numInstance, 0, 0);
+
+}
+
+void ModelDraw::ManyNormalObjectsDraw(ManyNormalObjectsDesc& desc) {
+
+
+	// nullptrチェック
+	assert(sCommandList);
+
+	// パイプライン設定
+	if (currentPipelineStateIndex_ != kPipelineStateIndexManyNormalObjects) {
+		sCommandList->SetPipelineState(sPipelineState[kPipelineStateIndexManyNormalObjects]);//PS0を設定
+		sCommandList->SetGraphicsRootSignature(sRootSignature[kPipelineStateIndexManyNormalObjects]);
+		currentPipelineStateIndex_ = kPipelineStateIndexManyNormalObjects;
+	}
+
+	//VBVを設定 (インフルエンスと合体)
+	D3D12_VERTEX_BUFFER_VIEW vbvs[2] = {
+		*(desc.model->GetMesh())->GetVbView(),
+		*(desc.model->GetMesh())->GetInfluenceView()
+	};
+	sCommandList->IASetVertexBuffers(0, 2, vbvs);
+
+	// マテリアル
+	sCommandList->SetGraphicsRootDescriptorTable(0, *desc.materialsHandle);
+
+	// カメラCBufferの場所を設定
+	sCommandList->SetGraphicsRootConstantBufferView(6, desc.camera->GetWorldPositionBuff()->GetGPUVirtualAddress());
+
+
+	//テクスチャ
+	if (desc.textureHandles.empty()) {
+		for (size_t i = 0; i < desc.model->GetModelData().material.textureFilePaths.size(); ++i) {
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(sCommandList, 1 + static_cast<UINT>(i), desc.model->GetTextureHandles()[i]);
+		}
+	}
+	else {
+		for (size_t i = 0; i < desc.textureHandles.size(); ++i) {
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(sCommandList, 1 + static_cast<UINT>(i), desc.textureHandles[i]);
+		}
+	}
+
+	// ポイントライト
+	if (sPointLightManager_) {
+		sPointLightManager_->Draw(sCommandList, 7);
+	}
+	// スポットライト
+	if (sSpotLightManager_) {
+		sSpotLightManager_->Draw(sCommandList, 8);
+	}
+	// 平行光源
+	if (sDirectionalLight_) {
+		sDirectionalLight_->Draw(sCommandList, 5);
+	}
+
+	// ワールドトランスフォーム
+	sCommandList->SetGraphicsRootDescriptorTable(9, *desc.transformationMatrixesHandle);
+	// 霧
+	sCommandList->SetGraphicsRootConstantBufferView(10, sFogManager_->GetFogDataBuff()->GetGPUVirtualAddress());
+
+	//描画
+	sCommandList->DrawInstanced(UINT(desc.model->GetModelData().vertices.size()), desc.numInstance, 0, 0);
+
+}
+
+void ModelDraw::NormalOutlineDraw(NormalOutlineDesc& desc)
+{
+
+	// nullptrチェック
+	assert(sCommandList);
+
+	// パイプライン設定
+	if (currentPipelineStateIndex_ != kPipelineStateIndexNormalOutline) {
+		sCommandList->SetPipelineState(sPipelineState[kPipelineStateIndexNormalOutline]);//PS0を設定
+		sCommandList->SetGraphicsRootSignature(sRootSignature[kPipelineStateIndexNormalOutline]);
+		currentPipelineStateIndex_ = kPipelineStateIndexNormalOutline;
+	}
+
+	sCommandList->IASetVertexBuffers(0, 1, desc.model->GetMesh()->GetVbView());
+
+	// ワールドトランスフォーム
+	sCommandList->SetGraphicsRootConstantBufferView(0, desc.worldTransform->GetTransformationMatrixBuff()->GetGPUVirtualAddress());
+	// アウトライン
+	sCommandList->SetGraphicsRootConstantBufferView(1, desc.outline->GetOutlineDataBuff()->GetGPUVirtualAddress());
+
+	//描画
+	sCommandList->DrawInstanced(UINT(desc.model->GetModelData().vertices.size()), 1, 0, 0);
 
 }

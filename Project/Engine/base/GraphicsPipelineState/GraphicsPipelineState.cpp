@@ -5,9 +5,9 @@
 using namespace Microsoft::WRL;
 
 // ルートシグネチャ
-Microsoft::WRL::ComPtr<ID3D12RootSignature> GraphicsPipelineState::sRootSignature[GraphicsPipelineState::PipelineStateName::kPipelineStateNameOfCount];
+Microsoft::WRL::ComPtr<ID3D12RootSignature> GraphicsPipelineState::sRootSignature[GraphicsPipelineState::PipelineStateIndex::kPipelineStateIndexOfCount];
 // パイプラインステートオブジェクト
-Microsoft::WRL::ComPtr<ID3D12PipelineState> GraphicsPipelineState::sPipelineState[GraphicsPipelineState::PipelineStateName::kPipelineStateNameOfCount];
+Microsoft::WRL::ComPtr<ID3D12PipelineState> GraphicsPipelineState::sPipelineState[GraphicsPipelineState::PipelineStateIndex::kPipelineStateIndexOfCount];
 // デバイス
 ID3D12Device* GraphicsPipelineState::sDevice_;
 
@@ -28,59 +28,209 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 
 	// パイプラインステート作る
 
-	CreateForModel();
+	// 引数
+	CreateDesc desc;
 
-	CreateForSprite();
+	// アニメーションモデル
+	desc.pipelineStateIndex = kPipelineStateIndexAnimModel;
+	desc.rootParameterIndex = kRootParameterIndexAnimModel;
+	desc.samplerIndex = kSamplerIndexNormal;
+	desc.depthEnable = true;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	desc.inputLayoutIndex = kInputLayoutIndexModel;
+	desc.blendStateIndex = kBlendStateIndexNormal;
+	desc.cullMode = D3D12_CULL_MODE_BACK;
+	desc.fillMode = D3D12_FILL_MODE_SOLID;
+	desc.filePathVS = L"Resources/shaders/AnimModel.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/Model.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	Create(desc);
 
-	CreateForParticle();
+	// アニメーション無しモデル
+	desc.pipelineStateIndex = kPipelineStateIndexNormalModel;
+	desc.rootParameterIndex = kRootParameterIndexNormalModel;
+	desc.samplerIndex = kSamplerIndexNormal;
+	desc.depthEnable = true;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	desc.inputLayoutIndex = kInputLayoutIndexNormal;
+	desc.blendStateIndex = kBlendStateIndexNormal;
+	desc.cullMode = D3D12_CULL_MODE_BACK;
+	desc.fillMode = D3D12_FILL_MODE_SOLID;
+	desc.filePathVS = L"Resources/shaders/NormalModel.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/Model.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	Create(desc);
 
-	CreateForOutLine();
+	// アニメーション反転モデル(右手座標系)
+	desc.pipelineStateIndex = kPipelineStateIndexAnimInverseModel;
+	desc.rootParameterIndex = kRootParameterIndexAnimModel;
+	desc.samplerIndex = kSamplerIndexNormal;
+	desc.depthEnable = true;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	desc.inputLayoutIndex = kInputLayoutIndexModel;
+	desc.blendStateIndex = kBlendStateIndexNormal;
+	desc.cullMode = D3D12_CULL_MODE_FRONT;
+	desc.fillMode = D3D12_FILL_MODE_SOLID;
+	desc.filePathVS = L"Resources/shaders/AnimInverseModel.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/Model.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	Create(desc);
 
-	CreateForCollision2DDebugDraw();
+	// アニメーションモデル
+	desc.pipelineStateIndex = kPipelineStateIndexNormalOutline;
+	desc.rootParameterIndex = kRootParameterIndexNormalOutline;
+	desc.samplerIndex = kSamplerIndexNormal;
+	desc.depthEnable = false;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	desc.inputLayoutIndex = kInputLayoutIndexNormal;
+	desc.blendStateIndex = kBlendStateIndexNormal;
+	desc.cullMode = D3D12_CULL_MODE_BACK;
+	desc.fillMode = D3D12_FILL_MODE_SOLID;
+	desc.filePathVS = L"Resources/shaders/Outline.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/Outline.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	Create(desc);
 
-	CreateForLine();
+	// スプライト
+	desc.pipelineStateIndex = kPipelineStateIndexSprite;
+	desc.rootParameterIndex = kRootParameterIndexSprite;
+	desc.samplerIndex = kSamplerIndexNormal;
+	desc.depthEnable = true;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	desc.inputLayoutIndex = kInputLayoutIndexNormal;
+	desc.blendStateIndex = kBlendStateIndexNormal;
+	desc.cullMode = D3D12_CULL_MODE_NONE;
+	desc.fillMode = D3D12_FILL_MODE_SOLID;
+	desc.filePathVS = L"Resources/shaders/Sprite.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/Sprite.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	Create(desc);
 
-	CreateForSwapChain();
+	// パーティクル
+	desc.pipelineStateIndex = kPipelineStateIndexParticle;
+	desc.rootParameterIndex = kRootParameterIndexParticle;
+	desc.samplerIndex = kSamplerIndexNormal;
+	desc.depthEnable = true;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	desc.inputLayoutIndex = kInputLayoutIndexNormal;
+	desc.blendStateIndex = kBlendStateIndexAdd;
+	desc.cullMode = D3D12_CULL_MODE_BACK;
+	desc.fillMode = D3D12_FILL_MODE_SOLID;
+	desc.filePathVS = L"Resources/shaders/Particle.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/Particle.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	Create(desc);
 
-	CreateForManyModels();
+	// 2Dコライダーデバッグ
+	desc.pipelineStateIndex = kPipelineStateIndexCollision2DDebugDraw;
+	desc.rootParameterIndex = kRootParameterIndexCollision2DDebugDraw;
+	desc.samplerIndex = kSamplerIndexNormal;
+	desc.depthEnable = false;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	desc.inputLayoutIndex = kInputLayoutIndexNormal;
+	desc.blendStateIndex = kBlendStateIndexAdd;
+	desc.cullMode = D3D12_CULL_MODE_BACK;
+	desc.fillMode = D3D12_FILL_MODE_SOLID;
+	desc.filePathVS = L"Resources/shaders/Collider2DDebug.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/Collider2DDebug.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	Create(desc);
+
+	// 線
+	desc.pipelineStateIndex = kPipelineStateIndexLine;
+	desc.rootParameterIndex = kRootParameterIndexLine;
+	desc.samplerIndex = kSamplerIndexNormal;
+	desc.depthEnable = false;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	desc.inputLayoutIndex = kInputLayoutIndexNone;
+	desc.blendStateIndex = kBlendStateIndexNormal;
+	desc.cullMode = D3D12_CULL_MODE_NONE;
+	desc.fillMode = D3D12_FILL_MODE_WIREFRAME;
+	desc.filePathVS = L"Resources/shaders/Line.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/Line.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+	Create(desc);
+
+	// ウィンドウスプライト
+	desc.pipelineStateIndex = kPipelineStateIndexWindowSprite;
+	desc.rootParameterIndex = kRootParameterIndexWindowSprite;
+	desc.samplerIndex = kSamplerIndexPostEffect;
+	desc.depthEnable = false;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	desc.inputLayoutIndex = kInputLayoutIndexNone;
+	desc.blendStateIndex = kBlendStateIndexNormal;
+	desc.cullMode = D3D12_CULL_MODE_NONE;
+	desc.fillMode = D3D12_FILL_MODE_SOLID;
+	desc.filePathVS = L"Resources/shaders/WindowSprite.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/WindowSprite.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	Create(desc);
+
+	// たくさんのアニメーションモデル
+	desc.pipelineStateIndex = kPipelineStateIndexManyAnimModels;
+	desc.rootParameterIndex = kRootParameterIndexManyAnimModels;
+	desc.samplerIndex = kSamplerIndexNormal;
+	desc.depthEnable = true;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	desc.inputLayoutIndex = kInputLayoutIndexModel;
+	desc.blendStateIndex = kBlendStateIndexNormal;
+	desc.cullMode = D3D12_CULL_MODE_BACK;
+	desc.fillMode = D3D12_FILL_MODE_SOLID;
+	desc.filePathVS = L"Resources/shaders/ManyAnimModels.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/ManyModels.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	Create(desc);
+
+	// たくさんのアニメーション無しモデル
+	desc.pipelineStateIndex = kPipelineStateIndexManyNormalModels;
+	desc.rootParameterIndex = kRootParameterIndexManyNormalModels;
+	desc.samplerIndex = kSamplerIndexNormal;
+	desc.depthEnable = true;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	desc.inputLayoutIndex = kInputLayoutIndexNormal;
+	desc.blendStateIndex = kBlendStateIndexNormal;
+	desc.cullMode = D3D12_CULL_MODE_BACK;
+	desc.fillMode = D3D12_FILL_MODE_SOLID;
+	desc.filePathVS = L"Resources/shaders/ManyNormalModels.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/ManyModels.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	Create(desc);
 
 }
 
-void GraphicsPipelineState::CreateForModel()
+void GraphicsPipelineState::Create(const CreateDesc& desc)
 {
 
 	CreatePSODesc createPSODesc;
 
 	RootsignatureSetting(
-		kPipelineStateNameModel,
+		desc.pipelineStateIndex,
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT,
-		kRootParameterIndexModel,
-		kSamplerIndexNormal);
+		desc.rootParameterIndex,
+		desc.samplerIndex);
 
-	createPSODesc.pipelineStateName = kPipelineStateNameModel;
+	createPSODesc.pipelineStateIndex = desc.pipelineStateIndex;
 
 	createPSODesc.depthStencilState = DepthStencilStateSetting(
-		true,
-		D3D12_DEPTH_WRITE_MASK_ALL,
+		desc.depthEnable,
+		desc.depthWriteMask,
 		D3D12_COMPARISON_FUNC_LESS_EQUAL);
 
 	createPSODesc.inputLayoutDesc = InputLayoutSetting(
-		kInputLayoutIndexModel);
+		desc.inputLayoutIndex);
 
-	createPSODesc.blendDesc = BlendStateSetting(kBlendStateIndexNormal);
+	createPSODesc.blendDesc = BlendStateSetting(desc.blendStateIndex);
 
-	createPSODesc.rasterizerDesc = ResiterzerStateSetting(D3D12_CULL_MODE_BACK, D3D12_FILL_MODE_SOLID);
+	createPSODesc.rasterizerDesc = ResiterzerStateSetting(desc.cullMode, desc.fillMode);
 
-	createPSODesc.vertexShaderBlob = CompileShader::Compile(L"Resources/shaders/Object3d.vs.hlsl",
-		L"vs_6_0");
-	createPSODesc.pixelShaderBlob = CompileShader::Compile(L"Resources/shaders/Object3d.PS.hlsl",
-		L"ps_6_0");
+	createPSODesc.vertexShaderBlob = CompileShader::Compile(desc.filePathVS, L"vs_6_0");
+	createPSODesc.pixelShaderBlob = CompileShader::Compile(desc.filePathPS, L"ps_6_0");
 
 	//書き込むRTVの情報
 	createPSODesc.numRenderTargets = 1;
 	createPSODesc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	//利用するトポロジ(形状)のタイプ。
-	createPSODesc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	createPSODesc.primitiveTopologyType = desc.primitiveTopologyType;
 
 	//どのように画面に色を打ち込むのかの設定
 	createPSODesc.sampleDescCount = 1;
@@ -93,336 +243,7 @@ void GraphicsPipelineState::CreateForModel()
 
 }
 
-void GraphicsPipelineState::CreateForSprite()
-{
-
-	CreatePSODesc createPSODesc;
-
-	RootsignatureSetting(
-		kPipelineStateNameSprite,
-		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT,
-		kRootParameterIndexSprite,
-		kSamplerIndexNormal);
-
-	createPSODesc.pipelineStateName = kPipelineStateNameSprite;
-
-	createPSODesc.depthStencilState = DepthStencilStateSetting(
-		true,
-		D3D12_DEPTH_WRITE_MASK_ALL,
-		D3D12_COMPARISON_FUNC_LESS_EQUAL);
-
-	createPSODesc.inputLayoutDesc = InputLayoutSetting(
-		kInputLayoutIndexNormal);
-
-	createPSODesc.blendDesc = BlendStateSetting(kBlendStateIndexNormal);
-
-	createPSODesc.rasterizerDesc = ResiterzerStateSetting(D3D12_CULL_MODE_NONE, D3D12_FILL_MODE_SOLID);
-
-	createPSODesc.vertexShaderBlob = CompileShader::Compile(L"Resources/shaders/Sprite.vs.hlsl",
-		L"vs_6_0");
-	createPSODesc.pixelShaderBlob = CompileShader::Compile(L"Resources/shaders/Sprite.PS.hlsl",
-		L"ps_6_0");
-
-	//書き込むRTVの情報
-	createPSODesc.numRenderTargets = 1;
-	createPSODesc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	//利用するトポロジ(形状)のタイプ。
-	createPSODesc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
-	//どのように画面に色を打ち込むのかの設定
-	createPSODesc.sampleDescCount = 1;
-	createPSODesc.sampleMask = D3D12_DEFAULT_SAMPLE_MASK;
-
-	//DepthStencilの設定
-	createPSODesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
-
-	CreatePSO(createPSODesc);
-
-}
-
-void GraphicsPipelineState::CreateForParticle()
-{
-
-	CreatePSODesc createPSODesc;
-
-	RootsignatureSetting(
-		kPipelineStateNameParticle,
-		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT,
-		kRootParameterIndexParticle,
-		kSamplerIndexNormal);
-
-	createPSODesc.pipelineStateName = kPipelineStateNameParticle;
-
-	createPSODesc.depthStencilState = DepthStencilStateSetting(
-		true,
-		D3D12_DEPTH_WRITE_MASK_ZERO,
-		D3D12_COMPARISON_FUNC_LESS_EQUAL);
-
-	createPSODesc.inputLayoutDesc = InputLayoutSetting(
-		kInputLayoutIndexNormal);
-
-	createPSODesc.blendDesc = BlendStateSetting(kBlendStateIndexAdd);
-
-	createPSODesc.rasterizerDesc = ResiterzerStateSetting(D3D12_CULL_MODE_BACK, D3D12_FILL_MODE_SOLID);
-
-	createPSODesc.vertexShaderBlob = CompileShader::Compile(L"Resources/shaders/Particle.vs.hlsl",
-		L"vs_6_0");
-	createPSODesc.pixelShaderBlob = CompileShader::Compile(L"Resources/shaders/Particle.PS.hlsl",
-		L"ps_6_0");
-
-	//書き込むRTVの情報
-	createPSODesc.numRenderTargets = 1;
-	createPSODesc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	//利用するトポロジ(形状)のタイプ。
-	createPSODesc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
-	//どのように画面に色を打ち込むのかの設定
-	createPSODesc.sampleDescCount = 1;
-	createPSODesc.sampleMask = D3D12_DEFAULT_SAMPLE_MASK;
-
-	//DepthStencilの設定
-	createPSODesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
-
-	CreatePSO(createPSODesc);
-
-}
-
-void GraphicsPipelineState::CreateForOutLine()
-{
-
-	CreatePSODesc createPSODesc;
-
-	RootsignatureSetting(
-		kPipelineStateNameOutLine,
-		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT,
-		kRootParameterIndexOutLine,
-		kSamplerIndexNormal);
-
-	createPSODesc.pipelineStateName = kPipelineStateNameOutLine;
-
-	createPSODesc.depthStencilState = DepthStencilStateSetting(
-		true,
-		D3D12_DEPTH_WRITE_MASK_ALL,
-		D3D12_COMPARISON_FUNC_LESS_EQUAL);
-
-	createPSODesc.inputLayoutDesc = InputLayoutSetting(
-		kInputLayoutIndexNormal);
-
-	createPSODesc.blendDesc = BlendStateSetting(kBlendStateIndexNormal);
-
-	createPSODesc.rasterizerDesc = ResiterzerStateSetting(D3D12_CULL_MODE_FRONT, D3D12_FILL_MODE_SOLID);
-
-	createPSODesc.vertexShaderBlob = CompileShader::Compile(L"Resources/shaders/OutLine3D.vs.hlsl",
-		L"vs_6_0");
-	createPSODesc.pixelShaderBlob = CompileShader::Compile(L"Resources/shaders/OutLine3D.PS.hlsl",
-		L"ps_6_0");
-
-	//書き込むRTVの情報
-	createPSODesc.numRenderTargets = 1;
-	createPSODesc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	//利用するトポロジ(形状)のタイプ。
-	createPSODesc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
-	//どのように画面に色を打ち込むのかの設定
-	createPSODesc.sampleDescCount = 1;
-	createPSODesc.sampleMask = D3D12_DEFAULT_SAMPLE_MASK;
-
-	//DepthStencilの設定
-	createPSODesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
-
-	CreatePSO(createPSODesc);
-
-}
-
-void GraphicsPipelineState::CreateForCollision2DDebugDraw()
-{
-
-	CreatePSODesc createPSODesc;
-
-	RootsignatureSetting(
-		kPipelineStateNameCollision2DDebugDraw,
-		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT,
-		kRootParameterIndexCollision2DDebugDraw,
-		kSamplerIndexNormal);
-
-	createPSODesc.pipelineStateName = kPipelineStateNameCollision2DDebugDraw;
-
-	createPSODesc.depthStencilState = DepthStencilStateSetting(
-		true,
-		D3D12_DEPTH_WRITE_MASK_ZERO,
-		D3D12_COMPARISON_FUNC_LESS_EQUAL);
-
-	createPSODesc.inputLayoutDesc = InputLayoutSetting(
-		kInputLayoutIndexNormal);
-
-	createPSODesc.blendDesc = BlendStateSetting(kBlendStateIndexAdd);
-
-	createPSODesc.rasterizerDesc = ResiterzerStateSetting(D3D12_CULL_MODE_BACK, D3D12_FILL_MODE_SOLID);
-
-	createPSODesc.vertexShaderBlob = CompileShader::Compile(L"Resources/shaders/Collider2DDebug.VS.hlsl",
-		L"vs_6_0");
-	createPSODesc.pixelShaderBlob = CompileShader::Compile(L"Resources/shaders/Collider2DDebug.PS.hlsl",
-		L"ps_6_0");
-
-	//書き込むRTVの情報
-	createPSODesc.numRenderTargets = 1;
-	createPSODesc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	//利用するトポロジ(形状)のタイプ。
-	createPSODesc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
-	//どのように画面に色を打ち込むのかの設定
-	createPSODesc.sampleDescCount = 1;
-	createPSODesc.sampleMask = D3D12_DEFAULT_SAMPLE_MASK;
-
-	//DepthStencilの設定
-	createPSODesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
-
-	CreatePSO(createPSODesc);
-
-}
-
-void GraphicsPipelineState::CreateForLine()
-{
-
-	CreatePSODesc createPSODesc;
-
-	RootsignatureSetting(
-		kPipelineStateNameLine,
-		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT,
-		kRootParameterIndexLine,
-		kSamplerIndexNormal);
-
-	createPSODesc.pipelineStateName = kPipelineStateNameLine;
-
-	createPSODesc.depthStencilState = DepthStencilStateSetting(
-		true,
-		D3D12_DEPTH_WRITE_MASK_ZERO,
-		D3D12_COMPARISON_FUNC_LESS_EQUAL);
-
-	createPSODesc.inputLayoutDesc = InputLayoutSetting(
-		kInputLayoutIndexLine);
-
-	createPSODesc.blendDesc = BlendStateSetting(kBlendStateIndexNormal);
-
-	createPSODesc.rasterizerDesc = ResiterzerStateSetting(D3D12_CULL_MODE_NONE, D3D12_FILL_MODE_WIREFRAME);
-
-	createPSODesc.vertexShaderBlob = CompileShader::Compile(L"Resources/shaders/Line.VS.hlsl",
-		L"vs_6_0");
-	createPSODesc.pixelShaderBlob = CompileShader::Compile(L"Resources/shaders/Line.PS.hlsl",
-		L"ps_6_0");
-
-	//書き込むRTVの情報
-	createPSODesc.numRenderTargets = 1;
-	createPSODesc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	//利用するトポロジ(形状)のタイプ。
-	createPSODesc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
-
-	//どのように画面に色を打ち込むのかの設定
-	createPSODesc.sampleDescCount = 1;
-	createPSODesc.sampleMask = D3D12_DEFAULT_SAMPLE_MASK;
-
-	//DepthStencilの設定
-	createPSODesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
-
-	CreatePSO(createPSODesc);
-
-}
-
-void GraphicsPipelineState::CreateForSwapChain()
-{
-
-	CreatePSODesc createPSODesc;
-
-	RootsignatureSetting(
-		kPipelineStateNameWindowSprite,
-		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT,
-		kRootParameterIndexWindowSprite,
-		kSamplerIndexPostEffect);
-
-	createPSODesc.pipelineStateName = kPipelineStateNameWindowSprite;
-
-	createPSODesc.depthStencilState = DepthStencilStateSetting(
-		true,
-		D3D12_DEPTH_WRITE_MASK_ZERO,
-		D3D12_COMPARISON_FUNC_LESS_EQUAL);
-
-	createPSODesc.inputLayoutDesc = InputLayoutSetting(
-		kInputLayoutIndexNormal);
-
-	createPSODesc.blendDesc = BlendStateSetting(kBlendStateIndexNormal);
-
-	createPSODesc.rasterizerDesc = ResiterzerStateSetting(D3D12_CULL_MODE_NONE, D3D12_FILL_MODE_SOLID);
-
-	createPSODesc.vertexShaderBlob = CompileShader::Compile(L"Resources/shaders/WindowSprite.VS.hlsl",
-		L"vs_6_0");
-	createPSODesc.pixelShaderBlob = CompileShader::Compile(L"Resources/shaders/WindowSprite.PS.hlsl",
-		L"ps_6_0");
-
-	//書き込むRTVの情報
-	createPSODesc.numRenderTargets = 1;
-	createPSODesc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	//利用するトポロジ(形状)のタイプ。
-	createPSODesc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
-	//どのように画面に色を打ち込むのかの設定
-	createPSODesc.sampleDescCount = 1;
-	createPSODesc.sampleMask = D3D12_DEFAULT_SAMPLE_MASK;
-
-	//DepthStencilの設定
-	createPSODesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
-
-	CreatePSO(createPSODesc);
-
-}
-
-void GraphicsPipelineState::CreateForManyModels()
-{
-
-	CreatePSODesc createPSODesc;
-
-	RootsignatureSetting(
-		kPipelineStateNameManyModels,
-		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT,
-		kRootParameterIndexManyModels,
-		kSamplerIndexNormal);
-
-	createPSODesc.pipelineStateName = kPipelineStateNameManyModels;
-
-	createPSODesc.depthStencilState = DepthStencilStateSetting(
-		true,
-		D3D12_DEPTH_WRITE_MASK_ALL,
-		D3D12_COMPARISON_FUNC_LESS_EQUAL);
-
-	createPSODesc.inputLayoutDesc = InputLayoutSetting(
-		kInputLayoutIndexModel);
-
-	createPSODesc.blendDesc = BlendStateSetting(kBlendStateIndexNormal);
-
-	createPSODesc.rasterizerDesc = ResiterzerStateSetting(D3D12_CULL_MODE_NONE, D3D12_FILL_MODE_SOLID);
-
-	createPSODesc.vertexShaderBlob = CompileShader::Compile(L"Resources/shaders/ManyModels.VS.hlsl",
-		L"vs_6_0");
-	createPSODesc.pixelShaderBlob = CompileShader::Compile(L"Resources/shaders/ManyModels.PS.hlsl",
-		L"ps_6_0");
-
-	//書き込むRTVの情報
-	createPSODesc.numRenderTargets = 1;
-	createPSODesc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	//利用するトポロジ(形状)のタイプ。
-	createPSODesc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
-	//どのように画面に色を打ち込むのかの設定
-	createPSODesc.sampleDescCount = 1;
-	createPSODesc.sampleMask = D3D12_DEFAULT_SAMPLE_MASK;
-
-	//DepthStencilの設定
-	createPSODesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
-
-	CreatePSO(createPSODesc);
-
-}
-
-void GraphicsPipelineState::RootsignatureSetting(PipelineStateName pipelineStateName, D3D12_ROOT_SIGNATURE_FLAGS rootsignatureFlags, RootParameterIndex rootParameterIndex, SamplerIndex samplerIndex)
+void GraphicsPipelineState::RootsignatureSetting(PipelineStateIndex pipelineStateName, D3D12_ROOT_SIGNATURE_FLAGS rootsignatureFlags, RootParameterIndex rootParameterIndex, SamplerIndex samplerIndex)
 {
 
 	HRESULT hr;
@@ -493,7 +314,7 @@ void GraphicsPipelineState::CreatePSO(const CreatePSODesc& createPSODesc)
 
 	//PSOを生成
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
-	graphicsPipelineStateDesc.pRootSignature = sRootSignature[createPSODesc.pipelineStateName].Get();//RootSignature
+	graphicsPipelineStateDesc.pRootSignature = sRootSignature[createPSODesc.pipelineStateIndex].Get();//RootSignature
 	graphicsPipelineStateDesc.InputLayout = createPSODesc.inputLayoutDesc;//InputLayout
 	graphicsPipelineStateDesc.VS = { createPSODesc.vertexShaderBlob->GetBufferPointer(),
 	createPSODesc.vertexShaderBlob->GetBufferSize() };//VertexShader
@@ -518,7 +339,7 @@ void GraphicsPipelineState::CreatePSO(const CreatePSODesc& createPSODesc)
 
 	//実際に生成
 	hr = sDevice_->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
-		IID_PPV_ARGS(&sPipelineState[createPSODesc.pipelineStateName]));
+		IID_PPV_ARGS(&sPipelineState[createPSODesc.pipelineStateIndex]));
 	assert(SUCCEEDED(hr));
 
 }

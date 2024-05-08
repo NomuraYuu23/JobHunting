@@ -1,4 +1,4 @@
-#include "Object3d.hlsli"
+#include "Model.hlsli"
 
 struct LocalMatrix {
 	float32_t4x4 Matrix;
@@ -13,7 +13,7 @@ struct TransformationMatrix {
 
 StructuredBuffer<LocalMatrix> gLocalMatrixes : register(t0);
 
-StructuredBuffer<TransformationMatrix> gTransformationMatrixes : register(t1);
+ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
 
 struct VertexShaderInput {
 	float32_t4 position : POSITION0;
@@ -23,7 +23,7 @@ struct VertexShaderInput {
 	int32_t4 index : INDEX0;
 };
 
-VertexShaderOutput main(VertexShaderInput input, uint32_t vertexId : SV_VertexID, uint32_t instanceId : SV_InstanceID) {
+VertexShaderOutput main(VertexShaderInput input) {
 
 	VertexShaderOutput output;
 	// texcoord
@@ -42,17 +42,18 @@ VertexShaderOutput main(VertexShaderInput input, uint32_t vertexId : SV_VertexID
 
 	input.position.w = 1.0f;
 
-
-
 	output.position = mul(input.position, comb);
-	output.position = mul(output.position, gTransformationMatrixes[instanceId].WVP);
+	output.position.x *= -1.0f;
+	output.position = mul(output.position, gTransformationMatrix.WVP);
 
-	float32_t4x4 worldInverseTranspose = mul(combInverseTranspose, gTransformationMatrixes[instanceId].WorldInverseTranspose);
-	output.normal = normalize(mul(input.normal, (float32_t3x3)worldInverseTranspose));
+	output.normal = normalize(mul(input.normal, (float32_t3x3)combInverseTranspose));
+	output.normal *= -1.0f;
+	output.normal = normalize(mul(output.normal, (float32_t3x3)gTransformationMatrix.WorldInverseTranspose));
 
 	float32_t4 worldPosition = mul(input.position, comb);
+	worldPosition.x *= -1.0f;
 	worldPosition.w = 1.0f;
-	output.worldPosition = mul(worldPosition, gTransformationMatrixes[instanceId].World).xyz;
+	output.worldPosition = mul(worldPosition, gTransformationMatrix.World).xyz;
 
 	return output;
 }
