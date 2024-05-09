@@ -4,6 +4,7 @@
 #include "../../Engine/3D/ModelDraw.h"
 #include "../Enemy/Enemy.h"
 #include "../TutorialEnemy/TutorialEnemy.h"
+#include "../../Engine/Animation/LocalMatrixDraw.h"
 
 void Player::Initialize(Model* model, Model* weaponModel)
 {
@@ -121,6 +122,16 @@ void Player::ImGuiDraw()
 	}
 
 	ImGui::End();
+
+}
+
+void Player::DebugDrawMap(DrawLine* drawLine)
+{
+
+	LocalMatrixDraw::DrawMap(
+		localMatrixManager_.get(),
+		&worldTransform_,
+		drawLine);
 
 }
 

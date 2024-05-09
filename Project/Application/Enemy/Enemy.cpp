@@ -4,6 +4,7 @@
 #include "../Player/Player.h"
 #include <cassert>
 #include "../../Engine/3D/ModelDraw.h"
+#include "../../Engine/Animation/LocalMatrixDraw.h"
 
 void Enemy::Initialize(Model* model)
 {
@@ -94,6 +95,17 @@ void Enemy::Draw(BaseCamera& camera)
 
 void Enemy::ImGuiDraw()
 {
+
+}
+
+void Enemy::DebugDrawMap(DrawLine* drawLine)
+{
+
+	LocalMatrixDraw::DrawMap(
+		localMatrixManager_.get(),
+		&worldTransform_,
+		drawLine);
+
 }
 
 void Enemy::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)

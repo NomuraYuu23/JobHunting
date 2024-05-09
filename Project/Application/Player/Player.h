@@ -9,6 +9,7 @@
 #include "../../Engine/Camera/BaseCamera.h"
 #include "../../Engine/3D/Model.h"
 #include "../../Engine/Animation/Animation.h"
+#include "../../Engine/2D/DrawLine.h"
 
 /// <summary>
 /// プレイヤーのモーション一覧
@@ -55,6 +56,11 @@ public: // ベースのメンバ関数
 	/// ImGui描画
 	/// </summary>
 	void ImGuiDraw();
+
+	/// <summary>
+	/// デバッグ描画マッピング
+	/// </summary>
+	void DebugDrawMap(DrawLine* drawLine);
 
 	/// <summary>
 	/// 衝突処理
