@@ -31,7 +31,7 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	// 引数
 	CreateDesc desc;
 
-	// アニメーションモデル
+#pragma region アニメーションありモデル
 	desc.pipelineStateIndex = kPipelineStateIndexAnimModel;
 	desc.rootParameterIndex = kRootParameterIndexAnimModel;
 	desc.samplerIndex = kSamplerIndexNormal;
@@ -44,9 +44,12 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/AnimModel.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/Model.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.numRenderTargets = 1;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
+#pragma endregion
 
-	// アニメーション無しモデル
+#pragma region アニメーションなしモデル
 	desc.pipelineStateIndex = kPipelineStateIndexNormalModel;
 	desc.rootParameterIndex = kRootParameterIndexNormalModel;
 	desc.samplerIndex = kSamplerIndexNormal;
@@ -59,9 +62,12 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/NormalModel.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/Model.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.numRenderTargets = 1;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
+#pragma endregion
 
-	// アニメーション反転モデル(右手座標系)
+#pragma region アニメーション反転モデル(右手座標系)
 	desc.pipelineStateIndex = kPipelineStateIndexAnimInverseModel;
 	desc.rootParameterIndex = kRootParameterIndexAnimModel;
 	desc.samplerIndex = kSamplerIndexNormal;
@@ -74,9 +80,12 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/AnimInverseModel.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/Model.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.numRenderTargets = 1;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
+#pragma endregion
 
-	// アニメーションモデル
+#pragma region アニメーション無しアウトライン
 	desc.pipelineStateIndex = kPipelineStateIndexNormalOutline;
 	desc.rootParameterIndex = kRootParameterIndexNormalOutline;
 	desc.samplerIndex = kSamplerIndexNormal;
@@ -89,9 +98,12 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/Outline.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/Outline.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.numRenderTargets = 2;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
+#pragma endregion
 
-	// スプライト
+#pragma region スプライト
 	desc.pipelineStateIndex = kPipelineStateIndexSprite;
 	desc.rootParameterIndex = kRootParameterIndexSprite;
 	desc.samplerIndex = kSamplerIndexNormal;
@@ -104,9 +116,12 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/Sprite.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/Sprite.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.numRenderTargets = 1;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
+#pragma endregion
 
-	// パーティクル
+#pragma region パーティクル
 	desc.pipelineStateIndex = kPipelineStateIndexParticle;
 	desc.rootParameterIndex = kRootParameterIndexParticle;
 	desc.samplerIndex = kSamplerIndexNormal;
@@ -119,9 +134,12 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/Particle.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/Particle.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.numRenderTargets = 1;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
+#pragma endregion
 
-	// 2Dコライダーデバッグ
+#pragma region 2Dコライダーデバッグ
 	desc.pipelineStateIndex = kPipelineStateIndexCollision2DDebugDraw;
 	desc.rootParameterIndex = kRootParameterIndexCollision2DDebugDraw;
 	desc.samplerIndex = kSamplerIndexNormal;
@@ -134,9 +152,12 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/Collider2DDebug.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/Collider2DDebug.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.numRenderTargets = 1;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
+#pragma endregion
 
-	// 線
+#pragma region 線
 	desc.pipelineStateIndex = kPipelineStateIndexLine;
 	desc.rootParameterIndex = kRootParameterIndexLine;
 	desc.samplerIndex = kSamplerIndexNormal;
@@ -149,11 +170,14 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/Line.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/Line.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+	desc.numRenderTargets = 1;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
+#pragma endregion
 
-	// ウィンドウスプライト
-	desc.pipelineStateIndex = kPipelineStateIndexWindowSprite;
-	desc.rootParameterIndex = kRootParameterIndexWindowSprite;
+#pragma region ウィンドウスプライトSRV
+	desc.pipelineStateIndex = kPipelineStateIndexWindowSpriteSRV;
+	desc.rootParameterIndex = kRootParameterIndexWindowSpriteSRV;
 	desc.samplerIndex = kSamplerIndexPostEffect;
 	desc.depthEnable = false;
 	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
@@ -164,9 +188,31 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/WindowSprite.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/WindowSprite.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.numRenderTargets = 1;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
+#pragma endregion
+#pragma endregion
 
-	// たくさんのアニメーションモデル
+#pragma region ウィンドウスプライトUAV
+	desc.pipelineStateIndex = kPipelineStateIndexWindowSpriteUAV;
+	desc.rootParameterIndex = kRootParameterIndexWindowSpriteUAV;
+	desc.samplerIndex = kSamplerIndexPostEffect;
+	desc.depthEnable = false;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	desc.inputLayoutIndex = kInputLayoutIndexNone;
+	desc.blendStateIndex = kBlendStateIndexNormal;
+	desc.cullMode = D3D12_CULL_MODE_NONE;
+	desc.fillMode = D3D12_FILL_MODE_SOLID;
+	desc.filePathVS = L"Resources/shaders/WindowSprite.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/WindowSpriteUAV.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.numRenderTargets = 1;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	Create(desc);
+#pragma endregion
+	
+#pragma region たくさんのアニメーションモデル
 	desc.pipelineStateIndex = kPipelineStateIndexManyAnimModels;
 	desc.rootParameterIndex = kRootParameterIndexManyAnimModels;
 	desc.samplerIndex = kSamplerIndexNormal;
@@ -179,9 +225,12 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/ManyAnimModels.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/ManyModels.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.numRenderTargets = 1;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
+#pragma endregion
 
-	// たくさんのアニメーション無しモデル
+#pragma region たくさんのアニメーション無しモデル
 	desc.pipelineStateIndex = kPipelineStateIndexManyNormalModels;
 	desc.rootParameterIndex = kRootParameterIndexManyNormalModels;
 	desc.samplerIndex = kSamplerIndexNormal;
@@ -194,7 +243,10 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/ManyNormalModels.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/ManyModels.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.numRenderTargets = 1;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
+#pragma endregion
 
 }
 
@@ -227,8 +279,8 @@ void GraphicsPipelineState::Create(const CreateDesc& desc)
 	createPSODesc.pixelShaderBlob = CompileShader::Compile(desc.filePathPS, L"ps_6_0");
 
 	//書き込むRTVの情報
-	createPSODesc.numRenderTargets = 1;
-	createPSODesc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	createPSODesc.numRenderTargets = desc.numRenderTargets;
+	createPSODesc.RTVFormats = desc.RTVFormats;
 	//利用するトポロジ(形状)のタイプ。
 	createPSODesc.primitiveTopologyType = desc.primitiveTopologyType;
 
@@ -325,7 +377,10 @@ void GraphicsPipelineState::CreatePSO(const CreatePSODesc& createPSODesc)
 
 	//書き込むRTVの情報
 	graphicsPipelineStateDesc.NumRenderTargets = createPSODesc.numRenderTargets;
-	graphicsPipelineStateDesc.RTVFormats[0] = createPSODesc.RTVFormats;
+	for (uint32_t i = 0; i < graphicsPipelineStateDesc.NumRenderTargets; ++i) {
+		graphicsPipelineStateDesc.RTVFormats[i] = createPSODesc.RTVFormats;
+	}
+
 	//利用するトポロジ(形状)のタイプ。三角形
 	graphicsPipelineStateDesc.PrimitiveTopologyType =
 		createPSODesc.primitiveTopologyType;

@@ -11,6 +11,7 @@
 // 仮
 
 #include "../../Player/PlayerState/PlayerStateAttack/PlayerStateAttack.h"
+#include "../../../Engine/base/WindowSprite.h"
 
 GameScene::~GameScene()
 {
@@ -128,7 +129,7 @@ void GameScene::Update() {
 	ImguiDraw();
 #endif
 
-	if (requestSceneNo == kClear || requestSceneNo == kTitle || isBeingReset_) {
+	if (requestSceneNo_ == kClear || requestSceneNo_ == kTitle || isBeingReset_) {
 		resetScene_ = false;
 		// BGM音量下げる
 		if (isDecreasingVolume) {
@@ -139,7 +140,7 @@ void GameScene::Update() {
 
 	// タイトルへ
 	if (enemy_->GetIsDead()) {
-		requestSceneNo = kClear;
+		requestSceneNo_ = kClear;
 	}
 	if (player_->GetIsDead()) {
 		gameOverSystem_->SetIsOperation(true);
@@ -282,18 +283,16 @@ void GameScene::Draw() {
 
 
 	if (gameOverSystem_->GetIsOperation() || isBeingReset_) {
-		renderTargetTexture_->ChangePixelShaderResource(0);
 
-		PostEffect::GetInstance()->GrayScaleCommand(
+		PostEffect::GetInstance()->Execution(
 			dxCommon_->GetCommadList(),
-			0,
-			renderTargetTexture_->GetSrvGPUHandle(0)
+			renderTargetTexture_,
+			PostEffect::kCommandIndexGrayScale
 		);
 
-		renderTargetTexture_->ChangeRenderTarget(0);
 		renderTargetTexture_->ClearDepthBuffer();
 
-		renderTargetTexture_->TextureDraw(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
 
 	}
 

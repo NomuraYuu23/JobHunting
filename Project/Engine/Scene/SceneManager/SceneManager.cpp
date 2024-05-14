@@ -15,6 +15,22 @@ SceneManager::~SceneManager()
 void SceneManager::Initialize(uint32_t earlySceneNo)
 {
 
+	// デタッチ完了フラグ
+	sceneTransitionDetachCompletion_ = true;
+
+	// 初期化終了フラグ
+	sceneInitializeEnd_ = false;
+	sceneTransitionInitializeEnd_ = false;
+
+	// シーン遷移ファクトリー
+	sceneTransitionFactory_ = SceneTransitionFactory::GetInstance();
+
+	// シーン遷移を保持するメンバ変数
+	sceneTransition_.reset(sceneTransitionFactory_->CreateSceneTransition(currentSceneNo_, requestSeneNo_));
+	sceneTransition_->Initialize();
+	sceneTransition_->SetStoppingUpdates(true);
+	sceneTransition_->SetIsFadeIn(false);
+
 	// シーンファクトリー
 	sceneFacyory_ = SceneFactory::GetInstance();
 
@@ -33,22 +49,6 @@ void SceneManager::Initialize(uint32_t earlySceneNo)
 	requestSeneNo_ = earlySceneNo; // リクエストシーン
 	prevRequestSeneNo_ = earlySceneNo; // 前のリクエストシーン
 
-	// シーン遷移ファクトリー
-	sceneTransitionFactory_ = SceneTransitionFactory::GetInstance();
-
-	// シーン遷移を保持するメンバ変数
-	sceneTransition_.reset(sceneTransitionFactory_->CreateSceneTransition(currentSceneNo_, requestSeneNo_));
-	sceneTransition_->Initialize();
-	sceneTransition_->SetStoppingUpdates(true);
-	sceneTransition_->SetIsFadeIn(false);
-
-	// デタッチ完了フラグ
-	sceneTransitionDetachCompletion_ = true;
-
-	// 初期化終了フラグ
-	sceneInitializeEnd_ = false;
-	sceneTransitionInitializeEnd_ = false;
-
 }
 
 void SceneManager::Update()
@@ -63,8 +63,8 @@ void SceneManager::Update()
 	}
 
 	// リクエストシーンが変わったか
-	if ( (requestSeneNo_ != prevRequestSeneNo_ || scene_->GetResetScene())
-		&& sceneTransitionDetachCompletion_) {
+	if ( ( (requestSeneNo_ != prevRequestSeneNo_) || scene_->GetResetScene())
+		&& sceneTransitionDetachCompletion_ && sceneDetachCompletion_) {
 		//シーン遷移開始（初期化）
 		sceneTransition_.reset(sceneTransitionFactory_->CreateSceneTransition(currentSceneNo_, requestSeneNo_));
 		sceneTransitionInitialize_ = std::thread(std::bind(&SceneManager::SceneTransitionInitializeThread, this));
@@ -75,7 +75,7 @@ void SceneManager::Update()
 	if (sceneTransition_ && sceneTransitionDetachCompletion_) {
 		// シーン遷移更新
 		sceneTransition_->Update();
-		if (sceneTransition_->GetSwitchScene()) {
+		if (sceneTransition_->GetSwitchScene() && sceneDetachCompletion_) {
 			// シーン切り替え
 			currentSceneNo_ = requestSeneNo_;
 			scene_->SetStopAudio(true);

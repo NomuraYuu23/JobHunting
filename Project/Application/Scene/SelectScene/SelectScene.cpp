@@ -15,7 +15,7 @@ void SelectScene::Update()
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 		// 行きたいシーンへ
-		requestSceneNo = kGame;
+		requestSceneNo_ = kGame;
 	}
 
 }

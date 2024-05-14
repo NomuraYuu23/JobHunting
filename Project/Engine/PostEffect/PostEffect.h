@@ -4,6 +4,8 @@
 #include <array>
 #include <string>
 #include "../base/TextureUAV.h"
+#include "Velocity2DManager.h"
+#include "ShockWaveManager.h"
 
 class PostEffect
 {
@@ -42,10 +44,11 @@ public: // サブクラス
 		float glitchStepValue; // グリッチのステップ値
 
 		int32_t radialBlurSamples; // 放射状ブラーのサンプル回数
-		float padding2[3]; // パディング
 		Vector2 radialBlurCenter; // 放射状ブラーの中心座標
 		float radialBlurStrength; // 放射状ブラーの広がる強さ
 		float radialBlurMask; // 放射状ブラーが適用されないサイズ
+
+		float padding2[3]; // パディング
 
 		Vector4 flareColor; // フレアの色
 		Vector2 flareSize; // フレアの大きさ
@@ -55,23 +58,17 @@ public: // サブクラス
 		Vector2 paraSize; // パラの大きさ
 		Vector2 paraPosition; // パラの位置
 
-		float magnificationER; // 拡大縮小倍率
-
 	};
 
 	/// <summary>
 	/// パイプライン名前
 	/// </summary>
 	enum PipelineIndex {
-		kPipelineIndexCopyCS, // コピー
-		kPipelineIndexClesrCS, // クリア
 		kPipelineIndexBinaryThresholdCS,// 二値化(白黒)
 		kPipelineIndexGaussianBlurHorizontal, // ガウスブラー水平
 		kPipelineIndexGaussianBlurVertical, // ガウスブラー垂直
-		kPipelineIndexBrightnessThreshold, // 明度分け
-		kPipelineIndexBlurAdd, // ブラー用加算
-		kPipelineIndexOverwrite, // 上書き
-		kPipelineIndexRTTCorrection, // レンダーターゲット画像の修正
+		kPipelineIndexBloomHorizontal, // ブルーム水平
+		kPipelineIndexBloomVertical, // ブルーム垂直
 		kPipelineIndexMotionBlur, // モーションブラー
 		kPipelineIndexWhiteNoise, // ホワイトノイズ
 		kPipelineIndexScanLine, // 走査線
@@ -82,14 +79,43 @@ public: // サブクラス
 		kPipelineIndexRadialBlur, // 放射状ブラー
 		kPipelineIndexShockWave, // 衝撃波
 		kPipelineIndexFlarePara, // フレア パラ
-		kPipelineIndexReduction, // 縮小
-		kPipelineIndexExpansion, // 拡大(縮小したものをもとに戻す)
 		kPipelineIndexGrayScale, // グレイスケール
 		kPipelineIndexSepia, // セピア
 
 		kPipelineIndexGlitchRGBShift, // グリッチRGB
 
-		kPipelineIndexOfCount // 数を数える用
+		kPipelineIndexOfCount // 数を数える用（穴埋め用）
+	};
+
+	/// <summary>
+	/// コマンド番号
+	/// </summary>
+	enum CommandIndex {
+		kCommandIndexBinaryThreshold, // 白黒
+		kCommandIndexGaussianBlur, // ガウスブラー
+		kCommandIndexBloom, // ブルーム
+		kCommandIndexMotionBlur, // モーションブラー
+		kCommandIndexWhiteNoize, // ホワイトノイズ
+		kCommandIndexScanLine, // 走査線
+		kCommandIndexRGBShift, // RGBずらし
+		kCommandIndexBarrelCurved, // 樽状湾曲
+		kCommandIndexVignette, // ビネット
+		kCommandIndexGlitch, // グリッチ
+		kCommandIndexRadialBlur, // 放射状ブラー
+		kCommandIndexShockWave, // 衝撃波
+		kCommandIndexFlarePara, // フレアパラ
+		kCommandIndexGrayScale, // グレイスケール
+		kCommandIndexSepia, // セピア
+		kCommandIndexGlitchRGBShift, // グリッチとRGB
+		kCommandIndexOfCount // 数を数えるよう
+	};
+
+	/// <summary>
+	/// 実行追加引数
+	/// </summary>
+	struct ExecutionAdditionalDesc {
+		std::array<Velocity2DManager*, 4> velocity2DManagers = { nullptr, nullptr, nullptr, nullptr };
+		std::array<ShockWaveManager*, 4> shockWaveManagers = { nullptr, nullptr, nullptr, nullptr };
 	};
 
 private: // 定数
@@ -97,15 +123,11 @@ private: // 定数
 	// シェーダー情報 <シェーダ名, エントリポイント>
 	const std::array<std::pair<const std::wstring, const wchar_t*>, kPipelineIndexOfCount> shaderNames_ =
 	{
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainCopy"}, // コピー
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainClear"}, // クリア
 		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainBinaryThreshold"}, // 二値化
 		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainGaussianBlurHorizontal"}, // ガウスブラー水平
 		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainGaussianBlurVertical"}, // ガウスブラー垂直
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainBrightnessThreshold"}, // 明度分け
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainBlurAdd"}, // ブラー用加算
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainOverwrite"}, // 上書き
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainRTTCorrection"}, // レンダーターゲット画像の修正
+		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainBloomHorizontal"},  // ブルーム水平
+		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainBloomVertical"},  // ブルーム垂直
 		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainMotionBlur"}, // モーションブラー
 		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainWhiteNoise"}, // ホワイトノイズ
 		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainScanLine"}, // 走査線
@@ -116,25 +138,46 @@ private: // 定数
 		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainRadialBlur"}, // 放射状ブラー
 		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainShockWave"}, // 衝撃波
 		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainFlarePara"}, // フレア パラ
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainReduction"}, // 縮小
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainExpansion"}, // 拡大(縮小したものをもとに戻す)
 		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainGrayScale"}, // グレイスケール
 		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainSepia"}, // セピア
 		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainGlitchRGBShift"}, // グリッチRGB
 	};
-	
+
+	// コマンド情報(コマンド実行可能回数4回)
+	const std::array<std::array<PipelineIndex, 4>, kCommandIndexOfCount> CommandDatas_ = 
+	{
+		{
+			{kPipelineIndexBinaryThresholdCS, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // 白黒
+			{kPipelineIndexGaussianBlurHorizontal, kPipelineIndexGaussianBlurVertical, kPipelineIndexOfCount, kPipelineIndexOfCount}, // ガウスブラー
+			{kPipelineIndexBloomHorizontal, kPipelineIndexBloomVertical, kPipelineIndexOfCount, kPipelineIndexOfCount}, // ブルーム
+			{kPipelineIndexMotionBlur, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // モーションブラー
+			{kPipelineIndexWhiteNoise, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // ホワイトノイズ
+			{kPipelineIndexScanLine, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // 走査線
+			{kPipelineIndexRGBShift, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // RGBずらし
+			{kPipelineIndexBarrelCurved, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // 樽状湾曲
+			{kPipelineIndexVignette, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // ビネット
+			{kPipelineIndexGlitch, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // グリッチ
+			{kPipelineIndexRadialBlur, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // 放射状ブラー
+			{kPipelineIndexShockWave, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // 衝撃波
+			{kPipelineIndexFlarePara, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // フレアパラ
+			{kPipelineIndexGrayScale, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // グレイスケール
+			{kPipelineIndexSepia, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // セピア
+			{kPipelineIndexGlitchRGBShift, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // グリッチとRGB
+		},
+	};
+
 	// 画像の幅
-	const uint32_t kTextureWidth = WinApp::kWindowWidth;
+	static const uint32_t kTextureWidth = WinApp::kWindowWidth;
 	// 画像の高さ
-	const uint32_t kTextureHeight = WinApp::kWindowHeight;
+	static const uint32_t kTextureHeight = WinApp::kWindowHeight;
 	// 編集する画像の数
-	const uint32_t kNumEditTexture = 8;
+	static const uint32_t kNumEditTexture = 2;
 	// スレッド数X
-	const uint32_t kNumThreadX = 32;
+	static const uint32_t kNumThreadX = 32;
 	// スレッド数Y
-	const uint32_t kNumThreadY = 32;
+	static const uint32_t kNumThreadY = 32;
 	// スレッド数Z
-	const uint32_t kNumThreadZ = 1;
+	static const uint32_t kNumThreadZ = 1;
 
 public: // 関数
 
@@ -161,252 +204,17 @@ public: // 関数
 	TextureUAV* GetEditTextures(uint32_t index) { return editTextures_[index].get(); }
 
 	/// <summary>
-	/// コピー
+	/// 実行
 	/// </summary>
- 	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="copyGPUHandle">コピーする画像のGPUハンドル</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	void CopyCommand(
+	/// <param name="commandList"></param>
+	/// <param name="renderTargetTexture"></param>
+	/// <param name="commandIndex"></param>
+	/// <param name="executionAdditionalDesc"></param>
+	void Execution(
 		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& copyGPUHandle);
-
-	/// <summary>
-	/// クリア
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	void ClearCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex);
-
-	/// <summary>
-	/// 二値化
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="copyGPUHandle">二値化する画像のGPUハンドル</param>
-	void BinaryThresholdCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex, 
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& binaryThresholdGPUHandle);
-
-
-	/// <summary>
-	/// ガウスブラー
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="gaussianBluGPUHandle">ガウスブラーをかける画像のGPUハンドル</param>
-	void GaussianBlurCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& gaussianBluGPUHandle);
-
-	/// <summary>
-	/// ブルーム
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="bloomGPUHandle">ブルームをかける画像のGPUハンドル</param>
-	void BloomCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& bloomGPUHandle);
-
-	/// <summary>
-	/// 画像上書き
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="addGPUHandle0">合成する画像のGPUハンドル0</param>
-	/// <param name="addGPUHandle1">合成する画像のGPUハンドル1</param>
-	void OverwriteCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& addGPUHandle0,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& addGPUHandle1);
-
-	/// <summary>
-	/// レンダーターゲット画像の修正（クリアカラーを{0.0f,0.0f,0.0f,0.0f}に変更する）
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="textureGPUHandle">画像のGPUハンドル</param>
-	void RTTCorrectionCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle);
-
-	/// <summary>
-	/// モーションブラー
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="motionBlurGPUHandle">画像のGPUハンドル</param>
-	/// <param name="velocityBuff">速度バッファ</param>
-	void MotionBlurCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& motionBlurGPUHandle,
-		ID3D12Resource* velocityBuff);
-
-	/// <summary>
-	/// ホワイトノイズ
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="whiteNoizeGPUHandle">画像のGPUハンドル</param>
-	void WhiteNoizeCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& whiteNoizeGPUHandle);
-
-	/// <summary>
-	/// 走査線
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="scanLineGPUHandle">画像のGPUハンドル</param>
-	void ScanLineCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& scanLineGPUHandle);
-
-	/// <summary>
-	/// RGBずらし
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="rgbShiftGPUHandle">画像のGPUハンドル</param>
-	void RGBShiftCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& rgbShiftGPUHandle);
-
-	/// <summary>
-	/// 樽状湾曲
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="barrelCurvedGPUHandle">画像のGPUハンドル</param>
-	void BarrelCurvedCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& barrelCurvedGPUHandle);
-
-	/// <summary>
-	/// ビネット
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="vignetteGPUHandle">画像のGPUハンドル</param>
-	void VignetteCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& vignetteGPUHandle);
-
-	/// <summary>
-	/// グリッチ
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="glitchGPUHandle">画像のGPUハンドル</param>
-	void GlitchCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& glitchGPUHandle);
-
-	/// <summary>
-	/// 放射状ブラー
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="radialBlurGPUHandle">画像のGPUハンドル</param>
-	void RadialBlurCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& radialBlurGPUHandle);
-
-	/// <summary>
-	/// 衝撃波
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="radialBlurGPUHandle">画像のGPUハンドル</param>
-	/// <param name="shockWaveBuff">衝撃波バッファ</param>
-	void ShockWaveCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& shockWaveGPUHandle,
-		ID3D12Resource* shockWaveBuff);
-
-	/// <summary>
-	/// フレアパラ
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="flareParaGPUHandle">画像のGPUハンドル</param>
-	void FlareParaCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& flareParaGPUHandle);
-
-	/// <summary>
-	/// 縮小
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="reductionGPUHandle">画像のGPUハンドル</param>
-	void ReductionCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& reductionGPUHandle);
-
-	/// <summary>
-	/// 拡大
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="expansionGPUHandle">画像のGPUハンドル</param>
-	void ExpansionCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& expansionGPUHandle);
-
-	/// <summary>
-	/// グレイスケール
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="grayScaleGPUHandle">画像のGPUハンドル</param>
-	void GrayScaleCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& grayScaleGPUHandle);
-
-	/// <summary>
-	/// セピア
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="sepiaGPUHandle">画像のGPUハンドル</param>
-	void SepiaCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& sepiaGPUHandle);
-
-	/// <summary>
-	/// グリッチとRGB
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="editTextureIndex">編集する画像番号</param>
-	/// <param name="glitchRGBShiftGPUHandle">画像のGPUハンドル</param>
-	void GlitchRGBShiftCommand(
-		ID3D12GraphicsCommandList* commandList,
-		uint32_t editTextureIndex,
-		const CD3DX12_GPU_DESCRIPTOR_HANDLE& glitchRGBShiftGPUHandle);
-
+		RenderTargetTexture* renderTargetTexture,
+		CommandIndex commandIndex,
+		ExecutionAdditionalDesc* executionAdditionalDesc = nullptr);
 
 private: // 関数
 
@@ -576,12 +384,6 @@ public: // アクセッサ
 	/// <param name="paraPosition">パラの位置</param>
 	void SetParaPosition(const Vector2& paraPosition) { computeParametersMap_->paraPosition = paraPosition; }
 
-	/// <summary>
-	/// 拡大縮小倍率設定
-	/// </summary>
-	/// <param name="magnificationER">拡大縮小倍率</param>
-	void SetMagnificationER(float magnificationER) { computeParametersMap_->magnificationER = magnificationER; }
-
 private: // 変数
 
 	// デバイス
@@ -591,10 +393,7 @@ private: // 変数
 	ID3D12GraphicsCommandList* commandList_ = nullptr;
 
 	// 編集する画像
-	std::unique_ptr<TextureUAV> editTextures_[8];
-
-	// 内部編集画像
-	std::unique_ptr<TextureUAV> internalEditTextures_[3];
+	std::unique_ptr<TextureUAV> editTextures_[kNumEditTexture];
 
 	//computeParameters用のリソースを作る。
 	Microsoft::WRL::ComPtr<ID3D12Resource> computeParametersBuff_;
@@ -607,6 +406,16 @@ private: // 変数
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_;
 	// シェーダー情報
 	std::array<Microsoft::WRL::ComPtr<IDxcBlob>, kPipelineIndexOfCount> shaders_;
+
+	// デフォルト速度バッファ
+	std::unique_ptr<Velocity2DManager> velocity2DManager_;
+
+	// デフォルト衝撃波パラメータ
+	std::unique_ptr<ShockWaveManager> shockWaveManager_;
+
+	// ディスクリプタレンジ保存
+	std::vector<std::vector<D3D12_DESCRIPTOR_RANGE>> descriptorRanges_;
+
 
 private: // シングルトン
 	PostEffect() = default;

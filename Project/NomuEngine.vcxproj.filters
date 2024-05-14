@@ -166,9 +166,6 @@
     <Filter Include="Engine\Base\DxCommon">
       <UniqueIdentifier>{89b7696d-ce1f-4c90-8d01-4cd1a69b981b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="shaders\Object3d">
-      <UniqueIdentifier>{e8b1b387-3420-407b-b41a-60165565e62a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="shaders\Collider2DDebug">
       <UniqueIdentifier>{ed0acce8-727f-4826-820e-5ee61a8e7f97}</UniqueIdentifier>
     </Filter>
@@ -183,9 +180,6 @@
     </Filter>
     <Filter Include="shaders\Sprite">
       <UniqueIdentifier>{bcd03177-6322-4dc5-96fb-0dfe0a3f1def}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders\SwapChain">
-      <UniqueIdentifier>{30140878-4e83-4bd0-aeca-3a4709ae9343}</UniqueIdentifier>
     </Filter>
     <Filter Include="shaders\PostEffect">
       <UniqueIdentifier>{bb8c5e74-1d42-431a-a81b-b1a379c467cc}</UniqueIdentifier>
@@ -231,6 +225,12 @@
     </Filter>
     <Filter Include="Application\System">
       <UniqueIdentifier>{dc265678-a7c1-47a4-bfdc-6a41ffedfd1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\Model">
+      <UniqueIdentifier>{e8b1b387-3420-407b-b41a-60165565e62a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\WindowSprite">
+      <UniqueIdentifier>{30140878-4e83-4bd0-aeca-3a4709ae9343}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -538,9 +538,6 @@
     <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp">
       <Filter>Application\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\2D\WindowSprite.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\base\TextureUAV.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
@@ -665,6 +662,15 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\base\WindowSpriteStorage.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\CrashHandler.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\WindowSprite.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PostEffect\Velocity2DManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1074,9 +1080,6 @@
     <ClInclude Include="Application\AudioManager\TitleAudioManager.h">
       <Filter>Application\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\2D\WindowSprite.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\base\TextureUAV.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
@@ -1227,6 +1230,18 @@
     <ClInclude Include="Engine\Particle\EmitterDesc.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\base\CrashHandler.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\OutputLog.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\WindowSprite.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\Velocity2DManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -1236,9 +1251,6 @@
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include="NomuEngine.vcxproj.user" />
-    <None Include="resources\shaders\Object3d.hlsli">
-      <Filter>shaders\Object3d</Filter>
-    </None>
     <None Include="Resources\shaders\Collider2DDebug.hlsli">
       <Filter>shaders\Collider2DDebug</Filter>
     </None>
@@ -1251,17 +1263,26 @@
     <None Include="Resources\shaders\Sprite.hlsli">
       <Filter>shaders\Sprite</Filter>
     </None>
-    <None Include="Resources\shaders\SwapChain.hlsli">
-      <Filter>shaders\SwapChain</Filter>
+    <None Include="Resources\shaders\ManyModels.hlsli">
+      <Filter>shaders\Model</Filter>
+    </None>
+    <None Include="Resources\shaders\Model.hlsli">
+      <Filter>shaders\Model</Filter>
+    </None>
+    <None Include="Resources\shaders\Outline.hlsli">
+      <Filter>shaders\OutLine</Filter>
+    </None>
+    <None Include="Resources\shaders\PostEffect.hlsli">
+      <Filter>shaders\PostEffect</Filter>
+    </None>
+    <None Include="Resources\shaders\WindowSprite.hlsli">
+      <Filter>shaders\WindowSprite</Filter>
+    </None>
+    <None Include="Resources\shaders\WindowSpriteStorage.hlsli">
+      <Filter>shaders\WindowSprite</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="resources\shaders\Object3d.VS.hlsl">
-      <Filter>shaders\Object3d</Filter>
-    </FxCompile>
-    <FxCompile Include="resources\shaders\Object3d.PS.hlsl">
-      <Filter>shaders\Object3d</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\shaders\Collider2DDebug.VS.hlsl">
       <Filter>shaders\Collider2DDebug</Filter>
     </FxCompile>
@@ -1273,12 +1294,6 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\Line.VS.hlsl">
       <Filter>shaders\Line</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\OutLine3D.VS.hlsl">
-      <Filter>shaders\OutLine</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\OutLine3D.PS.hlsl">
-      <Filter>shaders\OutLine</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\Particle.VS.hlsl">
       <Filter>shaders\Patrticle</Filter>
@@ -1292,11 +1307,50 @@
     <FxCompile Include="Resources\shaders\Sprite.PS.hlsl">
       <Filter>shaders\Sprite</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\SwapChain.VS.hlsl">
-      <Filter>shaders\SwapChain</Filter>
+    <FxCompile Include="Resources\shaders\AnimModel.VS.hlsl">
+      <Filter>shaders\Model</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\SwapChain.PS.hlsl">
-      <Filter>shaders\SwapChain</Filter>
+    <FxCompile Include="Resources\shaders\AnimInverseModel.VS.hlsl">
+      <Filter>shaders\Model</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ManyAnimModels.VS.hlsl">
+      <Filter>shaders\Model</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ManyModels.PS.hlsl">
+      <Filter>shaders\Model</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ManyNormalModels.VS.hlsl">
+      <Filter>shaders\Model</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\Model.PS.hlsl">
+      <Filter>shaders\Model</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\NormalModel.VS.hlsl">
+      <Filter>shaders\Model</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\Outline.PS.hlsl">
+      <Filter>shaders\OutLine</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\Outline.VS.hlsl">
+      <Filter>shaders\OutLine</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect.CS.hlsl">
+      <Filter>shaders\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffectCalc.CS.hlsl">
+      <Filter>shaders\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\WindowSprite.PS.hlsl">
+      <Filter>shaders\WindowSprite</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\WindowSprite.VS.hlsl">
+      <Filter>shaders\WindowSprite</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\WindowSpriteStorage.CS.hlsl">
+      <Filter>shaders\WindowSprite</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\WindowSpriteUAV.PS.hlsl">
+      <Filter>shaders\WindowSprite</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

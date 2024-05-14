@@ -125,7 +125,7 @@ void TutorialScene::Update() {
 	ImguiDraw();
 #endif
 
-	if (requestSceneNo == kClear || requestSceneNo == kTitle || isBeingReset_) {
+	if (requestSceneNo_ == kClear || requestSceneNo_ == kTitle || isBeingReset_) {
 		resetScene_ = false;
 		// BGM音量下げる
 		if (isDecreasingVolume) {
@@ -136,7 +136,7 @@ void TutorialScene::Update() {
 
 	// ゲームへ
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonY)) {
-		requestSceneNo = kGame;
+		requestSceneNo_ = kGame;
 	}
 
 	//光源
