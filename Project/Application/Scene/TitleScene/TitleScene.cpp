@@ -41,7 +41,7 @@ void TitleScene::Update()
 
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
 		// 行きたいシーンへ
-		requestSceneNo = kTutorial;
+		requestSceneNo_ = kTutorial;
 	}
 
 	// ボタンスプライト

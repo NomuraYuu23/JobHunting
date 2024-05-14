@@ -51,8 +51,11 @@ class IScene
 protected: // 静的メンバ変数
 
 	// シーン番号
-	static int sceneNo;
-	static int requestSceneNo;
+	static int sceneNo_;
+	static int requestSceneNo_;
+
+	static int  sceneNoCheck_;
+	static int requestSceneNoCheck_;
 
 	// 入力マネージャー
 	static DirectXCommon* dxCommon_;
@@ -119,6 +122,11 @@ protected:  // メンバ関数
 	/// </summary>
 	virtual void TextureLoad();
 
+	/// <summary>
+	/// 初期化確認
+	/// </summary>
+	void InitilaizeCheck();
+
 protected: // メンバ変数
 
 	// テクスチャハンドル管理
@@ -132,6 +140,18 @@ protected: // メンバ変数
 
 	// 削除された時オーディオ止める
 	bool stopAudio_ = false;
+
+	// ライト
+	std::unique_ptr<DirectionalLight> directionalLight_;
+	DirectionalLightData directionalLightData_;
+
+	// 点光源
+	std::unique_ptr<PointLightManager> pointLightManager_;
+	std::array<PointLightData, PointLightManager::kNumInstanceMax_> pointLightDatas_;
+
+	// スポットライト
+	std::unique_ptr<SpotLightManager> spotLightManager_;
+	std::array<SpotLightData, SpotLightManager::kNumInstanceMax_> spotLightDatas_;
 
 };
 

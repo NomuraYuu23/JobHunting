@@ -40,7 +40,7 @@ void ClearScene::Update()
 
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
 		// 行きたいシーンへ
-		requestSceneNo = kTitle;
+		requestSceneNo_ = kTitle;
 	}
 
 	// ボタンスプライト
