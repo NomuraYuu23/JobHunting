@@ -281,13 +281,25 @@ void GameScene::Draw() {
 
 #pragma endregion
 
-
 	if (gameOverSystem_->GetIsOperation() || isBeingReset_) {
 
 		PostEffect::GetInstance()->Execution(
 			dxCommon_->GetCommadList(),
 			renderTargetTexture_,
 			PostEffect::kCommandIndexGrayScale
+		);
+
+		renderTargetTexture_->ClearDepthBuffer();
+
+		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+
+	}
+	else if (player_->GetHp() == 1) {
+
+		PostEffect::GetInstance()->Execution(
+			dxCommon_->GetCommadList(),
+			renderTargetTexture_,
+			PostEffect::kCommandIndexVignette
 		);
 
 		renderTargetTexture_->ClearDepthBuffer();
