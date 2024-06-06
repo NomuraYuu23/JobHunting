@@ -34,10 +34,12 @@ void SceneManager::Initialize(uint32_t earlySceneNo)
 	// シーンファクトリー
 	sceneFacyory_ = SceneFactory::GetInstance();
 
+	levelDataManager_ = std::make_unique<LevelDataManager>();
+	levelDataManager_->Initialize();
+	IScene::StaticInitialize(levelDataManager_.get());
+
 	// シーン(タイトル)
 	scene_.reset(sceneFacyory_->CreateScene(earlySceneNo));
-	// シーンの静的初期化
-	scene_->StaticInitialize();
 	// シーンの初期化
 	sceneInitialize_ = std::thread(std::bind(&SceneManager::SceneInitializeThread, this));
 	// デタッチ完了フラグ
@@ -112,6 +114,9 @@ void SceneManager::Update()
 		sceneTransitionInitialize_.detach();
 		sceneTransitionDetachCompletion_ = true;
 	}
+
+	// 仮レベルデータ表示
+	levelDataManager_->ImGuiDraw();
 
 }
 

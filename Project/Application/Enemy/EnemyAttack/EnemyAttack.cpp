@@ -115,7 +115,7 @@ void EnemyAttack::OnCollisionPlayer(ColliderParentObject colliderPartner, const 
 	emitterDesc.lifeTime = 0.2f;
 	emitterDesc.paeticleName = ParticleName::kBloadParticle;
 	emitterDesc.particleModelNum = ParticleModelIndex::kCircle;
-
-	ParticleManager::GetInstance()->MakeEmitter(emitterDesc, 0);
+	
+	ParticleManager::GetInstance()->MakeEmitter(&emitterDesc, 0);
 
 }

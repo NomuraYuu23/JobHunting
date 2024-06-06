@@ -235,6 +235,7 @@ void GameScene::Draw() {
 	preDrawDesc.fogManager = FogManager::GetInstance();
 	preDrawDesc.pointLightManager = pointLightManager_.get();
 	preDrawDesc.spotLightManager = spotLightManager_.get();
+	preDrawDesc.environmentTextureHandle = skyboxTextureHandle_;
 	ModelDraw::PreDraw(preDrawDesc);
 
 	//3Dオブジェクトはここ
@@ -388,6 +389,8 @@ void GameScene::TextureLoad()
 	// ゲームオーバー
 	gameOverButtonTextureHandle_ = TextureManager::Load("Resources/OutGame/button.png", dxCommon_, textureHandleManager_.get());
 	gameOverStringTextureHandle_ = TextureManager::Load("Resources/UI/gameOver.png", dxCommon_, textureHandleManager_.get());
+
+	skyboxTextureHandle_ = TextureManager::Load("Resources/default/rostock_laage_airport_4k.dds", DirectXCommon::GetInstance(), textureHandleManager_.get());
 
 }
 

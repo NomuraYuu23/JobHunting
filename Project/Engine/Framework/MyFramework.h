@@ -21,7 +21,7 @@
 #include "../Light/PointLight/PointLightManager.h"
 #include "../Light/SpotLight/SpotLightManager.h"
 #include "../base/D3DResourceLeakChecker.h"
-#include "../2D/DrawLine.h"
+#include "../3D/DrawLine.h"
 
 // サウンド再生
 #include "../Audio/Audio.h"
@@ -58,6 +58,9 @@
 
 // ウィンドウスプライト保存
 #include "../base/WindowSpriteStorage.h"
+
+// タイムスタンプ
+#include "../base/QueryTimestamp.h"
 
 class MyFramework
 {

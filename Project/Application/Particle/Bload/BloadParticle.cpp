@@ -2,15 +2,15 @@
 #include <random>
 #include "../../../Engine/Math/Ease.h"
 
-void BloadParticle::Initialize(const Vector3& position, const Vector3& size)
+void BloadParticle::Initialize(ParticleDesc* particleDesc)
 {
 
 	std::random_device seedGenerator;
 	std::mt19937 randomEngine(seedGenerator());
 
-	transform_.scale = size;
+	transform_.scale = particleDesc->size;
 	transform_.rotate = { 0.0f,0.0f,0.0f };
-	transform_.translate = position;
+	transform_.translate = particleDesc->position;
 
 	worldMatrix_ = Matrix4x4::MakeIdentity4x4();
 

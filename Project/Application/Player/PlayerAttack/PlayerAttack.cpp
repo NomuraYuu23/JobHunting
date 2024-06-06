@@ -113,7 +113,7 @@ void PlayerAttack::OnCollisionEnemy(ColliderParentObject colliderPartner, const 
 	emitterDesc.paeticleName = ParticleName::kBloadParticle;
 	emitterDesc.particleModelNum = ParticleModelIndex::kCircle;
 
-	ParticleManager::GetInstance()->MakeEmitter(emitterDesc, 0);
+	ParticleManager::GetInstance()->MakeEmitter(&emitterDesc, 0);
 
 }
 
@@ -140,6 +140,6 @@ void PlayerAttack::OnCollisionTutorialEnemy(ColliderParentObject colliderPartner
 	emitterDesc.paeticleName = ParticleName::kBloadParticle;
 	emitterDesc.particleModelNum = ParticleModelIndex::kCircle;
 
-	ParticleManager::GetInstance()->MakeEmitter(emitterDesc, 0);
+	ParticleManager::GetInstance()->MakeEmitter(&emitterDesc, 0);
 
 }

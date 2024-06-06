@@ -134,4 +134,7 @@ private:
 	uint32_t gameOverButtonTextureHandle_;
 	uint32_t gameOverStringTextureHandle_;
 
+	// スカイボックス
+	uint32_t skyboxTextureHandle_ = 0;
+
 };

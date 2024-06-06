@@ -213,6 +213,7 @@ void TutorialScene::Draw() {
 	preDrawDesc.fogManager = FogManager::GetInstance();
 	preDrawDesc.pointLightManager = pointLightManager_.get();
 	preDrawDesc.spotLightManager = spotLightManager_.get();
+	preDrawDesc.environmentTextureHandle = skyboxTextureHandle_;
 	ModelDraw::PreDraw(preDrawDesc);
 
 	//3Dオブジェクトはここ
@@ -344,6 +345,8 @@ void TutorialScene::TextureLoad()
 		TextureManager::Load("Resources/UI/tutorial.png", dxCommon_, textureHandleManager_.get()),
 		TextureManager::Load("Resources/UI/goGame.png", dxCommon_, textureHandleManager_.get()),
 	};
+
+	skyboxTextureHandle_ = TextureManager::Load("Resources/default/rostock_laage_airport_4k.dds", DirectXCommon::GetInstance(), textureHandleManager_.get());
 
 }
 

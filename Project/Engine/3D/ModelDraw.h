@@ -14,12 +14,14 @@ public: // サブクラス
 
 	// パイプライン番号
 	enum PipelineStateIndex {
+		kPipelineStateIndexModel, // モデル
 		kPipelineStateIndexAnimModel, // アニメーションモデル
-		kPipelineStateIndexNormalModel, // アニメーション無しモデル
-		kPipelineStateIndexAnimInverseModel, // アニメーション反転モデル(右手座標系)
-		kPipelineStateIndexManyAnimObjects, // 複数のアニメーションオブジェクト(アニメーションは同じ)
-		kPipelineStateIndexManyNormalObjects, // 複数のアニメーション無しオブジェクト
+		kPipelineStateIndexAnimInverseModel, // 反転モデル(右手座標系)
+		kPipelineStateIndexManyObjects, // 複数のアニメーション無しオブジェクト
+		kPipelineStateIndexAnimManyObjects, // 複数のアニメーションありオブジェクト
 
+		kPipelineStateIndexAnimModelRT2, // アニメーションモデル
+		kPipelineStateIndexAnimInverseModelRT2, // 反転モデル(右手座標系)
 
 		kPipelineStateIndexNormalOutline, // アニメーション無しアウトライン
 
@@ -34,6 +36,7 @@ public: // サブクラス
 		PointLightManager* pointLightManager = nullptr; // ポイントライト
 		SpotLightManager* spotLightManager = nullptr; // スポットライト
 		FogManager* fogManager = nullptr; // 霧マネージャー
+		uint32_t environmentTextureHandle = 1024; // 環境マップ(映り込み用テクスチャ)ハンドル
 	};
 
 	// アニメーションオブジェクト引数
@@ -61,7 +64,7 @@ public: // サブクラス
 	struct ManyAnimObjectsDesc
 	{
 		Model* model = nullptr; //モデル
-		D3D12_GPU_DESCRIPTOR_HANDLE* localMatrixesHandle = nullptr;
+		LocalMatrixManager* localMatrixManager = nullptr;// ローカル行列マネージャー
 		D3D12_GPU_DESCRIPTOR_HANDLE* transformationMatrixesHandle = nullptr;
 		BaseCamera* camera = nullptr;
 		uint32_t numInstance = 0;
@@ -103,9 +106,16 @@ public:
 	static SpotLightManager* sSpotLightManager_;
 	// 霧マネージャー
 	static FogManager* sFogManager_;
+	// 環境マップ(映り込み用テクスチャ)ハンドル
+	static uint32_t sEnvironmentTextureHandle_;
 
 	// 現在のパイプライン番号
 	static PipelineStateIndex currentPipelineStateIndex_;
+
+	// ルートシグネチャCS
+	static Microsoft::WRL::ComPtr<ID3D12RootSignature> sRootSignatureCS_;
+	// パイプラインステートオブジェクトCS
+	static Microsoft::WRL::ComPtr<ID3D12PipelineState> sPipelineStateCS_;
 
 public: //関数（描画以外）
 
@@ -135,7 +145,7 @@ public: // 描画
 	/// アニメーションオブジェクト
 	/// </summary>
 	/// <param name="desc">アニメーションオブジェクト引数</param>
-	static void AnimObjectDraw(AnimObjectDesc& desc);
+	static void AnimObjectDraw(AnimObjectDesc& desc, uint32_t renderTargetIndex = 0);
 
 	/// <summary>
 	/// アニメーション無しオブジェクト
@@ -147,7 +157,7 @@ public: // 描画
 	/// アニメーション反転オブジェクト
 	/// </summary>
 	/// <param name="desc">アニメーションオブジェクト引数</param>
-	static void AnimInverseObjectDraw(AnimObjectDesc& desc);
+	static void AnimInverseObjectDraw(AnimObjectDesc& desc, uint32_t renderTargetIndex = 0);
 
 	/// <summary>
 	/// 複数のアニメーションオブジェクト
@@ -165,6 +175,12 @@ public: // 描画
 	/// 
 	/// </summary>
 	static void NormalOutlineDraw(NormalOutlineDesc& desc);
+
+private: // 関数
+
+	static void UpdateVertexUAV(
+		Model* model,
+		LocalMatrixManager* localMatrixManager);
 
 };
 
