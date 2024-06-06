@@ -131,4 +131,7 @@ private:
 	std::unique_ptr<Ground> ground_;
 	std::unique_ptr<Model> groundModel_;
 
+	// スカイボックス
+	uint32_t skyboxTextureHandle_ = 0;
+
 };

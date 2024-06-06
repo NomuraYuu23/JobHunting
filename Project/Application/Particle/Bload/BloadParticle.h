@@ -14,7 +14,7 @@ public:
 	/// </summary>
 	/// <param name="position"></param>
 	/// <param name="size"></param>
-	void Initialize(const Vector3& position, const Vector3& size) override;
+	void Initialize(ParticleDesc* particleDesc) override;
 
 	/// <summary>
 	/// 更新

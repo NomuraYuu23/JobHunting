@@ -13,8 +13,8 @@
 /// </summary>
 enum InputLayoutIndex {
 	kInputLayoutIndexNormal,
-	kInputLayoutIndexModel,
 	kInputLayoutIndexNone,
+	kInputLayoutIndexPositon,
 	kInputLayoutIndexOfCount,
 };
 

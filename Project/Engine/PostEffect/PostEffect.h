@@ -21,34 +21,37 @@ public: // サブクラス
 		uint32_t threadIdTotalX; // スレッドの総数X
 		uint32_t threadIdOffsetY; // スレッドのオフセットY
 		uint32_t threadIdTotalY; // スレッドの総数Y
+
 		uint32_t threadIdOffsetZ; // スレッドのオフセットZ
 		uint32_t threadIdTotalZ; // スレッドの総数Z
-		float padding[2]; // パディング
-
-		Vector4 clearColor; // クリアするときの色
 		float threshold; // 明度のしきい値
-		int32_t kernelSize; // カーネルサイズ
-		float sigma; // 標準偏差
 		float time; // 時間
 
+		Vector4 clearColor; // クリアするときの色
+
+		int32_t kernelSize; // カーネルサイズ
+		float sigma; // 標準偏差
 		Vector2 rShift; // Rずらし
+
 		Vector2 gShift; // Gずらし
 		Vector2 bShift; // Bずらし
 
 		float distortion; // 歪み
 		float vignetteSize; // ビネットの大きさ
 		float vignetteChange; // ビネットの変化
-
 		float horzGlitchPase; // グリッチの水平
+
 		float vertGlitchPase; // グリッチの垂直
 		float glitchStepValue; // グリッチのステップ値
+		Vector2 radialBlurCenter; // 放射状ブラーの中心座標
 
 		int32_t radialBlurSamples; // 放射状ブラーのサンプル回数
-		Vector2 radialBlurCenter; // 放射状ブラーの中心座標
 		float radialBlurStrength; // 放射状ブラーの広がる強さ
 		float radialBlurMask; // 放射状ブラーが適用されないサイズ
+		float colorLerpT; // 色変える系のLerpT
 
-		float padding2[3]; // パディング
+		Vector2 colorSize; // 色変える系の大きさ
+		Vector2 colorPosition; // 色変える系の位置
 
 		Vector4 flareColor; // フレアの色
 		Vector2 flareSize; // フレアの大きさ
@@ -57,6 +60,8 @@ public: // サブクラス
 		Vector4 paraColor; // パラの色
 		Vector2 paraSize; // パラの大きさ
 		Vector2 paraPosition; // パラの位置
+
+		int32_t executionFlag; // 実行フラグ(複数組み合わせたときのやつ)
 
 	};
 
@@ -83,6 +88,7 @@ public: // サブクラス
 		kPipelineIndexSepia, // セピア
 
 		kPipelineIndexGlitchRGBShift, // グリッチRGB
+		kPipelineIndexTAKEYARIMONOGATARI_First,  // 竹槍物語用
 
 		kPipelineIndexOfCount // 数を数える用（穴埋め用）
 	};
@@ -107,6 +113,8 @@ public: // サブクラス
 		kCommandIndexGrayScale, // グレイスケール
 		kCommandIndexSepia, // セピア
 		kCommandIndexGlitchRGBShift, // グリッチとRGB
+		kCommandIndexTAKEYARIMONOGATARI_First,  // 竹槍物語用
+
 		kCommandIndexOfCount // 数を数えるよう
 	};
 
@@ -123,24 +131,25 @@ private: // 定数
 	// シェーダー情報 <シェーダ名, エントリポイント>
 	const std::array<std::pair<const std::wstring, const wchar_t*>, kPipelineIndexOfCount> shaderNames_ =
 	{
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainBinaryThreshold"}, // 二値化
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainGaussianBlurHorizontal"}, // ガウスブラー水平
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainGaussianBlurVertical"}, // ガウスブラー垂直
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainBloomHorizontal"},  // ブルーム水平
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainBloomVertical"},  // ブルーム垂直
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainMotionBlur"}, // モーションブラー
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainWhiteNoise"}, // ホワイトノイズ
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainScanLine"}, // 走査線
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainRGBShift"}, // RGBずらし
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainBarrelCurved"}, // 樽状湾曲
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainVignette"}, // ビネット
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainGlitch"}, // グリッチ
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainRadialBlur"}, // 放射状ブラー
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainShockWave"}, // 衝撃波
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainFlarePara"}, // フレア パラ
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainGrayScale"}, // グレイスケール
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainSepia"}, // セピア
-		std::pair{L"Resources/shaders/PostEffect.CS.hlsl", L"mainGlitchRGBShift"}, // グリッチRGB
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainBinaryThreshold"}, // 二値化
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainGaussianBlurHorizontal"}, // ガウスブラー水平
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainGaussianBlurVertical"}, // ガウスブラー垂直
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainBloomHorizontal"},  // ブルーム水平
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainBloomVertical"},  // ブルーム垂直
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainMotionBlur"}, // モーションブラー
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainWhiteNoise"}, // ホワイトノイズ
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainScanLine"}, // 走査線
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainRGBShift"}, // RGBずらし
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainBarrelCurved"}, // 樽状湾曲
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainVignette"}, // ビネット
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainGlitch"}, // グリッチ
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainRadialBlur"}, // 放射状ブラー
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainShockWave"}, // 衝撃波
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainFlarePara"}, // フレア パラ
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainGrayScale"}, // グレイスケール
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainSepia"}, // セピア
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainGlitchRGBShift"}, // グリッチRGB
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainTAKEYARIMONOGATARI_First"}, // 竹槍物語用
 	};
 
 	// コマンド情報(コマンド実行可能回数4回)
@@ -163,6 +172,7 @@ private: // 定数
 			{kPipelineIndexGrayScale, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // グレイスケール
 			{kPipelineIndexSepia, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // セピア
 			{kPipelineIndexGlitchRGBShift, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // グリッチとRGB
+			{kPipelineIndexTAKEYARIMONOGATARI_First, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // 竹槍物語用
 		},
 	};
 
@@ -349,6 +359,24 @@ public: // アクセッサ
 	void SetRadialBlurMask(float radialBlurMask) { computeParametersMap_->radialBlurMask = radialBlurMask; }
 	
 	/// <summary>
+	/// 色変える系のLerpT設定
+	/// </summary>
+	/// <param name="colorLerpT">色変える系のLerpT</param>
+	void SetColorLerpT(float colorLerpT) { computeParametersMap_->colorLerpT = colorLerpT; }
+
+	/// <summary>
+	/// 色変える系の大きさ設定
+	/// </summary>
+	/// <param name="colorSize">色変える系の大きさ</param>
+	void SetColorSize(const Vector2& colorSize) { computeParametersMap_->colorSize = colorSize; }
+
+	/// <summary>
+	/// 色変える系の位置設定
+	/// </summary>
+	/// <param name="colorPosition">色変える系の位置</param>
+	void SetColorPosition(const Vector2& colorPosition) { computeParametersMap_->colorPosition = colorPosition; }
+
+	/// <summary>
 	/// フレアの色設定
 	/// </summary>
 	/// <param name="flareColor">フレアの色</param>
@@ -383,6 +411,12 @@ public: // アクセッサ
 	/// </summary>
 	/// <param name="paraPosition">パラの位置</param>
 	void SetParaPosition(const Vector2& paraPosition) { computeParametersMap_->paraPosition = paraPosition; }
+
+	/// <summary>
+	/// 実行フラグ設定
+	/// </summary>
+	/// <param name="executionFlag">実行フラグ</param>
+	void SetExecutionFlag(uint32_t executionFlag) { computeParametersMap_->executionFlag = executionFlag; }
 
 private: // 変数
 

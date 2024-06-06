@@ -19,10 +19,13 @@
 #include "../../2D/Sprite.h" // スプライト
 #include "../../3D/Model.h" // モデル
 #include "../../3D/LargeNumberOfObjects.h" // 大量のオブジェクト用モデル
-#include "../../2D/DrawLine.h" // 線描画
+#include "../../3D/DrawLine.h" // 線描画
 #include "../../3D/Material.h"// マテリアル
 #include "../../Particle/ParticleManager.h" // パーティクルマネージャー
 #include "../../PostEffect/PostEffect.h" // ポストエフェクト
+#include "../../../Engine/3D/ModelDraw.h" // モデル描画
+#include "../../../Engine/base/WindowSpriteStorage.h" // ウインドウスプライト保存
+#include "../../../Engine/base/WindowSprite.h" // ウインドウスプライト
 
 // 数学系
 #include "../../Math/DeltaTime.h" // デルタタイム
@@ -41,6 +44,9 @@
 
 // アプリケーション側
 #include "../../../Application/Scene/SceneName.h" // シーンの名前
+#include "../../Level/LevelDataManager.h"
+#include "../../Object/ObjectManager.h"
+#include "../../3D/ModelManager.h"
 
 /// <summary>
 /// シーンの元になるクラス
@@ -72,14 +78,20 @@ protected: // 静的メンバ変数
 
 	// 線描画
 	static DrawLine* drawLine_;
+	
+	// レベルデータマネージャー
+	static LevelDataManager* levelDataManager_;
+
+	// モデルマネージャー
+	static ModelManager* modelManager_;
 
 public: // メンバ関数
 
 	/// <summary>
 	/// 静的初期化
 	/// </summary>
-	void StaticInitialize();
-
+	static void StaticInitialize(LevelDataManager* levelDataManager);
+	 
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -152,6 +164,9 @@ protected: // メンバ変数
 	// スポットライト
 	std::unique_ptr<SpotLightManager> spotLightManager_;
 	std::array<SpotLightData, SpotLightManager::kNumInstanceMax_> spotLightDatas_;
+
+	// オブジェクトマネージャー
+	std::unique_ptr<ObjectManager> objectManager_;
 
 };
 

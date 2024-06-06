@@ -58,13 +58,20 @@ void PostEffect::Initialize()
 	computeParametersMap_->radialBlurStrength = 0.0f; // ブラーの広がる強さ
 	computeParametersMap_->radialBlurMask = 0.0f; // 放射状ブラーが適用されないサイズ
 
+	computeParametersMap_->colorLerpT = 1.0f; // 色変える系のLerpT
+	computeParametersMap_->colorSize = { 0.3f, 0.3f }; // 色変える系の大きさ
+	computeParametersMap_->colorPosition = { 0.5f, 0.5f }; // 色変える系の位置
+
+
 	computeParametersMap_->flareColor = { 0.7f, 0.7f, 0.7f, 0.7f }; // フレアの色
 	computeParametersMap_->flareSize = { 0.3f, 0.3f }; // フレアの大きさ
 	computeParametersMap_->flarePosition = { 0.0f, 0.0f }; // フレアの位置
 
 	computeParametersMap_->paraColor = { 0.2f, 0.2f, 0.2f, 0.7f };  // パラの色
 	computeParametersMap_->paraSize = { 0.3f, 0.3f };// パラの大きさ
-	computeParametersMap_->paraPosition = { 1280.0f, 720.0f }; // パラの位置
+	computeParametersMap_->paraPosition = { 1.0f, 1.0f }; // パラの位置
+
+	computeParametersMap_->executionFlag = 15;
 
 	// ルートシグネチャ
 	CreateRootSignature();
@@ -114,12 +121,18 @@ void PostEffect::ImGuiDraw()
 	ImGui::DragFloat2("radialBlurCenter", &computeParametersMap_->radialBlurCenter.x, 0.01f);
 	ImGui::DragFloat("radialBlurStrength", &computeParametersMap_->radialBlurStrength, 0.01f);
 	ImGui::DragFloat("radialBlurMask", &computeParametersMap_->radialBlurMask, 0.01f);
+	ImGui::DragFloat("colorLerpT", &computeParametersMap_->colorLerpT, 0.01f);
+	ImGui::DragFloat2("colorSize", &computeParametersMap_->colorSize.x, 0.01f);
+	ImGui::DragFloat2("colorPosition", &computeParametersMap_->colorPosition.x, 0.01f);
 	ImGui::ColorEdit4("flareColor", &computeParametersMap_->flareColor.x);
 	ImGui::DragFloat2("flareSize", &computeParametersMap_->flareSize.x, 0.01f, 0.0f);
 	ImGui::DragFloat2("flarePosition", &computeParametersMap_->flarePosition.x, 0.01f);
 	ImGui::ColorEdit4("paraColor", &computeParametersMap_->paraColor.x);
 	ImGui::DragFloat2("paraSize", &computeParametersMap_->paraSize.x, 0.01f, 0.0f);
 	ImGui::DragFloat2("paraPosition", &computeParametersMap_->paraPosition.x, 0.01f);
+
+	ImGui::DragInt("executionFlag", &computeParametersMap_->executionFlag, 0.1f, 0, 31);
+
 	ImGui::End();
 
 	velocity2DManager_->ImGuiDraw();
@@ -292,7 +305,6 @@ void PostEffect::CreateRootSignature()
 		rootParameters[rootParametersIndex].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[i + 8].size());//Tableで利用する数
 
 		rootParametersIndex++;
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 
 	}
 
@@ -329,7 +341,6 @@ void PostEffect::CreateRootSignature()
 	hr = device_->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
 		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
 	assert(SUCCEEDED(hr));
-
 
 }
 
