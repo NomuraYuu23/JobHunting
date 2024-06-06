@@ -284,6 +284,10 @@ void GameScene::Draw() {
 
 	if (gameOverSystem_->GetIsOperation() || isBeingReset_) {
 
+		PostEffect::GetInstance()->SetColorPosition(Vector2{0.5f,0.5f});
+		PostEffect::GetInstance()->SetColorSize(Vector2{ 10.0f,10.0f });
+		PostEffect::GetInstance()->SetColorLerpT(1.0f);
+
 		PostEffect::GetInstance()->Execution(
 			dxCommon_->GetCommadList(),
 			renderTargetTexture_,
