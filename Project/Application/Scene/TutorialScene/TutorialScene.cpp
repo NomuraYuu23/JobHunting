@@ -114,6 +114,14 @@ void TutorialScene::Initialize() {
 	enemy_->Initialize(enemyModel_.get());
 	enemy_->SetPlayer(player_.get());
 
+	// モデルマネージャー
+	modelManager_->Initialize(dxCommon_, textureHandleManager_.get());
+
+	// オブジェクトマネージャー
+	objectManager_->Initialize(kLevelIndexSample, levelDataManager_);
+
+	IScene::InitilaizeCheck();
+
 }
 
 /// <summary>
@@ -234,6 +242,8 @@ void TutorialScene::Draw() {
 
 	// エネミー
 	enemy_->Draw(camera_);
+
+	objectManager_->Draw(camera_);
 
 #ifdef _DEBUG
 
