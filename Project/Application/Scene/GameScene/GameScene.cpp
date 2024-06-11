@@ -282,6 +282,20 @@ void GameScene::Draw() {
 
 #pragma endregion
 
+	PostEffect::GetInstance()->SetKernelSize(33);
+	PostEffect::GetInstance()->SetSigma(33.0f);
+	PostEffect::GetInstance()->SetThreshold(0.0f);
+
+	PostEffect::GetInstance()->Execution(
+		dxCommon_->GetCommadList(),
+		renderTargetTexture_,
+		PostEffect::kCommandIndexBloom
+	);
+
+	renderTargetTexture_->ClearDepthBuffer();
+
+	WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+
 	if (gameOverSystem_->GetIsOperation() || isBeingReset_) {
 
 		PostEffect::GetInstance()->SetColorPosition(Vector2{0.5f,0.5f});
