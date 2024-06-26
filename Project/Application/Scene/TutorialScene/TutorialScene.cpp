@@ -160,12 +160,12 @@ void TutorialScene::Update() {
 
 	// あたり判定
 	collisionManager_->ListClear();
-	collisionManager_->ListRegister(player_->GetCollider());
-	collisionManager_->ListRegister(enemy_->GetCollider());
+	//collisionManager_->ListRegister(player_->GetCollider());
+	//collisionManager_->ListRegister(enemy_->GetCollider());
 
 	// プレイヤーの攻撃
 	if (player_->GetPlayerAttack()->GetIsAttackJudgment()) {
-		collisionManager_->ListRegister(player_->GetPlayerAttack()->GetCollider());
+		//collisionManager_->ListRegister(player_->GetPlayerAttack()->GetCollider());
 	}
 
 	collisionManager_->CheakAllCollision();
@@ -317,21 +317,21 @@ void TutorialScene::DebugCameraUpdate()
 void TutorialScene::ModelCreate()
 {
 	// パーティクル
-	particleUvcheckerModel_.reset(Model::Create("Resources/default/", "plane.gltf", dxCommon_, textureHandleManager_.get()));
-	particleCircleModel_.reset(Model::Create("Resources/Particle/", "plane.obj", dxCommon_, textureHandleManager_.get()));
+	particleUvcheckerModel_.reset(Model::Create("Resources/default/", "plane.gltf", dxCommon_));
+	particleCircleModel_.reset(Model::Create("Resources/Particle/", "plane.obj", dxCommon_));
 
 	// スカイドーム
-	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_, textureHandleManager_.get()));
+	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_));
 
 	//プレイヤー
-	playerModel_.reset(Model::Create("Resources/Model/Player/", "Player.gltf", dxCommon_, textureHandleManager_.get()));
-	playerWeaponModel_.reset(Model::Create("Resources/Model/Player/", "PlayerWeapon.gltf", dxCommon_, textureHandleManager_.get()));
+	playerModel_.reset(Model::Create("Resources/Model/Player/", "Player.gltf", dxCommon_));
+	playerWeaponModel_.reset(Model::Create("Resources/Model/Player/", "PlayerWeapon.gltf", dxCommon_));
 
 	// 地面
-	groundModel_.reset(Model::Create("Resources/Model/Ground/", "Ground.obj", dxCommon_, textureHandleManager_.get()));
+	groundModel_.reset(Model::Create("Resources/Model/Ground/", "Ground.obj", dxCommon_));
 
 	// エネミー
-	enemyModel_.reset(Model::Create("Resources/Model/Tutorial/", "Boss.gltf", dxCommon_, textureHandleManager_.get()));
+	enemyModel_.reset(Model::Create("Resources/Model/Tutorial/", "Boss.gltf", dxCommon_));
 }
 
 void TutorialScene::TextureLoad()
@@ -339,14 +339,14 @@ void TutorialScene::TextureLoad()
 
 	// UI
 	uiTextureHandles_ = {
-		TextureManager::Load("Resources/UI/attack.png", dxCommon_, textureHandleManager_.get()),
-		TextureManager::Load("Resources/UI/rolling.png", dxCommon_, textureHandleManager_.get()),
-		TextureManager::Load("Resources/default/white2x2.png", dxCommon_, textureHandleManager_.get()),
-		TextureManager::Load("Resources/UI/tutorial.png", dxCommon_, textureHandleManager_.get()),
-		TextureManager::Load("Resources/UI/goGame.png", dxCommon_, textureHandleManager_.get()),
+		TextureManager::Load("Resources/UI/attack.png", dxCommon_),
+		TextureManager::Load("Resources/UI/rolling.png", dxCommon_),
+		TextureManager::Load("Resources/default/white2x2.png", dxCommon_),
+		TextureManager::Load("Resources/UI/tutorial.png", dxCommon_),
+		TextureManager::Load("Resources/UI/goGame.png", dxCommon_)
 	};
 
-	skyboxTextureHandle_ = TextureManager::Load("Resources/default/rostock_laage_airport_4k.dds", DirectXCommon::GetInstance(), textureHandleManager_.get());
+	skyboxTextureHandle_ = TextureManager::Load("Resources/default/rostock_laage_airport_4k.dds", DirectXCommon::GetInstance());
 
 }
 

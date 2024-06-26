@@ -213,7 +213,7 @@ public: // アクセッサ
 
 	float GetWidth() { return width_; }
 
-	ColliderShape GetCollider() { return collider_.get(); }
+	//ColliderShape GetCollider() { return collider_.get(); }
 
 	void SetPlayer(Player* player) { player_ = player; }
 

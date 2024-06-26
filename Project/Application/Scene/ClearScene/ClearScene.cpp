@@ -98,8 +98,8 @@ void ClearScene::ModelCreate()
 void ClearScene::TextureLoad()
 {
 
-	clearTextureHandle_ = TextureManager::Load("Resources/OutGame/clear.png", dxCommon_, textureHandleManager_.get());
-	buttonTextureHandle_ = TextureManager::Load("Resources/OutGame/button.png", dxCommon_, textureHandleManager_.get());
+	clearTextureHandle_ = TextureManager::Load("Resources/OutGame/clear.png", dxCommon_);
+	buttonTextureHandle_ = TextureManager::Load("Resources/OutGame/button.png", dxCommon_);
 
 }
 

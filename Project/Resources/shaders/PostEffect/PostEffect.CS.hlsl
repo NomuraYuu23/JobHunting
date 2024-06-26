@@ -1,5 +1,7 @@
 #include "PostEffect.hlsli"
 
+#include "LuminanceBasedOutline.CS.hlsl"
+
 #include "PostEffectCalc.CS.hlsl"
 
 // 定数データ
@@ -18,7 +20,7 @@ struct ComputeParameters {
 	float32_t4 clearColor; // クリアするときの色
 	
 	int32_t kernelSize; // カーネルサイズ
-	float32_t sigma; // 標準偏差
+	float32_t gaussianSigma; // 標準偏差
 	float32_t2 rShift; // Rずらし
 	
 	float32_t2 gShift; // Gずらし
@@ -50,6 +52,14 @@ struct ComputeParameters {
 	
 	float32_t2 paraSize; // パラの大きさ
 	float32_t2 paraPosition; // パラの位置
+
+	float32_t4x4 projectionInverse; // プロジェクション逆行列
+	
+	float32_t outlineSigma; // アウトライン標準偏差
+	float32_t3 maskEdgeColor; // マスクのエッジの色
+
+	float32_t maskThreshold; // マスクしきい値
+	float32_t maskEdgeRangeOfDetection; // マスクのエッジ検出範囲
 
 	uint32_t executionFlag;  // 実行フラグ(複数組み合わせたときのやつ)
 
@@ -94,6 +104,12 @@ Texture2D<float32_t4> sourceImage4 : register(t4);
 Texture2D<float32_t4> sourceImage5 : register(t5);
 Texture2D<float32_t4> sourceImage6 : register(t6);
 Texture2D<float32_t4> sourceImage7 : register(t7);
+
+// 深度値
+Texture2D<float32_t4> depthTexture : register(t8);
+
+// マスク画像
+Texture2D<float32_t4> maskTexture : register(t9);
 
 // 行先
 RWTexture2D<float32_t4> destinationImage0 : register(u0);
@@ -187,7 +203,7 @@ float32_t4 GaussianBlurHorizontal(in const float32_t2 index) {
 		}
 
 		// 重み確認
-		weight = Gauss(float32_t(i), gComputeConstants.sigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.sigma);
+		weight = Gauss(float32_t(i), gComputeConstants.gaussianSigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.gaussianSigma);
 
 		// outputに加算
 		output += sourceImage0[indexTmp] * weight;
@@ -244,7 +260,7 @@ float32_t4 GaussianBlurVertical(in const float32_t2 index) {
 		}
 
 		// 重み確認
-		weight = Gauss(float32_t(i), gComputeConstants.sigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.sigma);
+		weight = Gauss(float32_t(i), gComputeConstants.gaussianSigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.gaussianSigma);
 
 		// outputに加算
 		output += destinationImage1[indexTmp] * weight;
@@ -308,7 +324,7 @@ float32_t4 Bloom(in const float32_t2 index, in const  float32_t2 dir) {
 		}
 
 		// 重み確認
-		weight = Gauss(float32_t(i), gComputeConstants.sigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.sigma);
+		weight = Gauss(float32_t(i), gComputeConstants.gaussianSigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.gaussianSigma);
 
 		// 色確認
 		if (((input.r + input.g + input.b) * rcp(3.0f) > gComputeConstants.threshold)) {
@@ -358,7 +374,7 @@ float32_t4 BloomHorizontal(in const float32_t2 index) {
 		input = sourceImage0[indexTmp];
 
 		// 重み確認
-		weight = Gauss(float32_t(i), gComputeConstants.sigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.sigma);
+		weight = Gauss(float32_t(i), gComputeConstants.gaussianSigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.gaussianSigma);
 
 		// 色確認
 		if (((input.r + input.g + input.b) * rcp(3.0f) > gComputeConstants.threshold)) {
@@ -421,7 +437,7 @@ float32_t4 BloomVertical(in const float32_t2 index) {
 		input = destinationImage1[indexTmp];
 
 		// 重み確認
-		weight = Gauss(float32_t(i), gComputeConstants.sigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.sigma);
+		weight = Gauss(float32_t(i), gComputeConstants.gaussianSigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.gaussianSigma);
 
 		// 色確認
 		if (((input.r + input.g + input.b) * rcp(3.0f) > gComputeConstants.threshold)) {
@@ -493,7 +509,7 @@ float32_t4 MotionBlur(in const float32_t2 index) {
 		input = sourceImage0[indexTmp];
 
 		// 重み確認
-		weight = Gauss(float32_t(i), gComputeConstants.sigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.sigma);
+		weight = Gauss(float32_t(i), gComputeConstants.gaussianSigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.gaussianSigma);
 		
 		// outputに加算
 		output += input * weight;
@@ -932,212 +948,85 @@ void mainSepia(uint32_t3 dispatchId : SV_DispatchThreadID) {
 
 }
 
-float32_t3 GlitchRGBShift(in const float32_t2 index) {
+float32_t4 Outline(in const float32_t2 index) {
 
-	float32_t2 texcoord = GetTexcoord(index, float32_t2(gComputeConstants.threadIdTotalX, gComputeConstants.threadIdTotalY));
+	float32_t2 difference = float32_t2(0.0f, 0.0f);
 
-	float32_t horzNoise = Noise(
-		float32_t2(
-			floor((texcoord.y) * rcp(gComputeConstants.horzGlitchPase)) * gComputeConstants.horzGlitchPase,
-			gComputeConstants.time * 0.2f));
+	for (int32_t x = -1; x < 2; ++x) {
+		for (int32_t y = -1; y < 2; ++y) {
+			// uv
+			float32_t2 indexTmp = index;
+			indexTmp += float32_t2(float32_t(x), float32_t(y)) * gComputeConstants.outlineSigma;
 
-	float32_t vertNoise = Noise(
-		float32_t2(
-			floor((texcoord.x) * rcp(gComputeConstants.vertGlitchPase)) * gComputeConstants.vertGlitchPase,
-			gComputeConstants.time * 0.1f));
+			float32_t ndcDepth = depthTexture[indexTmp].r;
 
-	float32_t horzGlitchStrength = horzNoise * rcp(gComputeConstants.glitchStepValue);
+			float32_t4 viewSpace = mul(float32_t4(0.0f, 0.0f, ndcDepth, 1.0f), gComputeConstants.projectionInverse);
 
-	float32_t vertGlitchStrength = vertNoise * rcp(gComputeConstants.glitchStepValue);
+			float32_t viewZ = viewSpace.z * rcp(viewSpace.w);
 
-	horzGlitchStrength = vertGlitchStrength * 2.0f - 1.0f;
-	vertGlitchStrength = horzGlitchStrength * 2.0f - 1.0f;
+			difference.x += viewZ * kPrewittHorizontalKernel[x + 1][y + 1];
+			difference.y += viewZ * kPrewittVerticalKernel[x + 1][y + 1];
 
-	float32_t horz = step(horzNoise, gComputeConstants.glitchStepValue) * horzGlitchStrength;
-	float32_t vert = step(vertNoise, gComputeConstants.glitchStepValue * 2.0f) * vertGlitchStrength;
+		}
+	}
 
-	float32_t sinv = sin(texcoord.y * 2.0f - gComputeConstants.time * -0.1f);
-	float32_t steped = 1.0f - step(0.99f, sinv * sinv);
-	float32_t timeFrac = steped * step(0.8f, frac(gComputeConstants.time));
+	float32_t weight = length(difference);
+	weight = saturate(weight);
 
-	float32_t2 newIndex = index + timeFrac * (horz + vert);
-
-
-	float32_t3 output = { 0.0f,0.0f,0.0f };
-
-	output.r = sourceImage0[newIndex - gComputeConstants.rShift].r;
-	output.g = sourceImage0[newIndex - gComputeConstants.gShift].g;
-	output.b = sourceImage0[newIndex - gComputeConstants.bShift].b;
+	float32_t4 output;
+	output.rgb = (1.0f - weight) * sourceImage0[index].rgb;
+	output.a = 1.0f;
 
 	return output;
 
 }
 
 [numthreads(THREAD_X, THREAD_Y, THREAD_Z)]
-void mainGlitchRGBShift(uint32_t3 dispatchId : SV_DispatchThreadID) {
+void mainOutline(uint32_t3 dispatchId : SV_DispatchThreadID) {
 
 	if (dispatchId.x < gComputeConstants.threadIdTotalX &&
 		dispatchId.y < gComputeConstants.threadIdTotalY) {
 
-		float32_t a = sourceImage0[dispatchId.xy].a;
-		destinationImage0[dispatchId.xy] = float32_t4(GlitchRGBShift(dispatchId.xy), a);
+		destinationImage0[dispatchId.xy] = Outline(dispatchId.xy);
 
 	}
 
 }
 
-float32_t4 TAKEYARIMONOGATARI_First(in const float32_t2 index) {
+float32_t4 Dissolve(in const float32_t2 index) {
 
 
-	float32_t4 output = { 0.0f,0.0f,0.0f, 0.0f };
-	float32_t2 texcoord = GetTexcoord(index, float32_t2(gComputeConstants.threadIdTotalX, gComputeConstants.threadIdTotalY));
+	// マスク画像の色
+	float32_t4 maskTextureColor = maskTexture[index];
 
-	float32_t2 indexTmp = index;
+	// マスクの値rを取ってくる
+	float32_t mask = maskTextureColor.r;
 
-	// 衝撃波
-	if (gComputeConstants.executionFlag & 1) {
-		// 比率
-		float32_t ratio = float32_t(gComputeConstants.threadIdTotalY) * rcp(gComputeConstants.threadIdTotalX);
-
-		// テクスチャ比率に依存しない真円
-		float32_t2 scaleUV = (texcoord - float32_t2(0.5f, 0.0f)) * float32_t2(rcp(ratio), 1.0f) + float32_t2(0.5f, 0.0f);
-
-		// 中心を基準にした位置
-		float32_t2 position = scaleUV - gShockWaveConstants0.center;
-
-		// マスク
-		float32_t mask =
-			(1.0f - smoothstep(gShockWaveConstants0.radius - 0.1f, gShockWaveConstants0.radius, length(position))) *
-			smoothstep(gShockWaveConstants0.radius - gShockWaveConstants0.thickness - 0.1f, gShockWaveConstants0.radius - gShockWaveConstants0.thickness, length(position));
-
-		// 歪み
-		float32_t2 distortion = normalize(position) * gShockWaveConstants0.distortion * mask;
-
-		// 新しいインデックス
-		indexTmp = texcoord - distortion;
-		indexTmp.x *= gComputeConstants.threadIdTotalX;
-		indexTmp.y *= gComputeConstants.threadIdTotalY;
+	// しきい値確認
+	if (mask <= gComputeConstants.maskThreshold) {
+		return gComputeConstants.clearColor;
 	}
 
-	// グリッチ
-	if (gComputeConstants.executionFlag & 2) {
-		float32_t horzNoise = Noise(
-			float32_t2(
-				floor((texcoord.y) * rcp(gComputeConstants.horzGlitchPase)) * gComputeConstants.horzGlitchPase,
-				gComputeConstants.time * 0.2f));
+	// Edge
+	float32_t edge = 1.0f - smoothstep(gComputeConstants.maskThreshold, gComputeConstants.maskThreshold + gComputeConstants.maskEdgeRangeOfDetection, mask);
 
-		float32_t vertNoise = Noise(
-			float32_t2(
-				floor((texcoord.x) * rcp(gComputeConstants.vertGlitchPase)) * gComputeConstants.vertGlitchPase,
-				gComputeConstants.time * 0.1f));
+	float32_t4 output = sourceImage0[index];
 
-		float32_t horzGlitchStrength = horzNoise * rcp(gComputeConstants.glitchStepValue);
-
-		float32_t vertGlitchStrength = vertNoise * rcp(gComputeConstants.glitchStepValue);
-
-		horzGlitchStrength = vertGlitchStrength * 2.0f - 1.0f;
-		vertGlitchStrength = horzGlitchStrength * 2.0f - 1.0f;
-
-		float32_t horz = step(horzNoise, gComputeConstants.glitchStepValue) * horzGlitchStrength;
-		float32_t vert = step(vertNoise, gComputeConstants.glitchStepValue * 2.0f) * vertGlitchStrength;
-
-		float32_t sinv = sin(texcoord.y * 2.0f - gComputeConstants.time * -0.1f);
-		float32_t steped = 1.0f - step(0.99f, sinv * sinv);
-		float32_t timeFrac = steped * step(0.8f, frac(gComputeConstants.time));
-
-		indexTmp = indexTmp + timeFrac * (horz + vert);
-	}
-
-	// RGBShift
-	if (gComputeConstants.executionFlag & 4) {
-		output.r = sourceImage0[indexTmp - gComputeConstants.rShift].r;
-		output.g = sourceImage0[indexTmp - gComputeConstants.gShift].g;
-		output.b = sourceImage0[indexTmp - gComputeConstants.bShift].b;
-		output.a = sourceImage0[indexTmp].a;
-	}
-	else {
-		output.rgba = sourceImage0[indexTmp].rgba;
-	}
-
-	// グレイスケール
-	if (gComputeConstants.executionFlag & 8) {
-		output = GrayScale(output, indexTmp);
-	}
-
-	// モーションブラー竹槍 最後
-	if (( gComputeConstants.executionFlag & 16 ) && 
-		!(gVelocityConstants0.values.x == 0 &&
-		gVelocityConstants0.values.y == 0)) {
-
-		// 入力色
-		float32_t4 blurInput = { 0.0f,0.0f,0.0f,0.0f };
-
-		// 出力色
-		float32_t4 blurOutput = { 0.0f,0.0f,0.0f,0.0f };
-
-		// 一時的なインデックス
-		float32_t2 blurIndexTmp = { 0.0f,0.0f };
-
-		// 重み
-		float32_t blurWeight = 0.0f;
-
-		// 重み合計
-		float32_t blurWeightSum = 0.0f;
-
-		for (int32_t i = 0; i < gComputeConstants.kernelSize * rcp(2); i+= 2) {
-
-			// インデックス
-			blurIndexTmp = index;
-
-			blurIndexTmp.x += float32_t(i) * gVelocityConstants0.values.x;
-			blurIndexTmp.y += float32_t(i) * gVelocityConstants0.values.y;
-			if ((blurIndexTmp.x < 0.0f) || (blurIndexTmp.y < 0.0f) ||
-				(blurIndexTmp.x > float32_t(gComputeConstants.threadIdTotalX)) || (blurIndexTmp.y > float32_t(gComputeConstants.threadIdTotalY))) {
-				continue;
-			}
-
-			blurInput = sourceImage2[blurIndexTmp];
-
-			// 重み確認
-			blurWeight = Gauss(float32_t(i), gComputeConstants.sigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.sigma);
-
-			// outputに加算
-			if (!(blurInput.r == 0.0f && blurInput.g == 1.0f && blurInput.b == 0.0f)) {
-				blurOutput += blurInput * blurWeight;
-			}
-			// 重みの合計に加算
-			blurWeightSum += blurWeight;
-
-		}
-
-		// 重みの合計分割る
-		blurOutput *= rcp(blurWeightSum);
-		
-		float32_t blurAlphaSum = output.a + blurOutput.a;
-
-		if (blurAlphaSum != 0.0f) {
-			float32_t a1 = output.a * rcp(blurAlphaSum);
-			float32_t a2 = blurOutput.a * rcp(blurAlphaSum);
-
-			float32_t3 col = output.rgb * a1 + blurOutput.rgb * a2;
-
-			output = float32_t4(col, min(blurAlphaSum, 1.0f));
-		}
-
-	}
+	output.rgb += edge * gComputeConstants.maskEdgeColor;
 
 	return output;
 
 }
 
 [numthreads(THREAD_X, THREAD_Y, THREAD_Z)]
-void mainTAKEYARIMONOGATARI_First(uint32_t3 dispatchId : SV_DispatchThreadID) {
+void mainDissolve(uint32_t3 dispatchId : SV_DispatchThreadID) {
 
 	if (dispatchId.x < gComputeConstants.threadIdTotalX &&
 		dispatchId.y < gComputeConstants.threadIdTotalY) {
 
-		destinationImage0[dispatchId.xy] = TAKEYARIMONOGATARI_First(dispatchId.xy);
+		destinationImage0[dispatchId.xy] = Dissolve(dispatchId.xy);
 
 	}
 
 }
+

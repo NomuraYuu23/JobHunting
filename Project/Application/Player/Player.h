@@ -244,7 +244,7 @@ public: // アクセッサ
 
 	void SetHeight(float height) { height_ = height; }
 
-	ColliderShape GetCollider() { return collider_.get(); }
+	//ColliderShape GetCollider() { return collider_.get(); }
 
 	IPlayerState* GetPlayerState() { return playerState_.get(); }
 

@@ -9,6 +9,8 @@
 #include <vector>
 #include "../../3D/Model.h"
 #include "../../3D/Material.h"
+#include "../ColliderShape.h"
+#include "../../3D/DrawLine.h"
 
 /// <summary>
 /// コライダーの描画関数デバッグ用
@@ -16,71 +18,76 @@
 class ColliderDebugDraw
 {
 
-public: // サブクラス
-
-	enum class ModelNo {
-		kSphere,
-		//kPlane,
-		//kTriangle,
-		kAABB,
-		kOBB,
-		kEnd // 使わない
-	};
-
 public:
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	/// <param name="models"></param>
-	/// <param name="material"></param>
-	void Initialize(const std::vector<Model*> models, Material* material);
+	void Initialize();
 
 	/// <summary>
-	/// 更新
+	/// リストをクリア
 	/// </summary>
-	void Update();
-
-	/// <summary>
-	/// 描画
-	/// </summary>
-	/// <param name="viewProjection"></param>
-	void Draw(BaseCamera& camera);
+	void ListClear();
 
 	/// <summary>
 	/// コライダー追加
 	/// </summary>
-	void AddCollider(Sphere* sphere);
-	//void AddCollider(Plane* plane);
-	//void AddCollider(Triangle* triangle);
-	void AddCollider(AABB* aabb);
-	void AddCollider(OBB* obb);
+	void AddCollider(const ColliderShape& collider);
 
-private: // メンバ関数
+	/// <summary>
+	/// 描画マッピング
+	/// </summary>
+	/// <param name="drawLine">線描画クラス</param>
+	void DrawMap(DrawLine* drawLine);
 
+	/// <summary>
+	/// ImGui描画
+	/// </summary>
 	void ImGuiDraw();
+
+private: 
+
+	/// <summary>
+	/// OBB初期化
+	/// </summary>
+	void InitializeOBB();
+
+	/// <summary>
+	/// OBBマッピング
+	/// </summary>
+	/// <param name="drawLine">線描画クラス</param>
+	/// <param name="collider">コライダー</param>
+	void DrawMapOBB(DrawLine* drawLine, const OBB& collider);
+
+	/// <summary>
+	/// Sphere初期化
+	/// </summary>
+	void InitializeSphere();
+
+	/// <summary>
+	/// Sphereマッピング
+	/// </summary>
+	/// <param name="drawLine">線描画クラス</param>
+	/// <param name="collider">コライダー</param>
+	void DrawMapSphere(DrawLine* drawLine, const Sphere& collider);
 
 private: // メンバ変数
 
-	// 球
-	std::list<Sphere*> spheres_;
-	// 平面
-	//std::list<Plane*> planes_;
-	// 三角形
-	//std::list<Triangle*> triangles_;
-	// AABB
-	std::list<AABB*> aabbs_;
-	// OBB
-	std::list<OBB*> obbs_;
+	// 分割数
+	static const uint32_t kSubdivision = 10;
 
-	// モデル
-	std::vector<Model*> models_;
-
-	// マテリアル
-	Material* material_;
+	// コライダー
+	std::list<ColliderShape> colliders_;
 
 	// 表示するか
 	bool isDraw_;
+
+	//OBB
+	std::array<Vector3, 8> obbOffsetPoints_;
+
+	// Sphere
+	std::array<Vector3, kSubdivision * kSubdivision + 1> sphereOffsetPoints_;
 
 };
 

@@ -9,11 +9,13 @@ void MeshObject::Initialize(LevelData::MeshData* data)
 	name_ = data->name;
 
 	// ファイルの名前
-	fileNmae_ = data->flieName;
+	fileName_ = data->flieName;
+
+	// ディレクトリパス
+	directoryPath_ = data->directoryPath;
 
 	// モデル
-	// ディレクトリパスがまだ
-	model_ = ModelManager::GetInstance()->GetModel("Resources/default", fileNmae_);
+	model_ = ModelManager::GetInstance()->GetModel(directoryPath_, fileName_);
 
 	// ワールドトランスフォーム
 	worldTransform_.Initialize(model_->GetRootNode());
@@ -22,6 +24,9 @@ void MeshObject::Initialize(LevelData::MeshData* data)
 
 	// マテリアル
 	material_.reset(Material::Create());
+
+
+	ColliderInitialize(data->collider);
 
 }
 
@@ -37,5 +42,21 @@ void MeshObject::Draw(BaseCamera& camera)
 	desc.worldTransform = &worldTransform_;
 
 	ModelDraw::NormalObjectDraw(desc);
+
+}
+
+void MeshObject::ColliderInitialize(ColliderShape collider)
+{
+
+	// 値があるなら
+	if (std::holds_alternative<OBB>(collider) || std::holds_alternative<Sphere>(collider)) {
+
+		ColliderShape* colliderShape = new ColliderShape();
+
+		*colliderShape = collider;
+
+		collider_.reset(colliderShape);
+
+	}
 
 }

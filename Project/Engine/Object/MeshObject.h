@@ -31,16 +31,34 @@ public: // 関数
     /// <param name="camera">カメラ</param>
     virtual void Draw(BaseCamera& camera);
 
+protected: // 関数
+
+    /// <summary>
+    /// コライダーの初期化
+    /// </summary>
+    /// <param name="collider">コライダー</param>
+    virtual void ColliderInitialize(ColliderShape collider);
+
+public: // アクセッサ
+
+    ColliderShape* GetCollider() { return collider_.get(); };
+
 protected: // 変数
 
-    //  ファイル名前
-    std::string fileNmae_;
+    // ファイル名前
+    std::string fileName_;
+
+    // ディレクトリパス
+    std::string directoryPath_;
 
     // モデル
     Model* model_ = nullptr;
 
     // マテリアル
     std::unique_ptr<Material> material_;
+
+    // コライダー
+    std::unique_ptr<ColliderShape> collider_;
 
 };
 

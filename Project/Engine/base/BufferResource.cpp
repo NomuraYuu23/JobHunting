@@ -34,11 +34,7 @@ ID3D12Resource* BufferResource::CreateBufferResourceUAV(ID3D12Device* device, co
 
 	//頂点リソース用のヒープの設定
 	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
-	uploadHeapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	uploadHeapProperties.CreationNodeMask = 1;
-	uploadHeapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-	uploadHeapProperties.Type = D3D12_HEAP_TYPE_CUSTOM;
-	uploadHeapProperties.VisibleNodeMask = 1;
+	uploadHeapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 	//頂点リソースの設定
 	D3D12_RESOURCE_DESC resourceDesc{};
 	//バッファリソース。テクスチャの場合はまた別の設定をする
@@ -57,7 +53,7 @@ ID3D12Resource* BufferResource::CreateBufferResourceUAV(ID3D12Device* device, co
 	//実際に頂点リソースを作る
 	ID3D12Resource* resource = nullptr;
 	HRESULT hr = device->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE,
-		&resourceDesc, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, nullptr,
+		&resourceDesc, D3D12_RESOURCE_STATE_COMMON, nullptr,
 		IID_PPV_ARGS(&resource));
 	assert(SUCCEEDED(hr));
 

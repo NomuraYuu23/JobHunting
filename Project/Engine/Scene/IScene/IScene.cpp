@@ -26,6 +26,8 @@ DrawLine* IScene::drawLine_ = nullptr;
 LevelDataManager* IScene::levelDataManager_;
 // モデルマネージャー
 ModelManager* IScene::modelManager_;
+// GPUパーティクル
+GPUPaticle* IScene::gpuParticle_;
 
 void IScene::StaticInitialize(LevelDataManager* levelDataManager)
 {
@@ -56,6 +58,9 @@ void IScene::StaticInitialize(LevelDataManager* levelDataManager)
 	// モデルマネージャー
 	modelManager_ = ModelManager::GetInstance();
 
+	// GPUパーティクル
+	gpuParticle_ = GPUPaticle::GetInstance();
+
 }
 
 void IScene::Initialize()
@@ -63,9 +68,6 @@ void IScene::Initialize()
 
 	sceneNoCheck_ = sceneNo_;
 	requestSceneNoCheck_ = requestSceneNo_;
-
-	textureHandleManager_ = std::make_unique<ITextureHandleManager>();
-	textureHandleManager_->Initialize();
 
 	// 点光源
 	pointLightManager_ = std::make_unique<PointLightManager>();
@@ -106,8 +108,6 @@ void IScene::Initialize()
 }
 
 IScene::~IScene(){
-
-	textureHandleManager_->ResetTextureHandles();
 
 	modelManager_->Finalize();
 

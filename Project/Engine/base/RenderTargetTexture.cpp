@@ -6,6 +6,8 @@
 #include "BufferResource.h"
 #include "WindowSprite.h"
 
+const Vector4 RenderTargetTexture::kClearColor_ = { 0.0f,1.0f,0.0,1.0f };
+
 void RenderTargetTexture::Initialize(
 	ID3D12Device* device,
 	int32_t backBufferWidth,
@@ -62,6 +64,31 @@ void RenderTargetTexture::Initialize(
 	//DSVの生成
 	device->CreateDepthStencilView(dsvResource_.Get(), &dsvDesc, dsvHandle_);
 
+	D3D12_SHADER_RESOURCE_VIEW_DESC depthTextureSrvDesc{};
+
+	depthTextureSrvDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+	depthTextureSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	depthTextureSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	depthTextureSrvDesc.Texture2D.MipLevels = 1;
+	
+	//SRVを作成するDescriptorHeapの場所を決める
+	depthSrvCPUHandles_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	depthSrvGPUHandles_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	depthSrvIndexDescriptorHeaps_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
+
+	device->CreateShaderResourceView(dsvResource_.Get(), &depthTextureSrvDesc, depthSrvCPUHandles_);
+
+	depthTextureResouceStateIndex_ = kDepthTextureResouceStateIndexDepthWrite;
+
+	// Clearの最適値
+	D3D12_CLEAR_VALUE clearValue;
+	clearValue.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	clearValue.Color[0] = kClearColor_.x;
+	clearValue.Color[1] = kClearColor_.y;
+	clearValue.Color[2] = kClearColor_.z;
+	clearValue.Color[3] = kClearColor_.w;
+
 	for (uint32_t i = 0; i < kResourceNum_; ++i) {
 
 		// RTVリソース
@@ -84,7 +111,7 @@ void RenderTargetTexture::Initialize(
 			D3D12_HEAP_FLAG_NONE, //Heapの特殊な設定。特になし。
 			&rtvResouceDesc, //Resourceの設定
 			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, //データ転送される設定
-			nullptr, //Clear最適値。使わないのでnullptr
+			&clearValue, //Clear最適値
 			IID_PPV_ARGS(&resources_[i])); //作成するResourceポインタへのポインタ
 		assert(SUCCEEDED(hr));
 
@@ -181,7 +208,11 @@ void RenderTargetTexture::ClearRenderTarget(uint32_t resourceIndex)
 {
 
 	//指定した色で画面全体をクリアする
-	float clearColor[] = { 0.0f, 1.0f, 0.0f, 1.0f };
+	float clearColor[] = { 
+		kClearColor_.x,
+		kClearColor_.y,
+		kClearColor_.z,
+		kClearColor_.w };
 	commandList_->ClearRenderTargetView(rtvHandles_[resourceIndex], clearColor, 0, nullptr);
 
 }
@@ -285,6 +316,81 @@ void RenderTargetTexture::TextureDraw(uint32_t resourceIndex)
 
 }
 
+void RenderTargetTexture::DepthTextureChangeDepthWriteResource()
+{
+
+	assert(commandList_);
+	assert(depthTextureResouceStateIndex_ != kDepthTextureResouceStateIndexDepthWrite);
+
+	//TransitionBarrierの設定
+	D3D12_RESOURCE_BARRIER barrier{};
+	//今回のバリアはTransition
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	//Noneにしておく
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	//バリアを張る対象のリソース。
+	barrier.Transition.pResource = dsvResource_.Get();
+	//遷移前（現在）のResouceState
+	barrier.Transition.StateBefore = GetDepthTextureStateBefore();
+	//遷移後のResoureState
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_DEPTH_WRITE;
+	//TransitionBarrierを張る
+	commandList_->ResourceBarrier(1, &barrier);
+
+	depthTextureResouceStateIndex_ = kDepthTextureResouceStateIndexDepthWrite;
+
+}
+
+void RenderTargetTexture::DepthTextureChangePixelShaderResource()
+{
+
+	assert(commandList_);
+	assert(depthTextureResouceStateIndex_ != kDepthTextureResouceStateIndexPixelShaderResource);
+
+	//TransitionBarrierの設定
+	D3D12_RESOURCE_BARRIER barrier{};
+	//今回のバリアはTransition
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	//Noneにしておく
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	//バリアを張る対象のリソース。
+	barrier.Transition.pResource = dsvResource_.Get();
+	//遷移前（現在）のResouceState
+	barrier.Transition.StateBefore = GetDepthTextureStateBefore();
+	//遷移後のResoureState
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+	//TransitionBarrierを張る
+	commandList_->ResourceBarrier(1, &barrier);
+
+	depthTextureResouceStateIndex_ = kDepthTextureResouceStateIndexPixelShaderResource;
+
+}
+
+void RenderTargetTexture::DepthTextureChangeNonPixelShaderResource()
+{
+
+	assert(commandList_);
+	assert(depthTextureResouceStateIndex_ != kDepthTextureResouceStateIndexNonPixelShaderResource);
+
+	//TransitionBarrierの設定
+	D3D12_RESOURCE_BARRIER barrier{};
+	//今回のバリアはTransition
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	//Noneにしておく
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	//バリアを張る対象のリソース。
+	barrier.Transition.pResource = dsvResource_.Get();
+	//遷移前（現在）のResouceState
+	barrier.Transition.StateBefore = GetDepthTextureStateBefore();
+	//遷移後のResoureState
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+	//TransitionBarrierを張る
+	commandList_->ResourceBarrier(1, &barrier);
+
+	depthTextureResouceStateIndex_ = kDepthTextureResouceStateIndexNonPixelShaderResource;
+
+}
+
 D3D12_RESOURCE_STATES RenderTargetTexture::GetStateBefore(uint32_t resourceIndex)
 {
 
@@ -307,4 +413,29 @@ D3D12_RESOURCE_STATES RenderTargetTexture::GetStateBefore(uint32_t resourceIndex
 	}
 
 	return result;
+}
+
+D3D12_RESOURCE_STATES RenderTargetTexture::GetDepthTextureStateBefore()
+{
+
+	D3D12_RESOURCE_STATES result = D3D12_RESOURCE_STATE_DEPTH_WRITE;
+
+	switch (depthTextureResouceStateIndex_)
+	{
+	case RenderTargetTexture::kDepthTextureResouceStateIndexDepthWrite:
+		result = D3D12_RESOURCE_STATE_DEPTH_WRITE;
+		break;
+	case RenderTargetTexture::kDepthTextureResouceStateIndexPixelShaderResource:
+		result = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+		break;
+	case RenderTargetTexture::kDepthTextureResouceStateIndexNonPixelShaderResource:
+		result = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+		break;
+	default:
+		assert(0);
+		break;
+	}
+
+	return result;
+
 }

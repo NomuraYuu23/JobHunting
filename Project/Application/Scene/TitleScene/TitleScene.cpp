@@ -118,8 +118,8 @@ void TitleScene::ModelCreate()
 void TitleScene::TextureLoad()
 {
 
-	titleTextureHandle_ = TextureManager::Load("Resources/OutGame/title.png", dxCommon_, textureHandleManager_.get());
-	buttonTextureHandle_ = TextureManager::Load("Resources/OutGame/button.png", dxCommon_, textureHandleManager_.get());
+	titleTextureHandle_ = TextureManager::Load("Resources/OutGame/title.png", dxCommon_);
+	buttonTextureHandle_ = TextureManager::Load("Resources/OutGame/button.png", dxCommon_);
 
 }
 
