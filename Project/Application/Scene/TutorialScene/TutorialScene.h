@@ -115,11 +115,6 @@ private:
 	std::unique_ptr<SpotLightManager> spotLightManager_;
 	std::array<SpotLightData, SpotLightManager::kNumInstanceMax_> spotLightDatas_;
 
-	// プレイヤー
-	std::unique_ptr<Player> player_;
-	std::unique_ptr<Model> playerModel_;
-	std::unique_ptr<Model> playerWeaponModel_;
-
 	// ボス
 	std::unique_ptr<TutorialEnemy> enemy_;
 	std::unique_ptr<Model> enemyModel_;
@@ -133,5 +128,6 @@ private:
 
 	// スカイボックス
 	uint32_t skyboxTextureHandle_ = 0;
+
 
 };

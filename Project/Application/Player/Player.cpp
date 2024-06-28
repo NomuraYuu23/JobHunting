@@ -6,19 +6,10 @@
 #include "../TutorialEnemy/TutorialEnemy.h"
 #include "../../Engine/Animation/LocalMatrixDraw.h"
 
-void Player::Initialize(Model* model, Model* weaponModel)
+void Player::Initialize(LevelData::MeshData* data)
 {
 
-	// モデル
-	model_ = model;
-
-	// マテリアル
-	material_.reset(Material::Create());
-	material_->SetEnableLighting(BlinnPhongReflection);
-
-	// ワールドトランスフォーム
-	worldTransform_.Initialize(model_->GetRootNode());
-	worldTransform_.transform_.translate.z = -5.0f;
+	MeshObject::Initialize(data);
 
 	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
 	localMatrixManager_->Initialize(model_->GetRootNode());
@@ -41,9 +32,6 @@ void Player::Initialize(Model* model, Model* weaponModel)
 	// パーツ
 	PartInitialize();
 
-	// コライダー
-	ColliderInitialize();
-
 	// hp
 	hp_ = 3;
 	initHp_ = 3;
@@ -52,6 +40,9 @@ void Player::Initialize(Model* model, Model* weaponModel)
 
 	playerAttack_ = std::make_unique<PlayerAttack>();
 	playerAttack_->Initialize(&worldTransform_);
+
+	// 初期設定
+	material_->SetEnableLighting(BlinnPhongReflection);
 
 }
 
@@ -203,28 +194,20 @@ void Player::PartInitialize()
 
 }
 
-void Player::ColliderInitialize()
-{
-
-	// コライダー
-	collider_ = std::make_unique<Capsule>();
-	collider_->SetCollisionAttribute(collisionAttribute_);
-	collider_->SetCollisionMask(collisionMask_);
-
-	Segment segment = {
-		worldTransform_.GetWorldPosition(),
-		{ 0.0f, height_,0.0f }
-	};
-
-	collider_->Initialize(segment, 1.0f, this);
-
-}
-
 void Player::ColliderUpdate()
 {
 
-	collider_->segment_.origin_ = worldTransform_.GetWorldPosition();
-	collider_->segment_.diff_ = { 0.0f, height_,0.0f };
+	OBB obb = std::get<OBB>(*collider_.get());
+
+	obb.center_ =  worldTransform_.GetWorldPosition();
+	obb.center_.y += height_;
+	
+
+	ColliderShape* colliderShape = new ColliderShape();
+
+	*colliderShape = obb;
+
+	collider_.reset(colliderShape);
 
 }
 

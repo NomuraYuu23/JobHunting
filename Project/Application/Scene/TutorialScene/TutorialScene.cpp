@@ -55,6 +55,9 @@ void TutorialScene::Initialize() {
 	collisionManager_.reset(new CollisionManager);
 	collisionManager_->Initialize();
 
+	// オブジェクトマネージャー
+	objectManager_->Initialize(kLevelIndexTutorial, levelDataManager_);
+
 	// UI
 	uiManager_ = std::make_unique<TutorialUIManager>();
 	uiManager_->Initialize(uiTextureHandles_);
@@ -102,17 +105,19 @@ void TutorialScene::Initialize() {
 	}
 
 	//プレイヤー
-	player_ = std::make_unique<Player>();
-	player_->Initialize(playerModel_.get(), playerWeaponModel_.get());
+	Player* player = static_cast<Player*>(objectManager_->GetObjectPointer("Cube"));
+	
 	// 追従カメラ
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
-	followCamera_->SetTarget(player_->GetWorldTransformAdress());
-	player_->SetCamera(static_cast<BaseCamera*>(followCamera_.get()));
+	followCamera_->SetTarget(player->GetWorldTransformAdress());
+	player->SetCamera(static_cast<BaseCamera*>(followCamera_.get()));
 
 	enemy_ = std::make_unique<TutorialEnemy>();
 	enemy_->Initialize(enemyModel_.get());
-	enemy_->SetPlayer(player_.get());
+	enemy_->SetPlayer(player);
+
+	IScene::InitilaizeCheck();
 
 }
 
@@ -154,9 +159,10 @@ void TutorialScene::Update() {
 
 	camera_ = static_cast<BaseCamera>(*followCamera_.get());
 
-	player_->Update();
-
 	enemy_->Update();
+
+	// オブジェクトマネージャー
+	objectManager_->Update();
 
 	// あたり判定
 	collisionManager_->ListClear();
@@ -164,9 +170,9 @@ void TutorialScene::Update() {
 	//collisionManager_->ListRegister(enemy_->GetCollider());
 
 	// プレイヤーの攻撃
-	if (player_->GetPlayerAttack()->GetIsAttackJudgment()) {
+	//if (player_->GetPlayerAttack()->GetIsAttackJudgment()) {
 		//collisionManager_->ListRegister(player_->GetPlayerAttack()->GetCollider());
-	}
+	//}
 
 	collisionManager_->CheakAllCollision();
 
@@ -183,12 +189,6 @@ void TutorialScene::Update() {
 
 	//パーティクル
 	particleManager_->Update(camera_);
-
-#ifdef _DEBUG
-
-	player_->DebugDrawMap(drawLine_);
-
-#endif // _DEBUG
 
 }
 
@@ -229,18 +229,11 @@ void TutorialScene::Draw() {
 	// 地面
 	ground_->Draw(camera_);
 
-	// プレイヤー
-	player_->Draw(camera_);
-
 	// エネミー
 	enemy_->Draw(camera_);
-
-#ifdef _DEBUG
-
-	// デバッグ描画
-	//colliderDebugDraw_->Draw(camera_);
-
-#endif // _DEBUG
+	
+	// オブジェクトマネージャー
+	objectManager_->Draw(camera_, drawLine_);
 
 	ModelDraw::PostDraw();
 
@@ -259,13 +252,6 @@ void TutorialScene::Draw() {
 	particleManager_->Draw(camera_.GetViewProjectionMatrix(), dxCommon_->GetCommadList());
 
 #pragma endregion
-
-#ifdef _DEBUG
-#pragma region コライダー2d描画
-
-#pragma endregion
-#endif // DEBUG_
-
 
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
@@ -296,6 +282,10 @@ void TutorialScene::ImguiDraw() {
 	skydome_->ImGuiDraw();
 
 	debugCamera_->ImGuiDraw();
+
+	// オブジェクトマネージャー
+	objectManager_->ImGuiDraw();
+
 
 #endif // _DEBUG
 
@@ -335,10 +325,6 @@ void TutorialScene::ModelCreate()
 
 	// スカイドーム
 	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_));
-
-	//プレイヤー
-	playerModel_.reset(Model::Create("Resources/Model/Player/", "Player.gltf", dxCommon_));
-	playerWeaponModel_.reset(Model::Create("Resources/Model/Player/", "PlayerWeapon.gltf", dxCommon_));
 
 	// 地面
 	groundModel_.reset(Model::Create("Resources/Model/Ground/", "Ground.obj", dxCommon_));

@@ -661,12 +661,6 @@
     <ClCompile Include="Application\TutorialEnemy\TutorialEnemy.cpp">
       <Filter>Application\Object\Enemy\TutorialEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="Application\System\GameOverSystem.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\ObjectFactory.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\2D\ImGuiManager.cpp">
       <Filter>Engine\2D\ImGui</Filter>
     </ClCompile>
@@ -750,6 +744,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Animation\LocalMatrixDraw.cpp">
       <Filter>Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\ObjectFactory.cpp">
+      <Filter>Application\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\GameOverSystem.cpp">
+      <Filter>Application\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1221,12 +1221,6 @@
     <ClInclude Include="Application\TutorialEnemy\TutorialEnemy.h">
       <Filter>Application\Object\Enemy\TutorialEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="Application\System\GameOverSystem.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\ObjectFactory.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\2D\ImGuiManager.h">
       <Filter>Engine\2D\ImGui</Filter>
     </ClInclude>
@@ -1370,6 +1364,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Animation\LocalMatrixDraw.h">
       <Filter>Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\ObjectFactory.h">
+      <Filter>Application\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\GameOverSystem.h">
+      <Filter>Application\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

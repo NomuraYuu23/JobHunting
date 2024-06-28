@@ -1,6 +1,8 @@
 #include "ObjectFactory.h"
 #include "../../Engine/Object/MeshObject.h"
 
+#include "../Player/Player.h"
+
 
 ObjectFactory* ObjectFactory::GetInstance()
 {
@@ -17,11 +19,21 @@ IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
 	// クラスの名前など取得してオブジェクトを作る
 	if (std::holds_alternative<LevelData::MeshData>(objectData)) {
 
-		// インスタンス生成
-		object = new MeshObject();
+		LevelData::MeshData data = std::get<LevelData::MeshData>(objectData);
 
-		// 初期化
-		static_cast<MeshObject*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+		if (data.className == "Player") {
+			// インスタンス生成
+			object = new Player();
+
+			// 初期化
+			static_cast<Player*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+		}
+
+		//// インスタンス生成
+		//object = new MeshObject();
+
+		//// 初期化
+		//static_cast<MeshObject*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 
 	}
 

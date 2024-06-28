@@ -104,7 +104,7 @@ void GameScene::Initialize() {
 
 	//プレイヤー
 	player_ = std::make_unique<Player>();
-	player_->Initialize(playerModel_.get(), playerWeaponModel_.get());
+	//player_->Initialize(playerModel_.get(), playerWeaponModel_.get());
 	// 追従カメラ
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
