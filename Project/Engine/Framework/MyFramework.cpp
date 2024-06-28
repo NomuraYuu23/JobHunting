@@ -66,17 +66,25 @@ void MyFramework::Initialize()
 		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexParticle].Get()
 	);
 
+	GPUPaticle::GetInstance()->Initialize(
+		dxCommon->GetDevice(),
+		dxCommon->GetCommadList(),
+		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
+		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get()
+		);
+
 	// ポストエフェクト
 	PostEffect::GetInstance()->Initialize();
 
 	// 霧
 	FogManager::GetInstance()->Initialize();
 
-	// ウィンドウスプライト保存
-	WindowSpriteStorage::GetInstance()->Initialize();
+#ifdef _DEBUG
 
 	// クエリタイムスタンプ
-	//QueryTimestamp::GetInstance()->Initialize(dxCommon->GetDevice());
+	QueryTimestamp::GetInstance()->Initialize(dxCommon->GetDevice());
+
+#endif // _DEBUG
 
 	//サウンド
 	audio = Audio::GetInstance();
@@ -133,8 +141,12 @@ void MyFramework::Update()
 	// グローバル変数の更新
 	GlobalVariables::GetInstance()->Update();
 
+#ifdef _DEBUG
+
 	// クエリタイムスタンプ
-	//QueryTimestamp::GetInstance()->ImGuiDraw();
+	QueryTimestamp::GetInstance()->ImGuiDraw();
+
+#endif // _DEBUG
 
 }
 

@@ -88,7 +88,7 @@ void Mesh::VertBuffInitialize(ID3D12Device* sDevice, const std::vector<VertexDat
 	vertHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
 	vertIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
 	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
-	DirectXCommon::GetInstance()->GetDevice()->CreateShaderResourceView(vertBuff_.Get(), &srvDesc, vertHandleCPU_);
+	sDevice->CreateShaderResourceView(vertBuff_.Get(), &srvDesc, vertHandleCPU_);
 
 }
 
@@ -115,7 +115,7 @@ void Mesh::VertInfluenceBuffInitialize(ID3D12Device* sDevice, const std::vector<
 	influenceHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
 	influenceIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
 	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
-	DirectXCommon::GetInstance()->GetDevice()->CreateShaderResourceView(influenceBuff_.Get(), &srvDesc, influenceHandleCPU_);
+	sDevice->CreateShaderResourceView(influenceBuff_.Get(), &srvDesc, influenceHandleCPU_);
 
 }
 
@@ -126,18 +126,6 @@ void Mesh::UAVBuffInitialize(
 
 	// UAVデータ
 	vertBuffUAV_ = BufferResource::CreateBufferResourceUAV(sDevice, ((sizeof(VertexData) + 0xff) & ~0xff) * vertices.size());
-
-	//リソースの先頭のアドレスから使う
-	vbViewUAV_.BufferLocation = vertBuffUAV_->GetGPUVirtualAddress();
-	//使用するリソースのサイズは頂点3つ分のサイズ
-	vbViewUAV_.SizeInBytes = UINT(sizeof(VertexData) * vertices.size());
-	//1頂点あたりのサイズ
-	vbViewUAV_.StrideInBytes = sizeof(VertexData);
-
-	//書き込むためのアドレスを取得
-	vertBuffUAV_->Map(0, nullptr, reinterpret_cast<void**>(&vertMapUAV_));
-	//頂点データをリソースにコピー
-	std::memcpy(vertMapUAV_, vertices.data(), sizeof(VertexData) * vertices.size());
 
 	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
 

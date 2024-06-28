@@ -43,6 +43,7 @@
 
 // パーティクル
 #include "../Particle/ParticleManager.h"
+#include "../Particle/GPUPaticle.h"
 
 // Windowサイズのスプライト
 #include "../base/WindowSprite.h"
@@ -55,9 +56,6 @@
 
 // モデル描画
 #include "../3D/ModelDraw.h"
-
-// ウィンドウスプライト保存
-#include "../base/WindowSpriteStorage.h"
 
 // タイムスタンプ
 #include "../base/QueryTimestamp.h"

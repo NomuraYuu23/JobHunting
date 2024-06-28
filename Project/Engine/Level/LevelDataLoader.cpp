@@ -1,6 +1,7 @@
 #include "LevelDataLoader.h"
 #include <fstream>
 #include <cassert>
+#include "../Collider/OBB/OBB.h"
 
 const std::string LevelDataLoader::kFileDirectoryName = "Resources/Level/";
 
@@ -176,9 +177,26 @@ void LevelDataLoader::MeshLoad(LevelData* levelData, nlohmann::json& object)
 	objectData.transform = TransformLoad(object);
 
 	// ファイルの名前があるならとってくる
-	if (object.contains("file_name")) {
+	if (object.contains("fileName")) {
 		// ファイル名
-		objectData.flieName = object["file_name"];
+		objectData.flieName = object["fileName"];
+	}
+
+	// ディレクトリパスがあるならとってくる
+	if (object.contains("directoryPath")) {
+		// ファイル名
+		objectData.directoryPath = object["directoryPath"];
+	}
+
+	// クラスの名前があるならとってくる
+	if (object.contains("className")) {
+		// ファイル名
+		objectData.className = object["className"];
+	}
+
+	// コライダーがあるならとってくる
+	if (object.contains("collider")) {
+		objectData.collider = ColliderLoad(object, objectData.transform);
 	}
 
 }
@@ -239,6 +257,78 @@ EulerTransform LevelDataLoader::TransformLoad(nlohmann::json& object)
 	result.scale.x = static_cast<float>(transform["scaling"][0]);
 	result.scale.y = static_cast<float>(transform["scaling"][2]);
 	result.scale.z = static_cast<float>(transform["scaling"][1]);
+
+	return result;
+
+}
+
+ColliderShape LevelDataLoader::ColliderLoad(nlohmann::json& object, const EulerTransform& transform)
+{
+
+	ColliderShape result;
+
+	// コライダーのパラメータ読み込み
+	nlohmann::json& collider = object["collider"];
+
+	// タイプ別処理
+	if (collider["type"] == "BOX") {
+
+		OBB obb;
+
+		// 中心座標
+		Vector3 center = {
+		static_cast<float>(collider["center"][0]),
+		static_cast<float>(collider["center"][2]),
+		static_cast<float>(collider["center"][1]) 
+		};
+
+		center = 
+			Matrix4x4::Transform(center, 
+				Matrix4x4::MakeAffineMatrix(transform.scale, transform.rotate, transform.translate));
+
+		// 大きさ  半分に
+		Vector3 size = {
+		static_cast<float>(collider["size"][0]) / 2.0f,
+		static_cast<float>(collider["size"][2]) / 2.0f,
+		static_cast<float>(collider["size"][1]) / 2.0f
+		};
+
+		// 初期化
+
+		obb.Initialize(
+			center, Matrix4x4::MakeIdentity4x4(),
+			size, static_cast<Null*>(nullptr));
+
+		result = obb;
+
+	}
+	// タイプ別処理
+	else if (collider["type"] == "SPHERE") {
+
+		Sphere sphere;
+
+		// 中心座標
+		Vector3 center = {
+		static_cast<float>(collider["center"][0]),
+		static_cast<float>(collider["center"][2]),
+		static_cast<float>(collider["center"][1])
+		};
+
+		center =
+			Matrix4x4::Transform(center,
+				Matrix4x4::MakeAffineMatrix(transform.scale, transform.rotate, transform.translate));
+
+		// 大きさ  半分に
+		float radius = static_cast<float>(collider["radius"]) / 2.0f;
+
+		// 初期化
+
+		sphere.Initialize(
+			center, radius, static_cast<Null*>(nullptr));
+
+		result = sphere;
+
+	}
 
 	return result;
 

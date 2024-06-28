@@ -6,6 +6,7 @@
 #include "../../externals/nlohmann/json.hpp"
 
 #include "LevelData.h"
+#include "../Collider/Collider.h"
 
 class LevelDataLoader
 {
@@ -100,6 +101,14 @@ private: // オブジェクトタイプごとの読み込みで使う関数
 	/// <param name="object">オブジェクト</param>
 	/// <returns>トランスフォーム</returns>
 	static EulerTransform TransformLoad(nlohmann::json& object);
+
+	/// <summary>
+	/// コライダーのパラメータ読み込み(Blender版)
+	/// </summary>
+	/// <param name="object">オブジェクト</param>
+	/// <param name="transform">トランスフォーム</param>
+	/// <returns>コライダー</returns>
+	static ColliderShape ColliderLoad(nlohmann::json& object, const EulerTransform& transform);
 
 };
 

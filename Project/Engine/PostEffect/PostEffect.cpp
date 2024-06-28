@@ -18,6 +18,8 @@ void PostEffect::Initialize()
 	// デバイス取得
 	device_ = DirectXCommon::GetInstance()->GetDevice();
 
+	textureManager_ = TextureManager::GetInstance();
+
 	commandList_ = nullptr;
 
 	// 定数バッファ作成
@@ -36,7 +38,7 @@ void PostEffect::Initialize()
 	computeParametersMap_->threshold = 0.8f; // しきい値
 
 	computeParametersMap_->kernelSize = 7; // カーネルサイズ
-	computeParametersMap_->sigma = 1.0f; // 標準偏差
+	computeParametersMap_->gaussianSigma = 1.0f; // 標準偏差
 
 	computeParametersMap_->time = 0.0f; // 時間
 
@@ -71,6 +73,15 @@ void PostEffect::Initialize()
 	computeParametersMap_->paraSize = { 0.3f, 0.3f };// パラの大きさ
 	computeParametersMap_->paraPosition = { 1.0f, 1.0f }; // パラの位置
 
+	computeParametersMap_->projectionInverse = Matrix4x4::MakeIdentity4x4(); // プロジェクション逆行列
+
+	computeParametersMap_->outlineSigma = 1.0f; // 標準偏差
+	computeParametersMap_->maskEdgeColor = { 1.0f,0.4f,0.3f }; // マスクのエッジの色
+
+	computeParametersMap_->maskThreshold = 0.5f; // マスクしきい値
+
+	computeParametersMap_->maskEdgeRangeOfDetection = 0.03f; // マスクのエッジ検出範囲
+
 	computeParametersMap_->executionFlag = 15;
 
 	// ルートシグネチャ
@@ -98,6 +109,9 @@ void PostEffect::Initialize()
 	shockWaveManager_ = std::make_unique<ShockWaveManager>();
 	shockWaveManager_->Initialize();
 
+	// マスク用の画像の初期化
+	MaskTextureHandleManagerInitialize();
+
 }
 
 void PostEffect::ImGuiDraw()
@@ -107,7 +121,7 @@ void PostEffect::ImGuiDraw()
 	ImGui::Text("time %6.2f", computeParametersMap_->time);
 	ImGui::DragFloat("threshold", &computeParametersMap_->threshold, 0.01f, 0.0f, 1.0f);
 	ImGui::DragInt("kernelSize", &computeParametersMap_->kernelSize, 2, 3, 55);
-	ImGui::DragFloat("sigma", &computeParametersMap_->sigma, 0.01f, 0.0f);
+	ImGui::DragFloat("gaussianSigma", &computeParametersMap_->gaussianSigma, 0.01f, 0.0f);
 	ImGui::DragFloat2("rShift", &computeParametersMap_->rShift.x, 0.01f);
 	ImGui::DragFloat2("gShift", &computeParametersMap_->gShift.x, 0.01f);
 	ImGui::DragFloat2("bShift", &computeParametersMap_->bShift.x, 0.01f);
@@ -130,6 +144,10 @@ void PostEffect::ImGuiDraw()
 	ImGui::ColorEdit4("paraColor", &computeParametersMap_->paraColor.x);
 	ImGui::DragFloat2("paraSize", &computeParametersMap_->paraSize.x, 0.01f, 0.0f);
 	ImGui::DragFloat2("paraPosition", &computeParametersMap_->paraPosition.x, 0.01f);
+	ImGui::DragFloat("outlineSigma", &computeParametersMap_->outlineSigma, 0.01f);
+	ImGui::ColorEdit3("maskEdgeColor", &computeParametersMap_->maskEdgeColor.x);
+	ImGui::DragFloat("maskThreshold", &computeParametersMap_->maskThreshold, 0.01f);
+	ImGui::DragFloat("maskEdgeRangeOfDetection", &computeParametersMap_->maskEdgeRangeOfDetection, 0.001f);
 
 	ImGui::DragInt("executionFlag", &computeParametersMap_->executionFlag, 0.1f, 0, 31);
 
@@ -165,6 +183,8 @@ void PostEffect::Execution(
 	for (uint32_t i = 0; i < 8; ++i) {
 		renderTargetTexture->ChangeNonPixelShaderResource(i);
 	}
+
+	renderTargetTexture->DepthTextureChangeNonPixelShaderResource();
 
 	for (uint32_t i = 0; i < 4; ++i) {
 
@@ -220,6 +240,14 @@ void PostEffect::Execution(
 			rootParameterIndex++;
 		}
 
+		// 深度値
+		commandList_->SetComputeRootDescriptorTable(rootParameterIndex, renderTargetTexture->GetDepthSrvGPUHandle());
+		rootParameterIndex++;
+
+		// マスク
+		textureManager_->SetComputeRootDescriptorTable(commandList_, rootParameterIndex, useMaskTextureHandle_);
+		rootParameterIndex++;
+
 		// 行先
 		for (uint32_t i = 0; i < kNumEditTexture; ++i) {
 			editTextures_[i]->SetRootDescriptorTable(commandList_, rootParameterIndex);
@@ -235,9 +263,30 @@ void PostEffect::Execution(
 	for (uint32_t i = 0; i < 8; ++i) {
 		renderTargetTexture->ChangeRenderTarget(i);
 	}
+	renderTargetTexture->DepthTextureChangeDepthWriteResource();
 
 	// コマンドリスト
 	commandList_ = nullptr;
+
+}
+
+void PostEffect::SetMaskTextureHandleNumber(uint32_t num)
+{
+
+	assert(maskTextureHandles_[num] < kMaskTextureIndexOfCount);
+
+	useMaskTextureHandle_ = maskTextureHandles_[num];
+
+}
+
+void PostEffect::MaskTextureHandleManagerInitialize()
+{
+
+	for (uint32_t i = 0; i < kMaskTextureIndexOfCount; ++i) {
+		maskTextureHandles_[i] = TextureManager::Load(kMaskTextureDirectoryPaths_[i], DirectXCommon::GetInstance());
+	}
+
+	useMaskTextureHandle_ = maskTextureHandles_[0];
 
 }
 
@@ -250,7 +299,7 @@ void PostEffect::CreateRootSignature()
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[19] = {};
+	D3D12_ROOT_PARAMETER rootParameters[21] = {};
 	uint32_t rootParametersIndex = 0;
 
 	// 定数バッファ * 1
@@ -266,10 +315,10 @@ void PostEffect::CreateRootSignature()
 	
 	}
 
-	descriptorRanges_.resize(10);
+	descriptorRanges_.resize(12);
 
-	// ソース * 8
-	for (uint32_t i = 0; i < 8; ++i) {
+	// ソース * 8 + 1 + 1
+	for (uint32_t i = 0; i < 10; ++i) {
 
 		D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
 		descriptorRange[0].BaseShaderRegister = i;//iから始まる
@@ -289,6 +338,9 @@ void PostEffect::CreateRootSignature()
 	}
 
 	// 行先 * 2
+
+	uint32_t offset = 10;
+
 	for (uint32_t i = 0; i < 2; ++i) {
 
 		D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -297,12 +349,12 @@ void PostEffect::CreateRootSignature()
 		descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 		descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
-		descriptorRanges_[i + 8].push_back(descriptorRange[0]);
+		descriptorRanges_[i + offset].push_back(descriptorRange[0]);
 
 		rootParameters[rootParametersIndex].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 		rootParameters[rootParametersIndex].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
-		rootParameters[rootParametersIndex].DescriptorTable.pDescriptorRanges = descriptorRanges_[i + 8].data();//Tableの中身の配列を指定
-		rootParameters[rootParametersIndex].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[i + 8].size());//Tableで利用する数
+		rootParameters[rootParametersIndex].DescriptorTable.pDescriptorRanges = descriptorRanges_[i + offset].data();//Tableの中身の配列を指定
+		rootParameters[rootParametersIndex].DescriptorTable.NumDescriptorRanges = static_cast<uint32_t>(descriptorRanges_[i + offset].size());//Tableで利用する数
 
 		rootParametersIndex++;
 

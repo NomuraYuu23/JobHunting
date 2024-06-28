@@ -41,6 +41,10 @@ void DirectXCommon::Initialize(
 	backBufferWidth_ = backBufferWidth;
 	backBufferHeight_ = backBufferHeight;
 
+#ifdef _DEBUG
+	DebugLayer();
+#endif // DEBUG
+
 	// FPS固定初期化
 	InitializeFixFPS();
 
@@ -90,7 +94,12 @@ void DirectXCommon::Initialize(
 // 描画前処理
 void DirectXCommon::PreDraw() {
 
-	//QueryTimestamp::GetInstance()->Preprocessing(command_->GetCommadList());
+
+#ifdef _DEBUG
+
+	QueryTimestamp::GetInstance()->Preprocessing(command_->GetCommadList());
+
+#endif // _DEBUG
 
 	renderTargetTexture_->PreDraw(command_->GetCommadList());
 
@@ -129,12 +138,19 @@ void DirectXCommon::PostDraw() {
 		WaitForSingleObject(fenceEvent, INFINITE);
 	}
 
-	//QueryTimestamp::GetInstance()->Postprocessing(command_->GetCommadList());
+#ifdef _DEBUG
 
+	QueryTimestamp::GetInstance()->Postprocessing(command_->GetCommadList());
+
+#endif // _DEBUG
 	// FPS固定
 	UpdateFixFPS();
 
-	//QueryTimestamp::GetInstance()->Reading();
+#ifdef _DEBUG
+	
+	QueryTimestamp::GetInstance()->Reading();
+
+#endif // _DEBUG
 
 	//次のフレーム用のコマンドリストを準備
 	hr = command_->GetCommandAllocator()->Reset();
@@ -189,6 +205,20 @@ void DirectXCommon::UpdateFixFPS()
 	}
 	// 現在の時間を記録する
 	reference_ = std::chrono::steady_clock::now();
+
+}
+
+void DirectXCommon::DebugLayer()
+{
+
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController_)))) {
+
+		// デバッグレイヤーを有効化する
+		debugController_->EnableDebugLayer();
+		// GPU
+		debugController_->SetEnableGPUBasedValidation(TRUE);
+
+	}
 
 }
 

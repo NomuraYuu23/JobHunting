@@ -1,5 +1,6 @@
 #include "LevelDataViewing.h"
 #include "../2D/ImguiManager.h"
+#include "../Collider/OBB/OBB.h"
 
 const std::array<const std::string, LevelIndex::kLevelIndexOfCount>* LevelDataViewing::fileNames_ = nullptr;
 
@@ -20,7 +21,7 @@ void LevelDataViewing::Initialize(std::array<std::unique_ptr<LevelData>, LevelIn
 void LevelDataViewing::ImGuiViewing()
 {
 
-	ImGui::Begin("EnemyEditor");
+	ImGui::Begin("LevelData");
 
 	// 閲覧するlevelを切り替える
 	ViewingIndexChange();
@@ -81,13 +82,26 @@ void LevelDataViewing::ObjectViewing(LevelData::MeshData* objectData)
 	// 名前
 	NamaViewing(objectData->name);
 
+	// トランスフォーム
+	TransformViewing(objectData->transform);
+
 	// ファイルの名前
 	if (!objectData->flieName.empty()) {
 		FileNameViewing(objectData->flieName);
 	}
 
-	// トランスフォーム
-	TransformViewing(objectData->transform);
+	// ディレクトリパス
+	if (!objectData->directoryPath.empty()) {
+		DirectoryPathViewing(objectData->directoryPath);
+	}
+
+	// クラスの名前
+	if (!objectData->className.empty()) {
+		ClassNameViewing(objectData->className);
+	}
+
+	// コライダー
+	ColliderViewing(objectData->collider);
 
 }
 
@@ -121,14 +135,6 @@ void LevelDataViewing::NamaViewing(const std::string& name)
 
 }
 
-void LevelDataViewing::FileNameViewing(const std::string& fileName)
-{
-
-	std::string text = "FILE_NAME::" + fileName;
-	ImGui::Text(text.c_str());
-
-}
-
 void LevelDataViewing::TransformViewing(EulerTransform& transform)
 {
 
@@ -139,5 +145,61 @@ void LevelDataViewing::TransformViewing(EulerTransform& transform)
 	ImGui::Text("tlanslation :: x: %.4f, y: %.4f, z: %.4f", transform.translate.x, transform.translate.y, transform.translate.z);
 	ImGui::Text("rotation     :: x: %.4f, y: %.4f, z: %.4f", transform.rotate.x, transform.rotate.y, transform.rotate.z);
 	ImGui::Text("scaling      :: x: %.4f, y: %.4f, z: %.4f", transform.scale.x, transform.scale.y, transform.scale.z);
+
+}
+
+void LevelDataViewing::FileNameViewing(const std::string& fileName)
+{
+
+	std::string text = "FILE_NAME::" + fileName;
+	ImGui::Text(text.c_str());
+
+}
+
+void LevelDataViewing::DirectoryPathViewing(const std::string& directoryPath)
+{
+
+	std::string text = "DIRECTORY_PATH::" + directoryPath;
+	ImGui::Text(text.c_str());
+
+}
+
+void LevelDataViewing::ClassNameViewing(const std::string& className)
+{
+
+	std::string text = "CLASS_NAME::" + className;
+	ImGui::Text(text.c_str());
+
+}
+
+void LevelDataViewing::ColliderViewing(ColliderShape collider)
+{
+
+	// 名前
+	std::string text = "COLLIDER";
+
+	// OBB
+	if (std::holds_alternative<OBB>(collider)) {
+
+		OBB obb = std::get<OBB>(collider);
+
+		ImGui::Text(text.c_str());
+		ImGui::Text("type   :: OBB");
+		ImGui::Text("center :: x: %.4f, y: %.4f, z: %.4f", obb.center_.x, obb.center_.y, obb.center_.z);
+		ImGui::Text("size   :: x: %.4f, y: %.4f, z: %.4f", obb.size_.x, obb.size_.y, obb.size_.z);
+
+	}
+	// SPHERE
+	else if (std::holds_alternative<Sphere>(collider)) {
+
+		Sphere sphere = std::get<Sphere>(collider);
+
+		ImGui::Text(text.c_str());
+		ImGui::Text("type   :: SPHERE");
+		ImGui::Text("center :: x: %.4f, y: %.4f, z: %.4f", sphere.center_.x, sphere.center_.y, sphere.center_.z);
+		ImGui::Text("radius :: %.4f", sphere.radius_);
+
+	}
+
 
 }
