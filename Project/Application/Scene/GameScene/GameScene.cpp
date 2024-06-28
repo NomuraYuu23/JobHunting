@@ -283,7 +283,6 @@ void GameScene::Draw() {
 #pragma endregion
 
 	PostEffect::GetInstance()->SetKernelSize(33);
-	PostEffect::GetInstance()->SetSigma(33.0f);
 	PostEffect::GetInstance()->SetThreshold(0.0f);
 
 	PostEffect::GetInstance()->Execution(

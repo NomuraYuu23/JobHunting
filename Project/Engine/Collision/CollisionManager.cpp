@@ -72,7 +72,7 @@ void CollisionManager::CheckCollisionPair(ColliderShape* colliderA, ColliderShap
 				x->OnCollision(y, collisionData);
 				collisionData = { p2, t2, pushBackDist ,p1};
 				y->OnCollision(x, collisionData);
-				}, a->GetParentObject(), b->GetParentObject());
+				}, a.GetParentObject(), b.GetParentObject());
 		}
 	}, *colliderA, *colliderB);
 
