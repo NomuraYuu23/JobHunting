@@ -149,7 +149,7 @@ private: // パーツ,アニメーション変数
 	Model* model_;
 
 	// コライダー (ダメージを受ける側、位置が被らない用)
-	std::unique_ptr<Capsule> collider_;
+	std::unique_ptr<ColliderShape> collider_;
 
 	// コライダー用半径
 	float colliderRadiuses_;
@@ -250,7 +250,7 @@ public: // アクセッサ
 
 	void SetHeight(float height) { height_ = height; }
 
-	//ColliderShape GetCollider() { return collider_.get(); }
+	ColliderShape* GetCollider() { return collider_.get(); }
 
 	IPlayerState* GetPlayerState() { return playerState_.get(); }
 
