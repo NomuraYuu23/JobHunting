@@ -71,7 +71,155 @@
                 "size": [
                     200.0,
                     200.0,
-                    2.5
+                    1.899999976158142
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Block00",
+            "transform": {
+                "translation": [
+                    50.0,
+                    0.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    60.0,
+                    10.0
+                ]
+            },
+            "fileName": "Block.obj",
+            "directoryPath": "Resources/Model/Block",
+            "className": "Block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    20.0,
+                    120.0,
+                    20.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Block01",
+            "transform": {
+                "translation": [
+                    -50.0,
+                    0.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    60.0,
+                    10.0
+                ]
+            },
+            "fileName": "Block.obj",
+            "directoryPath": "Resources/Model/Block",
+            "className": "Block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    20.0,
+                    120.0,
+                    20.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Block02",
+            "transform": {
+                "translation": [
+                    0.0,
+                    50.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    40.0,
+                    10.0,
+                    10.0
+                ]
+            },
+            "fileName": "Block.obj",
+            "directoryPath": "Resources/Model/Block",
+            "className": "Block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    80.0,
+                    20.0,
+                    20.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Block03",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -50.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    40.0,
+                    10.0,
+                    10.0
+                ]
+            },
+            "fileName": "Block.obj",
+            "directoryPath": "Resources/Model/Block",
+            "className": "Block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    80.0,
+                    20.0,
+                    20.0
                 ]
             }
         }

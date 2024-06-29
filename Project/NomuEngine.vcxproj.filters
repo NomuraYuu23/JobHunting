@@ -277,6 +277,9 @@
     <Filter Include="Application\Object\Ground">
       <UniqueIdentifier>{59beeb5c-dcf2-4572-b6ee-2ee83a88d375}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Block">
+      <UniqueIdentifier>{1d2d094d-bc38-4f06-a0b3-44bff7959339}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -749,6 +752,9 @@
       <Filter>Application\System</Filter>
     </ClCompile>
     <ClCompile Include="Application\Ground\Ground.cpp">
+      <Filter>Application\Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Block\Block.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1369,6 +1375,9 @@
       <Filter>Application\System</Filter>
     </ClInclude>
     <ClInclude Include="Application\Ground\Ground.h">
+      <Filter>Application\Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Block\Block.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
