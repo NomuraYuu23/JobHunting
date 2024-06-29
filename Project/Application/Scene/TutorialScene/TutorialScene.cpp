@@ -70,10 +70,6 @@ void TutorialScene::Initialize() {
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(skydomeModel_.get());
 
-	// 地面
-	ground_ = std::make_unique<Ground>();
-	ground_->Initialize(groundModel_.get());
-
 	// 平行光源
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	directionalLight_->Initialize();
@@ -105,7 +101,7 @@ void TutorialScene::Initialize() {
 	}
 
 	//プレイヤー
-	Player* player = static_cast<Player*>(objectManager_->GetObjectPointer("Cube"));
+	Player* player = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
 	
 	// 追従カメラ
 	followCamera_ = std::make_unique<FollowCamera>();
@@ -174,13 +170,12 @@ void TutorialScene::Update() {
 		//collisionManager_->ListRegister(player_->GetPlayerAttack()->GetCollider());
 	//}
 
+	objectManager_->CollisionListRegister(collisionManager_.get());
+
 	collisionManager_->CheakAllCollision();
 
 	// スカイドーム
 	skydome_->Update();
-
-	// 地面
-	ground_->Update();
 
 	uiManager_->Update();
 
@@ -226,8 +221,6 @@ void TutorialScene::Draw() {
 
 	// スカイドーム
 	skydome_->Draw(camera_);
-	// 地面
-	ground_->Draw(camera_);
 
 	// エネミー
 	enemy_->Draw(camera_);
@@ -325,9 +318,6 @@ void TutorialScene::ModelCreate()
 
 	// スカイドーム
 	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_));
-
-	// 地面
-	groundModel_.reset(Model::Create("Resources/Model/Ground/", "Ground.obj", dxCommon_));
 
 	// エネミー
 	enemyModel_.reset(Model::Create("Resources/Model/Tutorial/", "Boss.gltf", dxCommon_));

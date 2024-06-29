@@ -196,9 +196,6 @@
     <Filter Include="Application\Object\Player">
       <UniqueIdentifier>{b293918d-2bcb-4225-ae76-acb6b9fdcf73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Ground">
-      <UniqueIdentifier>{e917c0ca-a557-40fe-a0d9-772802f38ce3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Object\Player\State">
       <UniqueIdentifier>{9fff1f53-4f9e-4c83-b3b7-78059ae992e7}</UniqueIdentifier>
     </Filter>
@@ -276,6 +273,9 @@
     </Filter>
     <Filter Include="Engine\Object">
       <UniqueIdentifier>{e07ee63c-28e4-42ff-b09b-caf09754b225}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Ground">
+      <UniqueIdentifier>{59beeb5c-dcf2-4572-b6ee-2ee83a88d375}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -595,9 +595,6 @@
     <ClCompile Include="Application\Camera\FollowCamera.cpp">
       <Filter>Application\FollowCamera</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Ground\Ground.cpp">
-      <Filter>Application\Ground</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Player\PlayerState\PlayerStateRoot\PlayerStateRoot.cpp">
       <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
@@ -750,6 +747,9 @@
     </ClCompile>
     <ClCompile Include="Application\System\GameOverSystem.cpp">
       <Filter>Application\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Ground\Ground.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1155,9 +1155,6 @@
     <ClInclude Include="Application\Camera\FollowCamera.h">
       <Filter>Application\FollowCamera</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Ground\Ground.h">
-      <Filter>Application\Ground</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Player\PlayerState\IPlayerState.h">
       <Filter>Application\Object\Player\State</Filter>
     </ClInclude>
@@ -1370,6 +1367,9 @@
     </ClInclude>
     <ClInclude Include="Application\System\GameOverSystem.h">
       <Filter>Application\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Ground\Ground.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

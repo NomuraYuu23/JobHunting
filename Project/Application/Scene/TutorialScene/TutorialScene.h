@@ -122,10 +122,6 @@ private:
 	// 追加カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
 
-	// 地面
-	std::unique_ptr<Ground> ground_;
-	std::unique_ptr<Model> groundModel_;
-
 	// スカイボックス
 	uint32_t skyboxTextureHandle_ = 0;
 

@@ -6,10 +6,19 @@
 #include "../TutorialEnemy/TutorialEnemy.h"
 #include "../../Engine/Animation/LocalMatrixDraw.h"
 
+#include "../Ground/Ground.h"
+#include "../../Engine/Math/DeltaTime.h"
+
 void Player::Initialize(LevelData::MeshData* data)
 {
 
 	MeshObject::Initialize(data);
+
+	OBB obb = std::get<OBB>(*collider_.get());
+	obb.SetParentObject(this);
+	ColliderShape* colliderShape = new ColliderShape();
+	*colliderShape = obb;
+	collider_.reset(colliderShape);
 
 	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
 	localMatrixManager_->Initialize(model_->GetRootNode());
@@ -62,6 +71,9 @@ void Player::Update()
 	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
 
 	localMatrixManager_->Map();
+
+	// 重力
+	Gravity();
 
 	worldTransform_.UpdateMatrix();
 
@@ -134,6 +146,9 @@ void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 	}
 	else if (std::holds_alternative<TutorialEnemy*>(colliderPartner)) {
 		OnCollisionTutorialEnemy(colliderPartner, collisionData);
+	}
+	else if (std::holds_alternative<Ground*>(colliderPartner)) {
+		OnCollisionGround(colliderPartner, collisionData);
 	}
 
 }
@@ -276,6 +291,16 @@ void Player::OnCollisionTutorialEnemy(ColliderParentObject colliderPartner, cons
 
 }
 
+void Player::OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData)
+{
+
+	Ground* ground = std::get<Ground*>(colliderPartner);
+
+	worldTransform_.transform_.translate.y = ground->GetWorldTransformAdress()->GetWorldPosition().y;
+	worldTransform_.UpdateMatrix();
+
+}
+
 void Player::Damage(uint32_t damage)
 {
 
@@ -292,4 +317,11 @@ float Player::RatioHP()
 	assert(initHp_ != 0);
 
 	return static_cast<float>(hp_) / static_cast<float>(initHp_);
+}
+
+void Player::Gravity()
+{
+
+	worldTransform_.transform_.translate.y -= 9.8f * kDeltaTime_;
+
 }

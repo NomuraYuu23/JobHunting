@@ -1,18 +1,16 @@
 #pragma once
-#include "../../Engine/3D/Model.h"
-#include "../../Engine/3D/Material.h"
-#include "../../Engine/3D/WorldTransform.h"
+#include "../../Engine/Object/MeshObject.h"
+#include "../../Engine/3D/DrawLine.h"
 
-class Ground
+class Ground : public MeshObject
 {
 
-public:
+public: // ベースのメンバ関数
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	/// <param name="model">モデル</param>
-	void Initialize(Model* model);
+	virtual void Initialize(LevelData::MeshData* data);
 
 	/// <summary>
 	/// 更新
@@ -22,19 +20,29 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	/// <param name="viewProjection">ビュープロジェクション</param>
+	/// <param name="viewProjection">ビュープロジェクション(参照渡し)</param>
 	void Draw(BaseCamera& camera);
+
+	/// <summary>
+	/// ImGui描画
+	/// </summary>
+	void ImGuiDraw();
+
+	/// <summary>
+	/// 衝突処理
+	/// </summary>
+	/// <param name="colliderPartner"></param>
+	/// <param name="collisionData"></param>
+	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData);
+
+public:
+
+	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
 
 private:
 
-	// ワールド変換データ
-	WorldTransform worldTransform_;
-	// モデル
-	Model* model_ = nullptr;
-	//マテリアル
-	std::unique_ptr<Material> material_ = nullptr;
-	// ローカル行列
-	std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
+
+
 
 };
 

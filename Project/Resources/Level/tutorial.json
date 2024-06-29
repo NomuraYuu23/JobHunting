@@ -3,7 +3,44 @@
     "objects": [
         {
             "type": "MESH",
-            "name": "Cube",
+            "name": "Player",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "Player.gltf",
+            "directoryPath": "Resources/Model/Player",
+            "className": "Player",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    4.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Ground",
             "transform": {
                 "translation": [
                     0.0,
@@ -21,20 +58,20 @@
                     1.0
                 ]
             },
-            "fileName": "Player.gltf",
-            "directoryPath": "Resources/Model/Player/",
-            "className": "Player",
+            "fileName": "Ground.obj",
+            "directoryPath": "Resources/Model/Ground",
+            "className": "Ground",
             "collider": {
                 "type": "BOX",
                 "center": [
                     0.0,
                     0.0,
-                    2.0
+                    0.0
                 ],
                 "size": [
-                    2.0,
-                    2.0,
-                    4.0
+                    20.0,
+                    20.0,
+                    0.25
                 ]
             }
         }

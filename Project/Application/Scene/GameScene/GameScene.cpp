@@ -68,10 +68,6 @@ void GameScene::Initialize() {
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(skydomeModel_.get());
 
-	// 地面
-	ground_ = std::make_unique<Ground>();
-	ground_->Initialize(groundModel_.get());
-
 	// 平行光源
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	directionalLight_->Initialize();

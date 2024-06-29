@@ -2,6 +2,7 @@
 #include "../../Engine/Object/MeshObject.h"
 
 #include "../Player/Player.h"
+#include "../Ground/Ground.h"
 
 
 ObjectFactory* ObjectFactory::GetInstance()
@@ -27,6 +28,13 @@ IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
 
 			// 初期化
 			static_cast<Player*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+		}
+		else if (data.className == "Ground") {
+			// インスタンス生成
+			object = new Ground();
+
+			// 初期化
+			static_cast<Ground*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 		}
 
 		//// インスタンス生成

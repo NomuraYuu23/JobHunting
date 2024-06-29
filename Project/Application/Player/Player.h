@@ -207,6 +207,8 @@ public:
 	/// <returns></returns>
 	float RatioHP();
 
+	void Gravity();
+
 private: // 衝突処理
 
 	/// <summary>
@@ -222,6 +224,13 @@ private: // 衝突処理
 	/// <param name="colliderPartner"></param>
 	/// <param name="collisionData"></param>
 	void OnCollisionTutorialEnemy(ColliderParentObject colliderPartner, const CollisionData& collisionData);
+
+	/// <summary>
+	/// 地面との当たり判定
+	/// </summary>
+	/// <param name="colliderPartner"></param>
+	/// <param name="collisionData"></param>
+	void OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
 public: // アクセッサ
 
