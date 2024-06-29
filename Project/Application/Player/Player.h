@@ -193,6 +193,9 @@ private: // プレイヤーデータ
 	// プレイヤーの攻撃情報
 	std::unique_ptr<PlayerAttack> playerAttack_;
 
+	// 前フレームの位置
+	Vector3 prePosition_;
+
 public:
 
 	/// <summary>
@@ -231,6 +234,13 @@ private: // 衝突処理
 	/// <param name="colliderPartner"></param>
 	/// <param name="collisionData"></param>
 	void OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="colliderPartner"></param>
+	/// <param name="collisionData"></param>
+	void OnCollisionBlock(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
 public: // アクセッサ
 
