@@ -296,7 +296,9 @@ void Player::OnCollisionGround(ColliderParentObject colliderPartner, const Colli
 
 	Ground* ground = std::get<Ground*>(colliderPartner);
 
-	worldTransform_.transform_.translate.y = ground->GetWorldTransformAdress()->GetWorldPosition().y;
+	OBB obb = std::get<OBB>(*ground->GetCollider());
+
+	worldTransform_.transform_.translate.y = ground->GetWorldTransformAdress()->GetWorldPosition().y + obb.size_.y;
 	worldTransform_.UpdateMatrix();
 
 }
