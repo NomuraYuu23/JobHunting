@@ -4,6 +4,7 @@
 #include "../Player/Player.h"
 #include "../Ground/Ground.h"
 #include "../Block/Block.h"
+#include "../Enemy/Ghost/Ghost.h"
 
 
 ObjectFactory* ObjectFactory::GetInstance()
@@ -43,6 +44,13 @@ IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
 
 			// 初期化
 			static_cast<Block*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+		}
+		else if (data.className == "Ghost") {
+			// インスタンス生成
+			object = new Ghost();
+
+			// 初期化
+			static_cast<Ghost*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 		}
 
 		//// インスタンス生成

@@ -1,6 +1,8 @@
 #include "GhostStateFactory.h"
 #include <cassert>
 
+#include "GhostStateRoot.h"
+
 IGhostState* GhostStateFactory::CreateGhostState(uint32_t ghostStateName)
 {
 	// 次のステートを生成
@@ -9,7 +11,7 @@ IGhostState* GhostStateFactory::CreateGhostState(uint32_t ghostStateName)
 	switch (ghostStateName)
 	{
 	case kGhostStateRoot: // 通常
-		//newGhostState = new ();
+		newGhostState = new GhostStateRoot();
 		break;
 	case kGhostStateOfCount: // 使用不可
 	default:

@@ -283,6 +283,9 @@
     <Filter Include="Application\Object\Enemy\Ghost">
       <UniqueIdentifier>{6126349a-0e49-4181-9162-1455d53c579e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Enemy\Ghost\State">
+      <UniqueIdentifier>{ca8fde60-6e80-4aa4-b151-f35bc103a540}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -767,12 +770,15 @@
       <Filter>Application\Object\Enemy\Ghost</Filter>
     </ClCompile>
     <ClCompile Include="Application\Enemy\Ghost\GhostCommand.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\Ghost\IGhostState.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Enemy\Ghost</Filter>
     </ClCompile>
     <ClCompile Include="Application\Enemy\Ghost\GhostStateFactory.cpp">
+      <Filter>Application\Object\Enemy\Ghost\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\Ghost\IGhostState.cpp">
+      <Filter>Application\Object\Enemy\Ghost\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\Ghost\GhostStateRoot.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1405,12 +1411,15 @@
       <Filter>Application\Object\Enemy\Ghost</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\Ghost\GhostCommand.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Object\Enemy\Ghost</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\Ghost\IGhostState.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Object\Enemy\Ghost\State</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\Ghost\GhostStateFactory.h">
+      <Filter>Application\Object\Enemy\Ghost\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\Ghost\GhostStateRoot.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

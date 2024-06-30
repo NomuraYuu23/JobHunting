@@ -100,5 +100,9 @@ private:
 	// 前フレームの座標
 	Vector3 prePosition_;
 
+public:
+
+	void SetReceiveCommand(bool receiveCommand) { receiveCommand_ = receiveCommand; }
+
 };
 
