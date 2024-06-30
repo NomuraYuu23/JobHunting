@@ -1,5 +1,6 @@
 #include "BaseEnemy.h"
 #include "../../Engine/Animation/LocalMatrixDraw.h"
+#include "../../Engine/3D/ModelDraw.h"
 
 void BaseEnemy::Initialize(LevelData::MeshData* data)
 {
@@ -28,6 +29,19 @@ void BaseEnemy::Initialize(LevelData::MeshData* data)
 
 	// パーツ
 	PartInitialize();
+
+}
+
+void BaseEnemy::Draw(BaseCamera& camera)
+{
+
+	ModelDraw::AnimObjectDesc desc;
+	desc.camera = &camera;
+	desc.localMatrixManager = localMatrixManager_.get();
+	desc.material = material_.get();
+	desc.model = model_;
+	desc.worldTransform = &worldTransform_;
+	ModelDraw::AnimObjectDraw(desc);
 
 }
 

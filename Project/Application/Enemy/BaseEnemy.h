@@ -16,6 +16,12 @@ public: // ベースのメンバ関数
 	virtual void Initialize(LevelData::MeshData* data);
 
 	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="viewProjection">ビュープロジェクション(参照渡し)</param>
+	void Draw(BaseCamera& camera);
+
+	/// <summary>
 	/// ImGui描画
 	/// </summary>
 	virtual void ImGuiDraw() {};
