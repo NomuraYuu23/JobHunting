@@ -10,6 +10,8 @@ void Block::Initialize(LevelData::MeshData* data)
 	*colliderShape = obb;
 	collider_.reset(colliderShape);
 
+	material_->SetEnableLighting(BlinnPhongReflection);
+
 }
 
 void Block::Update()

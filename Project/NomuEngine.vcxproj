@@ -123,6 +123,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Enemy\EnemyState\EnemyStateMowingDown\EnemyStateMowingDown.cpp" />
     <ClCompile Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.cpp" />
     <ClCompile Include="Application\Enemy\EnemyState\IEnemyState.cpp" />
+    <ClCompile Include="Application\Enemy\Ghost\Ghost.cpp" />
+    <ClCompile Include="Application\Enemy\BaseEnemy.cpp" />
+    <ClCompile Include="Application\Enemy\Ghost\GhostCommand.cpp" />
+    <ClCompile Include="Application\Enemy\Ghost\GhostStateFactory.cpp" />
+    <ClCompile Include="Application\Enemy\Ghost\IGhostState.cpp" />
     <ClCompile Include="Application\Ground\Ground.cpp" />
     <ClCompile Include="Application\Object\ObjectFactory.cpp" />
     <ClCompile Include="Application\Object\Sample\SampleObject.cpp" />
@@ -287,6 +292,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Enemy\EnemyState\EnemyStateMowingDown\EnemyStateMowingDown.h" />
     <ClInclude Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.h" />
     <ClInclude Include="Application\Enemy\EnemyState\IEnemyState.h" />
+    <ClInclude Include="Application\Enemy\Ghost\Ghost.h" />
+    <ClInclude Include="Application\Enemy\BaseEnemy.h" />
+    <ClInclude Include="Application\Enemy\Ghost\GhostCommand.h" />
+    <ClInclude Include="Application\Enemy\Ghost\GhostStateFactory.h" />
+    <ClInclude Include="Application\Enemy\Ghost\IGhostState.h" />
     <ClInclude Include="Application\Ground\Ground.h" />
     <ClInclude Include="Application\Object\ObjectFactory.h" />
     <ClInclude Include="Application\Object\Sample\SampleObject.h" />

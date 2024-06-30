@@ -280,6 +280,9 @@
     <Filter Include="Application\Object\Block">
       <UniqueIdentifier>{1d2d094d-bc38-4f06-a0b3-44bff7959339}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Enemy\Ghost">
+      <UniqueIdentifier>{6126349a-0e49-4181-9162-1455d53c579e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -755,6 +758,21 @@
       <Filter>Application\Object\Ground</Filter>
     </ClCompile>
     <ClCompile Include="Application\Block\Block.cpp">
+      <Filter>Application\Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\BaseEnemy.cpp">
+      <Filter>Application\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\Ghost\Ghost.cpp">
+      <Filter>Application\Object\Enemy\Ghost</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\Ghost\GhostCommand.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\Ghost\IGhostState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\Ghost\GhostStateFactory.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1378,6 +1396,21 @@
       <Filter>Application\Object\Ground</Filter>
     </ClInclude>
     <ClInclude Include="Application\Block\Block.h">
+      <Filter>Application\Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\BaseEnemy.h">
+      <Filter>Application\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\Ghost\Ghost.h">
+      <Filter>Application\Object\Enemy\Ghost</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\Ghost\GhostCommand.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\Ghost\IGhostState.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\Ghost\GhostStateFactory.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

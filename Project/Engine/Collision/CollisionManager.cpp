@@ -9,6 +9,7 @@
 #include "../../Application/TutorialEnemy/TutorialEnemy.h"
 #include "../../Application/Ground/Ground.h"
 #include "../../Application/Block/Block.h"
+#include "../../Application/Enemy/BaseEnemy.h"
 
 void CollisionManager::Initialize()
 {
