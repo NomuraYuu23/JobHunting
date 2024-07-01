@@ -30,6 +30,9 @@ IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
 
 			// 初期化
 			static_cast<Player*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+
+			player_ = static_cast<Player*>(object);
+
 		}
 		else if (data.className == "Ground") {
 			// インスタンス生成
@@ -51,6 +54,7 @@ IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
 
 			// 初期化
 			static_cast<Ghost*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+			static_cast<Ghost*>(object)->SetPlayer(player_);
 		}
 
 		//// インスタンス生成

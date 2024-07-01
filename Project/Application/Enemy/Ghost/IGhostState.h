@@ -6,6 +6,7 @@ class Ghost;
 //プレイヤーの状態名
 enum GhostState {
 	kGhostStateRoot, // 通常
+	kGhostStateChase, // 追跡
 	kGhostStateOfCount // 数
 };
 

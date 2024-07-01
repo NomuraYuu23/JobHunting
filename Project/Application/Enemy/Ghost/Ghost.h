@@ -3,12 +3,14 @@
 #include "GhostCommand.h"
 #include "IGhostState.h"
 
+class Player;
 
 /// <summary>
 /// モーション一覧
 /// </summary>
 enum GhostMotionIndex {
 	kGhostMotionWait, // 通常時
+	kGhostMotionMove, // 移動時
 	kGhostMotionIndexOfCount // 数
 };
 
@@ -90,6 +92,7 @@ private:  // パーツ,アニメーション定数
 	// モーション名
 	const std::array<const std::string, GhostMotionIndex::kGhostMotionIndexOfCount> motionNames_ = {
 		"Wait",
+		"Move"
 	};
 
 private: 
@@ -100,9 +103,17 @@ private:
 	// 前フレームの座標
 	Vector3 prePosition_;
 
+	// プレイヤー
+	Player* player_;
+
 public:
 
 	void SetReceiveCommand(bool receiveCommand) { receiveCommand_ = receiveCommand; }
+
+	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
+
+	void SetPlayer(Player* player) { player_ = player; }
+	Player* GetPlayer() { return player_; }
 
 };
 

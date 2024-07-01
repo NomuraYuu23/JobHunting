@@ -781,6 +781,9 @@
     <ClCompile Include="Application\Enemy\Ghost\GhostStateRoot.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Enemy\Ghost\GhostStateChase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1420,6 +1423,9 @@
       <Filter>Application\Object\Enemy\Ghost\State</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\Ghost\GhostStateRoot.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\Ghost\GhostStateChase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

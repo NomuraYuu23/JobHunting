@@ -8,7 +8,7 @@ void GhostCommand::Initialize()
 uint32_t GhostCommand::Command()
 {
 
-	uint32_t resultState = GhostState::kGhostStateRoot;
+	uint32_t resultState = GhostState::kGhostStateChase;
 
 	return resultState;
 
