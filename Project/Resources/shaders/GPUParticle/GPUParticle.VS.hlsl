@@ -23,9 +23,9 @@ struct ParticleVIew {
 
 };
 
-StructuredBuffer<Particle> gParticles : register(t5);
+StructuredBuffer<Particle> gParticles : register(t4);
 
-ConstantBuffer<ParticleVIew> gParticleVIew : register(b5);
+ConstantBuffer<ParticleVIew> gParticleVIew : register(b6);
 
 VertexShaderOutput main(VertexShaderInput input, uint32_t instanceId : SV_InstanceId)
 {
