@@ -2,8 +2,9 @@
 #include "../../Engine/Object/MeshObject.h"
 #include "../../Engine/3D/DrawLine.h"
 
-class Ground : public MeshObject
+class Block : public MeshObject
 {
+
 
 public: // ベースのメンバ関数
 
@@ -40,7 +41,6 @@ public:
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
 
 private:
-
 
 
 

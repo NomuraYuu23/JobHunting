@@ -24,6 +24,10 @@ public: //メンバ関数
 	IObject* CreateObject(LevelData::ObjectData& objectData) override;
 
 private:
+
+	Player* player_;
+
+private:
 	ObjectFactory() = default;
 	~ObjectFactory() = default;
 	ObjectFactory(const ObjectFactory&) = delete;

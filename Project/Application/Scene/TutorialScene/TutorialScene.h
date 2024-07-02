@@ -115,11 +115,6 @@ private:
 	std::unique_ptr<SpotLightManager> spotLightManager_;
 	std::array<SpotLightData, SpotLightManager::kNumInstanceMax_> spotLightDatas_;
 
-	// プレイヤー
-	std::unique_ptr<Player> player_;
-	std::unique_ptr<Model> playerModel_;
-	std::unique_ptr<Model> playerWeaponModel_;
-
 	// ボス
 	std::unique_ptr<TutorialEnemy> enemy_;
 	std::unique_ptr<Model> enemyModel_;
@@ -127,11 +122,8 @@ private:
 	// 追加カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
 
-	// 地面
-	std::unique_ptr<Ground> ground_;
-	std::unique_ptr<Model> groundModel_;
-
 	// スカイボックス
 	uint32_t skyboxTextureHandle_ = 0;
+
 
 };

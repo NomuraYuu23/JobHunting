@@ -7,6 +7,7 @@
 #include "../Level/LevelIndex.h"
 #include "../Level/LevelDataManager.h"
 #include "../Collider/ColliderDebugDraw/ColliderDebugDraw.h"
+#include "../Collision/CollisionManager.h"
 
 class ObjectManager
 {
@@ -44,11 +45,13 @@ public:
 	void ImGuiDraw();
 
 	/// <summary>
-	/// 
+	/// オブジェクト検索
 	/// </summary>
 	/// <param name="name"></param>
 	/// <returns></returns>
 	IObject* GetObjectPointer(const std::string name);
+
+	void CollisionListRegister(CollisionManager* collisionManager);
 
 private:
 

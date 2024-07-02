@@ -5,20 +5,21 @@
 #include "../Enemy/Enemy.h"
 #include "../TutorialEnemy/TutorialEnemy.h"
 #include "../../Engine/Animation/LocalMatrixDraw.h"
+#include "../../Engine/Math/DeltaTime.h"
 
-void Player::Initialize(Model* model, Model* weaponModel)
+#include "../Ground/Ground.h"
+#include "../Block/Block.h"
+
+void Player::Initialize(LevelData::MeshData* data)
 {
 
-	// モデル
-	model_ = model;
+	MeshObject::Initialize(data);
 
-	// マテリアル
-	material_.reset(Material::Create());
-	material_->SetEnableLighting(BlinnPhongReflection);
-
-	// ワールドトランスフォーム
-	worldTransform_.Initialize(model_->GetRootNode());
-	worldTransform_.transform_.translate.z = -5.0f;
+	OBB obb = std::get<OBB>(*collider_.get());
+	obb.SetParentObject(this);
+	ColliderShape* colliderShape = new ColliderShape();
+	*colliderShape = obb;
+	collider_.reset(colliderShape);
 
 	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
 	localMatrixManager_->Initialize(model_->GetRootNode());
@@ -41,9 +42,6 @@ void Player::Initialize(Model* model, Model* weaponModel)
 	// パーツ
 	PartInitialize();
 
-	// コライダー
-	ColliderInitialize();
-
 	// hp
 	hp_ = 3;
 	initHp_ = 3;
@@ -52,6 +50,11 @@ void Player::Initialize(Model* model, Model* weaponModel)
 
 	playerAttack_ = std::make_unique<PlayerAttack>();
 	playerAttack_->Initialize(&worldTransform_);
+
+	prePosition_ = worldTransform_.GetWorldPosition();
+
+	// 初期設定
+	material_->SetEnableLighting(BlinnPhongReflection);
 
 }
 
@@ -62,6 +65,9 @@ void Player::Update()
 		nextStateNo_ = playerCommand_->Command();
 	}
 
+	// 前フレーム記録
+	prePosition_ = worldTransform_.GetWorldPosition();
+
 	// ステート
 	StateUpdate();
 
@@ -71,6 +77,9 @@ void Player::Update()
 	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
 
 	localMatrixManager_->Map();
+
+	// 重力
+	Gravity();
 
 	worldTransform_.UpdateMatrix();
 
@@ -144,6 +153,12 @@ void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 	else if (std::holds_alternative<TutorialEnemy*>(colliderPartner)) {
 		OnCollisionTutorialEnemy(colliderPartner, collisionData);
 	}
+	else if (std::holds_alternative<Ground*>(colliderPartner)) {
+		OnCollisionGround(colliderPartner, collisionData);
+	}
+	else if (std::holds_alternative<Block*>(colliderPartner)) {
+		OnCollisionBlock(colliderPartner, collisionData);
+	}
 
 }
 
@@ -203,28 +218,20 @@ void Player::PartInitialize()
 
 }
 
-void Player::ColliderInitialize()
-{
-
-	// コライダー
-	collider_ = std::make_unique<Capsule>();
-	collider_->SetCollisionAttribute(collisionAttribute_);
-	collider_->SetCollisionMask(collisionMask_);
-
-	Segment segment = {
-		worldTransform_.GetWorldPosition(),
-		{ 0.0f, height_,0.0f }
-	};
-
-	collider_->Initialize(segment, 1.0f, this);
-
-}
-
 void Player::ColliderUpdate()
 {
 
-	collider_->segment_.origin_ = worldTransform_.GetWorldPosition();
-	collider_->segment_.diff_ = { 0.0f, height_,0.0f };
+	OBB obb = std::get<OBB>(*collider_.get());
+
+	obb.center_ =  worldTransform_.GetWorldPosition();
+	obb.center_.y += height_;
+	
+
+	ColliderShape* colliderShape = new ColliderShape();
+
+	*colliderShape = obb;
+
+	collider_.reset(colliderShape);
 
 }
 
@@ -293,6 +300,71 @@ void Player::OnCollisionTutorialEnemy(ColliderParentObject colliderPartner, cons
 
 }
 
+void Player::OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData)
+{
+
+	Ground* ground = std::get<Ground*>(colliderPartner);
+
+	OBB obb = std::get<OBB>(*ground->GetCollider());
+
+	worldTransform_.transform_.translate.y = ground->GetWorldTransformAdress()->GetWorldPosition().y + obb.size_.y;
+	worldTransform_.UpdateMatrix();
+
+}
+
+void Player::OnCollisionBlock(ColliderParentObject colliderPartner, const CollisionData& collisionData)
+{
+
+
+	//Block* block = std::get<Block*>(colliderPartner);
+
+	//OBB blockObb = std::get<OBB>(*block->GetCollider());
+
+	//Vector3 velocity = worldTransform_.GetWorldPosition() - prePosition_;
+
+	//// 内積
+	//float dot[3] = {
+	//	Vector3::Dot(blockObb.otientatuons_[0] * blockObb.size_.x,velocity), // x
+	//	Vector3::Dot(blockObb.otientatuons_[1] * blockObb.size_.y,velocity), // y
+	//	Vector3::Dot(blockObb.otientatuons_[2] * blockObb.size_.z,velocity) // z
+	//};
+
+	//Vector3 move = { 0.0f,0.0f,0.0f };
+
+	//if (std::fabsf(dot[0]) > std::fabsf(dot[1])) {
+	//	if (std::fabsf(dot[0]) > std::fabsf(dot[2])) {
+	//		move = blockObb.otientatuons_[0] * blockObb.size_.x;
+	//		if (dot[0] > 0.0f) {
+	//			move *= -1.0f;
+	//		}
+	//	}
+	//	else {
+	//		move = blockObb.otientatuons_[2] * blockObb.size_.z;
+	//		if (dot[2] > 0.0f) {
+	//			move *= -1.0f;
+	//		}
+	//	}
+	//}
+	//else {
+	//	if (std::fabsf(dot[1]) > std::fabsf(dot[2])) {
+	//		move = blockObb.otientatuons_[1] * blockObb.size_.y;
+	//		if (dot[1] > 0.0f) {
+	//			move *= -1.0f;
+	//		}
+	//	}
+	//	else {
+	//		move = blockObb.otientatuons_[2] * blockObb.size_.z;
+	//		if (dot[2] > 0.0f) {
+	//			move *= -1.0f;
+	//		}
+	//	}
+	//}
+
+	worldTransform_.transform_.translate = prePosition_;
+	worldTransform_.UpdateMatrix();
+
+}
+
 void Player::Damage(uint32_t damage)
 {
 
@@ -309,4 +381,11 @@ float Player::RatioHP()
 	assert(initHp_ != 0);
 
 	return static_cast<float>(hp_) / static_cast<float>(initHp_);
+}
+
+void Player::Gravity()
+{
+
+	worldTransform_.transform_.translate.y -= 9.8f * kDeltaTime_;
+
 }

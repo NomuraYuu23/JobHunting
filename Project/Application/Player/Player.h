@@ -11,6 +11,11 @@
 #include "../../Engine/Animation/Animation.h"
 #include "../../Engine/3D/DrawLine.h"
 
+
+
+#include "../../Engine/Level/LevelData.h"
+#include "../../Engine/Object/MeshObject.h"
+
 /// <summary>
 /// プレイヤーのモーション一覧
 /// </summary>
@@ -31,7 +36,7 @@ enum PlayerMotionIndex {
 /// <summary>
 /// プレイヤー
 /// </summary>
-class Player
+class Player : public MeshObject
 {
 
 public: // ベースのメンバ関数
@@ -39,7 +44,7 @@ public: // ベースのメンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* model, Model* weaponModel);
+	virtual void Initialize(LevelData::MeshData* data);
 
 	/// <summary>
 	/// 更新
@@ -70,12 +75,6 @@ public: // ベースのメンバ関数
 	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
 private: // ベースのメンバ変数
-
-	// マテリアル
-	std::unique_ptr<Material> material_;
-
-	// ワールドトランスフォーム
-	WorldTransform worldTransform_;
 
 	// コマンド
 	PlayerCommand* playerCommand_;
@@ -129,11 +128,6 @@ private: // パーツ構成関数
 	void PartInitialize();
 
 	/// <summary>
-	/// コライダー初期化
-	/// </summary>
-	void ColliderInitialize();
-
-	/// <summary>
 	/// コライダー更新
 	/// </summary>
 	void ColliderUpdate();
@@ -144,15 +138,6 @@ private: // パーツ構成関数
 	void AnimationUpdate();
 
 private: // パーツ,アニメーション変数
-
-	// モデル
-	Model* model_;
-
-	// コライダー (ダメージを受ける側、位置が被らない用)
-	std::unique_ptr<Capsule> collider_;
-
-	// コライダー用半径
-	float colliderRadiuses_;
 
 	// 現在のモーション番号
 	uint32_t currentMotionNo_;
@@ -208,6 +193,9 @@ private: // プレイヤーデータ
 	// プレイヤーの攻撃情報
 	std::unique_ptr<PlayerAttack> playerAttack_;
 
+	// 前フレームの位置
+	Vector3 prePosition_;
+
 public:
 
 	/// <summary>
@@ -221,6 +209,8 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	float RatioHP();
+
+	void Gravity();
 
 private: // 衝突処理
 
@@ -238,6 +228,20 @@ private: // 衝突処理
 	/// <param name="collisionData"></param>
 	void OnCollisionTutorialEnemy(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
+	/// <summary>
+	/// 地面との当たり判定
+	/// </summary>
+	/// <param name="colliderPartner"></param>
+	/// <param name="collisionData"></param>
+	void OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="colliderPartner"></param>
+	/// <param name="collisionData"></param>
+	void OnCollisionBlock(ColliderParentObject colliderPartner, const CollisionData& collisionData);
+
 public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
@@ -249,8 +253,6 @@ public: // アクセッサ
 	void SetReceiveCommand(bool receiveCommand) { receiveCommand_ = receiveCommand; }
 
 	void SetHeight(float height) { height_ = height; }
-
-	//ColliderShape GetCollider() { return collider_.get(); }
 
 	IPlayerState* GetPlayerState() { return playerState_.get(); }
 
