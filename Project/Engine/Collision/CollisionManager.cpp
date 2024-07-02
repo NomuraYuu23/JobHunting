@@ -10,6 +10,7 @@
 #include "../../Application/Ground/Ground.h"
 #include "../../Application/Block/Block.h"
 #include "../../Application/Enemy/BaseEnemy.h"
+#include "../../Application/Enemy/BaseEnemyAttack.h"
 
 void CollisionManager::Initialize()
 {

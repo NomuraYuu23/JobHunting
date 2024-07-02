@@ -21,6 +21,9 @@ void BaseEnemy::Initialize(LevelData::MeshData* data)
 		localMatrixManager_->GetInitTransform(),
 		localMatrixManager_->GetNodeNames());
 
+	attack_ = std::make_unique<BaseEnemyAttack>();
+	attack_->Initialize(&worldTransform_);
+
 	// コマンド
 	CommandInitialize();
 

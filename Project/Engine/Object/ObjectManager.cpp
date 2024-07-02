@@ -112,7 +112,7 @@ void ObjectManager::CollisionListRegister(CollisionManager* collisionManager)
 	for (std::vector<ObjectPair>::iterator it = objects_.begin();
 		it != objects_.end(); ++it) {
 
-		collisionManager->ListRegister(static_cast<MeshObject*>(it->second.get())->GetCollider());
+		static_cast<MeshObject*>(it->second.get())->CollisionListRegister(collisionManager);
 
 	}
 

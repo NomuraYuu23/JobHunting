@@ -11,6 +11,7 @@ class Player;
 enum GhostMotionIndex {
 	kGhostMotionWait, // 通常時
 	kGhostMotionMove, // 移動時
+	kGhostMotionAttack, // 攻撃時
 	kGhostMotionIndexOfCount // 数
 };
 
@@ -92,7 +93,8 @@ private:  // パーツ,アニメーション定数
 	// モーション名
 	const std::array<const std::string, GhostMotionIndex::kGhostMotionIndexOfCount> motionNames_ = {
 		"Wait",
-		"Move"
+		"Move",
+		"Attack"
 	};
 
 private: 

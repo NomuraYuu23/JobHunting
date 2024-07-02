@@ -5,6 +5,8 @@
 #include "../../Engine/Animation/Animation.h"
 #include "../../Engine/3D/DrawLine.h"
 
+#include "../Enemy/BaseEnemyAttack.h"
+
 class BaseEnemy : public MeshObject
 {
 
@@ -48,6 +50,9 @@ protected: // ベースのメンバ変数
 
 	// シリアルナンバー
 	uint32_t serialNumber_ = 0;
+
+	// アタック
+	std::unique_ptr<BaseEnemyAttack> attack_;
 
 protected: // ステート関数
 
@@ -142,6 +147,8 @@ protected: // 衝突処理
 	void OnCollisionBlock(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
 public: // アクセッサ
+
+	BaseEnemyAttack* GetAttack() { return attack_.get(); }
 
 };
 

@@ -51,6 +51,10 @@ public:
 	/// <returns></returns>
 	IObject* GetObjectPointer(const std::string name);
 
+	/// <summary>
+	/// コライダー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
 	void CollisionListRegister(CollisionManager* collisionManager);
 
 private:

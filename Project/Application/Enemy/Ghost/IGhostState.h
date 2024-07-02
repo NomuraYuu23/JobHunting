@@ -7,6 +7,7 @@ class Ghost;
 enum GhostState {
 	kGhostStateRoot, // 通常
 	kGhostStateChase, // 追跡
+	kGhostStateAttack, // 攻撃
 	kGhostStateOfCount // 数
 };
 
