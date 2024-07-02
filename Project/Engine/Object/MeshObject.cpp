@@ -52,6 +52,15 @@ void MeshObject::CollisionListRegister(CollisionManager* collisionManager)
 
 }
 
+void MeshObject::CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw)
+{
+
+	collisionManager->ListRegister(collider_.get());
+
+	colliderDebugDraw->AddCollider(*collider_.get());
+
+}
+
 void MeshObject::ColliderInitialize(ColliderShape collider)
 {
 

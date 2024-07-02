@@ -1,7 +1,9 @@
 #pragma once
-#include "../../../Engine/Collider/Sphere/Sphere.h"
+#include "../../../Engine/Collider/ColliderShape.h"
 #include "../../../Engine/Collision/CollisionData.h"
 #include "../../../Engine/ContactRecord/ContactRecord.h"
+#include "../../../Engine/Collision/CollisionManager.h"
+#include "../../Engine/Collider/ColliderDebugDraw/ColliderDebugDraw.h"
 
 class BaseEnemyAttack
 {
@@ -36,6 +38,18 @@ public: // 変数
 	/// </summary>
 	void ClearContactRecord();
 
+	/// <summary>
+	/// コライダー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	void CollisionListRegister(CollisionManager* collisionManager);
+
+	/// <summary>
+	/// コライダー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw);
+
 public: // アクセッサ
 
 	/// <summary>
@@ -48,7 +62,7 @@ public: // アクセッサ
 	/// あたり判定コライダー
 	/// </summary>
 	/// <returns></returns>
-	Sphere* GetCollider() { return collider_.get(); }
+	ColliderShape* GetCollider() { return collider_.get(); }
 
 	/// <summary>
 	/// あたり判定を取るか
@@ -79,7 +93,7 @@ private:
 	uint32_t damage_ = 1;
 
 	// あたり判定コライダー
-	std::unique_ptr<Sphere> collider_;
+	std::unique_ptr<ColliderShape> collider_;
 
 	// あたり判定ワールドトランスフォーム
 	WorldTransform worldTransform_;

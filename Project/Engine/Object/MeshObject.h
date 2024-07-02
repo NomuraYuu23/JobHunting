@@ -3,6 +3,7 @@
 #include "../3D/Model.h"
 #include "../Level/LevelData.h"
 #include "../Collision/CollisionManager.h"
+#include "../Collider/ColliderDebugDraw/ColliderDebugDraw.h"
 
 class MeshObject :
     public IObject
@@ -37,6 +38,13 @@ public: // 関数
     /// </summary>
     /// <param name="collisionManager"></param>
     virtual void CollisionListRegister(CollisionManager* collisionManager);
+
+    /// <summary>
+    /// コライダー登録
+    /// </summary>
+    /// <param name="collisionManager"></param>
+    /// <param name="colliderDebugDraw"></param>
+    virtual void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw);
 
 protected: // 関数
 

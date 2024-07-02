@@ -40,6 +40,19 @@ public: // ベースのメンバ関数
 	/// <param name="collisionData"></param>
 	virtual void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) = 0;
 
+	/// <summary>
+	/// 衝突マネージャー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	virtual void CollisionListRegister(CollisionManager* collisionManager) override;
+
+	/// <summary>
+	/// 衝突マネージャー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	/// <param name="colliderDebugDraw"></param>
+	virtual void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw) override;
+
 protected: // ベースのメンバ変数
 
 	//衝突属性(自分)

@@ -4,9 +4,6 @@
 void BaseEnemyAttack::Initialize(WorldTransform* parent)
 {
 
-	// あたり判定コライダー
-	collider_ = std::make_unique<Sphere>();
-
 	// あたり判定ワールドトランスフォーム
 	worldTransform_.Initialize();
 	worldTransform_.parent_ = parent;
@@ -18,10 +15,16 @@ void BaseEnemyAttack::Initialize(WorldTransform* parent)
 	// 攻撃球のプレイヤーからのローカル位置
 	center_ = { -10000.0f,-10000.0f,-10000.0f };
 
-	// あたり判定コライダー初期化
-	collider_->Initialize(center_, radius_, this);
-	collider_->SetCollisionAttribute(0x00000001);
-	collider_->SetCollisionMask(0xfffffffe);
+
+	// あたり判定コライダー
+	ColliderShape* collider = new ColliderShape();
+	Sphere sphere;
+	sphere.Initialize(center_, radius_, this);
+	sphere.SetCollisionAttribute(0x00000002);
+	sphere.SetCollisionMask(0xfffffffd);
+	*collider = sphere;
+
+	collider_.reset(collider);
 
 	// あたり判定を取るか
 	isAttackJudgment_ = false;
@@ -35,8 +38,16 @@ void BaseEnemyAttack::Update()
 	worldTransform_.UpdateMatrix();
 
 	Vector3 center = worldTransform_.GetWorldPosition();
-	collider_->center_ = center;
-	collider_->radius_ = radius_;
+
+	Sphere sphere = std::get<Sphere>(*collider_.get());
+
+	sphere.center_ = center;
+
+	ColliderShape* colliderShape = new ColliderShape();
+
+	*colliderShape = sphere;
+
+	collider_.reset(colliderShape);
 
 }
 
@@ -45,7 +56,8 @@ void BaseEnemyAttack::Stop()
 
 	isAttackJudgment_ = false;
 	center_ = { -10000.0f,-10000.0f,-10000.0f };
-	collider_->worldTransformUpdate();
+	worldTransform_.transform_.translate = center_;
+	worldTransform_.UpdateMatrix();
 
 }
 
@@ -62,6 +74,22 @@ void BaseEnemyAttack::ClearContactRecord()
 {
 
 	contactRecord_.Clear();
+
+}
+
+void BaseEnemyAttack::CollisionListRegister(CollisionManager* collisionManager)
+{
+
+	collisionManager->ListRegister(collider_.get());
+
+}
+
+void BaseEnemyAttack::CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw)
+{
+
+	collisionManager->ListRegister(collider_.get());
+
+	colliderDebugDraw->AddCollider(*collider_.get());
 
 }
 

@@ -57,3 +57,21 @@ void BaseEnemy::DebugDrawMap(DrawLine* drawLine)
 		drawLine);
 
 }
+
+void BaseEnemy::CollisionListRegister(CollisionManager* collisionManager)
+{
+
+	MeshObject::CollisionListRegister(collisionManager);
+
+	attack_->CollisionListRegister(collisionManager);
+
+}
+
+void BaseEnemy::CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw)
+{
+
+	MeshObject::CollisionListRegister(collisionManager, colliderDebugDraw);
+
+	attack_->CollisionListRegister(collisionManager, colliderDebugDraw);
+
+}
