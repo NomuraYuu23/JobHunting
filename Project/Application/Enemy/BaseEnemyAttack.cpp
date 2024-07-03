@@ -10,11 +10,10 @@ void BaseEnemyAttack::Initialize(WorldTransform* parent)
 	worldTransform_.UpdateMatrix();
 
 	// 攻撃球の半径
-	radius_ = 2.0f;
+	radius_ = 1.0f;
 
 	// 攻撃球のプレイヤーからのローカル位置
-	center_ = { -10000.0f,-10000.0f,-10000.0f };
-
+	center_ = { 0.0f,0.0f, 1.5f };
 
 	// あたり判定コライダー
 	ColliderShape* collider = new ColliderShape();
@@ -55,9 +54,6 @@ void BaseEnemyAttack::Stop()
 {
 
 	isAttackJudgment_ = false;
-	center_ = { -10000.0f,-10000.0f,-10000.0f };
-	worldTransform_.transform_.translate = center_;
-	worldTransform_.UpdateMatrix();
 
 }
 
@@ -80,12 +76,20 @@ void BaseEnemyAttack::ClearContactRecord()
 void BaseEnemyAttack::CollisionListRegister(CollisionManager* collisionManager)
 {
 
+	if (!isAttackJudgment_) {
+		return;
+	}
+
 	collisionManager->ListRegister(collider_.get());
 
 }
 
 void BaseEnemyAttack::CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw)
 {
+
+	if (!isAttackJudgment_) {
+		return;
+	}
 
 	collisionManager->ListRegister(collider_.get());
 

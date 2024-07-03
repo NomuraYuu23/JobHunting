@@ -48,14 +48,6 @@ void ObjectManager::Update()
 	for (std::vector<ObjectPair>::iterator it = objects_.begin();
 		it != objects_.end(); ++it) {
 		it->second->Update();
-
-#ifdef _DEBUG
-
-		// コライダー登録
-		//colliderDebugDraw_->AddCollider(*static_cast<MeshObject*>(it->second.get())->GetCollider());
-
-#endif // _DEBUG
-
 	}
 
 }

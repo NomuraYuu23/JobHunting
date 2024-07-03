@@ -3,6 +3,7 @@
 
 #include "GhostStateRoot.h"
 #include "GhostStateChase.h"
+#include "GhostStateAttack.h"
 
 IGhostState* GhostStateFactory::CreateGhostState(uint32_t ghostStateName)
 {
@@ -16,6 +17,9 @@ IGhostState* GhostStateFactory::CreateGhostState(uint32_t ghostStateName)
 		break;
 	case kGhostStateChase: // 追跡
 		newGhostState = new GhostStateChase();
+		break;
+	case kGhostStateAttack: // 攻撃
+		newGhostState = new GhostStateAttack();
 		break;
 	case kGhostStateOfCount: // 使用不可
 	default:
