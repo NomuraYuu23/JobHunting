@@ -115,10 +115,6 @@ private:
 	std::unique_ptr<SpotLightManager> spotLightManager_;
 	std::array<SpotLightData, SpotLightManager::kNumInstanceMax_> spotLightDatas_;
 
-	// ボス
-	std::unique_ptr<TutorialEnemy> enemy_;
-	std::unique_ptr<Model> enemyModel_;
-
 	// 追加カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
 

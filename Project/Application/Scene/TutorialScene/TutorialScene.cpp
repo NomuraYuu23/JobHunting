@@ -112,10 +112,6 @@ void TutorialScene::Initialize() {
 	followCamera_->SetTarget(player->GetWorldTransformAdress());
 	player->SetCamera(static_cast<BaseCamera*>(followCamera_.get()));
 
-	enemy_ = std::make_unique<TutorialEnemy>();
-	enemy_->Initialize(enemyModel_.get());
-	enemy_->SetPlayer(player);
-
 	IScene::InitilaizeCheck();
 
 }
@@ -158,20 +154,11 @@ void TutorialScene::Update() {
 
 	camera_ = static_cast<BaseCamera>(*followCamera_.get());
 
-	enemy_->Update();
-
 	// オブジェクトマネージャー
 	objectManager_->Update();
 
 	// あたり判定
 	collisionManager_->ListClear();
-	//collisionManager_->ListRegister(player_->GetCollider());
-	//collisionManager_->ListRegister(enemy_->GetCollider());
-
-	// プレイヤーの攻撃
-	//if (player_->GetPlayerAttack()->GetIsAttackJudgment()) {
-		//collisionManager_->ListRegister(player_->GetPlayerAttack()->GetCollider());
-	//}
 
 	objectManager_->CollisionListRegister(collisionManager_.get());
 
@@ -225,9 +212,6 @@ void TutorialScene::Draw() {
 	// スカイドーム
 	skydome_->Draw(camera_);
 
-	// エネミー
-	enemy_->Draw(camera_);
-	
 	// オブジェクトマネージャー
 	objectManager_->Draw(camera_, drawLine_);
 
@@ -322,8 +306,6 @@ void TutorialScene::ModelCreate()
 	// スカイドーム
 	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_));
 
-	// エネミー
-	enemyModel_.reset(Model::Create("Resources/Model/Tutorial/", "Boss.gltf", dxCommon_));
 }
 
 void TutorialScene::TextureLoad()
