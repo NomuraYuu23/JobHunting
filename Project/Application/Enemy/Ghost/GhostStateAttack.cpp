@@ -96,7 +96,7 @@ void GhostStateAttack::AttackComboPhaseFinished()
 			AttackComboFinished();
 			DontAttack();
 		}
-		else if (inComboPhase_ >= static_cast<uint32_t>(ComboPhase::kSwing)) {
+		else if (inComboPhase_ == static_cast<uint32_t>(ComboPhase::kSwing)) {
 			attack_->SetIsAttackJudgment(true);
 		}
 		else {

@@ -1,6 +1,9 @@
 #pragma once
 #include <cstdint>
 
+class Player;
+class Ghost;
+
 class GhostCommand
 {
 
@@ -9,7 +12,9 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	/// <param name="ghost">ゴースト</param>
+	/// <param name="player">プレイヤー</param>
+	void Initialize(Ghost* ghost, Player* player);
 
 	/// <summary>
 	/// コマンド
@@ -19,6 +24,19 @@ public:
 
 private: 
 
+	// ゴースト
+	Ghost* ghost_;
+
+	// プレイヤー
+	Player* player_;
+
+public:
+
+	// ゴースト
+	void SetGhost(Ghost* ghost) { ghost_ = ghost; }
+
+	// プレイヤー
+	void SetPlayer(Player* player) { player_ = player; }
 
 };
 

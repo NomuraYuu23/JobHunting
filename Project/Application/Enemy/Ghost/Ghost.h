@@ -114,7 +114,10 @@ public:
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
 
-	void SetPlayer(Player* player) { player_ = player; }
+	void SetPlayer(Player* player) { 
+		player_ = player;
+		command_->SetPlayer(player_);
+	}
 	Player* GetPlayer() { return player_; }
 
 };

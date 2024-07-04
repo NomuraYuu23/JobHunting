@@ -97,7 +97,7 @@ void Ghost::CommandInitialize()
 
 	// コマンド
 	command_ = std::make_unique<GhostCommand>();
-	command_->Initialize();
+	command_->Initialize(this, player_);
 
 	// コマンドを受け取るか
 	receiveCommand_ = true;
