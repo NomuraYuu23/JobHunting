@@ -1,7 +1,8 @@
-#include "Ghost.h"
-#include "GhostStateFactory.h"
+#include "AxSpearMan.h"
 
-void Ghost::Initialize(LevelData::MeshData* data)
+#include "AxSpearManStateFactory.h"
+
+void AxSpearMan::Initialize(LevelData::MeshData* data)
 {
 
 	BaseEnemy::Initialize(data);
@@ -16,7 +17,7 @@ void Ghost::Initialize(LevelData::MeshData* data)
 
 }
 
-void Ghost::Update()
+void AxSpearMan::Update()
 {
 
 	if (receiveCommand_) {
@@ -45,30 +46,30 @@ void Ghost::Update()
 
 }
 
-void Ghost::ImGuiDraw()
+void AxSpearMan::ImGuiDraw()
 {
 }
 
-void Ghost::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
+void AxSpearMan::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 }
 
-void Ghost::StateInitialize()
+void AxSpearMan::StateInitialize()
 {
 
 	// ステート
-	state_.reset(GhostStateFactory::CreateGhostState(GhostState::kGhostStateRoot)); // 最初のステート
+	state_.reset(AxSpearManStateFactory::CreateAxSpearManState(AxSpearManState::kAxSpearManStateRoot)); // 最初のステート
 	state_->Initialize();
 
 	// ステート番号
-	currentStateNo_ = GhostState::kGhostStateRoot; // 最初のステート
-	prevStateNo_ = GhostState::kGhostStateRoot; // 最初のステート
-	nextStateNo_ = GhostState::kGhostStateRoot; // 最初のステート
-	state_->SetGhost(this);
+	currentStateNo_ = AxSpearManState::kAxSpearManStateRoot; // 最初のステート
+	prevStateNo_ = AxSpearManState::kAxSpearManStateRoot; // 最初のステート
+	nextStateNo_ = AxSpearManState::kAxSpearManStateRoot; // 最初のステート
+	state_->SetAxSpearMan(this);
 
 }
 
-void Ghost::StateUpdate()
+void AxSpearMan::StateUpdate()
 {
 
 	// ステートのチェック
@@ -77,13 +78,13 @@ void Ghost::StateUpdate()
 		currentStateNo_ = nextStateNo_;
 	}
 	else {
-		currentStateNo_ = state_->GetGhostStateNo();
+		currentStateNo_ = state_->GetAxSpearManStateNo();
 	}
 
 	// ステートが変わったか
 	if (prevStateNo_ != currentStateNo_) {
 		//ステート変更（初期化）
-		state_.reset(GhostStateFactory::CreateGhostState(currentStateNo_));
+		state_.reset(AxSpearManStateFactory::CreateAxSpearManState(currentStateNo_));
 		state_->Initialize();
 	}
 
@@ -92,11 +93,11 @@ void Ghost::StateUpdate()
 
 }
 
-void Ghost::CommandInitialize()
+void AxSpearMan::CommandInitialize()
 {
 
 	// コマンド
-	command_ = std::make_unique<GhostCommand>();
+	command_ = std::make_unique<AxSpearManCommand>();
 	command_->Initialize(this);
 
 	// コマンドを受け取るか
@@ -104,21 +105,21 @@ void Ghost::CommandInitialize()
 
 }
 
-void Ghost::PartInitialize()
+void AxSpearMan::PartInitialize()
 {
 
 	// 現在のモーション番号
-	currentMotionNo_ = GhostMotionIndex::kGhostMotionWait;
+	currentMotionNo_ = AxSpearManMotionIndex::kAxSpearManMotionIndexWait;
 
 	// 前のモーション番号
-	prevMotionNo_ = GhostMotionIndex::kGhostMotionWait;
+	prevMotionNo_ = AxSpearManMotionIndex::kAxSpearManMotionIndexWait;
 
 	// 待ちアニメーション
-	animation_.StartAnimation(kGhostMotionWait, true);
+	animation_.StartAnimation(AxSpearManMotionIndex::kAxSpearManMotionIndexWait, true);
 
 }
 
-void Ghost::ColliderUpdate()
+void AxSpearMan::ColliderUpdate()
 {
 
 	OBB obb = std::get<OBB>(*collider_.get());
@@ -133,11 +134,11 @@ void Ghost::ColliderUpdate()
 
 }
 
-void Ghost::AnimationUpdate()
+void AxSpearMan::AnimationUpdate()
 {
 
 	prevMotionNo_ = currentMotionNo_;
-	currentMotionNo_ = state_->GetGhostMotionNo();
+	currentMotionNo_ = state_->GetAxSpearManMotionNo();
 
 	if (currentMotionNo_ != prevMotionNo_) {
 		animation_.StopAnimation(prevMotionNo_);

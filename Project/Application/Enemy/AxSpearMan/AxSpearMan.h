@@ -1,22 +1,21 @@
 #pragma once
 #include "../BaseEnemy.h"
-#include "GhostCommand.h"
-#include "IGhostState.h"
+
+#include "AxSpearManCommand.h" // コマンド
+#include "IAxSpearManState.h" // ステート
 
 class Player;
 
 /// <summary>
 /// モーション一覧
 /// </summary>
-enum GhostMotionIndex {
-	kGhostMotionWait, // 通常時
-	kGhostMotionMove, // 移動時
-	kGhostMotionAttack, // 攻撃時
-	kGhostMotionIndexOfCount // 数
+enum AxSpearManMotionIndex {
+	kAxSpearManMotionIndexWait, // 通常時
+	kAxSpearManMotionIndexOfCount // 数
 };
 
 
-class Ghost : public BaseEnemy
+class AxSpearMan : public BaseEnemy
 {
 
 public: // ベースのメンバ関数
@@ -63,10 +62,10 @@ protected: // ステート関数
 private: //ステート
 
 	// コマンド
-	std::unique_ptr<GhostCommand> command_;
+	std::unique_ptr<AxSpearManCommand> command_;
 
 	// ステート
-	std::unique_ptr<IGhostState> state_;
+	std::unique_ptr<IAxSpearManState> state_;
 
 protected: // パーツ構成関数
 
@@ -91,13 +90,11 @@ private:  // パーツ,アニメーション定数
 	const std::string objectName_ = "Ghost";
 
 	// モーション名
-	const std::array<const std::string, GhostMotionIndex::kGhostMotionIndexOfCount> motionNames_ = {
+	const std::array<const std::string, AxSpearManMotionIndex::kAxSpearManMotionIndexOfCount> motionNames_ = {
 		"Wait",
-		"Move",
-		"Attack"
 	};
 
-private: 
+private:
 
 	// 高さ
 	float height_;

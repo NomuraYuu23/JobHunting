@@ -3,7 +3,7 @@
 
 class Ghost;
 
-//プレイヤーの状態名
+// ゴーストの状態名
 enum GhostState {
 	kGhostStateRoot, // 通常
 	kGhostStateChase, // 追跡
@@ -16,13 +16,13 @@ class IGhostState
 
 protected:
 
-	// プレイヤーの状態番号
+	// 状態番号
 	static uint32_t ghostStateNo_;
 
-	// プレイヤーのモーション番号
+	// モーション番号
 	static uint32_t ghostMotionNo_;
 
-	// プレイヤー
+	// 自身
 	static Ghost* ghost_;
 
 public: // メンバ関数

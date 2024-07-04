@@ -286,6 +286,9 @@
     <Filter Include="Application\Object\Enemy\Ghost\State">
       <UniqueIdentifier>{ca8fde60-6e80-4aa4-b151-f35bc103a540}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Enemy\AxSpearMan">
+      <UniqueIdentifier>{a9c15fe5-077d-4abf-a9b8-806351193ab3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -778,16 +781,31 @@
     <ClCompile Include="Application\Enemy\Ghost\IGhostState.cpp">
       <Filter>Application\Object\Enemy\Ghost\State</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Ghost\GhostStateRoot.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\Enemy\BaseEnemyAttack.cpp">
+      <Filter>Application\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Application\Enemy\Ghost\GhostStateChase.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Enemy\Ghost\State</Filter>
     </ClCompile>
     <ClCompile Include="Application\Enemy\Ghost\GhostStateAttack.cpp">
+      <Filter>Application\Object\Enemy\Ghost\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\Ghost\GhostStateRoot.cpp">
+      <Filter>Application\Object\Enemy\Ghost\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearMan.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\BaseEnemyAttack.cpp">
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManCommand.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\IAxSpearManState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateFactory.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateRoot.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1428,16 +1446,31 @@
     <ClInclude Include="Application\Enemy\Ghost\GhostStateFactory.h">
       <Filter>Application\Object\Enemy\Ghost\State</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Ghost\GhostStateRoot.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\Enemy\BaseEnemyAttack.h">
+      <Filter>Application\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Ghost\GhostStateChase.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\Enemy\Ghost\GhostStateRoot.h">
+      <Filter>Application\Object\Enemy\Ghost\State</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\Ghost\GhostStateAttack.h">
+      <Filter>Application\Object\Enemy\Ghost\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\Ghost\GhostStateChase.h">
+      <Filter>Application\Object\Enemy\Ghost\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearMan.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\BaseEnemyAttack.h">
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManCommand.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\IAxSpearManState.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateFactory.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateRoot.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
