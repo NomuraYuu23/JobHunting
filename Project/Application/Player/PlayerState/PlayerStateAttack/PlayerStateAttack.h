@@ -111,7 +111,7 @@ private: // メンバ変数
 	bool comboNext_;
 
 	// プレイヤーの攻撃情報
-	PlayerAttack* playerAttack_;
+	PlayerAttack* attack_;
 
 };
 

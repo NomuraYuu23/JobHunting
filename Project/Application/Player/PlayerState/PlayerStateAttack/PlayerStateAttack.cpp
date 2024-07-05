@@ -17,7 +17,7 @@ void PlayerStateAttack::Initialize()
 
 	targetAngleT_ = 0.1f;
 
-	playerAttack_ = player_->GetPlayerAttack();
+	attack_ = player_->GetPlayerAttack();
 
 	// 媒介変数
 	parameter_ = 0.0f;
@@ -72,8 +72,6 @@ void PlayerStateAttack::AttackInitialize()
 	parameter_ = 0.0f;
 	DontAttack();
 
-	playerAttack_->GetCollider()->worldTransformUpdate();
-
 	periodFrame_ = kConstAttaks[comboIndex_].time_[inComboPhase_];
 
 	//モーションネーム
@@ -109,7 +107,7 @@ void PlayerStateAttack::AttackComboPhaseFinished()
 			DontAttack();
 		}
 		else if (inComboPhase_ >= static_cast<uint32_t>(ComboPhase::kSwing)) {
-			playerAttack_->SetIsAttackJudgment(true);
+			attack_->SetIsAttackJudgment(true);
 		}
 		else {
 			DontAttack();
@@ -133,11 +131,11 @@ void PlayerStateAttack::AttackComboFinished()
 			comboIndex_ = 0;
 		}
 		AttackInitialize();
-		playerAttack_->ClearContactRecord();
+		attack_->ClearContactRecord();
 	}
 	else {
 		playerStateNo_ = PlayerState::kPlayerStateRoot;
-		playerAttack_->ClearContactRecord();
+		attack_->ClearContactRecord();
 	}
 
 }
@@ -149,7 +147,7 @@ void PlayerStateAttack::AttackCombo1st()
 
 	// コライダー更新
 	if (inComboPhase_ == static_cast<uint32_t>(ComboPhase::kSwing)) {
-		playerAttack_->Update();
+		attack_->Update();
 	}
 
 }
@@ -161,7 +159,7 @@ void PlayerStateAttack::AttackCombo2nd()
 
 	// コライダー更新
 	if (inComboPhase_ == static_cast<uint32_t>(ComboPhase::kSwing)) {
-		playerAttack_->Update();
+		attack_->Update();
 	}
 
 }
@@ -169,7 +167,7 @@ void PlayerStateAttack::AttackCombo2nd()
 void PlayerStateAttack::DontAttack()
 {
 
-	playerAttack_->Stop();
+	attack_->Stop();
 
 }
 

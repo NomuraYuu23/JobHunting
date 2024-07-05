@@ -6,30 +6,26 @@
 void PlayerAttack::Initialize(WorldTransform* parent)
 {
 
-	// あたり判定コライダー
-	collider_ = std::make_unique<Capsule>();
-
 	// あたり判定ワールドトランスフォーム
 	worldTransform_.Initialize();
 	worldTransform_.parent_ = parent;
 	worldTransform_.UpdateMatrix();
 
 	// 攻撃球の半径
-	radius_ = 2.0f;
-
-	// 攻撃球と手の距離
-	length_ = { 0.0f, 0.0f, 1.0f };
+	radius_ = 1.0f;
 
 	// 攻撃球のプレイヤーからのローカル位置
-	center_ = { -10000.0f,-10000.0f,-10000.0f };
+	center_ = { 0.0f, 1.5f, 1.5f };
 
-	// 前フレームの攻撃球
-	prevCenter_ = { -10000.0f,-10000.0f,-10000.0f };
+	// あたり判定コライダー
+	ColliderShape* collider = new ColliderShape();
+	Sphere sphere;
+	sphere.Initialize(center_, radius_, this);
+	sphere.SetCollisionAttribute(0x00000001);
+	sphere.SetCollisionMask(0xfffffffe);
+	*collider = sphere;
 
-	// あたり判定コライダー初期化
-	collider_->Initialize(Segment{ prevCenter_ , {0.0f,0.0f,0.0f} }, radius_, this);
-	collider_->SetCollisionAttribute(0x00000001);
-	collider_->SetCollisionMask(0xfffffffe);
+	collider_.reset(collider);
 
 	// あたり判定を取るか
 	isAttackJudgment_ = false;
@@ -39,20 +35,20 @@ void PlayerAttack::Initialize(WorldTransform* parent)
 void PlayerAttack::Update()
 {
 
-	worldTransform_.transform_.translate = length_;
+	worldTransform_.transform_.translate = center_;
 	worldTransform_.UpdateMatrix();
-	if (center_.x <= -10000.0f) {
-		prevCenter_ = worldTransform_.GetWorldPosition();
-	}
-	else {
-		prevCenter_ = center_;
-	}
-	center_ = worldTransform_.GetWorldPosition();
-	Segment segment;
-	segment.origin_ = center_;
-	segment.diff_ = Vector3::Subtract(prevCenter_, center_);
-	collider_->segment_ = segment;
-	collider_->radius_ = radius_;
+
+	Vector3 center = worldTransform_.GetWorldPosition();
+
+	Sphere sphere = std::get<Sphere>(*collider_.get());
+
+	sphere.center_ = center;
+
+	ColliderShape* colliderShape = new ColliderShape();
+
+	*colliderShape = sphere;
+
+	collider_.reset(colliderShape);
 
 }
 
@@ -60,11 +56,6 @@ void PlayerAttack::Stop()
 {
 
 	isAttackJudgment_ = false;
-	center_ = { -10000.0f,-10000.0f,-10000.0f };
-	prevCenter_ = { -10000.0f,-10000.0f,-10000.0f };
-	collider_->segment_.origin_ = center_;
-	collider_->segment_.diff_ = { 0.0f, 0.0f, 0.0f };
-	collider_->worldTransformUpdate();
 
 }
 
@@ -81,6 +72,30 @@ void PlayerAttack::ClearContactRecord()
 {
 
 	contactRecord_.Clear();
+
+}
+
+void PlayerAttack::CollisionListRegister(CollisionManager* collisionManager)
+{
+
+	if (!isAttackJudgment_) {
+		return;
+	}
+
+	collisionManager->ListRegister(collider_.get());
+
+}
+
+void PlayerAttack::CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw)
+{
+
+	if (!isAttackJudgment_) {
+		return;
+	}
+
+	collisionManager->ListRegister(collider_.get());
+
+	colliderDebugDraw->AddCollider(*collider_.get());
 
 }
 

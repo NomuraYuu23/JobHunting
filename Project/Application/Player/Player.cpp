@@ -48,8 +48,8 @@ void Player::Initialize(LevelData::MeshData* data)
 
 	isDead_ = false;
 
-	playerAttack_ = std::make_unique<PlayerAttack>();
-	playerAttack_->Initialize(&worldTransform_);
+	attack_ = std::make_unique<PlayerAttack>();
+	attack_->Initialize(&worldTransform_);
 
 	prePosition_ = worldTransform_.GetWorldPosition();
 
@@ -164,7 +164,7 @@ void Player::CollisionListRegister(CollisionManager* collisionManager)
 
 	MeshObject::CollisionListRegister(collisionManager);
 
-	//attack_->CollisionListRegister(collisionManager);
+	attack_->CollisionListRegister(collisionManager);
 
 
 }
@@ -174,7 +174,7 @@ void Player::CollisionListRegister(CollisionManager* collisionManager, ColliderD
 
 	MeshObject::CollisionListRegister(collisionManager, colliderDebugDraw);
 
-	//attack_->CollisionListRegister(collisionManager, colliderDebugDraw);
+	attack_->CollisionListRegister(collisionManager, colliderDebugDraw);
 
 }
 

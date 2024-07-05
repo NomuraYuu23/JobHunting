@@ -204,7 +204,7 @@ private: // プレイヤーデータ
 	bool isDead_;
 
 	// プレイヤーの攻撃情報
-	std::unique_ptr<PlayerAttack> playerAttack_;
+	std::unique_ptr<PlayerAttack> attack_;
 
 	// 前フレームの位置
 	Vector3 prePosition_;
@@ -272,6 +272,6 @@ public: // アクセッサ
 
 	uint32_t GetInitHp(){ return initHp_; }
 
-	PlayerAttack* GetPlayerAttack() { return playerAttack_.get(); }
+	PlayerAttack* GetPlayerAttack() { return attack_.get(); }
 
 };

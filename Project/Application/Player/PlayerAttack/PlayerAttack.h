@@ -2,6 +2,8 @@
 #include "../../../Engine/Collider/Capsule/Capsule.h"
 #include "../../../Engine/Collision/CollisionData.h"
 #include "../../../Engine/ContactRecord/ContactRecord.h"
+#include "../../../Engine/Collision/CollisionManager.h"
+#include "../../../Engine/Collider/ColliderDebugDraw/ColliderDebugDraw.h"
 
 class PlayerAttack
 {
@@ -35,6 +37,18 @@ public: // 変数
 	/// 接触履歴抹消
 	/// </summary>
 	void ClearContactRecord();
+
+	/// <summary>
+	/// コライダー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	void CollisionListRegister(CollisionManager* collisionManager);
+
+	/// <summary>
+	/// コライダー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw);
 	
 public: // アクセッサ
 
@@ -48,7 +62,7 @@ public: // アクセッサ
 	/// あたり判定コライダー
 	/// </summary>
 	/// <returns></returns>
-	Capsule* GetCollider() { return collider_.get(); }
+	ColliderShape* GetCollider() { return collider_.get(); }
 
 	/// <summary>
 	/// あたり判定を取るか
@@ -79,7 +93,7 @@ private:
 	uint32_t damage_ = 1;
 
 	// あたり判定コライダー
-	std::unique_ptr<Capsule> collider_;
+	std::unique_ptr<ColliderShape> collider_;
 
 	// あたり判定ワールドトランスフォーム
 	WorldTransform worldTransform_;
@@ -87,14 +101,8 @@ private:
 	// 攻撃球の半径
 	float radius_;
 
-	// 攻撃球と手の距離
-	Vector3 length_;
-
 	// 攻撃球のプレイヤーからのローカル位置
 	Vector3 center_;
-
-	// 前フレームの攻撃球
-	Vector3 prevCenter_;
 
 	// あたり判定を取るか
 	bool isAttackJudgment_;
