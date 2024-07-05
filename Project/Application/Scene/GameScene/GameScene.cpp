@@ -257,6 +257,7 @@ void GameScene::Draw() {
 
 	PostEffect::GetInstance()->SetKernelSize(33);
 	PostEffect::GetInstance()->SetThreshold(0.0f);
+	PostEffect::GetInstance()->SetGaussianSigma(33.0f);
 
 	PostEffect::GetInstance()->Execution(
 		dxCommon_->GetCommadList(),
@@ -285,19 +286,19 @@ void GameScene::Draw() {
 		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
 
 	}
-	//else if (player_->GetHp() == 1) {
+	else if (player_->GetHp() == 1) {
 
-	//	PostEffect::GetInstance()->Execution(
-	//		dxCommon_->GetCommadList(),
-	//		renderTargetTexture_,
-	//		PostEffect::kCommandIndexVignette
-	//	);
+		PostEffect::GetInstance()->Execution(
+			dxCommon_->GetCommadList(),
+			renderTargetTexture_,
+			PostEffect::kCommandIndexVignette
+		);
 
-	//	renderTargetTexture_->ClearDepthBuffer();
+		renderTargetTexture_->ClearDepthBuffer();
 
-	//	WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
 
-	//}
+	}
 
 #ifdef _DEBUG
 #pragma region コライダー2d描画
