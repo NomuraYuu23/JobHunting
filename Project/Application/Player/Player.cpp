@@ -159,6 +159,25 @@ void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 
 }
 
+void Player::CollisionListRegister(CollisionManager* collisionManager)
+{
+
+	MeshObject::CollisionListRegister(collisionManager);
+
+	//attack_->CollisionListRegister(collisionManager);
+
+
+}
+
+void Player::CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw)
+{
+
+	MeshObject::CollisionListRegister(collisionManager, colliderDebugDraw);
+
+	//attack_->CollisionListRegister(collisionManager, colliderDebugDraw);
+
+}
+
 void Player::StateInitialize()
 {
 

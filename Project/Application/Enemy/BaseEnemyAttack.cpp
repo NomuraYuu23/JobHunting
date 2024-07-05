@@ -104,7 +104,7 @@ void BaseEnemyAttack::OnCollisionPlayer(ColliderParentObject colliderPartner, co
 	uint32_t serialNumber = player->GetSerialNumber();
 
 	// 履歴確認
-	if (contactRecord_.ConfirmHistory(serialNumber)) {
+	if (contactRecord_.ConfirmHistory(serialNumber) || player->GetCurrentStateNo() == PlayerState::kPlayerStateAvoidance) {
 		return;
 	}
 

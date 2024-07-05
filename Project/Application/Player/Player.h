@@ -74,6 +74,19 @@ public: // ベースのメンバ関数
 	/// <param name="collisionData"></param>
 	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
+	/// <summary>
+	/// 衝突マネージャー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	virtual void CollisionListRegister(CollisionManager* collisionManager) override;
+
+	/// <summary>
+	/// 衝突マネージャー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	/// <param name="colliderDebugDraw"></param>
+	virtual void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw) override;
+
 private: // ベースのメンバ変数
 
 	// コマンド

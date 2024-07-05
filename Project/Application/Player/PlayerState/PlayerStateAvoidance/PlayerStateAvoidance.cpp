@@ -7,7 +7,7 @@ void PlayerStateAvoidance::Initialize()
 
 	spped_ = 0.5f;
 
-	frame_ = 50;
+	frame_ = 20;
 
 	frameCount_ = 0;
 
