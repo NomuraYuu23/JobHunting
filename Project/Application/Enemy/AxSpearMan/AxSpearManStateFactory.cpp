@@ -1,6 +1,7 @@
 #include "AxSpearManStateFactory.h"
 
 #include "AxSpearManStateRoot.h"
+#include "AxSpearManStateDashSwingDown.h"
 
 IAxSpearManState* AxSpearManStateFactory::CreateAxSpearManState(uint32_t axSpearManStateName)
 {
@@ -11,6 +12,9 @@ IAxSpearManState* AxSpearManStateFactory::CreateAxSpearManState(uint32_t axSpear
 	{
 	case kAxSpearManStateRoot: // 通常
 		newAxSpearManState = new AxSpearManStateRoot();
+		break;	
+	case kAxSpearManStateDashSwingDown:// ダッシュ振り下ろし
+		newAxSpearManState = new AxSpearManStateDashSwingDown();
 		break;
 	case kAxSpearManStateOfCount: // 使用不可
 	default:

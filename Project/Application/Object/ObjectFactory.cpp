@@ -66,11 +66,6 @@ IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
 			static_cast<AxSpearMan*>(object)->SetPlayer(player_);
 		}
 
-		//// インスタンス生成
-		//object = new MeshObject();
-
-		//// 初期化
-		//static_cast<MeshObject*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 
 	}
 

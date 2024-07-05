@@ -6,6 +6,7 @@ class AxSpearMan;
 // 斧槍男の状態名
 enum AxSpearManState {
 	kAxSpearManStateRoot, // 通常
+	kAxSpearManStateDashSwingDown, // ダッシュ振り下ろし
 	kAxSpearManStateOfCount // 数
 };
 

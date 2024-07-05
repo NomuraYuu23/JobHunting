@@ -9,11 +9,14 @@ void AxSpearMan::Initialize(LevelData::MeshData* data)
 
 	height_ = 1.0f;
 	worldTransform_.transform_.translate.y = height_;
+	worldTransform_.transform_.rotate.y = 3.14f;
 	worldTransform_.UpdateMatrix();
 	prePosition_ = worldTransform_.GetWorldPosition();
 
 	// 初期設定
 	material_->SetEnableLighting(BlinnPhongReflection);
+
+	HPInit(10);
 
 }
 
@@ -125,6 +128,7 @@ void AxSpearMan::ColliderUpdate()
 	OBB obb = std::get<OBB>(*collider_.get());
 
 	obb.center_ = worldTransform_.GetWorldPosition();
+	obb.center_.y += 2.0f;
 
 	ColliderShape* colliderShape = new ColliderShape();
 

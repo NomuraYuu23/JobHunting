@@ -286,6 +286,9 @@
     <Filter Include="Application\Object\Enemy\AxSpearMan">
       <UniqueIdentifier>{a9c15fe5-077d-4abf-a9b8-806351193ab3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Enemy\AxSpearMan\State">
+      <UniqueIdentifier>{676e1830-9d84-4297-874c-df9edfbc05ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -788,18 +791,21 @@
       <Filter>Application\Object\Enemy\Ghost\State</Filter>
     </ClCompile>
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearMan.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Enemy\AxSpearMan</Filter>
     </ClCompile>
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManCommand.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\IAxSpearManState.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Enemy\AxSpearMan</Filter>
     </ClCompile>
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateFactory.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
     </ClCompile>
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateRoot.cpp">
+      <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\IAxSpearManState.cpp">
+      <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1450,18 +1456,21 @@
       <Filter>Application\Object\Enemy\Ghost\State</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearMan.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Object\Enemy\AxSpearMan</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManCommand.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\IAxSpearManState.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Object\Enemy\AxSpearMan</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateFactory.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateRoot.h">
+      <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\IAxSpearManState.h">
+      <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

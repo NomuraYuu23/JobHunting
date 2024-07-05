@@ -168,6 +168,8 @@ private:
 	// 死んだか
 	bool isDead_;
 
+protected:
+
 	/// <summary>
 	/// Hp初期化
 	/// </summary>

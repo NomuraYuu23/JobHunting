@@ -11,6 +11,7 @@ class Player;
 /// </summary>
 enum AxSpearManMotionIndex {
 	kAxSpearManMotionIndexWait, // 通常時
+	kEnemyMotionDashSwingDown, // ダッシュ振り下ろし
 	kAxSpearManMotionIndexOfCount // 数
 };
 
