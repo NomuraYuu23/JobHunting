@@ -1,5 +1,5 @@
 #include "PlayerAttack.h"
-#include "../../Enemy/Enemy.h"
+#include "../../Enemy/BaseEnemy.h"
 #include "../../../Engine/Particle/ParticleManager.h"
 #include "../../../Engine/Particle/EmitterDesc.h"
 
@@ -62,7 +62,7 @@ void PlayerAttack::Stop()
 void PlayerAttack::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	if (std::holds_alternative<Enemy*>(colliderPartner)) {
+	if (std::holds_alternative<BaseEnemy*>(colliderPartner)) {
 		OnCollisionEnemy(colliderPartner, collisionData);
 	}
 
@@ -102,7 +102,7 @@ void PlayerAttack::CollisionListRegister(CollisionManager* collisionManager, Col
 void PlayerAttack::OnCollisionEnemy(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	Enemy* enemy = std::get<Enemy*>(colliderPartner);
+	BaseEnemy* enemy = std::get<BaseEnemy*>(colliderPartner);
 	uint32_t serialNumber = enemy->GetSerialNumber();
 
 	// 履歴確認

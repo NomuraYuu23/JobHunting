@@ -201,5 +201,7 @@ public: // アクセッサ
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
 
+	uint32_t GetSerialNumber() { return serialNumber_; }
+
 };
 
