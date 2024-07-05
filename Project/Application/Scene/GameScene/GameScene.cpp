@@ -56,6 +56,15 @@ void GameScene::Initialize() {
 	collisionManager_.reset(new CollisionManager);
 	collisionManager_->Initialize();
 
+	// オブジェクトマネージャー
+	objectManager_->Initialize(kLevelIndexMain, levelDataManager_);
+
+	// プレイヤー
+	player_ = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
+
+	// ボス
+	bossEnemy_ = static_cast<BaseEnemy*>(objectManager_->GetObjectPointer("AxSpearMan00"));
+
 	// UI
 	uiManager_ = std::make_unique<UIManager>();
 	uiManager_->Initialize(uiTextureHandles_);
@@ -98,21 +107,16 @@ void GameScene::Initialize() {
 		spotLightDatas_[i].used = false; // 使用している
 	}
 
-	//プレイヤー
-	player_ = std::make_unique<Player>();
-	//player_->Initialize(playerModel_.get(), playerWeaponModel_.get());
 	// 追従カメラ
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
 	followCamera_->SetTarget(player_->GetWorldTransformAdress());
 	player_->SetCamera(static_cast<BaseCamera*>(followCamera_.get()));
 
-	enemy_ = std::make_unique<Enemy>();
-	enemy_->Initialize(enemyModel_.get());
-	enemy_->SetPlayer(player_.get());
-
 	gameOverSystem_ = std::make_unique<GameOverSystem>();
 	gameOverSystem_->Initialize(gameOverStringTextureHandle_, gameOverButtonTextureHandle_);
+
+	IScene::InitilaizeCheck();
 
 }
 
@@ -135,7 +139,7 @@ void GameScene::Update() {
 	}
 
 	// タイトルへ
-	if (enemy_->GetIsDead()) {
+	if (bossEnemy_->GetIsDead()) {
 		requestSceneNo_ = kClear;
 	}
 	if (player_->GetIsDead()) {
@@ -167,47 +171,26 @@ void GameScene::Update() {
 
 	camera_ = static_cast<BaseCamera>(*followCamera_.get());
 
-	player_->Update();
-
-	enemy_->Update();
+	// オブジェクトマネージャー
+	objectManager_->Update();
 
 	// あたり判定
 	collisionManager_->ListClear();
-	//collisionManager_->ListRegister(player_->GetCollider());
-	//collisionManager_->ListRegister(enemy_->GetCollider());
 
-	// プレイヤーの攻撃
-	if (player_->GetPlayerAttack()->GetIsAttackJudgment()) {
-		//collisionManager_->ListRegister(player_->GetPlayerAttack()->GetCollider());
-	}
-
-	// エネミーの攻撃
-	if (enemy_->GetEnemyAttack()->GetIsAttackJudgment()) {
-		//collisionManager_->ListRegister(enemy_->GetEnemyAttack()->GetCollider());
-	}
+	objectManager_->CollisionListRegister(collisionManager_.get());
 
 	collisionManager_->CheakAllCollision();
 
 	// スカイドーム
 	skydome_->Update();
 
-	// 地面
-	ground_->Update();
-
-	uiManager_->Update(player_->RatioHP(), enemy_->RatioHP());
+	uiManager_->Update(player_->RatioHP(), bossEnemy_->RatioHP());
 
 	// デバッグカメラ
 	DebugCameraUpdate();
 
 	//パーティクル
 	particleManager_->Update(camera_);
-
-#ifdef _DEBUG
-
-	player_->DebugDrawMap(drawLine_);
-	enemy_->DebugDrawMap(drawLine_);
-
-#endif // _DEBUG
 
 }
 
@@ -245,14 +228,8 @@ void GameScene::Draw() {
 
 	// スカイドーム
 	skydome_->Draw(camera_);
-	// 地面
-	ground_->Draw(camera_);
 
-	// プレイヤー
-	player_->Draw(camera_);
-
-	// エネミー
-	enemy_->Draw(camera_);
+	objectManager_->Draw(camera_, drawLine_);
 
 #ifdef _DEBUG
 
@@ -308,19 +285,19 @@ void GameScene::Draw() {
 		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
 
 	}
-	else if (player_->GetHp() == 1) {
+	//else if (player_->GetHp() == 1) {
 
-		PostEffect::GetInstance()->Execution(
-			dxCommon_->GetCommadList(),
-			renderTargetTexture_,
-			PostEffect::kCommandIndexVignette
-		);
+	//	PostEffect::GetInstance()->Execution(
+	//		dxCommon_->GetCommadList(),
+	//		renderTargetTexture_,
+	//		PostEffect::kCommandIndexVignette
+	//	);
 
-		renderTargetTexture_->ClearDepthBuffer();
+	//	renderTargetTexture_->ClearDepthBuffer();
 
-		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+	//	WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
 
-	}
+	//}
 
 #ifdef _DEBUG
 #pragma region コライダー2d描画
@@ -362,6 +339,8 @@ void GameScene::ImguiDraw(){
 
 	debugCamera_->ImGuiDraw();
 
+	objectManager_->ImGuiDraw();
+
 #endif // _DEBUG
 
 }
@@ -401,16 +380,6 @@ void GameScene::ModelCreate()
 
 	// スカイドーム
 	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_));
-	
-	//プレイヤー
-	playerModel_.reset(Model::Create("Resources/Model/Player/", "Player.gltf", dxCommon_ ));
-	playerWeaponModel_.reset(Model::Create("Resources/Model/Player/", "PlayerWeapon.gltf", dxCommon_));
-
-	// 地面
-	groundModel_.reset(Model::Create("Resources/Model/Ground/", "Ground.obj", dxCommon_));
-
-	// エネミー
-	enemyModel_.reset(Model::Create("Resources/Model/Boss/", "Boss.gltf", dxCommon_));
 
 }
 

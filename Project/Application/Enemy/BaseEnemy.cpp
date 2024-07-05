@@ -33,6 +33,9 @@ void BaseEnemy::Initialize(LevelData::MeshData* data)
 	// パーツ
 	PartInitialize();
 
+	//HP
+	HPInit(1);
+
 }
 
 void BaseEnemy::Draw(BaseCamera& camera)
@@ -73,5 +76,35 @@ void BaseEnemy::CollisionListRegister(CollisionManager* collisionManager, Collid
 	MeshObject::CollisionListRegister(collisionManager, colliderDebugDraw);
 
 	attack_->CollisionListRegister(collisionManager, colliderDebugDraw);
+
+}
+
+void BaseEnemy::HPInit(uint32_t initHp)
+{
+
+	initHp_ = initHp;
+	hp_ = initHp;
+
+	isDead_ = false;
+
+}
+
+void BaseEnemy::Damage(uint32_t damage)
+{
+
+	hp_ -= damage;
+
+	if (hp_ <= 0) {
+		isDead_ = true;
+	}
+
+}
+
+float BaseEnemy::RatioHP()
+{
+
+	assert(initHp_ != 0);
+
+	return static_cast<float>(hp_) / static_cast<float>(initHp_);
 
 }

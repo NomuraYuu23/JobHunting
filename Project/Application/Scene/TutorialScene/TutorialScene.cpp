@@ -104,8 +104,6 @@ void TutorialScene::Initialize() {
 	//プレイヤー
 	Player* player = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
 
-	OutputLog::Output("d");
-
 	// 追従カメラ
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();

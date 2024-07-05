@@ -22,6 +22,7 @@
 
 // エネミー
 #include "../../Enemy/Enemy.h"
+#include "../../Enemy/BaseEnemy.h"
 
 // ゲームオーバーシステム
 #include "../../System/GameOverSystem.h"
@@ -113,21 +114,8 @@ private:
 	std::unique_ptr<SpotLightManager> spotLightManager_;
 	std::array<SpotLightData, SpotLightManager::kNumInstanceMax_> spotLightDatas_;
 
-	// プレイヤー
-	std::unique_ptr<Player> player_;
-	std::unique_ptr<Model> playerModel_;
-	std::unique_ptr<Model> playerWeaponModel_;
-
-	// ボス
-	std::unique_ptr<Enemy> enemy_;
-	std::unique_ptr<Model> enemyModel_;
-
 	// 追加カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
-
-	// 地面
-	std::unique_ptr<Ground> ground_;
-	std::unique_ptr<Model> groundModel_;
 
 	// ゲームオーバーシステム
 	std::unique_ptr<GameOverSystem> gameOverSystem_;
@@ -136,5 +124,11 @@ private:
 
 	// スカイボックス
 	uint32_t skyboxTextureHandle_ = 0;
+
+	// プレイヤー
+	Player* player_ = nullptr;
+
+	// ボス
+	BaseEnemy* bossEnemy_ = nullptr;
 
 };

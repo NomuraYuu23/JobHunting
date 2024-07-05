@@ -5,6 +5,7 @@
 #include "../Ground/Ground.h"
 #include "../Block/Block.h"
 #include "../Enemy/Ghost/Ghost.h"
+#include "../Enemy/AxSpearMan/AxSpearMan.h"
 
 
 ObjectFactory* ObjectFactory::GetInstance()
@@ -55,6 +56,14 @@ IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
 			// 初期化
 			static_cast<Ghost*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 			static_cast<Ghost*>(object)->SetPlayer(player_);
+		}
+		else if (data.className == "AxSpearMan") {
+			// インスタンス生成
+			object = new AxSpearMan();
+
+			// 初期化
+			static_cast<AxSpearMan*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+			static_cast<AxSpearMan*>(object)->SetPlayer(player_);
 		}
 
 		//// インスタンス生成

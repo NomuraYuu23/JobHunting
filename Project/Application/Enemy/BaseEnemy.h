@@ -159,9 +159,43 @@ protected: // 衝突処理
 	/// <param name="collisionData"></param>
 	void OnCollisionBlock(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
+private:
+
+	//hp
+	int32_t hp_;
+	uint32_t initHp_;
+
+	// 死んだか
+	bool isDead_;
+
+	/// <summary>
+	/// Hp初期化
+	/// </summary>
+	void HPInit(uint32_t initHp);
+
+public:
+
+	/// <summary>
+	/// ダメージ処理
+	/// </summary>
+	/// <param name="damage"></param>
+	void Damage(uint32_t damage);
+
+	/// <summary>
+	/// HPの割合
+	/// </summary>
+	/// <returns></returns>
+	float RatioHP();
+
 public: // アクセッサ
 
 	BaseEnemyAttack* GetAttack() { return attack_.get(); }
+
+	bool GetIsDead() { return isDead_; }
+
+	int32_t GetHp() { return hp_; }
+
+	uint32_t GetInitHp() { return initHp_; }
 
 };
 
