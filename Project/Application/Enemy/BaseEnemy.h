@@ -197,5 +197,9 @@ public: // アクセッサ
 
 	uint32_t GetInitHp() { return initHp_; }
 
+	void SetReceiveCommand(bool receiveCommand) { receiveCommand_ = receiveCommand; }
+
+	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
+
 };
 

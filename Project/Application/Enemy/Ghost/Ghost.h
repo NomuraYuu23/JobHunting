@@ -110,10 +110,6 @@ private:
 
 public:
 
-	void SetReceiveCommand(bool receiveCommand) { receiveCommand_ = receiveCommand; }
-
-	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
-
 	void SetPlayer(Player* player) { player_ = player; }
 	Player* GetPlayer() { return player_; }
 

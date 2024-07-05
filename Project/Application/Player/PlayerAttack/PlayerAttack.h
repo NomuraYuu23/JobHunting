@@ -70,13 +70,6 @@ private:
 	/// <param name="collisionData"></param>
 	void OnCollisionEnemy(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
-	/// <summary>
-	/// 衝突処理 敵
-	/// </summary>
-	/// <param name="colliderPartner"></param>
-	/// <param name="collisionData"></param>
-	void OnCollisionTutorialEnemy(ColliderParentObject colliderPartner, const CollisionData& collisionData);
-
 private:
 
 	// 接触履歴

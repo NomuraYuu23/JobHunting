@@ -3,12 +3,12 @@
 #include "../../Engine/2D/ImguiManager.h"
 #include "../../Engine/3D/ModelDraw.h"
 #include "../Enemy/Enemy.h"
-#include "../TutorialEnemy/TutorialEnemy.h"
 #include "../../Engine/Animation/LocalMatrixDraw.h"
 #include "../../Engine/Math/DeltaTime.h"
 
 #include "../Ground/Ground.h"
 #include "../Block/Block.h"
+#include "../Enemy/BaseEnemy.h"
 
 void Player::Initialize(LevelData::MeshData* data)
 {
@@ -147,11 +147,8 @@ void Player::DebugDrawMap(DrawLine* drawLine)
 void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	if (std::holds_alternative<Enemy*>(colliderPartner)) {
+	if (std::holds_alternative<BaseEnemy*>(colliderPartner)) {
 		OnCollisionEnemy(colliderPartner, collisionData);
-	}
-	else if (std::holds_alternative<TutorialEnemy*>(colliderPartner)) {
-		OnCollisionTutorialEnemy(colliderPartner, collisionData);
 	}
 	else if (std::holds_alternative<Ground*>(colliderPartner)) {
 		OnCollisionGround(colliderPartner, collisionData);
@@ -225,6 +222,7 @@ void Player::ColliderUpdate()
 
 	obb.center_ =  worldTransform_.GetWorldPosition();
 	obb.center_.y += height_;
+	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
 	
 
 	ColliderShape* colliderShape = new ColliderShape();
@@ -251,7 +249,7 @@ void Player::AnimationUpdate()
 void Player::OnCollisionEnemy(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	Enemy* enemy = std::get<Enemy*>(colliderPartner);
+	BaseEnemy* enemy = std::get<BaseEnemy*>(colliderPartner);
 
 	// 位置
 	Vector3 playerPosition = worldTransform_.GetWorldPosition();
@@ -263,39 +261,54 @@ void Player::OnCollisionEnemy(ColliderParentObject colliderPartner, const Collis
 	// 向き
 	Vector3 direction = Vector3::Normalize(Vector3::Subtract(playerPosition, enemyPosition));
 
+	//絶対値を保存
+	Vector3 abs;
+	abs.x = std::fabsf(direction.x);
+	abs.y = std::fabsf(direction.y);
+	abs.z = std::fabsf(direction.z);
+
+	float e = 1.0f;
+
+	if (abs.x >= abs.y) {
+		if (abs.x >= abs.z) {
+			e = abs.x;
+		}
+		else {
+			e = abs.z;
+		}
+	}
+	else {
+		if (abs.y >= abs.z) {
+			e = abs.y;
+		}
+		else {
+			e = abs.x;
+		}
+	}
+
+	//正規化
+	direction.x /= e;
+	direction.y /= e;
+	direction.z /= e;
+
+	OBB tmpObb = std::get<OBB>(*enemy->GetCollider());
+	Matrix4x4 MatrixEnemy = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(tmpObb.size_ ), enemy->GetWorldTransformAdress()->rotateMatrix_);
+
+	// プレイヤー距離
+	tmpObb = std::get<OBB>(*collider_.get());
+	Matrix4x4 MatrixPlayer = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(tmpObb.size_), worldTransform_.rotateMatrix_);
+
+	Vector3 distancePlayer = Matrix4x4::TransformNormal((direction * -1.0f), MatrixPlayer);
+	Vector3 distanceEnemy = Matrix4x4::TransformNormal(direction, MatrixEnemy);
+
 	// 距離
-	float distance = width_ + enemy->GetWidth();
+	float distance = Vector3::Length(distancePlayer) + Vector3::Length(distanceEnemy);
 
 	// 移動
 	Vector3 move = Vector3::Multiply(distance, direction);
 
 	worldTransform_.transform_.translate = Vector3::Add(enemyPosition, move);
-	worldTransform_.UpdateMatrix();
-
-}
-
-void Player::OnCollisionTutorialEnemy(ColliderParentObject colliderPartner, const CollisionData& collisionData)
-{
-
-	TutorialEnemy* enemy = std::get<TutorialEnemy*>(colliderPartner);
-
-	// 位置
-	Vector3 playerPosition = worldTransform_.GetWorldPosition();
-	playerPosition.y = 0.0f;
-
-	Vector3 enemyPosition = enemy->GetWorldTransformAdress()->GetWorldPosition();
-	enemyPosition.y = 0.0f;
-
-	// 向き
-	Vector3 direction = Vector3::Normalize(Vector3::Subtract(playerPosition, enemyPosition));
-
-	// 距離
-	float distance = width_ + enemy->GetWidth();
-
-	// 移動
-	Vector3 move = Vector3::Multiply(distance, direction);
-
-	worldTransform_.transform_.translate = Vector3::Add(enemyPosition, move);
+	worldTransform_.transform_.translate.y = prePosition_.y;
 	worldTransform_.UpdateMatrix();
 
 }

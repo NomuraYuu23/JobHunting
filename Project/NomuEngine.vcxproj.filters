@@ -211,9 +211,6 @@
     <Filter Include="Application\Object\Enemy\Boss">
       <UniqueIdentifier>{1d0d3339-d9bb-45c4-88de-6001c4928b67}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Object\Enemy\TutorialEnemy">
-      <UniqueIdentifier>{acb084f8-26bf-49a1-a3c7-4b2c79a72d17}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Object\Enemy\Boss\State">
       <UniqueIdentifier>{e966230b-558c-4108-b4e3-5d4e69758375}</UniqueIdentifier>
     </Filter>
@@ -666,9 +663,6 @@
     </ClCompile>
     <ClCompile Include="Application\Enemy\EnemyState\IEnemyState.cpp">
       <Filter>Application\Object\Enemy\Boss\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\TutorialEnemy\TutorialEnemy.cpp">
-      <Filter>Application\Object\Enemy\TutorialEnemy</Filter>
     </ClCompile>
     <ClCompile Include="Engine\2D\ImGuiManager.cpp">
       <Filter>Engine\2D\ImGui</Filter>
@@ -1271,9 +1265,6 @@
     </ClInclude>
     <ClInclude Include="Application\Enemy\EnemyState\IEnemyState.h">
       <Filter>Application\Object\Enemy\Boss\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\TutorialEnemy\TutorialEnemy.h">
-      <Filter>Application\Object\Enemy\TutorialEnemy</Filter>
     </ClInclude>
     <ClInclude Include="Engine\2D\ImGuiManager.h">
       <Filter>Engine\2D\ImGui</Filter>

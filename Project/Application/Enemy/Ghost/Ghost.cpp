@@ -124,6 +124,7 @@ void Ghost::ColliderUpdate()
 	OBB obb = std::get<OBB>(*collider_.get());
 
 	obb.center_ = worldTransform_.GetWorldPosition();
+	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
 
 	ColliderShape* colliderShape = new ColliderShape();
 

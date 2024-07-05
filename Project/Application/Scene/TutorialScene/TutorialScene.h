@@ -21,10 +21,6 @@
 #include "../../Player/Player.h"
 #include "../../Camera/FollowCamera.h"
 
-// エネミー
-#include "../../TutorialEnemy/TutorialEnemy.h"
-
-
 #include "../../UI/TutorialUIManager.h"
 
 
