@@ -258,16 +258,8 @@ void GameScene::Draw() {
 	PostEffect::GetInstance()->SetKernelSize(33);
 	PostEffect::GetInstance()->SetThreshold(0.0f);
 	PostEffect::GetInstance()->SetGaussianSigma(33.0f);
-
-	PostEffect::GetInstance()->Execution(
-		dxCommon_->GetCommadList(),
-		renderTargetTexture_,
-		PostEffect::kCommandIndexBloom
-	);
-
-	renderTargetTexture_->ClearDepthBuffer();
-
-	WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+	PostEffect::GetInstance()->SetProjectionInverse(Matrix4x4::Inverse(camera_.GetProjectionMatrix()));
+	PostEffect::GetInstance()->SetRadialBlurStrength(0.2f);
 
 	if (gameOverSystem_->GetIsOperation() || isBeingReset_) {
 
@@ -286,7 +278,41 @@ void GameScene::Draw() {
 		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
 
 	}
-	else if (player_->GetHp() == 1) {
+	else {
+
+		PostEffect::GetInstance()->Execution(
+			dxCommon_->GetCommadList(),
+			renderTargetTexture_,
+			PostEffect::kCommandIndexBloom
+		);
+
+		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+
+	}
+
+	PostEffect::GetInstance()->Execution(
+		dxCommon_->GetCommadList(),
+		renderTargetTexture_,
+		PostEffect::kCommandIndexOutline
+	);
+
+	WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+
+	renderTargetTexture_->ClearDepthBuffer();
+
+	if (player_->GetCurrentStateNo() == kPlayerStateAvoidance) {
+
+		PostEffect::GetInstance()->Execution(
+			dxCommon_->GetCommadList(),
+			renderTargetTexture_,
+			PostEffect::kCommandIndexRadialBlur
+		);
+
+		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+
+	}
+
+	if (player_->GetHp() == 1) {
 
 		PostEffect::GetInstance()->Execution(
 			dxCommon_->GetCommadList(),
@@ -341,6 +367,8 @@ void GameScene::ImguiDraw(){
 	debugCamera_->ImGuiDraw();
 
 	objectManager_->ImGuiDraw();
+
+	PostEffect::GetInstance()->ImGuiDraw();
 
 #endif // _DEBUG
 

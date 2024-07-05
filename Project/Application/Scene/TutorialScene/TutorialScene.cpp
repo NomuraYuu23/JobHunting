@@ -59,6 +59,9 @@ void TutorialScene::Initialize() {
 	// オブジェクトマネージャー
 	objectManager_->Initialize(kLevelIndexTutorial, levelDataManager_);
 
+	// プレイヤー
+	player_ = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
+
 	// UI
 	uiManager_ = std::make_unique<TutorialUIManager>();
 	uiManager_->Initialize(uiTextureHandles_);
@@ -216,6 +219,42 @@ void TutorialScene::Draw() {
 	ModelDraw::PostDraw();
 
 #pragma endregion
+
+	PostEffect::GetInstance()->SetKernelSize(33);
+	PostEffect::GetInstance()->SetThreshold(0.0f);
+	PostEffect::GetInstance()->SetGaussianSigma(33.0f);
+	PostEffect::GetInstance()->SetProjectionInverse(Matrix4x4::Inverse(camera_.GetProjectionMatrix()));
+	PostEffect::GetInstance()->SetRadialBlurStrength(0.2f);
+
+	PostEffect::GetInstance()->Execution(
+		dxCommon_->GetCommadList(),
+		renderTargetTexture_,
+		PostEffect::kCommandIndexBloom
+	);
+
+	WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+
+	PostEffect::GetInstance()->Execution(
+		dxCommon_->GetCommadList(),
+		renderTargetTexture_,
+		PostEffect::kCommandIndexOutline
+	);
+
+	WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+
+	renderTargetTexture_->ClearDepthBuffer();
+
+	if (player_->GetCurrentStateNo() == kPlayerStateAvoidance) {
+
+		PostEffect::GetInstance()->Execution(
+			dxCommon_->GetCommadList(),
+			renderTargetTexture_,
+			PostEffect::kCommandIndexRadialBlur
+		);
+
+		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+
+	}
 
 #pragma region 線描画
 

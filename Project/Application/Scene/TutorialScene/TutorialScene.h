@@ -117,5 +117,6 @@ private:
 	// スカイボックス
 	uint32_t skyboxTextureHandle_ = 0;
 
+	Player* player_;
 
 };
