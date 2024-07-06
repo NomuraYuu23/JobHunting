@@ -73,8 +73,9 @@ void Ghost::StateUpdate()
 
 	// ステートのチェック
 	prevStateNo_ = currentStateNo_;
-	if (receiveCommand_) {
+	if (receiveCommand_ || interruptCommand_) {
 		currentStateNo_ = nextStateNo_;
+		interruptCommand_ = false;
 	}
 	else {
 		currentStateNo_ = state_->GetGhostStateNo();
@@ -101,6 +102,9 @@ void Ghost::CommandInitialize()
 
 	// コマンドを受け取るか
 	receiveCommand_ = true;
+
+	// 割り込みコマンドがあるか
+	interruptCommand_ = false;
 
 }
 
@@ -144,5 +148,15 @@ void Ghost::AnimationUpdate()
 		animation_.StopAnimation(prevMotionNo_);
 		animation_.StartAnimation(currentMotionNo_, true);
 	}
+
+}
+
+void Ghost::Damage(uint32_t damage)
+{
+
+	BaseEnemy::Damage(damage);
+
+	nextStateNo_ = kGhostStateDamage;
+	interruptCommand_ = true;
 
 }

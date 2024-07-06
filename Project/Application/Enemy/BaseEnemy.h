@@ -98,6 +98,9 @@ protected: // ステート変数
 	// コマンドを受け取るか
 	bool receiveCommand_;
 
+	// 割り込みコマンドがあるか
+	bool interruptCommand_;
+
 protected: // パーツ構成関数
 
 	/// <summary>
@@ -181,7 +184,7 @@ public:
 	/// ダメージ処理
 	/// </summary>
 	/// <param name="damage"></param>
-	void Damage(uint32_t damage);
+	virtual void Damage(uint32_t damage);
 
 	/// <summary>
 	/// HPの割合

@@ -12,6 +12,7 @@ enum GhostMotionIndex {
 	kGhostMotionWait, // 通常時
 	kGhostMotionMove, // 移動時
 	kGhostMotionAttack, // 攻撃時
+	kGhostMotionDamage, // ダメージ時
 	kGhostMotionIndexOfCount // 数
 };
 
@@ -107,6 +108,14 @@ private:
 
 	// プレイヤー
 	Player* player_;
+
+public:
+
+	/// <summary>
+	/// ダメージ処理
+	/// </summary>
+	/// <param name="damage"></param>
+	virtual void Damage(uint32_t damage);
 
 public:
 

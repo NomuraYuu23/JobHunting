@@ -133,6 +133,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Enemy\BaseEnemy.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\GhostCommand.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\GhostStateChase.cpp" />
+    <ClCompile Include="Application\Enemy\Ghost\GhostStateDamage.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\GhostStateFactory.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\GhostStateRoot.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\IGhostState.cpp" />
@@ -311,6 +312,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Enemy\BaseEnemy.h" />
     <ClInclude Include="Application\Enemy\Ghost\GhostCommand.h" />
     <ClInclude Include="Application\Enemy\Ghost\GhostStateChase.h" />
+    <ClInclude Include="Application\Enemy\Ghost\GhostStateDamage.h" />
     <ClInclude Include="Application\Enemy\Ghost\GhostStateFactory.h" />
     <ClInclude Include="Application\Enemy\Ghost\GhostStateRoot.h" />
     <ClInclude Include="Application\Enemy\Ghost\IGhostState.h" />
