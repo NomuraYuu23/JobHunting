@@ -280,36 +280,6 @@ void Player::OnCollisionEnemy(ColliderParentObject colliderPartner, const Collis
 	// 向き
 	Vector3 direction = Vector3::Normalize(Vector3::Subtract(playerPosition, enemyPosition));
 
-	//絶対値を保存
-	Vector3 abs;
-	abs.x = std::fabsf(direction.x);
-	abs.y = std::fabsf(direction.y);
-	abs.z = std::fabsf(direction.z);
-
-	float e = 1.0f;
-
-	if (abs.x >= abs.y) {
-		if (abs.x >= abs.z) {
-			e = abs.x;
-		}
-		else {
-			e = abs.z;
-		}
-	}
-	else {
-		if (abs.y >= abs.z) {
-			e = abs.y;
-		}
-		else {
-			e = abs.x;
-		}
-	}
-
-	//正規化
-	direction.x /= e;
-	direction.y /= e;
-	direction.z /= e;
-
 	OBB tmpObb = std::get<OBB>(*enemy->GetCollider());
 	Matrix4x4 MatrixEnemy = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(tmpObb.size_ ), enemy->GetWorldTransformAdress()->rotateMatrix_);
 
@@ -319,6 +289,9 @@ void Player::OnCollisionEnemy(ColliderParentObject colliderPartner, const Collis
 
 	Vector3 distancePlayer = Matrix4x4::TransformNormal((direction * -1.0f), MatrixPlayer);
 	Vector3 distanceEnemy = Matrix4x4::TransformNormal(direction, MatrixEnemy);
+
+	distancePlayer = Vector3::MaximumNormalize(distancePlayer) * Vector3::GetAbsMax(distancePlayer);
+	distanceEnemy = Vector3::MaximumNormalize(distanceEnemy) * Vector3::GetAbsMax(distanceEnemy);
 
 	// 距離
 	float distance = Vector3::Length(distancePlayer) + Vector3::Length(distanceEnemy);
