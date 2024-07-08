@@ -281,17 +281,21 @@ void Player::OnCollisionEnemy(ColliderParentObject colliderPartner, const Collis
 	Vector3 direction = Vector3::Normalize(Vector3::Subtract(playerPosition, enemyPosition));
 
 	OBB tmpObb = std::get<OBB>(*enemy->GetCollider());
-	Matrix4x4 MatrixEnemy = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(tmpObb.size_ ), enemy->GetWorldTransformAdress()->rotateMatrix_);
+	Vector3 enemySize = tmpObb.size_;
+	Matrix4x4 MatrixEnemy = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(enemySize), enemy->GetWorldTransformAdress()->rotateMatrix_);
+	enemySize.y = 0.0f;
 
 	// プレイヤー距離
 	tmpObb = std::get<OBB>(*collider_.get());
-	Matrix4x4 MatrixPlayer = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(tmpObb.size_), worldTransform_.rotateMatrix_);
+	Vector3 playerSize = tmpObb.size_;
+	Matrix4x4 MatrixPlayer = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(playerSize), worldTransform_.rotateMatrix_);
+	playerSize.y = 0.0f;
 
 	Vector3 distancePlayer = Matrix4x4::TransformNormal((direction * -1.0f), MatrixPlayer);
 	Vector3 distanceEnemy = Matrix4x4::TransformNormal(direction, MatrixEnemy);
 
-	distancePlayer = Vector3::MaximumNormalize(distancePlayer) * Vector3::GetAbsMax(distancePlayer);
-	distanceEnemy = Vector3::MaximumNormalize(distanceEnemy) * Vector3::GetAbsMax(distanceEnemy);
+	distancePlayer = Vector3::MaximumNormalize(distancePlayer) * Vector3::GetAbsMax(playerSize);
+	distanceEnemy = Vector3::MaximumNormalize(distanceEnemy) * Vector3::GetAbsMax(enemySize);
 
 	// 距離
 	float distance = Vector3::Length(distancePlayer) + Vector3::Length(distanceEnemy);
