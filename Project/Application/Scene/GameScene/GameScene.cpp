@@ -275,7 +275,7 @@ void GameScene::Draw() {
 
 		renderTargetTexture_->ClearDepthBuffer();
 
-		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
 
 	}
 	else {
@@ -286,7 +286,7 @@ void GameScene::Draw() {
 			PostEffect::kCommandIndexBloom
 		);
 
-		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
 
 	}
 
@@ -296,7 +296,7 @@ void GameScene::Draw() {
 		PostEffect::kCommandIndexOutline
 	);
 
-	WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
 
 	renderTargetTexture_->ClearDepthBuffer();
 
@@ -308,7 +308,7 @@ void GameScene::Draw() {
 			PostEffect::kCommandIndexRadialBlur
 		);
 
-		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
 
 	}
 
@@ -322,7 +322,7 @@ void GameScene::Draw() {
 
 		renderTargetTexture_->ClearDepthBuffer();
 
-		WindowSprite::GetInstance()->DrawUAV(PostEffect::GetInstance()->GetEditTextures(0)->GetUavHandleGPU());
+		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
 
 	}
 
