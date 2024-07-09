@@ -270,42 +270,15 @@ void Player::OnCollisionEnemy(ColliderParentObject colliderPartner, const Collis
 
 	BaseEnemy* enemy = std::get<BaseEnemy*>(colliderPartner);
 
-	// 位置
-	Vector3 playerPosition = worldTransform_.GetWorldPosition();
-	playerPosition.y = 0.0f;
-
-	Vector3 enemyPosition = enemy->GetWorldTransformAdress()->GetWorldPosition();
-	enemyPosition.y = 0.0f;
-
-	// 向き
-	Vector3 direction = Vector3::Normalize(Vector3::Subtract(playerPosition, enemyPosition));
+	Vector3 partnerPosition = enemy->GetWorldTransformAdress()->GetWorldPosition();
+	partnerPosition.y = 0.0f;
 
 	OBB tmpObb = std::get<OBB>(*enemy->GetCollider());
-	Vector3 enemySize = tmpObb.size_;
-	Matrix4x4 MatrixEnemy = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(enemySize), enemy->GetWorldTransformAdress()->rotateMatrix_);
-	enemySize.y = 0.0f;
+	Vector3 partnerSize = tmpObb.size_;
+	Matrix4x4 partnerMatrix = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(partnerSize), enemy->GetWorldTransformAdress()->rotateMatrix_);
+	partnerSize.y = 0.0f;
 
-	// プレイヤー距離
-	tmpObb = std::get<OBB>(*collider_.get());
-	Vector3 playerSize = tmpObb.size_;
-	Matrix4x4 MatrixPlayer = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(playerSize), worldTransform_.rotateMatrix_);
-	playerSize.y = 0.0f;
-
-	Vector3 distancePlayer = Matrix4x4::TransformNormal((direction * -1.0f), MatrixPlayer);
-	Vector3 distanceEnemy = Matrix4x4::TransformNormal(direction, MatrixEnemy);
-
-	distancePlayer = Vector3::MaximumNormalize(distancePlayer) * Vector3::GetAbsMax(playerSize);
-	distanceEnemy = Vector3::MaximumNormalize(distanceEnemy) * Vector3::GetAbsMax(enemySize);
-
-	// 距離
-	float distance = Vector3::Length(distancePlayer) + Vector3::Length(distanceEnemy);
-
-	// 移動
-	Vector3 move = Vector3::Multiply(distance, direction);
-
-	worldTransform_.transform_.translate = Vector3::Add(enemyPosition, move);
-	worldTransform_.transform_.translate.y = prePosition_.y;
-	worldTransform_.UpdateMatrix();
+	Extrusion(partnerPosition, partnerSize, partnerMatrix);
 
 }
 
@@ -325,52 +298,18 @@ void Player::OnCollisionBlock(ColliderParentObject colliderPartner, const Collis
 {
 
 
-	//Block* block = std::get<Block*>(colliderPartner);
+	Block* block = std::get<Block*>(colliderPartner);
 
-	//OBB blockObb = std::get<OBB>(*block->GetCollider());
+	Vector3 partnerPosition = block->GetWorldTransformAdress()->GetWorldPosition();
+	partnerPosition.y = 0.0f;
 
-	//Vector3 velocity = worldTransform_.GetWorldPosition() - prePosition_;
+	OBB tmpObb = std::get<OBB>(*block->GetCollider());
+	Vector3 partnerSize = tmpObb.size_;
+	Matrix4x4 partnerMatrix = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(partnerSize), block->GetWorldTransformAdress()->rotateMatrix_);
+	partnerSize.y = 0.0f;
 
-	//// 内積
-	//float dot[3] = {
-	//	Vector3::Dot(blockObb.otientatuons_[0] * blockObb.size_.x,velocity), // x
-	//	Vector3::Dot(blockObb.otientatuons_[1] * blockObb.size_.y,velocity), // y
-	//	Vector3::Dot(blockObb.otientatuons_[2] * blockObb.size_.z,velocity) // z
-	//};
+	Extrusion(partnerPosition, partnerSize, partnerMatrix);
 
-	//Vector3 move = { 0.0f,0.0f,0.0f };
-
-	//if (std::fabsf(dot[0]) > std::fabsf(dot[1])) {
-	//	if (std::fabsf(dot[0]) > std::fabsf(dot[2])) {
-	//		move = blockObb.otientatuons_[0] * blockObb.size_.x;
-	//		if (dot[0] > 0.0f) {
-	//			move *= -1.0f;
-	//		}
-	//	}
-	//	else {
-	//		move = blockObb.otientatuons_[2] * blockObb.size_.z;
-	//		if (dot[2] > 0.0f) {
-	//			move *= -1.0f;
-	//		}
-	//	}
-	//}
-	//else {
-	//	if (std::fabsf(dot[1]) > std::fabsf(dot[2])) {
-	//		move = blockObb.otientatuons_[1] * blockObb.size_.y;
-	//		if (dot[1] > 0.0f) {
-	//			move *= -1.0f;
-	//		}
-	//	}
-	//	else {
-	//		move = blockObb.otientatuons_[2] * blockObb.size_.z;
-	//		if (dot[2] > 0.0f) {
-	//			move *= -1.0f;
-	//		}
-	//	}
-	//}
-
-	worldTransform_.transform_.translate = prePosition_;
-	worldTransform_.UpdateMatrix();
 
 }
 
@@ -396,5 +335,42 @@ void Player::Gravity()
 {
 
 	worldTransform_.transform_.translate.y -= 9.8f * kDeltaTime_;
+
+}
+
+void Player::Extrusion(
+	const Vector3& partnerPosition, 
+	const Vector3& partnerSize, 
+	const Matrix4x4& partnerMatrix)
+{
+
+	// 位置
+	Vector3 playerPosition = worldTransform_.GetWorldPosition();
+	playerPosition.y = 0.0f;
+
+	// 向き
+	Vector3 direction = Vector3::Normalize(Vector3::Subtract(playerPosition, partnerPosition));
+
+	// プレイヤー距離
+	OBB tmpObb = std::get<OBB>(*collider_.get());
+	Vector3 playerSize = tmpObb.size_;
+	Matrix4x4 playerMatrix = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(playerSize), worldTransform_.rotateMatrix_);
+	playerSize.y = 0.0f;
+
+	Vector3 distancePlayer = Matrix4x4::TransformNormal((direction * -1.0f), playerMatrix);
+	Vector3 distanceEnemy = Matrix4x4::TransformNormal(direction, partnerMatrix);
+
+	distancePlayer = Vector3::MaximumNormalize(distancePlayer) * Vector3::GetAbsMax(playerSize);
+	distanceEnemy = Vector3::MaximumNormalize(distanceEnemy) * Vector3::GetAbsMax(partnerSize);
+
+	// 距離
+	float distance = Vector3::Length(distancePlayer) + Vector3::Length(distanceEnemy);
+
+	// 移動
+	Vector3 move = Vector3::Multiply(distance, direction);
+
+	worldTransform_.transform_.translate = Vector3::Add(partnerPosition, move);
+	worldTransform_.transform_.translate.y = prePosition_.y;
+	worldTransform_.UpdateMatrix();
 
 }
