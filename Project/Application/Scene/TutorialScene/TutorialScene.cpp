@@ -12,6 +12,7 @@
 
 #include "../../Player/PlayerState/PlayerStateAttack/PlayerStateAttack.h"
 #include "../../../Engine/base/OutputLog.h"
+#include "../../Object/TutorialSceneObjectManager.h"
 
 TutorialScene::~TutorialScene()
 {
@@ -57,6 +58,7 @@ void TutorialScene::Initialize() {
 	collisionManager_->Initialize();
 
 	// オブジェクトマネージャー
+	objectManager_ = std::make_unique<TutorialSceneObjectManager>();
 	objectManager_->Initialize(kLevelIndexTutorial, levelDataManager_);
 
 	// プレイヤー

@@ -289,6 +289,9 @@
     <Filter Include="Application\Object\Enemy\AxSpearMan\State">
       <UniqueIdentifier>{676e1830-9d84-4297-874c-df9edfbc05ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Manager">
+      <UniqueIdentifier>{7d36b8c3-2e09-4777-9b3e-ab256e224b84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -742,9 +745,6 @@
     <ClCompile Include="Engine\Object\MeshObject.cpp">
       <Filter>Engine\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\ObjectManager.cpp">
-      <Filter>Engine\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Object\IObject.cpp">
       <Filter>Engine\Object</Filter>
     </ClCompile>
@@ -805,10 +805,19 @@
     <ClCompile Include="Application\Enemy\AxSpearMan\IAxSpearManState.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\Object\BaseObjectManager.cpp">
+      <Filter>Engine\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\GameSceneObjectManager.cpp">
+      <Filter>Application\Object\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Application\Enemy\Ghost\GhostStateDamage.cpp">
+      <Filter>Application\Object\Enemy\Ghost\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.cpp">
+      <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\TutorialSceneObjectManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1407,9 +1416,6 @@
     <ClInclude Include="Engine\Object\AbstractObjectFactory.h">
       <Filter>Engine\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\ObjectManager.h">
-      <Filter>Engine\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Object\MeshObject.h">
       <Filter>Engine\Object</Filter>
     </ClInclude>
@@ -1473,10 +1479,19 @@
     <ClInclude Include="Application\Enemy\AxSpearMan\IAxSpearManState.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\Object\BaseObjectManager.h">
+      <Filter>Engine\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\GameSceneObjectManager.h">
+      <Filter>Application\Object\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\Ghost\GhostStateDamage.h">
+      <Filter>Application\Object\Enemy\Ghost\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.h">
+      <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\TutorialSceneObjectManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

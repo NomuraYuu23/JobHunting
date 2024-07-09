@@ -12,6 +12,7 @@
 
 #include "../../Player/PlayerState/PlayerStateAttack/PlayerStateAttack.h"
 #include "../../../Engine/base/WindowSprite.h"
+#include "../../Object/GameSceneObjectManager.h"
 
 GameScene::~GameScene()
 {
@@ -57,6 +58,7 @@ void GameScene::Initialize() {
 	collisionManager_->Initialize();
 
 	// オブジェクトマネージャー
+	objectManager_ = std::make_unique<GameSceneObjectManager>();
 	objectManager_->Initialize(kLevelIndexMain, levelDataManager_);
 
 	// プレイヤー

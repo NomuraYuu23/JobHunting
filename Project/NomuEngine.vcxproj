@@ -138,8 +138,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Enemy\Ghost\GhostStateRoot.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\IGhostState.cpp" />
     <ClCompile Include="Application\Ground\Ground.cpp" />
+    <ClCompile Include="Application\Object\GameSceneObjectManager.cpp" />
     <ClCompile Include="Application\Object\ObjectFactory.cpp" />
     <ClCompile Include="Application\Object\Sample\SampleObject.cpp" />
+    <ClCompile Include="Application\Object\TutorialSceneObjectManager.cpp" />
     <ClCompile Include="Application\Particle\Bload\BloadParticle.cpp" />
     <ClCompile Include="Application\Player\Player.cpp" />
     <ClCompile Include="Application\Player\PlayerAttack\PlayerAttack.cpp" />
@@ -214,9 +216,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Math\Quaternion.cpp" />
     <ClCompile Include="Engine\Math\ShortestDistance.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
+    <ClCompile Include="Engine\Object\BaseObjectManager.cpp" />
     <ClCompile Include="Engine\Object\IObject.cpp" />
     <ClCompile Include="Engine\Object\MeshObject.cpp" />
-    <ClCompile Include="Engine\Object\ObjectManager.cpp" />
     <ClCompile Include="Engine\Particle\BillBoardMatrix.cpp" />
     <ClCompile Include="Engine\Particle\GPUPaticle.cpp" />
     <ClCompile Include="Engine\Particle\IEmitter.cpp" />
@@ -317,8 +319,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Enemy\Ghost\GhostStateRoot.h" />
     <ClInclude Include="Application\Enemy\Ghost\IGhostState.h" />
     <ClInclude Include="Application\Ground\Ground.h" />
+    <ClInclude Include="Application\Object\GameSceneObjectManager.h" />
     <ClInclude Include="Application\Object\ObjectFactory.h" />
     <ClInclude Include="Application\Object\Sample\SampleObject.h" />
+    <ClInclude Include="Application\Object\TutorialSceneObjectManager.h" />
     <ClInclude Include="Application\Particle\Bload\BloadParticle.h" />
     <ClInclude Include="Application\Player\Player.h" />
     <ClInclude Include="Application\Player\PlayerAttack\PlayerAttack.h" />
@@ -414,9 +418,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Math\RandomEngine.h" />
     <ClInclude Include="Engine\Math\ShortestDistance.h" />
     <ClInclude Include="Engine\Object\AbstractObjectFactory.h" />
+    <ClInclude Include="Engine\Object\BaseObjectManager.h" />
     <ClInclude Include="Engine\Object\IObject.h" />
     <ClInclude Include="Engine\Object\MeshObject.h" />
-    <ClInclude Include="Engine\Object\ObjectManager.h" />
     <ClInclude Include="Engine\Particle\BillBoardMatrix.h" />
     <ClInclude Include="Engine\Particle\EmitterDesc.h" />
     <ClInclude Include="Engine\Particle\GPUPaticle.h" />
