@@ -168,9 +168,6 @@ protected:
 	int32_t hp_;
 	uint32_t initHp_;
 
-	// 死んだか
-	bool isDead_;
-
 protected:
 
 	/// <summary>
@@ -195,9 +192,6 @@ public:
 public: // アクセッサ
 
 	BaseEnemyAttack* GetAttack() { return attack_.get(); }
-
-	void SetIsDead(bool isDead) { isDead_ = isDead; }
-	bool GetIsDead() { return isDead_; }
 
 	int32_t GetHp() { return hp_; }
 

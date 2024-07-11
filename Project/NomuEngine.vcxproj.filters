@@ -88,9 +88,6 @@
     <Filter Include="Engine\Animation">
       <UniqueIdentifier>{43280e91-b268-4c81-aac7-d52c62b831b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\SampleBone">
-      <UniqueIdentifier>{725bd115-0d5f-49d4-b607-cf4602735a78}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Collider">
       <UniqueIdentifier>{6e8db13d-e007-4744-a040-88bc34cd30d8}</UniqueIdentifier>
     </Filter>
@@ -102,9 +99,6 @@
     </Filter>
     <Filter Include="Application\UI">
       <UniqueIdentifier>{0b3658e1-3d24-45eb-85b9-841a9f303cf5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\ShadowManager">
-      <UniqueIdentifier>{2dc79464-0118-45cd-be8d-632b77b942fa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Base\GraphicsPipelineState">
       <UniqueIdentifier>{09734e10-8fc5-4059-932a-21b9f930834c}</UniqueIdentifier>

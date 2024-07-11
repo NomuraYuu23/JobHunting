@@ -16,6 +16,8 @@ void Ghost::Initialize(LevelData::MeshData* data)
 	// 初期設定
 	material_->SetEnableLighting(BlinnPhongReflection);
 
+	HPInit(3);
+
 }
 
 void Ghost::Update()

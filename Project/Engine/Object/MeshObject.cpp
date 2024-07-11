@@ -25,8 +25,9 @@ void MeshObject::Initialize(LevelData::MeshData* data)
 	// マテリアル
 	material_.reset(Material::Create());
 
-
 	ColliderInitialize(data->collider);
+
+	isDead_ = false;
 
 }
 

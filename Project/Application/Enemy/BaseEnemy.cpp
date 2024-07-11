@@ -94,10 +94,6 @@ void BaseEnemy::Damage(uint32_t damage)
 
 	hp_ -= damage;
 
-	if (hp_ <= 0) {
-		isDead_ = true;
-	}
-
 }
 
 float BaseEnemy::RatioHP()

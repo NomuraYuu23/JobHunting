@@ -4,9 +4,6 @@
 void BaseObjectManager::Initialize(LevelIndex levelIndex, LevelDataManager* levelDataManager)
 {
 
-	// オブジェクトファクトリーを取得
-	//objectFactory_ = ObjectFactory::GetInstance();
-
 	// レベルデータマネージャー
 	levelDataManager_ = levelDataManager;
 
@@ -32,6 +29,16 @@ void BaseObjectManager::Update()
 
 #endif // _DEBUG
 
+	// フラグによる死亡処理
+	objects_.remove_if([this](ObjectPair& objects) {
+		if (objects.second->GetIsDead()) {
+			objects.second.reset();
+			return true;
+		}
+		return false;
+		});
+
+	// 更新処理
 	for (std::list<ObjectPair>::iterator it = objects_.begin();
 		it != objects_.end(); ++it) {
 		it->second->Update();

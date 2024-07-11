@@ -12,11 +12,6 @@ public: // 関数
 	/// デストラクタ
 	/// </summary>
 	virtual ~IObject() = default;
-
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	//virtual void Initialize() = 0;
 	
 	/// <summary>
 	/// 更新
@@ -29,6 +24,9 @@ public: // 関数
 	/// <returns></returns>
 	std::string GetName() { return name_; }
 
+	void SetIsDead(bool isDead) { isDead_ = isDead; }
+	bool GetIsDead() { return isDead_; }
+
 protected: // 変数
 
 	// 名前
@@ -36,6 +34,9 @@ protected: // 変数
 
 	// トランスフォーム
 	WorldTransform worldTransform_;
+
+	// 死んでいるか
+	bool isDead_ = false;
 
 };
 
