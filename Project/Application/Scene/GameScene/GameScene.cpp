@@ -262,6 +262,7 @@ void GameScene::Draw() {
 	PostEffect::GetInstance()->SetGaussianSigma(33.0f);
 	PostEffect::GetInstance()->SetProjectionInverse(Matrix4x4::Inverse(camera_.GetProjectionMatrix()));
 	PostEffect::GetInstance()->SetRadialBlurStrength(0.2f);
+	PostEffect::GetInstance()->SetThreshold(0.2f);
 
 	if (gameOverSystem_->GetIsOperation() || isBeingReset_) {
 
