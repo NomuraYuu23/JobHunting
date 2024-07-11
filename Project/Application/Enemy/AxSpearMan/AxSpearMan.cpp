@@ -9,7 +9,8 @@ void AxSpearMan::Initialize(LevelData::MeshData* data)
 
 	height_ = 1.0f;
 	worldTransform_.transform_.translate.y = height_;
-	worldTransform_.transform_.rotate.y = 3.14f;
+	worldTransform_.transform_.translate.x = 0.01f;
+	worldTransform_.direction_ = { 0.0f,0.0f,-1.0f };
 	worldTransform_.UpdateMatrix();
 	prePosition_ = worldTransform_.GetWorldPosition();
 
@@ -46,6 +47,11 @@ void AxSpearMan::Update()
 
 	// コライダー
 	ColliderUpdate();
+
+	// 死亡確認
+	if (hp_ <= 0) {
+		isDead_ = true;
+	}
 
 }
 
