@@ -162,7 +162,7 @@ protected: // 衝突処理
 	/// <param name="collisionData"></param>
 	void OnCollisionBlock(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
-private:
+protected:
 
 	//hp
 	int32_t hp_;
@@ -196,6 +196,7 @@ public: // アクセッサ
 
 	BaseEnemyAttack* GetAttack() { return attack_.get(); }
 
+	void SetIsDead(bool isDead) { isDead_ = isDead; }
 	bool GetIsDead() { return isDead_; }
 
 	int32_t GetHp() { return hp_; }

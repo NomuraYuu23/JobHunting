@@ -11,6 +11,8 @@ void Ghost::Initialize(LevelData::MeshData* data)
 	worldTransform_.UpdateMatrix();
 	prePosition_ = worldTransform_.GetWorldPosition();
 
+	isDead_ = false;
+
 	// 初期設定
 	material_->SetEnableLighting(BlinnPhongReflection);
 
@@ -156,7 +158,13 @@ void Ghost::Damage(uint32_t damage)
 
 	BaseEnemy::Damage(damage);
 
-	nextStateNo_ = kGhostStateDamage;
-	interruptCommand_ = true;
+	if (hp_ <= 0) {
+		nextStateNo_ = kGhostStateDead;
+		interruptCommand_ = true;
+	}
+	else {
+		nextStateNo_ = kGhostStateDamage;
+		interruptCommand_ = true;
+	}
 
 }

@@ -820,6 +820,9 @@
     <ClCompile Include="Application\Object\TutorialSceneObjectManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Enemy\Ghost\GhostStateDead.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1492,6 +1495,9 @@
       <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\TutorialSceneObjectManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\Ghost\GhostStateDead.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

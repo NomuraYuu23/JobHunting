@@ -9,6 +9,7 @@ enum GhostState {
 	kGhostStateChase, // 追跡
 	kGhostStateAttack, // 攻撃
 	kGhostStateDamage, // ダメージ
+	kGhostStateDead, // 死亡
 	kGhostStateOfCount // 数
 };
 

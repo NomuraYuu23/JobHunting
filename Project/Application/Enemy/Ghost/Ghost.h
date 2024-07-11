@@ -13,6 +13,7 @@ enum GhostMotionIndex {
 	kGhostMotionMove, // 移動時
 	kGhostMotionAttack, // 攻撃時
 	kGhostMotionDamage, // ダメージ時
+	kGhostMotionDead, // 死亡時
 	kGhostMotionIndexOfCount // 数
 };
 
@@ -96,6 +97,8 @@ private:  // パーツ,アニメーション定数
 		"Wait",
 		"Move",
 		"Attack"
+		"Damage"
+		"Dead"
 	};
 
 private: 
