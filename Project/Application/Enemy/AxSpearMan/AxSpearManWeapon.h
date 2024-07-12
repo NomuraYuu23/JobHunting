@@ -35,5 +35,7 @@ private:
     // 親の行列
     Matrix4x4* parentMatrix_;
 
+    Vector3 rotate_ = {0.0f, -1.57f, 0.0f};
+
 };
 
