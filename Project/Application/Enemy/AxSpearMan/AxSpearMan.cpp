@@ -17,6 +17,8 @@ void AxSpearMan::Initialize(LevelData::MeshData* data)
 	// 初期設定
 	material_->SetEnableLighting(BlinnPhongReflection);
 
+	WeaponInitialize();
+
 	HPInit(10);
 
 }
@@ -52,6 +54,18 @@ void AxSpearMan::Update()
 	if (hp_ <= 0) {
 		isDead_ = true;
 	}
+
+	// 武器更新
+	WeaponUpdate();
+
+}
+
+void AxSpearMan::Draw(BaseCamera& camera)
+{
+
+	BaseEnemy::Draw(camera);
+
+	weapon_->Draw(camera);
 
 }
 
@@ -154,5 +168,39 @@ void AxSpearMan::AnimationUpdate()
 		animation_.StopAnimation(prevMotionNo_);
 		animation_.StartAnimation(currentMotionNo_, true);
 	}
+
+}
+
+void AxSpearMan::WeaponInitialize()
+{
+
+	weapon_ = std::make_unique<AxSpearManWeapon>();
+
+	LevelData::MeshData data;
+
+	data.name = "axSpearManWeapon";
+	data.directoryPath = "Resources/Model/AxSpearMan";
+	data.flieName = "AxSpearManWeapon.obj";
+	data.transform = {0.0f,0.0f,0.0f};
+
+	weapon_->Initialize(&data);
+
+	std::vector<std::string> names = localMatrixManager_->GetNodeNames();
+
+	std::string parentName = "mixamorig:RightHand";
+
+	for (uint32_t i = 0; i < names.size(); ++i) {
+		if (parentName == names[i]) {
+			weapon_->SetParent(&localMatrixManager_->GetNodeDatasAddress()->at(i), &worldTransform_.parentMatrix_);
+			break;
+		}
+	}
+
+}
+
+void AxSpearMan::WeaponUpdate()
+{
+
+	weapon_->Update();
 
 }

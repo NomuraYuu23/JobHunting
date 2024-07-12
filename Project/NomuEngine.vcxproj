@@ -129,6 +129,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.cpp" />
     <ClCompile Include="Application\Enemy\EnemyState\IEnemyState.cpp" />
     <ClCompile Include="Application\Enemy\BaseEnemyAttack.cpp" />
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\Ghost.cpp" />
     <ClCompile Include="Application\Enemy\BaseEnemy.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\GhostCommand.cpp" />
@@ -311,6 +312,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.h" />
     <ClInclude Include="Application\Enemy\EnemyState\IEnemyState.h" />
     <ClInclude Include="Application\Enemy\BaseEnemyAttack.h" />
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.h" />
     <ClInclude Include="Application\Enemy\Ghost\Ghost.h" />
     <ClInclude Include="Application\Enemy\BaseEnemy.h" />
     <ClInclude Include="Application\Enemy\Ghost\GhostCommand.h" />

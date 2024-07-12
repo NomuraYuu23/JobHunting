@@ -69,6 +69,12 @@ public:
 	std::vector<NodeData> GetNodeDatas() { return nodeDatas_; }
 
 	/// <summary>
+	/// ノードデータ取得アドレス
+	/// </summary>
+	/// <returns></returns>
+	std::vector<NodeData>* GetNodeDatasAddress() { return &nodeDatas_; }
+
+	/// <summary>
 	/// 数取得
 	/// </summary>
 	/// <returns></returns>

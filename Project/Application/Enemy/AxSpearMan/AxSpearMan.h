@@ -3,6 +3,7 @@
 
 #include "AxSpearManCommand.h" // コマンド
 #include "IAxSpearManState.h" // ステート
+#include "AxSpearManWeapon.h"
 
 class Player;
 
@@ -29,19 +30,25 @@ public: // ベースのメンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	virtual void Update() override;
+	void Update() override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="camera"></param>
+	void Draw(BaseCamera& camera) override;
 
 	/// <summary>
 	/// ImGui描画
 	/// </summary>
-	virtual void ImGuiDraw();
+	void ImGuiDraw() override;
 
 	/// <summary>
 	/// 衝突処理
 	/// </summary>
 	/// <param name="colliderPartner"></param>
 	/// <param name="collisionData"></param>
-	virtual void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData);
+	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) override;
 
 protected: // ステート関数
 
@@ -85,6 +92,16 @@ protected: // パーツ構成関数
 	/// </summary>
 	void  AnimationUpdate() override;
 
+	/// <summary>
+	/// 武器初期化
+	/// </summary>
+	void WeaponInitialize();
+
+	/// <summary>
+	/// 武器更新
+	/// </summary>
+	void WeaponUpdate();
+
 private:  // パーツ,アニメーション定数
 
 	// オブジェクト名
@@ -105,6 +122,9 @@ private:
 
 	// プレイヤー
 	Player* player_;
+
+	// 武器
+	std::unique_ptr<AxSpearManWeapon> weapon_;
 
 public:
 
