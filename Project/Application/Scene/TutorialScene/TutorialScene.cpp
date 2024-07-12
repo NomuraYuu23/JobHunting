@@ -62,7 +62,7 @@ void TutorialScene::Initialize() {
 	objectManager_->Initialize(kLevelIndexTutorial, levelDataManager_);
 
 	// プレイヤー
-	player_ = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
+	player_ = static_cast<Player*>(objectManager_->GetObjectPointer("000_Player"));
 
 	// UI
 	uiManager_ = std::make_unique<TutorialUIManager>();
@@ -106,14 +106,12 @@ void TutorialScene::Initialize() {
 		spotLightDatas_[i].used = false; // 使用している
 	}
 
-	//プレイヤー
-	Player* player = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
 
 	// 追従カメラ
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
-	followCamera_->SetTarget(player->GetWorldTransformAdress());
-	player->SetCamera(static_cast<BaseCamera*>(followCamera_.get()));
+	followCamera_->SetTarget(player_->GetWorldTransformAdress());
+	player_->SetCamera(static_cast<BaseCamera*>(followCamera_.get()));
 
 	IScene::InitilaizeCheck();
 
