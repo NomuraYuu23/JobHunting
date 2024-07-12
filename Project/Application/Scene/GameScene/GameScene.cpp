@@ -62,7 +62,7 @@ void GameScene::Initialize() {
 	objectManager_->Initialize(kLevelIndexMain, levelDataManager_);
 
 	// プレイヤー
-	player_ = static_cast<Player*>(objectManager_->GetObjectPointer("Player"));
+	player_ = static_cast<Player*>(objectManager_->GetObjectPointer("000_Player"));
 
 	// ボス
 	bossEnemy_ = static_cast<BaseEnemy*>(objectManager_->GetObjectPointer("AxSpearMan00"));

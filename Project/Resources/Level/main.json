@@ -3,43 +3,6 @@
     "objects": [
         {
             "type": "MESH",
-            "name": "Player",
-            "transform": {
-                "translation": [
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "Player.gltf",
-            "directoryPath": "Resources/Model/Player",
-            "className": "Player",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    4.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
             "name": "Ground",
             "transform": {
                 "translation": [
@@ -183,43 +146,6 @@
                     20.0,
                     20.0,
                     20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "AxSpearMan00",
-            "transform": {
-                "translation": [
-                    0.0,
-                    30.0,
-                    3.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "AxSpearMan.gltf",
-            "directoryPath": "Resources/Model/AxSpearMan",
-            "className": "AxSpearMan",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    4.0
                 ]
             }
         },
@@ -849,6 +775,80 @@
                     20.0,
                     20.0,
                     20.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "000_Player",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    -179.99998474121094
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "Player.gltf",
+            "directoryPath": "Resources/Model/Player",
+            "className": "Player",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    2.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    4.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "AxSpearMan00",
+            "transform": {
+                "translation": [
+                    0.0,
+                    30.0,
+                    1.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "AxSpearMan.gltf",
+            "directoryPath": "Resources/Model/AxSpearMan",
+            "className": "AxSpearMan",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    3.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    6.0
                 ]
             }
         }
