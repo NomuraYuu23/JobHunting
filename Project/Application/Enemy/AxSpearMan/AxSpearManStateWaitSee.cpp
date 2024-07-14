@@ -14,6 +14,8 @@ void AxSpearManStateWaitSee::Initialize()
 
 	axSpearManStateNo_ = AxSpearManState::kAxSpearManStateWaitSee;
 
+	distance_ = 0.0f;
+
 }
 
 void AxSpearManStateWaitSee::Update()
@@ -60,6 +62,9 @@ void AxSpearManStateWaitSee::MoveUpdate()
 	Move();
 
 	// 終了条件
+	if (distance_ <= kEndDistance) {
+		inPhase_ = KPhaseEnd;
+	}
 
 }
 
@@ -87,8 +92,10 @@ void AxSpearManStateWaitSee::Move()
 
 	WorldTransform* playerWorldTransform = player->GetWorldTransformAdress();
 
-	Vector3 direction = worldTransform->direction_;
+	distance_ = Vector3::Length(Vector3::Subtract(playerWorldTransform->GetWorldPosition(), worldTransform->GetWorldPosition()));
+
 	// 向き
+	Vector3 direction = worldTransform->direction_;
 	direction = Vector3::Normalize(Vector3::Subtract(playerWorldTransform->GetWorldPosition(), worldTransform->GetWorldPosition()));
 
 	// 移動量

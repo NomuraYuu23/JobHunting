@@ -46,11 +46,17 @@ private :
 	// 終了時のタイム
 	const double kEndTime = 30.0 * kDeltaTime_;
 
+	// 終了する距離
+	const float kEndDistance = 5.0f;
+
 	//フェーズ
 	Phase inPhase_;
 
 	// タイマー
 	double timer_;
+
+	// 距離
+	float distance_;
 
 };
 
