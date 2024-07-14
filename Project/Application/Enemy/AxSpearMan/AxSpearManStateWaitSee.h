@@ -33,6 +33,11 @@ private:
 	void MoveUpdate();
 	void EndUpdate();
 
+	/// <summary>
+	/// 走る
+	/// </summary>
+	void Move();
+
 private :
 	
 	// 移動アニメーションのタイム
