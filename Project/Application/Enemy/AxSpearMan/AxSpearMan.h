@@ -12,7 +12,8 @@ class Player;
 /// </summary>
 enum AxSpearManMotionIndex {
 	kAxSpearManMotionIndexWait, // 通常時
-	kEnemyMotionDashSwingDown, // ダッシュ振り下ろし
+	kAxSpearManMotionDashSwingDown, // ダッシュ振り下ろし
+	kAxSpearManMotionWaitSee, // 様子見
 	kAxSpearManMotionIndexOfCount // 数
 };
 
@@ -105,11 +106,13 @@ protected: // パーツ構成関数
 private:  // パーツ,アニメーション定数
 
 	// オブジェクト名
-	const std::string objectName_ = "Ghost";
+	const std::string objectName_ = "AxSpearMan";
 
 	// モーション名
 	const std::array<const std::string, AxSpearManMotionIndex::kAxSpearManMotionIndexOfCount> motionNames_ = {
 		"Wait",
+		"DashSwingDown",
+		"WaitSee",
 	};
 
 private:

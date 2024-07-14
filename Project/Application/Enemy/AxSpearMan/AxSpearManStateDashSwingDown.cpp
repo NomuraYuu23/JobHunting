@@ -60,7 +60,7 @@ void AxSpearManStateDashSwingDown::AttackInitialize()
 	periodFrame_ = kConstAttak.time_[inPhase_];
 
 	//モーションネーム
-	axSpearManMotionNo_ = kEnemyMotionDashSwingDown;
+	axSpearManMotionNo_ = kAxSpearManMotionDashSwingDown;
 
 }
 

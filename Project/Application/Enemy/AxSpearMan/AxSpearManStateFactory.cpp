@@ -2,6 +2,7 @@
 
 #include "AxSpearManStateRoot.h"
 #include "AxSpearManStateDashSwingDown.h"
+#include "AxSpearManStateWaitSee.h"
 
 IAxSpearManState* AxSpearManStateFactory::CreateAxSpearManState(uint32_t axSpearManStateName)
 {
@@ -15,6 +16,9 @@ IAxSpearManState* AxSpearManStateFactory::CreateAxSpearManState(uint32_t axSpear
 		break;	
 	case kAxSpearManStateDashSwingDown:// ダッシュ振り下ろし
 		newAxSpearManState = new AxSpearManStateDashSwingDown();
+		break;
+	case kAxSpearManStateWaitSee:// 様子見
+		newAxSpearManState = new AxSpearManStateWaitSee();
 		break;
 	case kAxSpearManStateOfCount: // 使用不可
 	default:

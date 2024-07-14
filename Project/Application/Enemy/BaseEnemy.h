@@ -203,5 +203,7 @@ public: // アクセッサ
 
 	uint32_t GetSerialNumber() { return serialNumber_; }
 
+	Animation* GetAnimationAddress() { return &animation_; }
+
 };
 

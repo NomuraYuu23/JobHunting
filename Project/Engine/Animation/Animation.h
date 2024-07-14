@@ -71,6 +71,12 @@ public:
 	/// <returns>アニメーションの実行状態</returns>
 	std::vector<bool> GetRunningAnimations();
 
+	/// <summary>
+	/// 計算データ取得
+	/// </summary>
+	/// <returns></returns>
+	std::vector<AnimationCalcData>* GetAnimationDatas() { return &animationDatas_; }
+
 private:
 
 	/// <summary>

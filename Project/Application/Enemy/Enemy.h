@@ -17,7 +17,7 @@
 /// </summary>
 enum EnemyMotionIndex {
 	kEnemyMotionStand, // 通常時
-	kEnemyMotionDashSwingDown, // ダッシュ振り下ろし
+	kAxSpearManMotionDashSwingDown, // ダッシュ振り下ろし
 	kEnemyMotionMowingDown, // 薙ぎ払い
 	kEnemyMotionIndexOfCount // 数
 };
