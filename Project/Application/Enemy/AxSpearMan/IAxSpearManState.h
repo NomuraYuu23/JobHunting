@@ -8,6 +8,7 @@ enum AxSpearManState {
 	kAxSpearManStateRoot, // 通常
 	kAxSpearManStateDashSwingDown, // ダッシュ振り下ろし
 	kAxSpearManStateWaitSee, // 様子見
+	kAxSpearManStateShakeOff, // 振り払い
 	kAxSpearManStateOfCount // 数
 };
 

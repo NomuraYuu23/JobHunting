@@ -3,6 +3,7 @@
 #include "AxSpearManStateRoot.h"
 #include "AxSpearManStateDashSwingDown.h"
 #include "AxSpearManStateWaitSee.h"
+#include "AxSpearManStateShakeOff.h"
 
 IAxSpearManState* AxSpearManStateFactory::CreateAxSpearManState(uint32_t axSpearManStateName)
 {
@@ -19,6 +20,9 @@ IAxSpearManState* AxSpearManStateFactory::CreateAxSpearManState(uint32_t axSpear
 		break;
 	case kAxSpearManStateWaitSee:// 様子見
 		newAxSpearManState = new AxSpearManStateWaitSee();
+		break;
+	case kAxSpearManStateShakeOff:// 振り払い
+		newAxSpearManState = new AxSpearManStateShakeOff();
 		break;
 	case kAxSpearManStateOfCount: // 使用不可
 	default:

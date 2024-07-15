@@ -119,6 +119,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManCommand.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateRoot.cpp" />
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateShakeOff.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateWaitSee.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\IAxSpearManState.cpp" />
     <ClCompile Include="Application\Enemy\Enemy.cpp" />
@@ -303,6 +304,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManCommand.h" />
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.h" />
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateRoot.h" />
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateShakeOff.h" />
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateWaitSee.h" />
     <ClInclude Include="Application\Enemy\AxSpearMan\IAxSpearManState.h" />
     <ClInclude Include="Application\Enemy\Enemy.h" />

@@ -14,6 +14,7 @@ enum AxSpearManMotionIndex {
 	kAxSpearManMotionIndexWait, // 通常時
 	kAxSpearManMotionDashSwingDown, // ダッシュ振り下ろし
 	kAxSpearManMotionWaitSee, // 様子見
+	kAxSpearManMotionShakeOff, // 振り払い
 	kAxSpearManMotionIndexOfCount // 数
 };
 
@@ -113,6 +114,7 @@ private:  // パーツ,アニメーション定数
 		"Wait",
 		"DashSwingDown",
 		"WaitSee",
+		"ShakeOff",
 	};
 
 private:
