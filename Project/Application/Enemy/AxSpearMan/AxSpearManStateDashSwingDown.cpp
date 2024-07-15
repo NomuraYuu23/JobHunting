@@ -62,6 +62,9 @@ void AxSpearManStateDashSwingDown::AttackInitialize()
 	//モーションネーム
 	axSpearManMotionNo_ = kAxSpearManMotionDashSwingDown;
 
+	attack_->SetCenter(attackCenter_);
+	attack_->SetRadius(attackRadius_);
+
 }
 
 void AxSpearManStateDashSwingDown::Attack()

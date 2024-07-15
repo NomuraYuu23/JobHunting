@@ -99,5 +99,11 @@ private:
 	// 攻撃情報
 	BaseEnemyAttack* attack_;
 
+	// 攻撃のローカル位置
+	Vector3 attackCenter_ = { 0.0f,0.0f,1.5f };
+
+	// 攻撃の半径
+	float attackRadius_ = 1.0f;
+
 };
 

@@ -65,12 +65,13 @@ void GhostStateAttack::AttackInitialize()
 	parameter_ = 0.0f;
 	DontAttack();
 
-	//attack_->GetCollider()->worldTransformUpdate();
-
 	periodFrame_ = kConstAttacks[comboIndex_].time_[inComboPhase_];
 
 	//モーションネーム
 	ghostMotionNo_ = kGhostMotionAttack;
+
+	attack_->SetCenter(attackCenter_);
+	attack_->SetRadius(attackRadius_);
 
 }
 
@@ -96,10 +97,7 @@ void GhostStateAttack::AttackComboPhaseFinished()
 			AttackComboFinished();
 			DontAttack();
 		}
-		else if (inComboPhase_ == static_cast<uint32_t>(ComboPhase::kSwing)) {
-			attack_->SetIsAttackJudgment(true);
-		}
-		else {
+		else if (inComboPhase_ != static_cast<uint32_t>(ComboPhase::kSwing)) {
 			DontAttack();
 		}
 	}
@@ -138,8 +136,9 @@ void GhostStateAttack::AttackCombo1st()
 	Move();
 
 	// コライダー更新
-	if (inComboPhase_ == static_cast<uint32_t>(ComboPhase::kSwing)) {
+	if (inComboPhase_ == static_cast<uint32_t>(ComboPhase::kSwing) && parameter_ >= 0.5f) {
 		attack_->Update();
+		attack_->SetIsAttackJudgment(true);
 	}
 
 }

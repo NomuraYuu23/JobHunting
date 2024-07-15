@@ -91,5 +91,11 @@ private: // メンバ変数
 	// 攻撃
 	BaseEnemyAttack* attack_;
 
+	// 攻撃のローカル位置
+	Vector3 attackCenter_ = { 0.0f,0.0f,5.0f };
+
+	// 攻撃の半径
+	float attackRadius_ = 2.0f;
+
 };
 
