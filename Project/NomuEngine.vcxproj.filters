@@ -313,6 +313,9 @@
     <Filter Include="Application\Object\Enemy\AxSpearMan\State\ShakeOff">
       <UniqueIdentifier>{6cbbc51a-fa55-4b80-8acf-062c671e7e66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Enemy\AxSpearMan\State\3Consecutive">
+      <UniqueIdentifier>{0c0ca424-de27-4642-b842-29d42bb993b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -851,6 +854,9 @@
       <Filter>Application\Object\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateShakeOff.cpp">
+      <Filter>Application\Object\Enemy\AxSpearMan\State\ShakeOff</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManState3Consecutive.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1537,6 +1543,9 @@
       <Filter>Application\Object\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateShakeOff.h">
+      <Filter>Application\Object\Enemy\AxSpearMan\State\ShakeOff</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManState3Consecutive.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

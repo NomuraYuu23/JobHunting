@@ -4,6 +4,7 @@
 #include "AxSpearManStateDashSwingDown.h"
 #include "AxSpearManStateWaitSee.h"
 #include "AxSpearManStateShakeOff.h"
+#include "AxSpearManState3Consecutive.h"
 
 IAxSpearManState* AxSpearManStateFactory::CreateAxSpearManState(uint32_t axSpearManStateName)
 {
@@ -23,6 +24,9 @@ IAxSpearManState* AxSpearManStateFactory::CreateAxSpearManState(uint32_t axSpear
 		break;
 	case kAxSpearManStateShakeOff:// 振り払い
 		newAxSpearManState = new AxSpearManStateShakeOff();
+		break;
+	case kAxSpearManState3Consecutive:// 3連撃
+		newAxSpearManState = new AxSpearManState3Consecutive();
 		break;
 	case kAxSpearManStateOfCount: // 使用不可
 	default:

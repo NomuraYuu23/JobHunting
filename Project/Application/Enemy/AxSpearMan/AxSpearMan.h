@@ -15,6 +15,7 @@ enum AxSpearManMotionIndex {
 	kAxSpearManMotionDashSwingDown, // ダッシュ振り下ろし
 	kAxSpearManMotionWaitSee, // 様子見
 	kAxSpearManMotionShakeOff, // 振り払い
+	kAxSpearManMotion3Consecutive, // 3連撃
 	kAxSpearManMotionIndexOfCount // 数
 };
 
