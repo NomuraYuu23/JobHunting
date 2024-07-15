@@ -41,6 +41,7 @@ void BaseEnemyAttack::Update()
 	Sphere sphere = std::get<Sphere>(*collider_.get());
 
 	sphere.center_ = center;
+	sphere.radius_ = radius_;
 
 	ColliderShape* colliderShape = new ColliderShape();
 

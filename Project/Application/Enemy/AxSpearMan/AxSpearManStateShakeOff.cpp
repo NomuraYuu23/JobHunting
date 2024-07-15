@@ -62,6 +62,9 @@ void AxSpearManStateShakeOff::AttackInitialize()
 	//モーションネーム
 	axSpearManMotionNo_ = kAxSpearManMotionShakeOff;
 
+	attack_->SetCenter(attackCenter_);
+	attack_->SetRadius(attackRadius_);
+
 }
 
 void AxSpearManStateShakeOff::Attack()
@@ -70,7 +73,7 @@ void AxSpearManStateShakeOff::Attack()
 	Move();
 
 	// コライダー更新
-	if ((inPhase_ == static_cast<uint32_t>(ComboPhase::kAttack))) {
+	if ((inPhase_ == static_cast<uint32_t>(ComboPhase::kAttack)) && parameter_ >= 0.7f) {
 		attack_->Update();
 		attack_->SetIsAttackJudgment(true);
 	}
@@ -89,6 +92,46 @@ void AxSpearManStateShakeOff::DontAttack()
 
 void AxSpearManStateShakeOff::Move()
 {
+
+
+	WorldTransform* worldTransform = axSpearMan_->GetWorldTransformAdress();
+
+	worldTransform->usedDirection_ = true;
+
+	Player* player = axSpearMan_->GetPlayer();
+	Vector3 velocity = { 0.0f, 0.0f, 0.0f };
+
+	WorldTransform* playerWorldTransform = player->GetWorldTransformAdress();
+
+	Vector3 direction = worldTransform->direction_;
+	// 向き
+
+	direction = Vector3::Normalize(Vector3::Subtract(playerWorldTransform->GetWorldPosition(), worldTransform->GetWorldPosition()));
+
+	// 移動量
+	Vector3 move = { 0.0f, 0.0f, 1.0f };
+
+	// 移動量に速さを反映
+	move = Vector3::Multiply(kConstAttak.speed_[inPhase_], Vector3::Normalize(move));
+
+	Matrix4x4 rotateMatrix = Matrix4x4::DirectionToDirection(Vector3{ 0.0f,0.0f,1.0f }, direction);
+
+	// 移動ベクトルをカメラの角度だけ回転する
+	move = Matrix4x4::TransformNormal(move, rotateMatrix);
+
+	// 移動
+	velocity.x = move.x;
+	velocity.z = move.z;
+
+	// 移動方向に見た目を合わせる(Y軸)
+	targetDirection_.x = Vector3::Normalize(move).x;
+	targetDirection_.z = Vector3::Normalize(move).z;
+
+	// 角度補間
+	worldTransform->direction_ = Ease::Easing(Ease::EaseName::Lerp, worldTransform->direction_, targetDirection_, targetAngleT_);
+
+	worldTransform->transform_.translate = Vector3::Add(worldTransform->transform_.translate, velocity);
+
 }
 
 void AxSpearManStateShakeOff::AttackPhaseFinished()

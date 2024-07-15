@@ -75,6 +75,18 @@ public: // アクセッサ
 	/// </summary>
 	bool GetIsAttackJudgment() { return isAttackJudgment_; }
 
+	/// <summary>
+	/// 攻撃球の半径
+	/// </summary>
+	/// <param name="radius"></param>
+	void SetRadius(float radius) { radius_ = radius; }
+
+	/// <summary>
+	/// 攻撃球のプレイヤーからのローカル位置
+	/// </summary>
+	/// <param name="center"></param>
+	void SetCenter(const Vector3& center) { center_ = center; }
+
 private:
 
 	/// <summary>
