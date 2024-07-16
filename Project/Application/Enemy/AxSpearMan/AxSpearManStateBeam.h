@@ -2,7 +2,7 @@
 #include "IAxSpearManState.h"
 #include "../BaseEnemyAttack.h"
 
-class AxSpearManState3Consecutive :
+class AxSpearManStateBeam :
     public IAxSpearManState
 {
 
@@ -10,15 +10,10 @@ public: // パブリック
 
 	// コンボフェーズ
 	enum ComboPhase {
-		kPosture1, // 構え1
-		kAttack1, // 攻撃1
-		kRecovery1, // 残身
-		kPosture2, // 構え2
-		kAttack2, // 攻撃2
-		kRecovery2, // 残身
-		kPosture3, // 構え3
-		kAttack3, // 攻撃3
-		kRecovery3, // 残身
+		kPosture, // 構え
+		kCharge, // ため
+		kAttack, // 攻撃
+		kRecovery, // 残身
 		kCountOfComboPhase,
 	};
 
@@ -63,14 +58,14 @@ private:
 	void DontAttack();
 
 	/// <summary>
-	/// 移動
-	/// </summary>
-	void Move();
-
-	/// <summary>
 	/// 攻撃終了
 	/// </summary>
 	void AttackPhaseFinished();
+
+	/// <summary>
+	/// 反動
+	/// </summary>
+	void Recoil();
 
 private: // メンバ変数
 
@@ -89,17 +84,11 @@ private: // メンバ変数
 	// フェーズ
 	uint32_t inPhase_;
 
-	// 向き制限
-	Vector3 directionLimit = { 0.4f,0.4f,0.4f };
-
 	// 攻撃
 	BaseEnemyAttack* attack_;
 
 	// 攻撃のローカル位置
 	Vector3 attackCenter_ = { 0.0f,0.0f,4.0f };
-
-	// 攻撃の半径
-	float attackRadius_ = 2.0f;
 
 };
 

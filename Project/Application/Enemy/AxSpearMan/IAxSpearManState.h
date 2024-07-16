@@ -10,6 +10,7 @@ enum AxSpearManState {
 	kAxSpearManStateWaitSee, // 様子見
 	kAxSpearManStateShakeOff, // 振り払い
 	kAxSpearManState3Consecutive, // 3連撃
+	kAxSpearManStateBeam, // ビーム
 	kAxSpearManStateOfCount // 数
 };
 

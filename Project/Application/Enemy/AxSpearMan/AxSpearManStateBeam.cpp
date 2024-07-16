@@ -1,14 +1,14 @@
-#include "AxSpearManState3Consecutive.h"
+#include "AxSpearManStateBeam.h"
 #include "AxSpearMan.h"
 #include "../../../Engine/Math/Ease.h"
 #include "../../Player/Player.h"
 
-const AxSpearManState3Consecutive::ConstAttack AxSpearManState3Consecutive::kConstAttak = {
-	{ 40, 10, 10, 20, 10, 10, 40, 10, 50}, 
-	{ -0.001f, 0.1f, 0.0f, -0.05f, 0.1f, 0.0f, -0.05f, 0.1f, 0.0f}
+const AxSpearManStateBeam::ConstAttack AxSpearManStateBeam::kConstAttak = {
+	{ 20, 40, 60, 30 },
+	{ -0.001f, -0.001f, -0.1f, 0.0f}
 };
 
-void AxSpearManState3Consecutive::Initialize()
+void AxSpearManStateBeam::Initialize()
 {
 
 	targetDirection_ = { 0.0f, 0.0f, 0.0f };
@@ -21,20 +21,20 @@ void AxSpearManState3Consecutive::Initialize()
 	parameter_ = 0.0f;
 
 	// フレーム数
-	periodFrame_ = static_cast<uint32_t>(kConstAttak.time_[kPosture1]);
+	periodFrame_ = static_cast<uint32_t>(kConstAttak.time_[kPosture]);
 
 	// フェーズ
-	inPhase_ = kPosture1;
+	inPhase_ = kPosture;
 
 	AttackInitialize();
 
-	axSpearManStateNo_ = AxSpearManState::kAxSpearManState3Consecutive;
+	axSpearManStateNo_ = AxSpearManState::kAxSpearManStateBeam;
 
 	attack_->ClearContactRecord();
 
 }
 
-void AxSpearManState3Consecutive::Update()
+void AxSpearManStateBeam::Update()
 {
 
 	// 1フレームでのパラメータ加算値
@@ -51,7 +51,7 @@ void AxSpearManState3Consecutive::Update()
 
 }
 
-void AxSpearManState3Consecutive::AttackInitialize()
+void AxSpearManStateBeam::AttackInitialize()
 {
 
 	// 攻撃行動用の媒介変数
@@ -61,22 +61,20 @@ void AxSpearManState3Consecutive::AttackInitialize()
 	periodFrame_ = kConstAttak.time_[inPhase_];
 
 	//モーションネーム
-	axSpearManMotionNo_ = kAxSpearManMotion3Consecutive;
+	axSpearManMotionNo_ = kAxSpearManMotionBeam;
 
-	attack_->SetCenter(attackCenter_);
-	attack_->SetRadius(attackRadius_);
+	//attack_->SetCenter(attackCenter_);
+	//attack_->SetRadius(attackRadius_);
 
 }
 
-void AxSpearManState3Consecutive::Attack()
+void AxSpearManStateBeam::Attack()
 {
 
-	Move();
+	Recoil();
 
 	// コライダー更新
-	bool isAttack = (inPhase_ == static_cast<uint32_t>(ComboPhase::kAttack1)) || 
-			(inPhase_ == static_cast<uint32_t>(ComboPhase::kAttack2)) ||
-			(inPhase_ == static_cast<uint32_t>(ComboPhase::kAttack3));
+	bool isAttack = (inPhase_ == static_cast<uint32_t>(ComboPhase::kAttack));
 
 	if (isAttack && parameter_ >= 0.5f) {
 		attack_->Update();
@@ -86,18 +84,35 @@ void AxSpearManState3Consecutive::Attack()
 		DontAttack();
 	}
 
+
 }
 
-void AxSpearManState3Consecutive::DontAttack()
+void AxSpearManStateBeam::DontAttack()
 {
 
 	attack_->Stop();
 
 }
 
-void AxSpearManState3Consecutive::Move()
+void AxSpearManStateBeam::AttackPhaseFinished()
 {
 
+	if (parameter_ >= 1.0f) {
+		inPhase_++;
+		AttackInitialize();
+		if (inPhase_ == static_cast<uint32_t>(ComboPhase::kCountOfComboPhase)) {
+			axSpearManStateNo_ = AxSpearManState::kAxSpearManStateRoot;
+			DontAttack();
+		}
+		else {
+			DontAttack();
+		}
+	}
+
+}
+
+void AxSpearManStateBeam::Recoil()
+{
 
 	WorldTransform* worldTransform = axSpearMan_->GetWorldTransformAdress();
 
@@ -139,27 +154,5 @@ void AxSpearManState3Consecutive::Move()
 	worldTransform->direction_ = Ease::Easing(Ease::EaseName::Lerp, worldTransform->direction_, targetDirection_, targetAngleT_);
 
 	worldTransform->transform_.translate = Vector3::Add(worldTransform->transform_.translate, velocity);
-
-}
-
-void AxSpearManState3Consecutive::AttackPhaseFinished()
-{
-
-	if (parameter_ >= 1.0f) {
-		inPhase_++;
-		AttackInitialize();
-		if (inPhase_ == static_cast<uint32_t>(ComboPhase::kCountOfComboPhase)) {
-			axSpearManStateNo_ = AxSpearManState::kAxSpearManStateRoot;
-			DontAttack();
-		} else if(inPhase_ == static_cast<uint32_t>(ComboPhase::kRecovery1) || 
-			inPhase_ == static_cast<uint32_t>(ComboPhase::kRecovery2)){
-			
-			attack_->ClearContactRecord();
-		
-		}
-		else {
-			DontAttack();
-		}
-	}
 
 }
