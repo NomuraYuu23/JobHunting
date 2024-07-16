@@ -14,12 +14,12 @@ public: // 変数
 	/// 初期化
 	/// </summary>
 	/// <param name="parent">親</param>
-	void Initialize(WorldTransform* parent);
+	virtual void Initialize(WorldTransform* parent);
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	virtual void Update();
 
 	/// <summary>
 	/// 停止
@@ -96,7 +96,7 @@ private:
 	/// <param name="collisionData"></param>
 	void OnCollisionPlayer(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
-private:
+protected:
 
 	// 接触履歴
 	ContactRecord contactRecord_;

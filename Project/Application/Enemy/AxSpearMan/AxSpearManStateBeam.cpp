@@ -84,7 +84,6 @@ void AxSpearManStateBeam::Attack()
 		DontAttack();
 	}
 
-
 }
 
 void AxSpearManStateBeam::DontAttack()

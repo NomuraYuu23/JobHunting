@@ -316,6 +316,18 @@
     <Filter Include="Application\Object\Enemy\AxSpearMan\State\3Consecutive">
       <UniqueIdentifier>{0c0ca424-de27-4642-b842-29d42bb993b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Enemy\AxSpearMan\System">
+      <UniqueIdentifier>{ff5c1db8-9755-47d0-afe0-423bd6a658c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Enemy\AxSpearMan\System\Command">
+      <UniqueIdentifier>{175a1125-cc85-42a6-9526-7974551b82b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Enemy\AxSpearMan\System\Weapon">
+      <UniqueIdentifier>{cf74641f-2e1b-4259-9fcc-017f443435f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Enemy\AxSpearMan\System\Beam">
+      <UniqueIdentifier>{21c90584-4255-4dd3-b49f-3cdc5db180c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -808,9 +820,6 @@
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearMan.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManCommand.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateFactory.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
     </ClCompile>
@@ -831,9 +840,6 @@
     </ClCompile>
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateWaitSee.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State\WaitSee</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan</Filter>
     </ClCompile>
     <ClCompile Include="Application\Enemy\Ghost\GhostStateAttack.cpp">
       <Filter>Application\Object\Enemy\Ghost\State\Attack</Filter>
@@ -856,10 +862,19 @@
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateShakeOff.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State\ShakeOff</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManState3Consecutive.cpp">
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateBeam.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateBeam.cpp">
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManState3Consecutive.cpp">
+      <Filter>Application\Object\Enemy\AxSpearMan\State\3Consecutive</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManCommand.cpp">
+      <Filter>Application\Object\Enemy\AxSpearMan\System\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.cpp">
+      <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeam.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1500,9 +1515,6 @@
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearMan.h">
       <Filter>Application\Object\Enemy\AxSpearMan</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManCommand.h">
-      <Filter>Application\Object\Enemy\AxSpearMan</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateFactory.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
     </ClInclude>
@@ -1523,9 +1535,6 @@
     </ClInclude>
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateWaitSee.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State\WaitSee</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.h">
-      <Filter>Application\Object\Enemy\AxSpearMan</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\Ghost\GhostStateAttack.h">
       <Filter>Application\Object\Enemy\Ghost\State\Attack</Filter>
@@ -1548,10 +1557,19 @@
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateShakeOff.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State\ShakeOff</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManState3Consecutive.h">
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateBeam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateBeam.h">
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManState3Consecutive.h">
+      <Filter>Application\Object\Enemy\AxSpearMan\State\3Consecutive</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManCommand.h">
+      <Filter>Application\Object\Enemy\AxSpearMan\System\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.h">
+      <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
