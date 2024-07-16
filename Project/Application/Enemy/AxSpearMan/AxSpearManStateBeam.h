@@ -68,6 +68,11 @@ private:
 	/// </summary>
 	void Recoil();
 
+	/// <summary>
+	/// 狙う
+	/// </summary>
+	void Aim();
+
 private: // メンバ変数
 
 	// 目指す向き
