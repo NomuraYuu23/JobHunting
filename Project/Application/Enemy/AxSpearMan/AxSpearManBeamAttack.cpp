@@ -12,7 +12,7 @@ void AxSpearManBeamAttack::Initialize(WorldTransform* parent)
 	center_ = { 0.0f,0.0f, 1.5f };
 
 	// 攻撃の回転
-	rotate_ = { 0.0f,0.0f,0.0f };
+	rotateMatrix_ = Matrix4x4::MakeIdentity4x4();
 
 	// 攻撃のサイズ
 	size_ = { 1.0f,1.0f,1.0f };
@@ -20,7 +20,7 @@ void AxSpearManBeamAttack::Initialize(WorldTransform* parent)
 	// あたり判定コライダー
 	ColliderShape* collider = new ColliderShape();
 	OBB obb;
-	obb.Initialize(center_, Matrix4x4::MakeRotateXYZMatrix(rotate_), size_, this);
+	obb.Initialize(center_, rotateMatrix_, size_, this);
 	obb.SetCollisionAttribute(0x00000002);
 	obb.SetCollisionMask(0xfffffffd);
 	*collider = obb;
@@ -43,7 +43,7 @@ void AxSpearManBeamAttack::Update()
 	OBB obb = std::get<OBB>(*collider_.get());
 
 	obb.center_ = center;
-	obb.SetOtientatuons(Matrix4x4::MakeRotateXYZMatrix(rotate_));
+	obb.SetOtientatuons(rotateMatrix_);
 	obb.size_ = size_;
 
 	ColliderShape* colliderShape = new ColliderShape();

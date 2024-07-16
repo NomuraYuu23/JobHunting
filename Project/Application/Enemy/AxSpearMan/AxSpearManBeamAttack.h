@@ -20,8 +20,8 @@ public: // 変数
 	/// <summary>
 	/// 回転設定
 	/// </summary>
-	/// <param name="rotate"></param>
-	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }
+	/// <param name="rotateMatrix"></param>
+	void SetRotate(const Matrix4x4& rotateMatrix) { rotateMatrix_ = rotateMatrix; }
 
 	/// <summary>
 	/// 大きさ設定
@@ -32,7 +32,7 @@ public: // 変数
 private:
 
 	// 回転
-	Vector3 rotate_;
+	Matrix4x4 rotateMatrix_;
 
 	// 大きさ
 	Vector3 size_;

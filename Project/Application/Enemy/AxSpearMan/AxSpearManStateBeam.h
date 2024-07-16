@@ -1,6 +1,7 @@
 #pragma once
 #include "IAxSpearManState.h"
 #include "../BaseEnemyAttack.h"
+#include "AxSpearManBeamAttack.h"
 
 class AxSpearManStateBeam :
     public IAxSpearManState
@@ -85,10 +86,21 @@ private: // メンバ変数
 	uint32_t inPhase_;
 
 	// 攻撃
-	BaseEnemyAttack* attack_;
+	AxSpearManBeamAttack* attack_;
 
 	// 攻撃のローカル位置
 	Vector3 attackCenter_ = { 0.0f,0.0f,4.0f };
+	
+	// 攻撃の回転
+	Vector3 attackRotate_ = { 0.0f,0.0f,0.0f };
+	
+	// 攻撃の大きさ
+	Vector3 attackSize_ = { 1.0f, 1.0f,1.0f };
+
+	// 中心移動速度
+	const float attackCenterSpeed_ = 0.3f;
+
+	//高さ
+	const float height_ = 2.0f;
 
 };
-

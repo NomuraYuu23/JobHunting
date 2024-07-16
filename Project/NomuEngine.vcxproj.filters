@@ -874,7 +874,7 @@
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeam.cpp">
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeamAttack.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1569,7 +1569,7 @@
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.h">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeam.h">
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeamAttack.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

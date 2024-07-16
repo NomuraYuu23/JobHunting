@@ -21,6 +21,9 @@ void AxSpearMan::Initialize(LevelData::MeshData* data)
 
 	HPInit(10);
 
+	beamAttack_ = std::make_unique<AxSpearManBeamAttack>();
+	beamAttack_->Initialize(&worldTransform_);
+
 }
 
 void AxSpearMan::Update()
@@ -75,6 +78,24 @@ void AxSpearMan::ImGuiDraw()
 
 void AxSpearMan::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
+}
+
+void AxSpearMan::CollisionListRegister(CollisionManager* collisionManager)
+{
+
+	BaseEnemy::CollisionListRegister(collisionManager);
+
+	beamAttack_->CollisionListRegister(collisionManager);
+
+}
+
+void AxSpearMan::CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw)
+{
+
+	BaseEnemy::CollisionListRegister(collisionManager, colliderDebugDraw);
+	
+	beamAttack_->CollisionListRegister(collisionManager, colliderDebugDraw);
+
 }
 
 void AxSpearMan::StateInitialize()
@@ -187,7 +208,7 @@ void AxSpearMan::WeaponInitialize()
 
 	std::vector<std::string> names = localMatrixManager_->GetNodeNames();
 
-	std::string parentName = "mixamorig:RightHand";
+	const std::string& parentName = "mixamorig:RightHand";
 
 	for (uint32_t i = 0; i < names.size(); ++i) {
 		if (parentName == names[i]) {

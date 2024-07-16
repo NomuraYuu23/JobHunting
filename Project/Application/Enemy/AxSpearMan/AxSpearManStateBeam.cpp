@@ -15,7 +15,7 @@ void AxSpearManStateBeam::Initialize()
 
 	targetAngleT_ = 0.1f;
 
-	attack_ = axSpearMan_->GetAttack();
+	attack_ = axSpearMan_->GetBeamAttack();
 
 	// 媒介変数
 	parameter_ = 0.0f;
@@ -63,8 +63,9 @@ void AxSpearManStateBeam::AttackInitialize()
 	//モーションネーム
 	axSpearManMotionNo_ = kAxSpearManMotionBeam;
 
-	//attack_->SetCenter(attackCenter_);
-	//attack_->SetRadius(attackRadius_);
+	attack_->SetCenter(attackCenter_);
+	attack_->SetRotate(axSpearMan_->GetWorldTransformAdress()->rotateMatrix_);
+	attack_->SetSize(attackSize_);
 
 }
 
@@ -76,7 +77,16 @@ void AxSpearManStateBeam::Attack()
 	// コライダー更新
 	bool isAttack = (inPhase_ == static_cast<uint32_t>(ComboPhase::kAttack));
 
-	if (isAttack && parameter_ >= 0.5f) {
+	if (isAttack && parameter_ >= 0.0f) {
+
+		// 位置と回転、大きさを変更
+		attackCenter_.z += attackCenterSpeed_ + kConstAttak.speed_[kAttack];
+		attackCenter_.y = height_;
+		attackSize_.z += attackCenterSpeed_;
+		attack_->SetCenter(attackCenter_);
+		attack_->SetRotate(axSpearMan_->GetWorldTransformAdress()->rotateMatrix_);
+		attack_->SetSize(attackSize_);
+
 		attack_->Update();
 		attack_->SetIsAttackJudgment(true);
 	}

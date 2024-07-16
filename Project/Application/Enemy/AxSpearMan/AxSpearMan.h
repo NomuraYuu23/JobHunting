@@ -3,7 +3,8 @@
 
 #include "AxSpearManCommand.h" // コマンド
 #include "IAxSpearManState.h" // ステート
-#include "AxSpearManWeapon.h"
+#include "AxSpearManWeapon.h" // 武器
+#include "AxSpearManBeamAttack.h" // ビーム(コライダー)
 
 class Player;
 
@@ -53,6 +54,19 @@ public: // ベースのメンバ関数
 	/// <param name="colliderPartner"></param>
 	/// <param name="collisionData"></param>
 	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) override;
+
+	/// <summary>
+	/// 衝突マネージャー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	void CollisionListRegister(CollisionManager* collisionManager) override;
+
+	/// <summary>
+	/// 衝突マネージャー登録
+	/// </summary>
+	/// <param name="collisionManager"></param>
+	/// <param name="colliderDebugDraw"></param>
+	void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw) override;
 
 protected: // ステート関数
 
@@ -135,10 +149,15 @@ private:
 	// 武器
 	std::unique_ptr<AxSpearManWeapon> weapon_;
 
+	// ビーム(コライダー)
+	std::unique_ptr<AxSpearManBeamAttack> beamAttack_;
+
 public:
 
 	void SetPlayer(Player* player) { player_ = player; }
 	Player* GetPlayer() { return player_; }
+
+	AxSpearManBeamAttack* GetBeamAttack() { return beamAttack_.get(); }
 
 };
 
