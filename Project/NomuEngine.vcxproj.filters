@@ -877,6 +877,9 @@
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeamAttack.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeam.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1570,6 +1573,9 @@
       <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeamAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

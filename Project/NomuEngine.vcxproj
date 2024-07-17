@@ -116,6 +116,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Block\Block.cpp" />
     <ClCompile Include="Application\Camera\FollowCamera.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearMan.cpp" />
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeam.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeamAttack.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManCommand.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManState3Consecutive.cpp" />
@@ -304,6 +305,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Collider\ColliderParentObject.h" />
     <ClInclude Include="Application\Collider\CollisionConfig.h" />
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearMan.h" />
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeam.h" />
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeamAttack.h" />
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManCommand.h" />
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManState3Consecutive.h" />

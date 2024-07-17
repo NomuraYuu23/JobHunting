@@ -19,6 +19,8 @@ void AxSpearMan::Initialize(LevelData::MeshData* data)
 
 	WeaponInitialize();
 
+	BeamInitialize();
+
 	HPInit(10);
 
 	beamAttack_ = std::make_unique<AxSpearManBeamAttack>();
@@ -61,6 +63,11 @@ void AxSpearMan::Update()
 	// 武器更新
 	WeaponUpdate();
 
+	// ビーム更新
+	if (isBeamDraw_) {
+		BeamUpdate();
+	}
+
 }
 
 void AxSpearMan::Draw(BaseCamera& camera)
@@ -69,6 +76,10 @@ void AxSpearMan::Draw(BaseCamera& camera)
 	BaseEnemy::Draw(camera);
 
 	weapon_->Draw(camera);
+
+	if (isBeamDraw_) {
+		beam_->Draw(camera);
+	}
 
 }
 
@@ -223,5 +234,32 @@ void AxSpearMan::WeaponUpdate()
 {
 
 	weapon_->Update();
+
+}
+
+void AxSpearMan::BeamInitialize()
+{
+
+	beam_ = std::make_unique<AxSpearManBeam>();
+
+	LevelData::MeshData data;
+
+	data.name = "axSpearManBeam";
+	data.directoryPath = "Resources/Model/AxSpearMan";
+	data.flieName = "AxSpearManBeam.obj";
+	data.transform = { 0.0f,0.0f,0.0f };
+
+	beam_->Initialize(&data);
+
+	isBeamDraw_ = false;
+
+}
+
+void AxSpearMan::BeamUpdate()
+{
+
+	OBB obb = std::get<OBB>(*beamAttack_->GetCollider());
+
+	beam_->Update(obb.center_, worldTransform_.rotateMatrix_, { obb.size_.x * 2.0f, obb.size_.y * 2.0f, obb.size_.z * 2.0f });
 
 }

@@ -5,6 +5,7 @@
 #include "IAxSpearManState.h" // ステート
 #include "AxSpearManWeapon.h" // 武器
 #include "AxSpearManBeamAttack.h" // ビーム(コライダー)
+#include "AxSpearManBeam.h"
 
 class Player;
 
@@ -120,6 +121,16 @@ protected: // パーツ構成関数
 	/// </summary>
 	void WeaponUpdate();
 
+	/// <summary>
+	/// ビーム初期化
+	/// </summary>
+	void BeamInitialize();
+
+	/// <summary>
+	/// ビーム更新
+	/// </summary>
+	void BeamUpdate();
+
 private:  // パーツ,アニメーション定数
 
 	// オブジェクト名
@@ -149,8 +160,14 @@ private:
 	// 武器
 	std::unique_ptr<AxSpearManWeapon> weapon_;
 
+	// ビーム
+	std::unique_ptr<AxSpearManBeam> beam_;
+
 	// ビーム(コライダー)
 	std::unique_ptr<AxSpearManBeamAttack> beamAttack_;
+
+	// ビームを表示するか
+	bool isBeamDraw_;
 
 public:
 
@@ -158,6 +175,8 @@ public:
 	Player* GetPlayer() { return player_; }
 
 	AxSpearManBeamAttack* GetBeamAttack() { return beamAttack_.get(); }
+
+	void SetIsBeamDraw(bool isBeamDraw) { isBeamDraw_ = isBeamDraw; }
 
 };
 

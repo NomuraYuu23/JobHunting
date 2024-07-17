@@ -95,8 +95,10 @@ void AxSpearManStateBeam::Attack()
 
 		attack_->Update();
 		attack_->SetIsAttackJudgment(true);
+		axSpearMan_->SetIsBeamDraw(true);
 	}
 	else {
+		axSpearMan_->SetIsBeamDraw(false);
 		DontAttack();
 	}
 
