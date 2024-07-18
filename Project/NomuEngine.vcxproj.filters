@@ -334,6 +334,15 @@
     <Filter Include="shaders\GPUParticle">
       <UniqueIdentifier>{4e266167-bfa4-4a5f-9fcc-b1b043363362}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\PostEffect\ShockWave">
+      <UniqueIdentifier>{600e1024-ea0a-4066-8de5-f16ab2f3daff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\PostEffect\Velocity2D">
+      <UniqueIdentifier>{a72231d5-50e4-4897-82b2-2948fdce4f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\PostEffect\HSVFilter">
+      <UniqueIdentifier>{a1c50174-1ef5-48db-8ea8-68ace9c260de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -625,12 +634,6 @@
     <ClCompile Include="Engine\PostEffect\PostEffect.cpp">
       <Filter>Engine\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\PostEffect\ShockWaveManager.cpp">
-      <Filter>Engine\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\PostEffect\Velocity2DData.cpp">
-      <Filter>Engine\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Collider2D\Segment2D.cpp">
       <Filter>Engine\Collider2D</Filter>
     </ClCompile>
@@ -760,9 +763,6 @@
     <ClCompile Include="Engine\base\QueryTimestamp.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\PostEffect\Velocity2DManager.cpp">
-      <Filter>Engine\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Particle\BillBoardMatrix.cpp">
       <Filter>Engine\Particle</Filter>
     </ClCompile>
@@ -885,6 +885,15 @@
     </ClCompile>
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeam.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PostEffect\ShockWaveManager.cpp">
+      <Filter>Engine\PostEffect\ShockWave</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PostEffect\Velocity2DData.cpp">
+      <Filter>Engine\PostEffect\Velocity2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PostEffect\Velocity2DManager.cpp">
+      <Filter>Engine\PostEffect\Velocity2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1248,15 +1257,6 @@
     <ClInclude Include="Engine\base\CompileShader.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PostEffect\Velocity2DData.h">
-      <Filter>Engine\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\PostEffect\ShockWaveManager.h">
-      <Filter>Engine\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\PostEffect\ShockWaveData.h">
-      <Filter>Engine\PostEffect</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\PostEffect\PostEffect.h">
       <Filter>Engine\PostEffect</Filter>
     </ClInclude>
@@ -1440,9 +1440,6 @@
     <ClInclude Include="Engine\ContactRecord\ContactRecord.h">
       <Filter>Engine\Contactrecord</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PostEffect\Velocity2DManager.h">
-      <Filter>Engine\PostEffect</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Particle\BillBoardMatrix.h">
       <Filter>Engine\Particle</Filter>
     </ClInclude>
@@ -1584,6 +1581,21 @@
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\PostEffect\ShockWaveData.h">
+      <Filter>Engine\PostEffect\ShockWave</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\ShockWaveManager.h">
+      <Filter>Engine\PostEffect\ShockWave</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\Velocity2DManager.h">
+      <Filter>Engine\PostEffect\Velocity2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\Velocity2DData.h">
+      <Filter>Engine\PostEffect\Velocity2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\HSVFilter.h">
+      <Filter>Engine\PostEffect\HSVFilter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -1717,6 +1729,8 @@
     <FxCompile Include="Resources\shaders\GPUParticle\GPUParticle.VS.hlsl">
       <Filter>shaders\GPUParticle</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\PostEffect\PostEffectCalc.CS.hlsl" />
+    <FxCompile Include="Resources\shaders\PostEffect\PostEffectCalc.CS.hlsl">
+      <Filter>shaders\PostEffect</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

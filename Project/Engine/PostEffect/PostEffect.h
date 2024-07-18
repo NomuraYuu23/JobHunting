@@ -71,6 +71,10 @@ public: // サブクラス
 
 		float maskEdgeRangeOfDetection; // マスクのエッジ検出範囲
 
+		float hue; // HSV H
+		float saturation; // HSV S
+		float value; // HSV V
+
 		int32_t executionFlag; // 実行フラグ(複数組み合わせたときのやつ)
 
 	};
@@ -480,6 +484,24 @@ public: // アクセッサ
 	/// </summary>
 	/// <param name="maskEdgeRangeOfDetection">マスクのエッジ検出範囲</param>
 	void SetMaskEdgeRangeOfDetection(float maskEdgeRangeOfDetection) { computeParametersMap_->maskEdgeRangeOfDetection = maskEdgeRangeOfDetection; }
+
+	/// <summary>
+	/// HSV H
+	/// </summary>
+	/// <param name="hue">HSV H</param>
+	void SetHue(float hue) { computeParametersMap_->hue = hue; }
+
+	/// <summary>
+	/// HSV S
+	/// </summary>
+	/// <param name="saturation">HSV S</param>
+	void SetSaturation(float saturation) { computeParametersMap_->saturation = saturation; }
+	
+	/// <summary>
+	/// HSV V
+	/// </summary>
+	/// <param name="value">HSV V</param>
+	void SetValue(float value) { computeParametersMap_->value = value; }
 
 	/// <summary>
 	/// 実行フラグ設定

@@ -468,6 +468,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Physics\Spring.h" />
     <ClInclude Include="Engine\Physics\String.h" />
     <ClInclude Include="Engine\Physics\StructuralSpring.h" />
+    <ClInclude Include="Engine\PostEffect\HSVFilter.h" />
     <ClInclude Include="Engine\PostEffect\PostEffect.h" />
     <ClInclude Include="Engine\PostEffect\ShockWaveData.h" />
     <ClInclude Include="Engine\PostEffect\ShockWaveManager.h" />

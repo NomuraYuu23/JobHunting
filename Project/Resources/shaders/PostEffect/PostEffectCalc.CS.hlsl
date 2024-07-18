@@ -27,7 +27,6 @@ float32_t3 RGBToHSV(in const float32_t3 rgb) {
 
 	float32_t3 hsv = { 0.0f,0.0f,0.0f };
 
-	// RGBの最小値、最大値を求める
 	float32_t min = rgb.r;
 	float32_t max = rgb.r;
 
@@ -45,10 +44,9 @@ float32_t3 RGBToHSV(in const float32_t3 rgb) {
 		max = rgb.b;
 	}
 
-	// hを求める
 	hsv.x = max - min;
 	if (hsv.x > 0.0f) {
-		if (max == r) {
+		if (max == rgb.r) {
 			hsv.x = (rgb.g - rgb.b) / hsv.x;
 			if (hsv.x < 0.0f) {
 				hsv.x += 6.0f;
@@ -63,13 +61,11 @@ float32_t3 RGBToHSV(in const float32_t3 rgb) {
 	}
 	hsv.x /= 6.0f;
 
-	// sを求める
 	hsv.y = (max - min);
 	if (max != 0.0f) {
 		hsv.y /= max;
 	}
 
-	// vを求める
 	hsv.z = max;
 
 	return hsv;
@@ -80,9 +76,9 @@ float32_t3 HSVToRGB(in const float32_t3 hsv) {
 
 	float32_t3 rgb;
 
-	rgb.r = hsv.v;
-	rgb.g = hsv.v;
-	rgb.b = hsv.v;
+	rgb.r = hsv.z;
+	rgb.g = hsv.z;
+	rgb.b = hsv.z;
 
 	if (hsv.y > 0.0f) {
 		float32_t h = hsv.x * 6.0f;
@@ -92,32 +88,49 @@ float32_t3 HSVToRGB(in const float32_t3 hsv) {
 		switch (i) {
 		default:
 		case 0:
-			rgb.g *= 1.0f - s * (1.0f - f);
-			rgb.b *= 1.0f - s;
+			rgb.g *= 1.0f - hsv.y * (1.0f - f);
+			rgb.b *= 1.0f - hsv.y;
 			break;
 		case 1:
-			rgb.r *= 1.0f - s * f;
-			rgb.b *= 1.0f - s;
+			rgb.r *= 1.0f - hsv.y * f;
+			rgb.b *= 1.0f - hsv.y;
 			break;
 		case 2:
-			rgb.r *= 1.0f - s;
-			rgb.b *= 1.0f - s * (1.0f - f);
+			rgb.r *= 1.0f - hsv.y;
+			rgb.b *= 1.0f - hsv.y * (1.0f - f);
 			break;
 		case 3:
-			rgb.r *= 1.0f - s;
-			rgb.g *= 1.0f - s * f;
+			rgb.r *= 1.0f - hsv.y;
+			rgb.g *= 1.0f - hsv.y * f;
 			break;
 		case 4:
-			rgb.r *= 1.0f - s * (1.0f - f);
-			rgb.g *= 1.0f - s;
+			rgb.r *= 1.0f - hsv.y * (1.0f - f);
+			rgb.g *= 1.0f - hsv.y;
 			break;
 		case 5:
-			rgb.g *= 1.0f - s;
-			rgb.b *= 1.0f - s * f;
+			rgb.g *= 1.0f - hsv.y;
+			rgb.b *= 1.0f - hsv.y * f;
 			break;
 		}
 	}
 
 	return rgb;
+
+}
+
+float32_t WrapValue(
+	const in float32_t value, 
+	const in float32_t minRange, 
+	const in float32_t maxRange) {
+
+	float32_t range = maxRange - minRange;
+
+	float32_t modValue = fmod(value - minRange, range);
+
+	if (modValue < 0) {
+		modValue += range;
+	}
+
+	return minRange + modValue;
 
 }

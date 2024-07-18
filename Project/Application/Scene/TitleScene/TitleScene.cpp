@@ -34,6 +34,8 @@ void TitleScene::Initialize()
 	buttonItIncreaseAlphaT_ = true;
 	buttonColor_ = { 1.0f, 1.0f, 1.0f, 1.0f };
 
+	hsvFilter_ = { 0.0f,0.0f,0.0f };
+
 }
 
 void TitleScene::Update()
@@ -101,6 +103,9 @@ void TitleScene::Draw()
 
 #pragma endregion
 
+	PostEffect::GetInstance()->SetHue(hsvFilter_.hue);
+	PostEffect::GetInstance()->SetSaturation(hsvFilter_.saturation);
+	PostEffect::GetInstance()->SetValue(hsvFilter_.value);
 
 	PostEffect::GetInstance()->Execution(
 		dxCommon_->GetCommadList(),
@@ -120,6 +125,10 @@ void TitleScene::ImguiDraw()
 #ifdef _DEBUG
 
 	PostEffect::GetInstance()->ImGuiDraw();
+
+	ImGui::Begin("HSVFilter");
+	ImGui::DragFloat3("HSV", &hsvFilter_.hue, 0.01f);
+	ImGui::End();
 
 #endif // _DEBUG
 

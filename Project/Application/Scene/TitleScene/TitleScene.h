@@ -4,6 +4,7 @@
 #include "../../AudioManager/TitleAudioManager.h"
 
 #include "../../Skydome/Skydome.h"
+#include "../../../Engine/PostEffect/HSVFilter.h"
 
 class TitleScene : public IScene
 {
@@ -75,5 +76,7 @@ private: // メンバ変数
 	// 色
 	Vector4 buttonColor_;
 
-};
+	// HSVFilter
+	HSVFilter hsvFilter_;
 
+};

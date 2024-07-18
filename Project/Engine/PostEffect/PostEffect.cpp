@@ -82,6 +82,10 @@ void PostEffect::Initialize()
 
 	computeParametersMap_->maskEdgeRangeOfDetection = 0.03f; // マスクのエッジ検出範囲
 
+	computeParametersMap_->hue = 0.3f;
+	computeParametersMap_->saturation = 0.0f;
+	computeParametersMap_->value = 0.0f;
+
 	computeParametersMap_->executionFlag = 15;
 
 	// ルートシグネチャ
