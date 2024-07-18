@@ -343,6 +343,9 @@
     <Filter Include="Engine\PostEffect\HSVFilter">
       <UniqueIdentifier>{a1c50174-1ef5-48db-8ea8-68ace9c260de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Enemy\AxSpearMan\State\Beam">
+      <UniqueIdentifier>{77ebd6b8-3474-4794-a68e-6e0ca378c9e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -868,9 +871,6 @@
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateShakeOff.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State\ShakeOff</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateBeam.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManState3Consecutive.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State\3Consecutive</Filter>
     </ClCompile>
@@ -880,12 +880,6 @@
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeamAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeam.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\PostEffect\ShockWaveManager.cpp">
       <Filter>Engine\PostEffect\ShockWave</Filter>
     </ClCompile>
@@ -894,6 +888,15 @@
     </ClCompile>
     <ClCompile Include="Engine\PostEffect\Velocity2DManager.cpp">
       <Filter>Engine\PostEffect\Velocity2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeam.cpp">
+      <Filter>Application\Object\Enemy\AxSpearMan\System\Beam</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeamAttack.cpp">
+      <Filter>Application\Object\Enemy\AxSpearMan\System\Beam</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateBeam.cpp">
+      <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1563,9 +1566,6 @@
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateShakeOff.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State\ShakeOff</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateBeam.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManState3Consecutive.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State\3Consecutive</Filter>
     </ClInclude>
@@ -1574,12 +1574,6 @@
     </ClInclude>
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.h">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeamAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeam.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\PostEffect\ShockWaveData.h">
       <Filter>Engine\PostEffect\ShockWave</Filter>
@@ -1595,6 +1589,15 @@
     </ClInclude>
     <ClInclude Include="Engine\PostEffect\HSVFilter.h">
       <Filter>Engine\PostEffect\HSVFilter</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeam.h">
+      <Filter>Application\Object\Enemy\AxSpearMan\System\Beam</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeamAttack.h">
+      <Filter>Application\Object\Enemy\AxSpearMan\System\Beam</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateBeam.h">
+      <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

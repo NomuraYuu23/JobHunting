@@ -851,6 +851,43 @@
                     6.0
                 ]
             }
+        },
+        {
+            "type": "MESH",
+            "name": "AxSpearManWeapon00",
+            "transform": {
+                "translation": [
+                    -3.009931802749634,
+                    30.37826156616211,
+                    1.9278526306152344
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "AxSpearManWeapon.obj",
+            "directoryPath": "Resources/Model/AxSpearMan",
+            "className": "AxSpearManWeapon",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    2.5
+                ],
+                "size": [
+                    1.0,
+                    1.0,
+                    6.0
+                ]
+            }
         }
     ]
 }

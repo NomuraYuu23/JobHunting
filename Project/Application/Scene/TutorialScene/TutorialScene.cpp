@@ -13,6 +13,7 @@
 #include "../../Player/PlayerState/PlayerStateAttack/PlayerStateAttack.h"
 #include "../../../Engine/base/OutputLog.h"
 #include "../../Object/TutorialSceneObjectManager.h"
+#include "../../Object/ObjectFactory.h"
 
 TutorialScene::~TutorialScene()
 {
@@ -59,6 +60,7 @@ void TutorialScene::Initialize() {
 
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<TutorialSceneObjectManager>();
+	ObjectFactory::GetInstance()->SetObjectManager(objectManager_.get());
 	objectManager_->Initialize(kLevelIndexTutorial, levelDataManager_);
 
 	// プレイヤー

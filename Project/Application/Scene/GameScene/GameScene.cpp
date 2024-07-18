@@ -13,6 +13,7 @@
 #include "../../Player/PlayerState/PlayerStateAttack/PlayerStateAttack.h"
 #include "../../../Engine/base/WindowSprite.h"
 #include "../../Object/GameSceneObjectManager.h"
+#include "../../Object/ObjectFactory.h"
 
 GameScene::~GameScene()
 {
@@ -59,6 +60,7 @@ void GameScene::Initialize() {
 
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<GameSceneObjectManager>();
+	ObjectFactory::GetInstance()->SetObjectManager(objectManager_.get());
 	objectManager_->Initialize(kLevelIndexMain, levelDataManager_);
 
 	// プレイヤー

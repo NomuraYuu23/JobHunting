@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Engine/Object/AbstractObjectFactory.h"
 #include "../../Engine/Level/LevelData.h"
+#include "GameSceneObjectManager.h"
 
 class ObjectFactory :
     public AbstractObjectFactory
@@ -23,9 +24,17 @@ public: //メンバ関数
 	/// <returns>オブジェクト</returns>
 	IObject* CreateObject(LevelData::ObjectData& objectData) override;
 
+	/// <summary>
+	/// オブジェクトマネージャー設定
+	/// </summary>
+	/// <param name="objectManager"></param>
+	void SetObjectManager(BaseObjectManager* objectManager) { objectManager_ = objectManager; }
+
 private:
 
 	Player* player_;
+
+	BaseObjectManager* objectManager_;
 
 private:
 	ObjectFactory() = default;

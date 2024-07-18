@@ -205,5 +205,7 @@ public: // アクセッサ
 
 	Animation* GetAnimationAddress() { return &animation_; }
 
+	LocalMatrixManager* GetLocalMatrixManager() { return localMatrixManager_.get(); }
+
 };
 

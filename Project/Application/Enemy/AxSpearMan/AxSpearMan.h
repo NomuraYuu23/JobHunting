@@ -112,16 +112,6 @@ protected: // パーツ構成関数
 	void  AnimationUpdate() override;
 
 	/// <summary>
-	/// 武器初期化
-	/// </summary>
-	void WeaponInitialize();
-
-	/// <summary>
-	/// 武器更新
-	/// </summary>
-	void WeaponUpdate();
-
-	/// <summary>
 	/// ビーム初期化
 	/// </summary>
 	void BeamInitialize();
@@ -156,9 +146,6 @@ private:
 
 	// プレイヤー
 	Player* player_;
-
-	// 武器
-	std::unique_ptr<AxSpearManWeapon> weapon_;
 
 	// ビーム
 	std::unique_ptr<AxSpearManBeam> beam_;

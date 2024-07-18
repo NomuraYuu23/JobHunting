@@ -1,6 +1,8 @@
 #pragma once
 #include "../../../Engine/Object/MeshObject.h"
 
+class AxSpearMan;
+
 class AxSpearManWeapon : public MeshObject
 {
 
@@ -18,24 +20,33 @@ public:
     void Update() override;
 
     /// <summary>
-    /// 親設定
+    /// 親
     /// </summary>
-    /// <param name="parentNodeData"></param>
-    /// <param name="parentMatrix"></param>
-    void SetParent(NodeData* parentNodeData, Matrix4x4* parentMatrix);
+    /// <param name="parent"></param>
+    void SetParent(AxSpearMan* parent);
+
+    /// <summary>
+    /// 親の名前
+    /// </summary>
+    /// <returns></returns>
+    std::string GetParentName() { return parentName_; }
 
 private:
+
+    // 親
+    AxSpearMan* parent_;
 
     // 親のノード(持っている部分)
     NodeData* parentNodeData_;
 
-    // 親のノード(持っている部分)
-    NodeData* rootNodeData_;
-
     // 親の行列
     Matrix4x4* parentMatrix_;
 
+    // 回転
     Vector3 rotate_ = {0.0f, -1.57f, 0.0f};
+
+    // 親の名前
+    std::string parentName_;
 
 };
 

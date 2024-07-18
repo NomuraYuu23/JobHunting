@@ -6,6 +6,7 @@
 #include "../Block/Block.h"
 #include "../Enemy/Ghost/Ghost.h"
 #include "../Enemy/AxSpearMan/AxSpearMan.h"
+#include "../Enemy/AxSpearMan/AxSpearManWeapon.h"
 
 
 ObjectFactory* ObjectFactory::GetInstance()
@@ -64,6 +65,16 @@ IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
 			// 初期化
 			static_cast<AxSpearMan*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 			static_cast<AxSpearMan*>(object)->SetPlayer(player_);
+		}
+		else if (data.className == "AxSpearManWeapon") {
+			// インスタンス生成
+			object = new AxSpearManWeapon();
+
+			// 初期化
+			static_cast<AxSpearManWeapon*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+			static_cast<AxSpearManWeapon*>(object)->SetParent(
+				static_cast<AxSpearMan*>(objectManager_->GetObjectPointer(
+					static_cast<AxSpearManWeapon*>(object)->GetParentName())));
 		}
 
 
