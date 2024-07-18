@@ -32,6 +32,18 @@ public:
     std::string GetParentName() { return parentName_; }
 
 private:
+    
+    /// <summary>
+    /// 親あるとき更新
+    /// </summary>
+    void WithParentsUpdate();
+
+    /// <summary>
+    /// 親がない時更新
+    /// </summary>
+    void ParentlessUpdate();
+
+private:
 
     // 親
     AxSpearMan* parent_;
