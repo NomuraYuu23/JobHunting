@@ -400,7 +400,7 @@ void PostEffect::CreateHeaderHLSL()
 {
 	
 	// ファイルを開く
-	std::ofstream file("Resources/shaders/PostEffect.hlsli");
+	std::ofstream file("Resources/shaders/PostEffect/PostEffect.hlsli");
 
 	// ファイルがないのでエラー
 	assert(file);

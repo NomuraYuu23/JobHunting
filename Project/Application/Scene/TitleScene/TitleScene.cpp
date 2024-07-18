@@ -80,6 +80,8 @@ void TitleScene::Update()
 	buttonColor_.w = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 1.0f, buttonAlphaT_);
 	buttonSprite_->SetColor(buttonColor_);
 
+	ImguiDraw();
+
 }
 
 void TitleScene::Draw()
@@ -99,12 +101,25 @@ void TitleScene::Draw()
 
 #pragma endregion
 
+
+	PostEffect::GetInstance()->Execution(
+		dxCommon_->GetCommadList(),
+		renderTargetTexture_,
+		PostEffect::kCommandIndexHSVFilter
+	);
+
+	renderTargetTexture_->ClearDepthBuffer();
+
+	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+
 }
 
 void TitleScene::ImguiDraw()
 {
 
 #ifdef _DEBUG
+
+	PostEffect::GetInstance()->ImGuiDraw();
 
 #endif // _DEBUG
 
