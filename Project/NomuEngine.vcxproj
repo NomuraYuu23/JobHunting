@@ -174,14 +174,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateShakeOff.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateWaitSee.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\IAxSpearManState.cpp" />
-    <ClCompile Include="Application\Enemy\Enemy.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyAttack\EnemyAttack.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyCommand\EnemyCommand.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateDashSwingDown\EnemyStateDashSwingDown.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateFactory.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateMowingDown\EnemyStateMowingDown.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyState\IEnemyState.cpp" />
     <ClCompile Include="Application\Enemy\BaseEnemyAttack.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\Ghost.cpp" />
@@ -217,6 +209,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\UI\UI.cpp" />
     <ClCompile Include="Application\UI\UIManager.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateFactory.cpp" />
+    <ClCompile Include="Application\Weapon\BaseWeapon.cpp" />
     <ClCompile Include="Engine\2D\ImGuiManager.cpp" />
     <ClCompile Include="Engine\3D\DrawLine.cpp" />
     <ClCompile Include="Engine\3D\FogManager.cpp" />
@@ -363,14 +356,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateShakeOff.h" />
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateWaitSee.h" />
     <ClInclude Include="Application\Enemy\AxSpearMan\IAxSpearManState.h" />
-    <ClInclude Include="Application\Enemy\Enemy.h" />
-    <ClInclude Include="Application\Enemy\EnemyAttack\EnemyAttack.h" />
-    <ClInclude Include="Application\Enemy\EnemyCommand\EnemyCommand.h" />
-    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateDashSwingDown\EnemyStateDashSwingDown.h" />
-    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateFactory.h" />
-    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateMowingDown\EnemyStateMowingDown.h" />
-    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.h" />
-    <ClInclude Include="Application\Enemy\EnemyState\IEnemyState.h" />
     <ClInclude Include="Application\Enemy\BaseEnemyAttack.h" />
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.h" />
     <ClInclude Include="Application\Enemy\Ghost\Ghost.h" />
@@ -407,6 +392,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\UI\UI.h" />
     <ClInclude Include="Application\UI\UIManager.h" />
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateFactory.h" />
+    <ClInclude Include="Application\Weapon\BaseWeapon.h" />
     <ClInclude Include="Engine\2D\ImGuiManager.h" />
     <ClInclude Include="Engine\2D\SpriteForGPU.h" />
     <ClInclude Include="Engine\2D\SpriteVertex.h" />

@@ -202,15 +202,6 @@
     <Filter Include="Application\Object\Enemy">
       <UniqueIdentifier>{46ce4367-7435-4b32-8c8e-245c987ef51d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Object\Enemy\Boss">
-      <UniqueIdentifier>{1d0d3339-d9bb-45c4-88de-6001c4928b67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\Boss\State">
-      <UniqueIdentifier>{e966230b-558c-4108-b4e3-5d4e69758375}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\Boss\System">
-      <UniqueIdentifier>{ef7763ec-eba8-4767-bc07-73e137a978ec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\System">
       <UniqueIdentifier>{dc265678-a7c1-47a4-bfdc-6a41ffedfd1f}</UniqueIdentifier>
     </Filter>
@@ -345,6 +336,9 @@
     </Filter>
     <Filter Include="Application\Object\Enemy\AxSpearMan\State\Beam">
       <UniqueIdentifier>{77ebd6b8-3474-4794-a68e-6e0ca378c9e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\BaseWeapon">
+      <UniqueIdentifier>{10463b8a-d107-4e0d-aec7-b819be3f5c11}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -688,35 +682,11 @@
     <ClCompile Include="Application\Player\Player.cpp">
       <Filter>Application\Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Enemy.cpp">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Particle\Bload\BloadParticle.cpp">
       <Filter>Application\Particle\Bload</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\TutorialUIManager.cpp">
       <Filter>Application\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyAttack\EnemyAttack.cpp">
-      <Filter>Application\Object\Enemy\Boss\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyCommand\EnemyCommand.cpp">
-      <Filter>Application\Object\Enemy\Boss\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateDashSwingDown\EnemyStateDashSwingDown.cpp">
-      <Filter>Application\Object\Enemy\Boss\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateFactory.cpp">
-      <Filter>Application\Object\Enemy\Boss\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateMowingDown\EnemyStateMowingDown.cpp">
-      <Filter>Application\Object\Enemy\Boss\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.cpp">
-      <Filter>Application\Object\Enemy\Boss\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyState\IEnemyState.cpp">
-      <Filter>Application\Object\Enemy\Boss\State</Filter>
     </ClCompile>
     <ClCompile Include="Engine\2D\ImGuiManager.cpp">
       <Filter>Engine\2D\ImGui</Filter>
@@ -897,6 +867,9 @@
     </ClCompile>
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateBeam.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Weapon\BaseWeapon.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1323,35 +1296,11 @@
     <ClInclude Include="Application\Player\PlayerCommand\PlayerCommand.h">
       <Filter>Application\Object\Player\System</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Enemy.h">
-      <Filter>Application\Object\Enemy\Boss</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Particle\Bload\BloadParticle.h">
       <Filter>Application\Particle\Bload</Filter>
     </ClInclude>
     <ClInclude Include="Application\UI\TutorialUIManager.h">
       <Filter>Application\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyAttack\EnemyAttack.h">
-      <Filter>Application\Object\Enemy\Boss\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyCommand\EnemyCommand.h">
-      <Filter>Application\Object\Enemy\Boss\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateDashSwingDown\EnemyStateDashSwingDown.h">
-      <Filter>Application\Object\Enemy\Boss\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateFactory.h">
-      <Filter>Application\Object\Enemy\Boss\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateMowingDown\EnemyStateMowingDown.h">
-      <Filter>Application\Object\Enemy\Boss\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyState\EnemyStateRoot\EnemyStateRoot.h">
-      <Filter>Application\Object\Enemy\Boss\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyState\IEnemyState.h">
-      <Filter>Application\Object\Enemy\Boss\State</Filter>
     </ClInclude>
     <ClInclude Include="Engine\2D\ImGuiManager.h">
       <Filter>Engine\2D\ImGui</Filter>
@@ -1598,6 +1547,9 @@
     </ClInclude>
     <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateBeam.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Weapon\BaseWeapon.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

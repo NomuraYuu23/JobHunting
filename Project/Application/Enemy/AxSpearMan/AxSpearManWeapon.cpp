@@ -6,29 +6,27 @@
 void AxSpearManWeapon::Initialize(LevelData::MeshData* data)
 {
 
-	MeshObject::Initialize(data);
+	BaseWeapon::Initialize(data);
 
 	worldTransform_.transform_.scale = { 1.0f,1.0f,1.0f };
 	worldTransform_.UpdateMatrix();
 
 	parentName_ = "AxSpearMan00";
 
+	rotate_ = { 0.0f, -1.57f, 0.0f };
+
 	// 剛体の初期化
 	RigidBodyInitialize();
+
+	// コライダーの初期化
+	ColliderInitialize();
 
 }
 
 void AxSpearManWeapon::Update()
 {
 
-	// 親あり更新
-	if (parentMatrix_) {
-		WithParentsUpdate();
-	}
-	// 親なし更新
-	else {
-		ParentlessUpdate();
-	}
+	BaseWeapon::Update();
 
 }
 
@@ -51,6 +49,10 @@ void AxSpearManWeapon::SetParent(AxSpearMan* parent)
 		}
 	}
 
+}
+
+void AxSpearManWeapon::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
+{
 }
 
 void AxSpearManWeapon::WithParentsUpdate()
@@ -147,5 +149,39 @@ void AxSpearManWeapon::RigidBodyUpdate()
 
 	// ワールドトランスフォーム更新
 	worldTransform_.UpdateMatrix(rigidBody_.postureMatrix);
+
+}
+
+void AxSpearManWeapon::ColliderInitialize()
+{
+
+	// OBB
+	OBB obb = std::get<OBB>(*collider_.get());
+	obb.SetParentObject(this);
+	ColliderShape* colliderShape = new ColliderShape();
+	*colliderShape = obb;
+	collider_.reset(colliderShape);
+
+}
+
+void AxSpearManWeapon::ColliderUpdate()
+{
+
+	OBB obb = std::get<OBB>(*collider_.get());
+
+	obb.center_ = worldTransform_.GetWorldPosition();
+
+	Vector3 ColliderMove = { 0.0f,2.5f, 0.0f };
+
+	ColliderMove = Matrix4x4::TransformNormal(ColliderMove, worldTransform_.rotateMatrix_);
+
+	obb.center_ += ColliderMove;
+	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
+
+	ColliderShape* colliderShape = new ColliderShape();
+
+	*colliderShape = obb;
+
+	collider_.reset(colliderShape);
 
 }

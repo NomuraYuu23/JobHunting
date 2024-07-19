@@ -1,10 +1,11 @@
 #pragma once
-#include "../../../Engine/Object/MeshObject.h"
 #include "../../../Engine/Physics/RigidBody.h"
+
+#include "../../Weapon/BaseWeapon.h"
 
 class AxSpearMan;
 
-class AxSpearManWeapon : public MeshObject
+class AxSpearManWeapon : public BaseWeapon
 {
 
 public: 
@@ -27,49 +28,48 @@ public:
     void SetParent(AxSpearMan* parent);
 
     /// <summary>
-    /// 親の名前
+    /// 衝突処理
     /// </summary>
-    /// <returns></returns>
-    std::string GetParentName() { return parentName_; }
+    /// <param name="colliderPartner"></param>
+    /// <param name="collisionData"></param>
+    void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) override;
 
 private:
     
     /// <summary>
     /// 親あるとき更新
     /// </summary>
-    void WithParentsUpdate();
+    void WithParentsUpdate() override;
 
     /// <summary>
     /// 親がない時更新
     /// </summary>
-    void ParentlessUpdate();
+    void ParentlessUpdate() override;
 
     /// <summary>
-    /// 
+    /// 剛体初期化
     /// </summary>
-    void RigidBodyInitialize();
+    void RigidBodyInitialize() override;
 
-    void RigidBodyUpdate();
+    /// <summary>
+    /// 剛体更新
+    /// </summary>
+    void RigidBodyUpdate() override;
+
+    /// <summary>
+    /// コライダーの初期化
+    /// </summary>
+    void ColliderInitialize() override;
+
+    /// <summary>
+    /// コライダーの更新
+    /// </summary>
+    void ColliderUpdate() override;
 
 private:
 
     // 親
     AxSpearMan* parent_;
-
-    // 親のノード(持っている部分)
-    NodeData* parentNodeData_;
-
-    // 親の行列
-    Matrix4x4* parentMatrix_;
-
-    // 回転
-    Vector3 rotate_ = {0.0f, -1.57f, 0.0f};
-
-    // 親の名前
-    std::string parentName_;
-
-    // 剛体
-    RigidBody rigidBody_;
 
 };
 

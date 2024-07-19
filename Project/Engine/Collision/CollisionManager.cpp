@@ -4,12 +4,11 @@
 
 #include "../../Application/Player/Player.h"
 #include "../../Application/Player/PlayerAttack/PlayerAttack.h"
-#include "../../Application/Enemy/Enemy.h"
-#include "../../Application/Enemy/EnemyAttack/EnemyAttack.h"
 #include "../../Application/Ground/Ground.h"
 #include "../../Application/Block/Block.h"
 #include "../../Application/Enemy/BaseEnemy.h"
 #include "../../Application/Enemy/BaseEnemyAttack.h"
+#include "../../Application/Weapon/BaseWeapon.h"
 
 void CollisionManager::Initialize()
 {
