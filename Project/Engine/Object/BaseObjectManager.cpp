@@ -22,12 +22,12 @@ void BaseObjectManager::Initialize(LevelIndex levelIndex, LevelDataManager* leve
 void BaseObjectManager::Update()
 {
 
-#ifdef _DEBUG
+#ifdef _DEMO
 
 	// リストをクリア
 	colliderDebugDraw_->ListClear();
 
-#endif // _DEBUG
+#endif // _DEMO
 
 	// フラグによる死亡処理
 	objects_.remove_if([this](ObjectPair& objects) {
@@ -97,7 +97,7 @@ void BaseObjectManager::CollisionListRegister(CollisionManager* collisionManager
 
 	bool isDebug = false;
 
-#ifdef _DEBUG
+#ifdef _DEMO
 	isDebug = true;
 #endif // _DEBUG
 

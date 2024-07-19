@@ -129,7 +129,7 @@ void GameScene::Initialize() {
 /// </summary>
 void GameScene::Update() {
 
-#ifdef _DEBUG
+#ifdef _DEMO
 	ImguiDraw();
 #endif
 
@@ -235,13 +235,6 @@ void GameScene::Draw() {
 
 	objectManager_->Draw(camera_, drawLine_);
 
-#ifdef _DEBUG
-
-	// デバッグ描画
-	//colliderDebugDraw_->Draw(camera_);
-
-#endif // _DEBUG
-
 	ModelDraw::PostDraw();
 
 #pragma endregion
@@ -331,13 +324,6 @@ void GameScene::Draw() {
 
 	}
 
-#ifdef _DEBUG
-#pragma region コライダー2d描画
-
-#pragma endregion
-#endif // DEBUG_
-
-
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommadList());
@@ -360,7 +346,6 @@ void GameScene::Draw() {
 }
 
 void GameScene::ImguiDraw(){
-#ifdef _DEBUG
 
 	ImGui::Begin("Framerate");
 	ImGui::Text("Frame rate: %6.2f fps", ImGui::GetIO().Framerate);
@@ -375,14 +360,12 @@ void GameScene::ImguiDraw(){
 
 	PostEffect::GetInstance()->ImGuiDraw();
 
-#endif // _DEBUG
-
 }
 
 void GameScene::DebugCameraUpdate()
 {
 
-#ifdef _DEBUG
+#ifdef _DEMO
 	if (input_->TriggerKey(DIK_RETURN)) {
 		if (isDebugCameraActive_) {
 			isDebugCameraActive_ = false;

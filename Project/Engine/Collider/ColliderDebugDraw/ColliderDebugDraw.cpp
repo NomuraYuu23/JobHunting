@@ -61,11 +61,11 @@ void ColliderDebugDraw::DrawMap(DrawLine* drawLine)
 
 void ColliderDebugDraw::ImGuiDraw()
 {
-#ifdef _DEBUG
+#ifdef _DEMO
 	ImGui::Begin("ColliderDebugDraw");
 	ImGui::Checkbox("描画するか", &isDraw_);
 	ImGui::End();
-#endif // _DEBUG
+#endif // _DEMO
 }
 
 void ColliderDebugDraw::InitializeOBB()
