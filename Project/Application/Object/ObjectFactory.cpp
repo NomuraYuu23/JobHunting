@@ -72,9 +72,9 @@ IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
 
 			// 初期化
 			static_cast<AxSpearManWeapon*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
-			static_cast<AxSpearManWeapon*>(object)->SetParent(
-				static_cast<AxSpearMan*>(objectManager_->GetObjectPointer(
-					static_cast<AxSpearManWeapon*>(object)->GetParentName())));
+			//static_cast<AxSpearManWeapon*>(object)->SetParent(
+			//	static_cast<AxSpearMan*>(objectManager_->GetObjectPointer(
+			//		static_cast<AxSpearManWeapon*>(object)->GetParentName())));
 		}
 
 

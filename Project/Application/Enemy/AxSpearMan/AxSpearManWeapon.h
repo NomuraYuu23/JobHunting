@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../Engine/Object/MeshObject.h"
+#include "../../../Engine/Physics/RigidBody.h"
 
 class AxSpearMan;
 
@@ -43,6 +44,13 @@ private:
     /// </summary>
     void ParentlessUpdate();
 
+    /// <summary>
+    /// 
+    /// </summary>
+    void RigidBodyInitialize();
+
+    void RigidBodyUpdate();
+
 private:
 
     // 親
@@ -59,6 +67,9 @@ private:
 
     // 親の名前
     std::string parentName_;
+
+    // 剛体
+    RigidBody rigidBody_;
 
 };
 
