@@ -47,16 +47,6 @@ private:
     void ParentlessUpdate() override;
 
     /// <summary>
-    /// 剛体初期化
-    /// </summary>
-    void RigidBodyInitialize() override;
-
-    /// <summary>
-    /// 剛体更新
-    /// </summary>
-    void RigidBodyUpdate() override;
-
-    /// <summary>
     /// コライダーの初期化
     /// </summary>
     void ColliderInitialize() override;

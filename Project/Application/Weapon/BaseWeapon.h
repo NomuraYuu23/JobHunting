@@ -30,7 +30,7 @@ public:
     /// </summary>
     /// <param name="colliderPartner"></param>
     /// <param name="collisionData"></param>
-    virtual void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) = 0;
+    virtual void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
     /// <summary>
     /// 衝突マネージャー登録
@@ -45,7 +45,7 @@ public:
     /// <param name="colliderDebugDraw"></param>
     virtual void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw) override;
 
-private:
+protected:
 
     /// <summary>
     /// 親あるとき更新
@@ -60,12 +60,12 @@ private:
     /// <summary>
     /// 剛体初期化
     /// </summary>
-    virtual void RigidBodyInitialize() = 0;
+    virtual void RigidBodyInitialize();
 
     /// <summary>
     /// 剛体更新
     /// </summary>
-    virtual void RigidBodyUpdate() = 0;
+    virtual void RigidBodyUpdate();
 
     /// <summary>
     /// コライダーの初期化
@@ -76,6 +76,17 @@ private:
     /// コライダーの更新
     /// </summary>
     virtual void ColliderUpdate() = 0;
+
+private:
+
+    /// <summary>
+    /// 地面との当たり判定
+    /// </summary>
+    /// <param name="colliderPartner"></param>
+    /// <param name="collisionData"></param>
+    void OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData);
+
+    void ApplyForce(const Vector3& pointOfAction, const Vector3& force);
 
 protected: // メンバ変数
 
@@ -93,6 +104,9 @@ protected: // メンバ変数
 
     // 剛体
     RigidBody rigidBody_;
+
+    // 重力による速度
+    Vector3 gravityVelocity_;
 
 };
 

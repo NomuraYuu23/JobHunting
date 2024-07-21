@@ -8,6 +8,7 @@
 #include "../Ground/Ground.h"
 #include "../Block/Block.h"
 #include "../Enemy/BaseEnemy.h"
+#include "../../Engine/Physics/Gravity.h"
 
 void Player::Initialize(LevelData::MeshData* data)
 {
@@ -78,7 +79,7 @@ void Player::Update()
 	localMatrixManager_->Map();
 
 	// 重力
-	Gravity();
+	worldTransform_.transform_.translate += Gravity::Execute();
 
 	worldTransform_.UpdateMatrix();
 
@@ -328,13 +329,6 @@ float Player::RatioHP()
 	assert(initHp_ != 0);
 
 	return static_cast<float>(hp_) / static_cast<float>(initHp_);
-}
-
-void Player::Gravity()
-{
-
-	worldTransform_.transform_.translate.y -= 9.8f * kDeltaTime_;
-
 }
 
 void Player::Extrusion(

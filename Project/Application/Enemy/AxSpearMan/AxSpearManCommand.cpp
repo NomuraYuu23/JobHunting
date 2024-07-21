@@ -13,7 +13,7 @@ void AxSpearManCommand::Initialize(AxSpearMan* axSpearMan)
 uint32_t AxSpearManCommand::Command()
 {
 
-    uint32_t resultState = AxSpearManState::kAxSpearManStateBeam;
+    uint32_t resultState = AxSpearManState::kAxSpearManStateRoot;
 
     return resultState;
 }

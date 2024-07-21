@@ -223,8 +223,6 @@ public:
 	/// <returns></returns>
 	float RatioHP();
 
-	void Gravity();
-
 	/// <summary>
 	/// 押し出し
 	/// </summary>

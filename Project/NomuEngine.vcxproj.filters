@@ -340,6 +340,9 @@
     <Filter Include="Application\Object\BaseWeapon">
       <UniqueIdentifier>{10463b8a-d107-4e0d-aec7-b819be3f5c11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Physics\Gravity">
+      <UniqueIdentifier>{fdc13d48-4325-433a-9c95-20e493b58176}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -869,6 +872,9 @@
       <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
     </ClCompile>
     <ClCompile Include="Application\Weapon\BaseWeapon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\Gravity.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1549,6 +1555,9 @@
       <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
     </ClInclude>
     <ClInclude Include="Application\Weapon\BaseWeapon.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\Gravity.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
