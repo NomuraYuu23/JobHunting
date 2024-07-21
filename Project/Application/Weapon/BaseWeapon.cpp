@@ -67,7 +67,7 @@ void BaseWeapon::RigidBodyInitialize()
 	rigidBody_.basicPostureInertiaTensor = InertiaTensor::CreateRectangular(0.001f, Vector3{ 1.0f, 6.0f, 1.0f });
 
 	// 姿勢行列作成
-	rigidBody_.postureMatrix = Matrix4x4::MakeRotateXYZMatrix({ 0.0f,0.0f,0.0f });
+	rigidBody_.postureMatrix = Matrix4x4::MakeRotateXYZMatrix({ 1.0f,0.0f,0.0f });
 
 	rigidBody_.angularVelocity = { 0.0f,0.0f,0.0f }; // 角速度
 	rigidBody_.angularMomentum = { 0.0f,0.0f,0.0f }; // 角運動量

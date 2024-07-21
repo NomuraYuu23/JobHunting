@@ -33,39 +33,9 @@ Matrix4x4 RigidBody::PostureCalc(
 	float time)
 {
 
-	Vector3 postureX = { postureMatrix.m[0][0],postureMatrix.m[0][1], postureMatrix.m[0][2] };
-	Vector3 postureY = { postureMatrix.m[1][0],postureMatrix.m[1][1], postureMatrix.m[1][2] };
-	Vector3 postureZ = { postureMatrix.m[2][0],postureMatrix.m[2][1], postureMatrix.m[2][2] };
+	Matrix4x4 newPostureMatrix = Matrix4x4::MakeRotateXYZMatrix(Vector3::Multiply(angularVelocity, time));
 
-
-	// 姿勢更新
-	postureX = Vector3::Cross(angularVelocity, postureX) * time + postureX;
-	postureY = Vector3::Cross(angularVelocity, postureY) * time + postureY;
-
-	// 正規化
-	postureX = Vector3::Normalize(postureX);
-	postureY = postureY - Vector3::Multiply((Vector3::Dot(postureY, postureX)), postureX);
-	postureZ = Vector3::Cross(postureX, postureY);
-
-	Matrix4x4 result;
-	result.m[0][0] = postureX.x;
-	result.m[0][1] = postureX.y;
-	result.m[0][2] = postureX.z;
-	result.m[0][3] = 0.0f;
-
-	result.m[1][0] = postureY.x;
-	result.m[1][1] = postureY.y;
-	result.m[1][2] = postureY.z;
-	result.m[1][3] = 0.0f;
-
-	result.m[2][0] = postureZ.x;
-	result.m[2][1] = postureZ.y;
-	result.m[2][2] = postureZ.z;
-	result.m[2][3] = 0.0f;
-
-	result.m[3][0] = 0.0f;
-	result.m[3][1] = 0.0f;
-	result.m[3][2] = 0.0f;
+	Matrix4x4 result = Matrix4x4::Multiply(newPostureMatrix, postureMatrix);
 	result.m[3][3] = 1.0f;
 
 	return result;
