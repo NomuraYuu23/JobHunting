@@ -9,11 +9,12 @@ void AxSpearManWeapon::Initialize(LevelData::MeshData* data)
 	BaseWeapon::Initialize(data);
 
 	worldTransform_.transform_.scale = { 1.0f,1.0f,1.0f };
+	worldTransform_.transform_.translate.y = 5.0f;
 	worldTransform_.UpdateMatrix();
 
 	parentName_ = "AxSpearMan00";
 
-	rotate_ = { 0.0f, -1.57f, 0.0f };
+	rotate_ = { 0.0f, -1.0f, 0.0f };
 
 	// 剛体の初期化
 	RigidBodyInitialize();

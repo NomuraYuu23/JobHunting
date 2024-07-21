@@ -105,8 +105,8 @@ protected: // メンバ変数
     // 剛体
     RigidBody rigidBody_;
 
-    // 重力による速度
-    Vector3 gravityVelocity_;
+    // 反発係数
+    float coefficientOfRestitution = 0.0f;
 
 };
 
