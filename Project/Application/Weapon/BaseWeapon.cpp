@@ -9,7 +9,8 @@ void BaseWeapon::Initialize(LevelData::MeshData* data)
 
 	MeshObject::Initialize(data);
 
-	coefficientOfRestitution = 1.0f;
+	// 抵抗
+	coefficientOfRestitution = 0.8f;
 
 }
 
@@ -120,6 +121,27 @@ void BaseWeapon::RigidBodyUpdate()
 		rigidBody_.angularVelocity.z = rigidBody_.angularVelocity.z / std::fabsf(rigidBody_.angularVelocity.z) * kMaxAngularVelocity;
 	}
 
+	// 抵抗
+	const float kResistAngularVelocity = 0.1f;
+
+	if (rigidBody_.angularVelocity.x != 0.0f) {
+		rigidBody_.angularVelocity.x =
+			rigidBody_.angularVelocity.x / std::fabsf(rigidBody_.angularVelocity.x)
+			* std::fmaxf(0.0f, std::fabsf(rigidBody_.angularVelocity.x) - kResistAngularVelocity);
+	}
+
+	if (rigidBody_.angularVelocity.y != 0.0f) {
+		rigidBody_.angularVelocity.y =
+			rigidBody_.angularVelocity.y / std::fabsf(rigidBody_.angularVelocity.y)
+			* std::fmaxf(0.0f, std::fabsf(rigidBody_.angularVelocity.y) - kResistAngularVelocity);
+	}
+
+	if (rigidBody_.angularVelocity.z != 0.0f) {
+		rigidBody_.angularVelocity.z =
+			rigidBody_.angularVelocity.z / std::fabsf(rigidBody_.angularVelocity.z)
+			* std::fmaxf(0.0f, std::fabsf(rigidBody_.angularVelocity.z) - kResistAngularVelocity);
+	}
+
 	// ひねり力を0に
 	rigidBody_.torque = { 0.0f,0.0f,0.0f };
 
@@ -228,15 +250,15 @@ void BaseWeapon::OnCollisionGround(ColliderParentObject colliderPartner, const C
 	}
 
 	// 力を加える
-	const Vector3 force = { 0.0f, 500.0f, 0.0f };
+	const Vector3 force = { 0.0f, 100.0f, 0.0f };
 	ApplyForce((obbVertex[number] + obbVertex[number2]) * 0.5f, force);
-
+	
+	// 反発
 	rigidBody_.centerOfGravityVelocity = rigidBody_.centerOfGravityVelocity * -coefficientOfRestitution;
 
+	// 押し出し
 	OBB groundObb = std::get<OBB>(*ground->GetCollider());
-
 	float sub = ground->GetWorldTransformAdress()->GetWorldPosition().y + groundObb.size_.y - obbVertex[number].y;
-	
 	worldTransform_.transform_.translate.y += sub;
 	worldTransform_.UpdateMatrix(rigidBody_.postureMatrix);
 
