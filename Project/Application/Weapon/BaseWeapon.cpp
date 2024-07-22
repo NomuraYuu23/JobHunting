@@ -61,10 +61,10 @@ void BaseWeapon::RigidBodyInitialize()
 {
 
 	// 慣性テンソル作成
-	rigidBody_.inertiaTensor = InertiaTensor::CreateRectangular(0.001f, Vector3{ 1.0f, 6.0f, 1.0f });
+	rigidBody_.inertiaTensor = InertiaTensor::CreateRectangular(0.01f, Vector3{ 1.0f, 6.0f, 1.0f });
 
 	// 基本姿勢での慣性テンソル作成
-	rigidBody_.basicPostureInertiaTensor = InertiaTensor::CreateRectangular(0.001f, Vector3{ 1.0f, 6.0f, 1.0f });
+	rigidBody_.basicPostureInertiaTensor = InertiaTensor::CreateRectangular(0.01f, Vector3{ 1.0f, 6.0f, 1.0f });
 
 	// 姿勢行列作成
 	rigidBody_.postureMatrix = Matrix4x4::MakeRotateXYZMatrix({ 0.0f, 0.0f, 0.0f });
@@ -106,8 +106,8 @@ void BaseWeapon::RigidBodyUpdate()
 	// 角速度を更新
 	rigidBody_.angularVelocity = RigidBody::AngularVelocityCalc(rigidBody_.inertiaTensor, rigidBody_.angularMomentum);
 
-	const float kMaxAngularVelocity = 1.0f;
-
+	// 角速度の制御処理
+	const float kMaxAngularVelocity = 10.0f;
 	if (std::fabsf(rigidBody_.angularVelocity.x) > kMaxAngularVelocity) {
 		rigidBody_.angularVelocity.x = rigidBody_.angularVelocity.x / std::fabsf(rigidBody_.angularVelocity.x) * kMaxAngularVelocity;
 	}
@@ -137,11 +137,7 @@ void BaseWeapon::OnCollisionGround(ColliderParentObject colliderPartner, const C
 
 	OBB obb = std::get<OBB>(*GetCollider());
 
-	// 地面に近い点を求める
-		
-	//頂点
-
-	//回転させる
+	// 地面に近い点を2点求める
 	Vector3 obbVertex[8];
 
 	obbVertex[0] = {
@@ -190,24 +186,50 @@ void BaseWeapon::OnCollisionGround(ColliderParentObject colliderPartner, const C
 		obb.otientatuons_[2].x,obb.otientatuons_[2].y,obb.otientatuons_[2].z,0.0f,
 		0.0f,0.0f,0.0f,1.0f };
 
-	float minY = 0.0f;
-	uint32_t number = 0;
-
-	for (int i = 0; i < 8; i++) {
+	for (uint32_t i = 0; i < 8; i++) {
 
 		obbVertex[i] = Matrix4x4::Transform(obbVertex[i], obbRotateMatrix);
 		obbVertex[i] = Vector3::Add(obbVertex[i], obb.center_);
 
-		if (i == 0 || minY > obbVertex[i].y) {
+	}
+
+	// 保存用
+	float minY = 0.0f;
+	uint32_t number = 0;
+	float minY2 = 0.0f;
+	uint32_t number2 = 0;
+
+	if (obbVertex[0].y > obbVertex[1].y) {
+		minY = obbVertex[1].y;
+		number = 1;
+		minY2 = obbVertex[0].y;
+		number2 = 0;
+	}
+	else {
+		minY = obbVertex[0].y;
+		number = 0;
+		minY2 = obbVertex[1].y;
+		number2 = 1;
+	}
+
+	for (uint32_t i = 2; i < 8; i++) {
+		
+		if (minY > obbVertex[i].y) {
+			minY2 = minY;
+			number2 = number;
 			minY = obbVertex[i].y;
 			number = i;
 		}
-
+		else if (minY2 > obbVertex[i].y) {
+			minY2 = obbVertex[i].y;
+			number2 = i;
+		}
+	
 	}
 
 	// 力を加える
-	Vector3 force = { 0.0f, 0.0f, 100.0f };
-	ApplyForce(obbVertex[number], force);
+	const Vector3 force = { 0.0f, 500.0f, 0.0f };
+	ApplyForce((obbVertex[number] + obbVertex[number2]) * 0.5f, force);
 
 	rigidBody_.centerOfGravityVelocity = rigidBody_.centerOfGravityVelocity * -coefficientOfRestitution;
 

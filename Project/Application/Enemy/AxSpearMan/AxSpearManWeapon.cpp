@@ -22,6 +22,10 @@ void AxSpearManWeapon::Initialize(LevelData::MeshData* data)
 	// コライダーの初期化
 	ColliderInitialize();
 
+	// 力を加える
+	const Vector3 force = { 0.0f, 0.0f, 500.0f };
+	ApplyForce(worldTransform_.GetWorldPosition() + Vector3{0.0f, -2.5f, 0.0f}, force);
+
 }
 
 void AxSpearManWeapon::Update()

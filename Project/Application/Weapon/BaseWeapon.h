@@ -86,6 +86,13 @@ private:
     /// <param name="collisionData"></param>
     void OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
+protected:
+
+    /// <summary>
+    /// 力を加える
+    /// </summary>
+    /// <param name="pointOfAction">力を加える箇所</param>
+    /// <param name="force">力</param>
     void ApplyForce(const Vector3& pointOfAction, const Vector3& force);
 
 protected: // メンバ変数
