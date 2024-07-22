@@ -1,9 +1,10 @@
-#include "AxSpearManWeapon.h"
-#include "AxSpearMan.h"
+#include "PlayerWeapon.h"
+
+#include "../Player.h"
 #include "../../../Engine/Physics/InertiaTensor.h"
 #include "../../../Engine/Math/DeltaTime.h"
 
-void AxSpearManWeapon::Initialize(LevelData::MeshData* data)
+void PlayerWeapon::Initialize(LevelData::MeshData* data)
 {
 
 	BaseWeapon::Initialize(data);
@@ -12,24 +13,20 @@ void AxSpearManWeapon::Initialize(LevelData::MeshData* data)
 	worldTransform_.transform_.translate.y = 5.0f;
 	worldTransform_.UpdateMatrix();
 
-	parentName_ = "AxSpearMan00";
+	parentName_ = "000_Player";
 
 	rotate_ = { 0.0f, -1.0f, 0.0f };
 
-	// 力を加える
-	const Vector3 force = { 0.0f, 0.0f, 500.0f };
-	ApplyForce(worldTransform_.GetWorldPosition() + Vector3{0.0f, -2.5f, 0.0f}, force);
-
 }
 
-void AxSpearManWeapon::Update()
+void PlayerWeapon::Update()
 {
 
 	BaseWeapon::Update();
 
 }
 
-void AxSpearManWeapon::SetParent(AxSpearMan* parent)
+void PlayerWeapon::SetParent(Player* parent)
 {
 
 	parent_ = parent;
@@ -50,15 +47,14 @@ void AxSpearManWeapon::SetParent(AxSpearMan* parent)
 
 }
 
-void AxSpearManWeapon::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
+void PlayerWeapon::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
-
 
 	BaseWeapon::OnCollision(colliderPartner, collisionData);
 
 }
 
-void AxSpearManWeapon::WithParentsUpdate()
+void PlayerWeapon::WithParentsUpdate()
 {
 
 	// ノード追従
@@ -66,7 +62,7 @@ void AxSpearManWeapon::WithParentsUpdate()
 
 }
 
-void AxSpearManWeapon::ParentlessUpdate()
+void PlayerWeapon::ParentlessUpdate()
 {
 
 	// 剛体の更新
@@ -74,14 +70,14 @@ void AxSpearManWeapon::ParentlessUpdate()
 
 }
 
-void AxSpearManWeapon::ColliderInitialize()
+void PlayerWeapon::ColliderInitialize()
 {
 
 	BaseWeapon::ColliderInitialize();
 
 }
 
-void AxSpearManWeapon::ColliderUpdate()
+void PlayerWeapon::ColliderUpdate()
 {
 
 	BaseWeapon::ColliderUpdate();

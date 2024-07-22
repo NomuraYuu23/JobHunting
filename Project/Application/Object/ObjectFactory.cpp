@@ -7,7 +7,7 @@
 #include "../Enemy/Ghost/Ghost.h"
 #include "../Enemy/AxSpearMan/AxSpearMan.h"
 #include "../Enemy/AxSpearMan/AxSpearManWeapon.h"
-
+#include "../Player/PlayerWeapon/PlayerWeapon.h"
 
 ObjectFactory* ObjectFactory::GetInstance()
 {
@@ -72,11 +72,22 @@ IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
 
 			// 初期化
 			static_cast<AxSpearManWeapon*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+			// 親セット
 			//static_cast<AxSpearManWeapon*>(object)->SetParent(
 			//	static_cast<AxSpearMan*>(objectManager_->GetObjectPointer(
 			//		static_cast<AxSpearManWeapon*>(object)->GetParentName())));
 		}
+		else if (data.className == "PlayerWeapon") {
+			// インスタンス生成
+			object = new PlayerWeapon();
 
+			// 初期化
+			static_cast<PlayerWeapon*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+			// 親セット
+			//static_cast<PlayerWeapon*>(object)->SetParent(
+			//	static_cast<Player*>(objectManager_->GetObjectPointer(
+			//		static_cast<PlayerWeapon*>(object)->GetParentName())));
+		}
 
 	}
 

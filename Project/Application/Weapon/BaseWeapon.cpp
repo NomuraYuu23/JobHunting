@@ -9,6 +9,12 @@ void BaseWeapon::Initialize(LevelData::MeshData* data)
 
 	MeshObject::Initialize(data);
 
+	// コライダーの初期化
+	ColliderInitialize();
+
+	// 剛体の初期化
+	RigidBodyInitialize();
+
 	// 抵抗
 	coefficientOfRestitution = 0.8f;
 
@@ -61,11 +67,14 @@ void BaseWeapon::CollisionListRegister(CollisionManager* collisionManager, Colli
 void BaseWeapon::RigidBodyInitialize()
 {
 
+	// OBB
+	OBB obb = std::get<OBB>(*collider_.get());
+
 	// 慣性テンソル作成
-	rigidBody_.inertiaTensor = InertiaTensor::CreateRectangular(0.01f, Vector3{ 1.0f, 6.0f, 1.0f });
+	rigidBody_.inertiaTensor = InertiaTensor::CreateRectangular(0.01f, obb.size_);
 
 	// 基本姿勢での慣性テンソル作成
-	rigidBody_.basicPostureInertiaTensor = InertiaTensor::CreateRectangular(0.01f, Vector3{ 1.0f, 6.0f, 1.0f });
+	rigidBody_.basicPostureInertiaTensor = rigidBody_.inertiaTensor;
 
 	// 姿勢行列作成
 	rigidBody_.postureMatrix = Matrix4x4::MakeRotateXYZMatrix({ 0.0f, 0.0f, 0.0f });
@@ -147,6 +156,42 @@ void BaseWeapon::RigidBodyUpdate()
 
 	// ワールドトランスフォーム更新
 	worldTransform_.UpdateMatrix(rigidBody_.postureMatrix);
+
+}
+
+void BaseWeapon::ColliderInitialize()
+{
+
+	// OBB
+	OBB obb = std::get<OBB>(*collider_.get());
+	obb.SetParentObject(this);
+	ColliderShape* colliderShape = new ColliderShape();
+	*colliderShape = obb;
+	collider_.reset(colliderShape);
+
+	colliderBaseCenter_ = obb.center_ - worldTransform_.GetWorldPosition();
+
+}
+
+void BaseWeapon::ColliderUpdate()
+{
+
+	OBB obb = std::get<OBB>(*collider_.get());
+
+	obb.center_ = worldTransform_.GetWorldPosition();
+
+	Vector3 ColliderMove = colliderBaseCenter_;
+
+	ColliderMove = Matrix4x4::TransformNormal(ColliderMove, worldTransform_.rotateMatrix_);
+
+	obb.center_ += ColliderMove;
+	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
+
+	ColliderShape* colliderShape = new ColliderShape();
+
+	*colliderShape = obb;
+
+	collider_.reset(colliderShape);
 
 }
 
@@ -271,5 +316,34 @@ void BaseWeapon::ApplyForce(const Vector3& pointOfAction, const Vector3& force)
 
 	rigidBody_.centerOfGravity = obb.center_;
 	rigidBody_.torque = RigidBody::TorqueCalc(rigidBody_.centerOfGravity, pointOfAction, force);
+
+}
+
+void BaseWeapon::NodeFollowing()
+{
+
+	// 位置行列
+	Vector3 pos = {
+	parentNodeData_->matrix.m[3][0],
+	parentNodeData_->matrix.m[3][1],
+	parentNodeData_->matrix.m[3][2] };
+
+	pos = Matrix4x4::Transform(pos, *parentMatrix_);
+
+	// 回転行列
+	Matrix4x4 rotateMatrix = Matrix4x4::Multiply(parentNodeData_->offsetMatrix, parentNodeData_->matrix);
+	rotateMatrix.m[3][0] = 0.0f;
+	rotateMatrix.m[3][1] = 0.0f;
+	rotateMatrix.m[3][2] = 0.0f;
+
+	Matrix4x4 parentRotateMatrix = *parentMatrix_;
+
+	parentRotateMatrix.m[3][0] = 0.0f;
+	parentRotateMatrix.m[3][1] = 0.0f;
+	parentRotateMatrix.m[3][2] = 0.0f;
+
+	rotateMatrix = Matrix4x4::Multiply(Matrix4x4::Multiply(rotateMatrix, parentRotateMatrix), Matrix4x4::MakeRotateXYZMatrix(rotate_));
+
+	worldTransform_.worldMatrix_ = Matrix4x4::Multiply(rotateMatrix, Matrix4x4::MakeTranslateMatrix(pos));
 
 }

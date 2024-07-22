@@ -70,12 +70,12 @@ protected:
     /// <summary>
     /// コライダーの初期化
     /// </summary>
-    virtual void ColliderInitialize() = 0;
+    virtual void ColliderInitialize();
 
     /// <summary>
     /// コライダーの更新
     /// </summary>
-    virtual void ColliderUpdate() = 0;
+    virtual void ColliderUpdate();
 
 private:
 
@@ -94,6 +94,11 @@ protected:
     /// <param name="pointOfAction">力を加える箇所</param>
     /// <param name="force">力</param>
     void ApplyForce(const Vector3& pointOfAction, const Vector3& force);
+
+    /// <summary>
+    /// ノード追従
+    /// </summary>
+    void NodeFollowing();
 
 protected: // メンバ変数
 
@@ -114,6 +119,9 @@ protected: // メンバ変数
 
     // 反発係数
     float coefficientOfRestitution = 0.0f;
+
+    // コライダーのベースの中心
+    Vector3 colliderBaseCenter_;
 
 };
 

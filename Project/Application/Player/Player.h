@@ -280,4 +280,6 @@ public: // アクセッサ
 
 	PlayerAttack* GetPlayerAttack() { return attack_.get(); }
 
+	LocalMatrixManager* GetLocalMatrixManager() { return localMatrixManager_.get(); }
+
 };
