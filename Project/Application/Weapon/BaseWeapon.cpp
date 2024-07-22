@@ -67,7 +67,7 @@ void BaseWeapon::RigidBodyInitialize()
 	rigidBody_.basicPostureInertiaTensor = InertiaTensor::CreateRectangular(0.001f, Vector3{ 1.0f, 6.0f, 1.0f });
 
 	// 姿勢行列作成
-	rigidBody_.postureMatrix = Matrix4x4::MakeRotateXYZMatrix({ 1.0f,0.0f,0.0f });
+	rigidBody_.postureMatrix = Matrix4x4::MakeRotateXYZMatrix({ 0.0f, 0.0f, 0.0f });
 
 	rigidBody_.angularVelocity = { 0.0f,0.0f,0.0f }; // 角速度
 	rigidBody_.angularMomentum = { 0.0f,0.0f,0.0f }; // 角運動量
@@ -105,6 +105,20 @@ void BaseWeapon::RigidBodyUpdate()
 
 	// 角速度を更新
 	rigidBody_.angularVelocity = RigidBody::AngularVelocityCalc(rigidBody_.inertiaTensor, rigidBody_.angularMomentum);
+
+	const float kMaxAngularVelocity = 1.0f;
+
+	if (std::fabsf(rigidBody_.angularVelocity.x) > kMaxAngularVelocity) {
+		rigidBody_.angularVelocity.x = rigidBody_.angularVelocity.x / std::fabsf(rigidBody_.angularVelocity.x) * kMaxAngularVelocity;
+	}
+
+	if (std::fabsf(rigidBody_.angularVelocity.y) > kMaxAngularVelocity) {
+		rigidBody_.angularVelocity.y = rigidBody_.angularVelocity.y / std::fabsf(rigidBody_.angularVelocity.y) * kMaxAngularVelocity;
+	}
+
+	if (std::fabsf(rigidBody_.angularVelocity.z) > kMaxAngularVelocity) {
+		rigidBody_.angularVelocity.z = rigidBody_.angularVelocity.z / std::fabsf(rigidBody_.angularVelocity.z) * kMaxAngularVelocity;
+	}
 
 	// ひねり力を0に
 	rigidBody_.torque = { 0.0f,0.0f,0.0f };
@@ -192,8 +206,7 @@ void BaseWeapon::OnCollisionGround(ColliderParentObject colliderPartner, const C
 	}
 
 	// 力を加える
-	Vector3 force = { 0.0f, 50.0f, 0.0f };
-	//force = Matrix4x4::TransformNormal(force, rigidBody_.postureMatrix);
+	Vector3 force = { 0.0f, 0.0f, 100.0f };
 	ApplyForce(obbVertex[number], force);
 
 	rigidBody_.centerOfGravityVelocity = rigidBody_.centerOfGravityVelocity * -coefficientOfRestitution;
