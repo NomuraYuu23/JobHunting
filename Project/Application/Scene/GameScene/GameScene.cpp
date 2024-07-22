@@ -253,11 +253,10 @@ void GameScene::Draw() {
 #pragma endregion
 
 	PostEffect::GetInstance()->SetKernelSize(33);
-	PostEffect::GetInstance()->SetThreshold(0.0f);
 	PostEffect::GetInstance()->SetGaussianSigma(33.0f);
 	PostEffect::GetInstance()->SetProjectionInverse(Matrix4x4::Inverse(camera_.GetProjectionMatrix()));
 	PostEffect::GetInstance()->SetRadialBlurStrength(0.2f);
-	PostEffect::GetInstance()->SetThreshold(0.5f);
+	PostEffect::GetInstance()->SetThreshold(0.25f);
 
 	if (gameOverSystem_->GetIsOperation() || isBeingReset_) {
 
