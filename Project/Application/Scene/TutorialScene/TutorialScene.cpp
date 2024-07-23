@@ -177,6 +177,7 @@ void TutorialScene::Update() {
 
 	//パーティクル
 	particleManager_->Update(camera_);
+	gpuParticle_->Update();
 
 }
 
@@ -233,6 +234,7 @@ void TutorialScene::Draw() {
 
 	// パーティクルはここ
 	particleManager_->Draw(camera_.GetViewProjectionMatrix(), dxCommon_->GetCommadList());
+	gpuParticle_->Draw(dxCommon_->GetCommadList(), camera_);
 
 #pragma endregion
 

@@ -9,6 +9,7 @@
 #include <array>
 #include "../3D/Model.h"
 #include "GPUPerticleView.h"
+#include "EmitterCS.h"
 
 #pragma comment(lib, "dxcompiler.lib")
 
@@ -23,7 +24,7 @@ public:
 	/// </summary>
 	enum PipelineStateCSIndex {
 		kPiprlineStateCSIndexInitialize, // 初期化
-		//kPiprlineStateCSIndexUpdate,
+		kPiprlineStateCSIndexEmit, // エミット
 		kPipelineStateCSIndexOfCount // 数える用
 	};
 
@@ -48,6 +49,11 @@ public:
 		ID3D12GraphicsCommandList* commandList,
 		ID3D12RootSignature* rootSignature,
 		ID3D12PipelineState* pipelineState);
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update();
 
 	/// <summary>
 	/// 描画
@@ -78,10 +84,36 @@ private:
 	void ModelInitialize();
 
 	/// <summary>
+	/// 定数バッファ初期化
+	/// </summary>
+	/// <param name="device">デバイス</param>
+	void ConstantBufferInitialzie(ID3D12Device* device);
+
+	/// <summary>
 	/// GPUParticleViewマッピング
 	/// </summary>
 	/// <param name="camera">カメラ</param>
 	void GPUParticleViewMapping(BaseCamera& camera);
+
+	/// <summary>
+	/// エミット
+	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	void Emit(ID3D12GraphicsCommandList* commandList);
+
+private: // パイプラインステートの初期化CS
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="device"></param>
+	void PipelineStateCSInitializeForInitialize(ID3D12Device* device);
+
+	/// <summary>
+	/// エミット
+	/// </summary>
+	/// <param name="device"></param>
+	void PipelineStateCSInitializeForEmit(ID3D12Device* device);
 
 private:
 
@@ -129,7 +161,14 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> gpuParticleViewBuff_;
 
 	// GPUParticleViewマップ
-	GPUParticleView* gpuParticleViewMap = nullptr;
+	GPUParticleView* gpuParticleViewMap_ = nullptr;
+
+	// エミッタバッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> emitterBuff_;
+
+	// エミッタマップ
+	EmitterCS* emitterMap_ = nullptr;
+
 
 private: // シングルトン
 

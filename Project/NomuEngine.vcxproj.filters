@@ -1566,6 +1566,9 @@
     <ClInclude Include="Application\Player\PlayerWeapon\PlayerWeapon.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Particle\EmitterCS.h">
+      <Filter>Engine\Particle\GPUParticle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -1606,6 +1609,9 @@
       <Filter>shaders\Model</Filter>
     </None>
     <None Include="Resources\shaders\GPUParticle\GPUParticle.hlsli">
+      <Filter>shaders\GPUParticle</Filter>
+    </None>
+    <None Include="Resources\shaders\GPUParticle\GPUParticle.CS.hlsli">
       <Filter>shaders\GPUParticle</Filter>
     </None>
   </ItemGroup>
@@ -1690,7 +1696,7 @@
     <FxCompile Include="Resources\shaders\PostEffect\LuminanceBasedOutline.CS.hlsl">
       <Filter>shaders\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\GPUParticle\GPUParticle.CS.hlsl">
+    <FxCompile Include="Resources\shaders\GPUParticle\ParticleInitialize.CS.hlsl">
       <Filter>shaders\GPUParticle</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\GPUParticle\GPUParticle.PS.hlsl">
@@ -1701,6 +1707,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\PostEffectCalc.CS.hlsl">
       <Filter>shaders\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\GPUParticle\ParticleEmit.CS.hlsl">
+      <Filter>shaders\GPUParticle</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
