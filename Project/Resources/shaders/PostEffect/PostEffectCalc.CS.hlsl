@@ -47,23 +47,23 @@ float32_t3 RGBToHSV(in const float32_t3 rgb) {
 	hsv.x = max - min;
 	if (hsv.x > 0.0f) {
 		if (max == rgb.r) {
-			hsv.x = (rgb.g - rgb.b) / hsv.x;
+			hsv.x = (rgb.g - rgb.b) * rcp(hsv.x);
 			if (hsv.x < 0.0f) {
 				hsv.x += 6.0f;
 			}
 		}
 		else if (max == rgb.g) {
-			hsv.x = 2.0f + (rgb.b - rgb.r) / hsv.x;
+			hsv.x = 2.0f + (rgb.b - rgb.r) * rcp(hsv.x);
 		}
 		else {
-			hsv.x = 4.0f + (rgb.r - rgb.g) / hsv.x;
+			hsv.x = 4.0f + (rgb.r - rgb.g) * rcp(hsv.x);
 		}
 	}
-	hsv.x /= 6.0f;
+	hsv.x *= rcp(6.0f);
 
 	hsv.y = (max - min);
 	if (max != 0.0f) {
-		hsv.y /= max;
+		hsv.y *= rcp(max);
 	}
 
 	hsv.z = max;
