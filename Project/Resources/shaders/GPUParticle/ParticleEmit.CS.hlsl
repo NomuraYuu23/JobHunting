@@ -16,6 +16,8 @@ ConstantBuffer<PerFrame> gPerFrame : register(b1);
 
 RWStructuredBuffer<Particle> gParticles : register(u0);
 
+RWStructuredBuffer<uint32_t> gFreeCounter : register(u1);
+
 [numthreads(1, 1, 1)]
 void main( uint32_t3 DTid : SV_DispatchThreadID )
 {
@@ -29,13 +31,20 @@ void main( uint32_t3 DTid : SV_DispatchThreadID )
 
 		for (uint32_t conutIndex = 0; conutIndex < gEmitter.count; ++conutIndex) {
 			// カウント分
-			gParticles[conutIndex].scale = generator.Generate3d();
-			gParticles[conutIndex].translate = generator.Generate3d();
-			gParticles[conutIndex].color.rgb = generator.Generate3d();
-			gParticles[conutIndex].color.a = 1.0f;
-			gParticles[conutIndex].lifeTime = 1.0f;
-			gParticles[conutIndex].velocity = generator.Generate3d();
-			gParticles[conutIndex].currentTime = 0.0f;
+			
+			int32_t particleIndex = 0;
+
+			InterlockedAdd(gFreeCounter[0], 1, particleIndex);
+
+			if (particleIndex < kMaxParticles) {
+				gParticles[particleIndex].scale = generator.Generate3d();
+				gParticles[particleIndex].translate = generator.Generate3d();
+				gParticles[particleIndex].color.rgb = generator.Generate3d();
+				gParticles[particleIndex].color.a = 1.0f;
+				gParticles[particleIndex].lifeTime = 1.0f;
+				gParticles[particleIndex].velocity = generator.Generate3d();
+				gParticles[particleIndex].currentTime = 0.0f;
+			}
 		
 		}
 	}

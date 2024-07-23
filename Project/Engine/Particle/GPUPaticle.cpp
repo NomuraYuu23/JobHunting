@@ -25,7 +25,7 @@ void GPUPaticle::Initialize(
 	PipelineStateCSInitialize(device);
 
 	// バッファの初期化
-	BuffInitialize(device, commandList);
+	UAVBufferInitialize(device, commandList);
 
 	// モデル関連の初期化
 	ModelInitialize();
@@ -115,7 +115,7 @@ void GPUPaticle::PipelineStateCSInitialize(ID3D12Device* device)
 
 }
 
-void GPUPaticle::BuffInitialize(ID3D12Device* device,
+void GPUPaticle::UAVBufferInitialize(ID3D12Device* device,
 	ID3D12GraphicsCommandList* commandList)
 {
 
@@ -163,6 +163,26 @@ void GPUPaticle::BuffInitialize(ID3D12Device* device,
 
 	/// ここまでSRV
 
+	// カウンターUAVバッファ
+	freeCounterBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(uint32_t) + 0xff) & ~0xff));
+
+	D3D12_UNORDERED_ACCESS_VIEW_DESC freeCounterUavDesc{};
+
+	freeCounterUavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	freeCounterUavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	freeCounterUavDesc.Buffer.FirstElement = 0;
+	freeCounterUavDesc.Buffer.NumElements = 1;
+	freeCounterUavDesc.Buffer.CounterOffsetInBytes = 0;
+	freeCounterUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+	freeCounterUavDesc.Buffer.StructureByteStride = sizeof(uint32_t);
+
+	freeCounterHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	freeCounterHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	freeCounterIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
+
+	device->CreateUnorderedAccessView(freeCounterBuff_.Get(), nullptr, &freeCounterUavDesc, freeCounterHandleCPU_);
+
 	// CSによる初期化
 
 	// SRV
@@ -173,6 +193,8 @@ void GPUPaticle::BuffInitialize(ID3D12Device* device,
 	commandList->SetComputeRootSignature(rootSignaturesCS_[kPiprlineStateCSIndexInitialize].Get());
 
 	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(1, freeCounterHandleGPU_);
 
 	commandList->Dispatch(1, 1, 1);
 
@@ -251,6 +273,8 @@ void GPUPaticle::Emit(ID3D12GraphicsCommandList* commandList)
 
 	commandList->SetComputeRootConstantBufferView(2, perFrameBuff_->GetGPUVirtualAddress());
 
+	commandList->SetComputeRootDescriptorTable(3, freeCounterHandleGPU_);
+
 	commandList->Dispatch(1, 1, 1);
 
 }
@@ -262,7 +286,7 @@ void GPUPaticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[1] = {};
+	D3D12_ROOT_PARAMETER rootParameters[2] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -271,10 +295,21 @@ void GPUPaticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
+	D3D12_DESCRIPTOR_RANGE freeCounterDescriptorRange[1] = {};
+	freeCounterDescriptorRange[0].BaseShaderRegister = 1;//iから始まる
+	freeCounterDescriptorRange[0].NumDescriptors = 1;//数は一つ
+	freeCounterDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	freeCounterDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableの中身の配列を指定
 	rootParameters[0].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);//Tableで利用する数
+
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[1].DescriptorTable.pDescriptorRanges = freeCounterDescriptorRange;//Tableの中身の配列を指定
+	rootParameters[1].DescriptorTable.NumDescriptorRanges = _countof(freeCounterDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
@@ -336,7 +371,7 @@ void GPUPaticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[3] = {};
+	D3D12_ROOT_PARAMETER rootParameters[4] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -344,6 +379,14 @@ void GPUPaticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	descriptorRange[0].NumDescriptors = 1;//数は一つ
 	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	D3D12_DESCRIPTOR_RANGE freeCounterDescriptorRange[1] = {};
+	freeCounterDescriptorRange[0].BaseShaderRegister = 1;//iから始まる
+	freeCounterDescriptorRange[0].NumDescriptors = 1;//数は一つ
+	freeCounterDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	freeCounterDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+
 
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
@@ -357,6 +400,11 @@ void GPUPaticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
 	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
 	rootParameters[2].Descriptor.ShaderRegister = 1;//レジスタ番号indexとバインド
+
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[3].DescriptorTable.pDescriptorRanges = freeCounterDescriptorRange;//Tableの中身の配列を指定
+	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(freeCounterDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ

@@ -76,7 +76,7 @@ private:
 	/// バッファの初期化
 	/// </summary>
 	/// <param name="device"></param>
-	void BuffInitialize(ID3D12Device* device,
+	void UAVBufferInitialize(ID3D12Device* device,
 		ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
@@ -175,6 +175,16 @@ private:
 
 	// 時間マップ
 	PerFrame* perFrameMap_ = nullptr;
+
+	// カウンターUAVバッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> freeCounterBuff_;
+
+	// CPUハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE freeCounterHandleCPU_{};
+	// GPUハンドル
+	D3D12_GPU_DESCRIPTOR_HANDLE freeCounterHandleGPU_{};
+	// ディスクリプタヒープの位置
+	uint32_t freeCounterIndexDescriptorHeap_ = 0;
 
 private: // シングルトン
 

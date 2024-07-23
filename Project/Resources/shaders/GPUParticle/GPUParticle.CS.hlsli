@@ -8,3 +8,5 @@ struct Particle {
 	float32_t4 color;
 
 };
+
+static const uint32_t kMaxParticles = 1024;
