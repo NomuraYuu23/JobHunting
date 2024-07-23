@@ -10,6 +10,7 @@
 #include "../3D/Model.h"
 #include "GPUPerticleView.h"
 #include "EmitterCS.h"
+#include "../Math/PerFrame.h"
 
 #pragma comment(lib, "dxcompiler.lib")
 
@@ -169,6 +170,11 @@ private:
 	// エミッタマップ
 	EmitterCS* emitterMap_ = nullptr;
 
+	// 時間バッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> perFrameBuff_;
+
+	// 時間マップ
+	PerFrame* perFrameMap_ = nullptr;
 
 private: // シングルトン
 

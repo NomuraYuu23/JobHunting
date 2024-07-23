@@ -1569,6 +1569,9 @@
     <ClInclude Include="Engine\Particle\EmitterCS.h">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Math\PerFrame.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -1613,6 +1616,9 @@
     </None>
     <None Include="Resources\shaders\GPUParticle\GPUParticle.CS.hlsli">
       <Filter>shaders\GPUParticle</Filter>
+    </None>
+    <None Include="Resources\shaders\RandomGenerator\RandomGenerator.hlsli">
+      <Filter>shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

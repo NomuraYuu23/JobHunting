@@ -57,6 +57,8 @@ void GPUPaticle::Update()
 		emitterMap_->emit = 0;
 	}
 
+	// 時間経過
+	perFrameMap_->time_ += perFrameMap_->deltaTime_;
 
 }
 
@@ -212,6 +214,15 @@ void GPUPaticle::ConstantBufferInitialzie(ID3D12Device* device)
 	emitterMap_->radius = 1.0f;
 	emitterMap_->emit = 0;
 
+	// 時間バッファ
+	perFrameBuff_ = BufferResource::CreateBufferResource(device, (sizeof(PerFrame) + 0xff) & ~0xff);
+	//書き込むためのアドレスを取得
+	perFrameBuff_->Map(0, nullptr, reinterpret_cast<void**>(&perFrameMap_));
+
+	// 時間マップ
+	perFrameMap_->deltaTime_ = kDeltaTime_;
+	perFrameMap_->time_ = 0.0f;
+
 }
 
 void GPUPaticle::GPUParticleViewMapping(BaseCamera& camera)
@@ -237,6 +248,8 @@ void GPUPaticle::Emit(ID3D12GraphicsCommandList* commandList)
 	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
 
 	commandList->SetComputeRootConstantBufferView(1, emitterBuff_->GetGPUVirtualAddress());
+
+	commandList->SetComputeRootConstantBufferView(2, perFrameBuff_->GetGPUVirtualAddress());
 
 	commandList->Dispatch(1, 1, 1);
 
@@ -323,7 +336,7 @@ void GPUPaticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[2] = {};
+	D3D12_ROOT_PARAMETER rootParameters[3] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -340,6 +353,10 @@ void GPUPaticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
 	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
 	rootParameters[1].Descriptor.ShaderRegister = 0;//レジスタ番号indexとバインド
+
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
+	rootParameters[2].Descriptor.ShaderRegister = 1;//レジスタ番号indexとバインド
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
