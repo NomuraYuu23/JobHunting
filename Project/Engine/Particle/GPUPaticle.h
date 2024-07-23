@@ -26,6 +26,7 @@ public:
 	enum PipelineStateCSIndex {
 		kPiprlineStateCSIndexInitialize, // 初期化
 		kPiprlineStateCSIndexEmit, // エミット
+		kPiprlineStateCSIndexUpdate, // 更新
 		kPipelineStateCSIndexOfCount // 数える用
 	};
 
@@ -102,6 +103,18 @@ private:
 	/// <param name="commandList">コマンドリスト</param>
 	void Emit(ID3D12GraphicsCommandList* commandList);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="commandList"></param>
+	void UpdateCS(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// UAVバリア―
+	/// </summary>
+	/// <param name="commandList"></param>
+	void UAVBarrier(ID3D12GraphicsCommandList* commandList);
+
 private: // パイプラインステートの初期化CS
 
 	/// <summary>
@@ -115,6 +128,12 @@ private: // パイプラインステートの初期化CS
 	/// </summary>
 	/// <param name="device"></param>
 	void PipelineStateCSInitializeForEmit(ID3D12Device* device);
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="device"></param>
+	void PipelineStateCSInitializeForUpdate(ID3D12Device* device);
 
 private:
 

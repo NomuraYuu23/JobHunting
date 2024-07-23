@@ -75,6 +75,12 @@ void GPUPaticle::Draw(
 	// エミット
 	Emit(commandList);
 
+	// バリア
+	UAVBarrier(commandList);
+
+	// 更新
+	UpdateCS(commandList);
+
 	// SRV
 	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
 	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
@@ -112,6 +118,8 @@ void GPUPaticle::PipelineStateCSInitialize(ID3D12Device* device)
 	PipelineStateCSInitializeForInitialize(device);
 
 	PipelineStateCSInitializeForEmit(device);
+
+	PipelineStateCSInitializeForUpdate(device);
 
 }
 
@@ -279,6 +287,37 @@ void GPUPaticle::Emit(ID3D12GraphicsCommandList* commandList)
 
 }
 
+void GPUPaticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
+{
+
+
+	// SRV
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	commandList->SetPipelineState(pipelineStatesCS_[kPiprlineStateCSIndexUpdate].Get());//PS0を設定
+	commandList->SetComputeRootSignature(rootSignaturesCS_[kPiprlineStateCSIndexUpdate].Get());
+
+	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
+
+	commandList->SetComputeRootConstantBufferView(1, perFrameBuff_->GetGPUVirtualAddress());
+
+	commandList->Dispatch(1, 1, 1);
+
+}
+
+void GPUPaticle::UAVBarrier(ID3D12GraphicsCommandList* commandList)
+{
+	
+	D3D12_RESOURCE_BARRIER barrier{};
+
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.UAV.pResource = buff_.Get();
+	commandList->ResourceBarrier(1, &barrier);
+
+}
+
 void GPUPaticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 {
 
@@ -386,8 +425,6 @@ void GPUPaticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	freeCounterDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	freeCounterDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
-
-
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableの中身の配列を指定
@@ -455,6 +492,84 @@ void GPUPaticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	desc.pRootSignature = rootSignaturesCS_[kPiprlineStateCSIndexEmit].Get();
 
 	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPiprlineStateCSIndexEmit]));
+	assert(SUCCEEDED(hr));
+
+}
+
+void GPUPaticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
+{
+
+	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
+	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+	// ルートパラメータ
+	D3D12_ROOT_PARAMETER rootParameters[2] = {};
+
+	// UAV * 1
+	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
+	descriptorRange[0].BaseShaderRegister = 0;//iから始まる
+	descriptorRange[0].NumDescriptors = 1;//数は一つ
+	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableの中身の配列を指定
+	rootParameters[0].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);//Tableで利用する数
+
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
+	rootParameters[1].Descriptor.ShaderRegister = 0;//レジスタ番号indexとバインド
+
+	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
+	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
+
+	// サンプラー
+	D3D12_STATIC_SAMPLER_DESC samplerDesc[1] = {};
+	samplerDesc[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDesc[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc[0].MipLODBias = 0.0f;
+	samplerDesc[0].MaxAnisotropy = 0;
+	samplerDesc[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	samplerDesc[0].BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
+	samplerDesc[0].MinLOD = 0.0f;
+	samplerDesc[0].MaxLOD = 3.402823466e+38f;
+	samplerDesc[0].RegisterSpace = 0;
+	samplerDesc[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	descriptionRootsignature.pStaticSamplers = samplerDesc;
+	descriptionRootsignature.NumStaticSamplers = _countof(samplerDesc);
+
+	//シリアライズしてバイナリにする
+	ID3DBlob* signatureBlob = nullptr;
+	ID3DBlob* errorBlob = nullptr;
+	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootsignature,
+		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
+	if (FAILED(hr)) {
+		Log::Message(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
+		assert(false);
+	}
+
+	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
+		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPiprlineStateCSIndexUpdate]));
+	assert(SUCCEEDED(hr));
+
+	// シェーダコンパイル
+	IDxcBlob* shader = CompileShader::Compile(
+		L"Resources/shaders/GPUParticle/ParticleUpdate.CS.hlsl",
+		L"cs_6_0",
+		L"main");
+
+	// パイプライン
+	D3D12_COMPUTE_PIPELINE_STATE_DESC desc{};
+	desc.CS.pShaderBytecode = shader->GetBufferPointer();
+	desc.CS.BytecodeLength = shader->GetBufferSize();
+	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+	desc.NodeMask = 0;
+	desc.pRootSignature = rootSignaturesCS_[kPiprlineStateCSIndexUpdate].Get();
+
+	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPiprlineStateCSIndexUpdate]));
 	assert(SUCCEEDED(hr));
 
 }

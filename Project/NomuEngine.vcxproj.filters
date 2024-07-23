@@ -343,6 +343,9 @@
     <Filter Include="Engine\Physics\Gravity">
       <UniqueIdentifier>{fdc13d48-4325-433a-9c95-20e493b58176}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\GPUParticle\CS">
+      <UniqueIdentifier>{482ae5e3-9be5-4744-8de5-2b31ea21eb45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1614,11 +1617,11 @@
     <None Include="Resources\shaders\GPUParticle\GPUParticle.hlsli">
       <Filter>shaders\GPUParticle</Filter>
     </None>
-    <None Include="Resources\shaders\GPUParticle\GPUParticle.CS.hlsli">
-      <Filter>shaders\GPUParticle</Filter>
-    </None>
     <None Include="Resources\shaders\RandomGenerator\RandomGenerator.hlsli">
       <Filter>shaders</Filter>
+    </None>
+    <None Include="Resources\shaders\GPUParticle\GPUParticle.CS.hlsli">
+      <Filter>shaders\GPUParticle\CS</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -1702,9 +1705,6 @@
     <FxCompile Include="Resources\shaders\PostEffect\LuminanceBasedOutline.CS.hlsl">
       <Filter>shaders\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\GPUParticle\ParticleInitialize.CS.hlsl">
-      <Filter>shaders\GPUParticle</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\shaders\GPUParticle\GPUParticle.PS.hlsl">
       <Filter>shaders\GPUParticle</Filter>
     </FxCompile>
@@ -1714,8 +1714,14 @@
     <FxCompile Include="Resources\shaders\PostEffect\PostEffectCalc.CS.hlsl">
       <Filter>shaders\PostEffect</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\GPUParticle\ParticleInitialize.CS.hlsl">
+      <Filter>shaders\GPUParticle\CS</Filter>
+    </FxCompile>
     <FxCompile Include="Resources\shaders\GPUParticle\ParticleEmit.CS.hlsl">
-      <Filter>shaders\GPUParticle</Filter>
+      <Filter>shaders\GPUParticle\CS</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\GPUParticle\ParticleUpdate.CS.hlsl">
+      <Filter>shaders\GPUParticle\CS</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
