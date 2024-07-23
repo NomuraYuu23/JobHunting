@@ -122,7 +122,7 @@ void TitleScene::Draw()
 void TitleScene::ImguiDraw()
 {
 
-#ifdef _DEBUG
+#ifdef _DEMO
 
 	PostEffect::GetInstance()->ImGuiDraw();
 
@@ -130,7 +130,7 @@ void TitleScene::ImguiDraw()
 	ImGui::DragFloat3("HSV", &hsvFilter_.hue, 0.01f);
 	ImGui::End();
 
-#endif // _DEBUG
+#endif // _DEMO
 
 }
 
