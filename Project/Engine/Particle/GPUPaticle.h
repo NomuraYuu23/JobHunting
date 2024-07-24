@@ -195,15 +195,23 @@ private:
 	// 時間マップ
 	PerFrame* perFrameMap_ = nullptr;
 
-	// カウンターUAVバッファ
-	Microsoft::WRL::ComPtr<ID3D12Resource> freeCounterBuff_;
-
+	// フリーリストインデックスUAVバッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> freeListIndexBuff_;
 	// CPUハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE freeCounterHandleCPU_{};
+	D3D12_CPU_DESCRIPTOR_HANDLE freeListIndexHandleCPU_{};
 	// GPUハンドル
-	D3D12_GPU_DESCRIPTOR_HANDLE freeCounterHandleGPU_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE freeListIndexHandleGPU_{};
 	// ディスクリプタヒープの位置
-	uint32_t freeCounterIndexDescriptorHeap_ = 0;
+	uint32_t freeListIndexDescriptorHeap_ = 0;
+
+	// フリーリストUAVバッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> freeListBuff_;
+	// CPUハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE freeListHandleCPU_{};
+	// GPUハンドル
+	D3D12_GPU_DESCRIPTOR_HANDLE freeListHandleGPU_{};
+	// ディスクリプタヒープの位置
+	uint32_t freeListDescriptorHeap_ = 0;
 
 private: // シングルトン
 

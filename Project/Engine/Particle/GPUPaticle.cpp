@@ -171,25 +171,46 @@ void GPUPaticle::UAVBufferInitialize(ID3D12Device* device,
 
 	/// ここまでSRV
 
-	// カウンターUAVバッファ
-	freeCounterBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(uint32_t) + 0xff) & ~0xff));
+	// フリーリストインデックスUAVバッファ
+	freeListIndexBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(int32_t) + 0xff) & ~0xff));
 
-	D3D12_UNORDERED_ACCESS_VIEW_DESC freeCounterUavDesc{};
+	D3D12_UNORDERED_ACCESS_VIEW_DESC freeListIndexUavDesc{};
 
-	freeCounterUavDesc.Format = DXGI_FORMAT_UNKNOWN;
-	freeCounterUavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-	freeCounterUavDesc.Buffer.FirstElement = 0;
-	freeCounterUavDesc.Buffer.NumElements = 1;
-	freeCounterUavDesc.Buffer.CounterOffsetInBytes = 0;
-	freeCounterUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
-	freeCounterUavDesc.Buffer.StructureByteStride = sizeof(uint32_t);
+	freeListIndexUavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	freeListIndexUavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	freeListIndexUavDesc.Buffer.FirstElement = 0;
+	freeListIndexUavDesc.Buffer.NumElements = 1;
+	freeListIndexUavDesc.Buffer.CounterOffsetInBytes = 0;
+	freeListIndexUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+	freeListIndexUavDesc.Buffer.StructureByteStride = sizeof(int32_t);
 
-	freeCounterHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
-	freeCounterHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
-	freeCounterIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	freeListIndexHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	freeListIndexHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	freeListIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
 	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
 
-	device->CreateUnorderedAccessView(freeCounterBuff_.Get(), nullptr, &freeCounterUavDesc, freeCounterHandleCPU_);
+	device->CreateUnorderedAccessView(freeListIndexBuff_.Get(), nullptr, &freeListIndexUavDesc, freeListIndexHandleCPU_);
+
+
+	// フリーリストUAVバッファ
+	freeListBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(uint32_t) + 0xff) & ~0xff) * kParticleMax);
+
+	D3D12_UNORDERED_ACCESS_VIEW_DESC freeListUavDesc{};
+
+	freeListUavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	freeListUavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	freeListUavDesc.Buffer.FirstElement = 0;
+	freeListUavDesc.Buffer.NumElements = kParticleMax;
+	freeListUavDesc.Buffer.CounterOffsetInBytes = 0;
+	freeListUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+	freeListUavDesc.Buffer.StructureByteStride = sizeof(uint32_t);
+
+	freeListHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	freeListHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	freeListDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
+
+	device->CreateUnorderedAccessView(freeListBuff_.Get(), nullptr, &freeListUavDesc, freeListHandleCPU_);
 
 	// CSによる初期化
 
@@ -202,7 +223,9 @@ void GPUPaticle::UAVBufferInitialize(ID3D12Device* device,
 
 	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
 
-	commandList->SetComputeRootDescriptorTable(1, freeCounterHandleGPU_);
+	commandList->SetComputeRootDescriptorTable(1, freeListIndexHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(2, freeListHandleGPU_);
 
 	commandList->Dispatch(1, 1, 1);
 
@@ -281,7 +304,9 @@ void GPUPaticle::Emit(ID3D12GraphicsCommandList* commandList)
 
 	commandList->SetComputeRootConstantBufferView(2, perFrameBuff_->GetGPUVirtualAddress());
 
-	commandList->SetComputeRootDescriptorTable(3, freeCounterHandleGPU_);
+	commandList->SetComputeRootDescriptorTable(3, freeListIndexHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(4, freeListHandleGPU_);
 
 	commandList->Dispatch(1, 1, 1);
 
@@ -325,7 +350,7 @@ void GPUPaticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[2] = {};
+	D3D12_ROOT_PARAMETER rootParameters[3] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -334,11 +359,17 @@ void GPUPaticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
-	D3D12_DESCRIPTOR_RANGE freeCounterDescriptorRange[1] = {};
-	freeCounterDescriptorRange[0].BaseShaderRegister = 1;//iから始まる
-	freeCounterDescriptorRange[0].NumDescriptors = 1;//数は一つ
-	freeCounterDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
-	freeCounterDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+	D3D12_DESCRIPTOR_RANGE freeListIndexDescriptorRange[1] = {};
+	freeListIndexDescriptorRange[0].BaseShaderRegister = 1;//iから始まる
+	freeListIndexDescriptorRange[0].NumDescriptors = 1;//数は一つ
+	freeListIndexDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	freeListIndexDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	D3D12_DESCRIPTOR_RANGE freeListDescriptorRange[1] = {};
+	freeListDescriptorRange[0].BaseShaderRegister = 2;//iから始まる
+	freeListDescriptorRange[0].NumDescriptors = 1;//数は一つ
+	freeListDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	freeListDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
@@ -347,8 +378,13 @@ void GPUPaticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 
 	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
-	rootParameters[1].DescriptorTable.pDescriptorRanges = freeCounterDescriptorRange;//Tableの中身の配列を指定
-	rootParameters[1].DescriptorTable.NumDescriptorRanges = _countof(freeCounterDescriptorRange);//Tableで利用する数
+	rootParameters[1].DescriptorTable.pDescriptorRanges = freeListIndexDescriptorRange;//Tableの中身の配列を指定
+	rootParameters[1].DescriptorTable.NumDescriptorRanges = _countof(freeListIndexDescriptorRange);//Tableで利用する数
+
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[2].DescriptorTable.pDescriptorRanges = freeListDescriptorRange;//Tableの中身の配列を指定
+	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(freeListDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
@@ -410,7 +446,7 @@ void GPUPaticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[4] = {};
+	D3D12_ROOT_PARAMETER rootParameters[5] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -419,11 +455,17 @@ void GPUPaticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
-	D3D12_DESCRIPTOR_RANGE freeCounterDescriptorRange[1] = {};
-	freeCounterDescriptorRange[0].BaseShaderRegister = 1;//iから始まる
-	freeCounterDescriptorRange[0].NumDescriptors = 1;//数は一つ
-	freeCounterDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
-	freeCounterDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+	D3D12_DESCRIPTOR_RANGE freeListIndexDescriptorRange[1] = {};
+	freeListIndexDescriptorRange[0].BaseShaderRegister = 1;//iから始まる
+	freeListIndexDescriptorRange[0].NumDescriptors = 1;//数は一つ
+	freeListIndexDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	freeListIndexDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	D3D12_DESCRIPTOR_RANGE freeListDescriptorRange[1] = {};
+	freeListDescriptorRange[0].BaseShaderRegister = 2;//iから始まる
+	freeListDescriptorRange[0].NumDescriptors = 1;//数は一つ
+	freeListDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	freeListDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
@@ -440,8 +482,13 @@ void GPUPaticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 
 	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
-	rootParameters[3].DescriptorTable.pDescriptorRanges = freeCounterDescriptorRange;//Tableの中身の配列を指定
-	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(freeCounterDescriptorRange);//Tableで利用する数
+	rootParameters[3].DescriptorTable.pDescriptorRanges = freeListIndexDescriptorRange;//Tableの中身の配列を指定
+	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(freeListIndexDescriptorRange);//Tableで利用する数
+
+	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[4].DescriptorTable.pDescriptorRanges = freeListDescriptorRange;//Tableの中身の配列を指定
+	rootParameters[4].DescriptorTable.NumDescriptorRanges = _countof(freeListDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
@@ -503,7 +550,7 @@ void GPUPaticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[2] = {};
+	D3D12_ROOT_PARAMETER rootParameters[4] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -511,6 +558,18 @@ void GPUPaticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 	descriptorRange[0].NumDescriptors = 1;//数は一つ
 	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	D3D12_DESCRIPTOR_RANGE freeListIndexDescriptorRange[1] = {};
+	freeListIndexDescriptorRange[0].BaseShaderRegister = 1;//iから始まる
+	freeListIndexDescriptorRange[0].NumDescriptors = 1;//数は一つ
+	freeListIndexDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	freeListIndexDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	D3D12_DESCRIPTOR_RANGE freeListDescriptorRange[1] = {};
+	freeListDescriptorRange[0].BaseShaderRegister = 2;//iから始まる
+	freeListDescriptorRange[0].NumDescriptors = 1;//数は一つ
+	freeListDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	freeListDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
@@ -520,6 +579,16 @@ void GPUPaticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
 	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
 	rootParameters[1].Descriptor.ShaderRegister = 0;//レジスタ番号indexとバインド
+
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[2].DescriptorTable.pDescriptorRanges = freeListIndexDescriptorRange;//Tableの中身の配列を指定
+	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(freeListIndexDescriptorRange);//Tableで利用する数
+
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[3].DescriptorTable.pDescriptorRanges = freeListDescriptorRange;//Tableの中身の配列を指定
+	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(freeListDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
