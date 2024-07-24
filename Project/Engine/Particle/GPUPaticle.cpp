@@ -96,6 +96,9 @@ void GPUPaticle::Draw(
 	// 更新
 	UpdateCS(commandList);
 
+	// リソースバリア
+	ResouseBarrierToNonPixelShader(commandList);
+
 	// SRV
 	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
 	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
@@ -124,6 +127,9 @@ void GPUPaticle::Draw(
 	commandList->SetGraphicsRootConstantBufferView(3, material_->GetMaterialBuff()->GetGPUVirtualAddress());
 	// 描画
 	commandList->DrawInstanced(6, kParticleMax, 0, 0);
+
+	// リソースバリア
+	ResouseBarrierToUnorderedAccess(commandList);
 
 }
 
@@ -345,6 +351,10 @@ void GPUPaticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 
 	commandList->SetComputeRootConstantBufferView(1, perFrameBuff_->GetGPUVirtualAddress());
 
+	commandList->SetComputeRootDescriptorTable(2, freeListIndexHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(3, freeListHandleGPU_);
+
 	commandList->Dispatch(1, 1, 1);
 
 }
@@ -357,6 +367,32 @@ void GPUPaticle::UAVBarrier(ID3D12GraphicsCommandList* commandList)
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
 	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
 	barrier.UAV.pResource = buff_.Get();
+	commandList->ResourceBarrier(1, &barrier);
+
+}
+
+void GPUPaticle::ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList)
+{
+
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = buff_.Get();
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+	commandList->ResourceBarrier(1, &barrier);
+
+}
+
+void GPUPaticle::ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList)
+{
+
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = buff_.Get();
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
 	commandList->ResourceBarrier(1, &barrier);
 
 }

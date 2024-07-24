@@ -349,6 +349,9 @@
     <Filter Include="Application\GPUParticle">
       <UniqueIdentifier>{ea7adfd4-0777-456d-baec-6c83d5512967}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\BonfireParticle">
+      <UniqueIdentifier>{2dd60d39-2ed3-40fe-9e5f-3d668d2ccc24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1632,6 +1635,9 @@
     <None Include="Resources\shaders\GPUParticle\GPUParticle.CS.hlsli">
       <Filter>shaders\GPUParticle\CS</Filter>
     </None>
+    <None Include="Resources\shaders\BonfireParticle\Bonfire.CS.hlsli">
+      <Filter>shaders\BonfireParticle</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NomuEngine.rc">
@@ -1731,6 +1737,15 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\GPUParticle\ParticleUpdate.CS.hlsl">
       <Filter>shaders\GPUParticle\CS</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\BonfireParticle\BonfireEmit.CS.hlsl">
+      <Filter>shaders\BonfireParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\BonfireParticle\BonfireInitialize.CS.hlsl">
+      <Filter>shaders\BonfireParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\BonfireParticle\BonfireUpdate.CS.hlsl">
+      <Filter>shaders\BonfireParticle</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

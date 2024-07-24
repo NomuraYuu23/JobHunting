@@ -115,6 +115,18 @@ protected:
 	/// <param name="commandList"></param>
 	void UAVBarrier(ID3D12GraphicsCommandList* commandList);
 
+	/// <summary>
+	/// リソースバリア
+	/// </summary>
+	/// <param name="commandList"></param>
+	virtual void ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// リソースバリア
+	/// </summary>
+	/// <param name="commandList"></param>
+	virtual void ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList);
+
 protected: // パイプラインステートの初期化CS
 
 	/// <summary>

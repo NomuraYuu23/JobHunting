@@ -21,11 +21,6 @@ public:
 		ID3D12PipelineState* pipelineState) override;
 
 	/// <summary>
-	/// 更新
-	/// </summary>
-	//void Update() override;
-
-	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>
@@ -41,7 +36,7 @@ private:
 	/// </summary>
 	/// <param name="device"></param>
 	//void UAVBufferInitialize(ID3D12Device* device,
-	//	ID3D12GraphicsCommandList* commandList) override;
+	//		ID3D12GraphicsCommandList* commandList) override;
 
 	/// <summary>
 	/// エミット
@@ -61,19 +56,37 @@ private: // パイプラインステートの初期化CS
 	/// 初期化
 	/// </summary>
 	/// <param name="device"></param>
-	//void PipelineStateCSInitializeForInitialize(ID3D12Device* device) override;
+	void PipelineStateCSInitializeForInitialize(ID3D12Device* device) override;
 
 	/// <summary>
 	/// エミット
 	/// </summary>
 	/// <param name="device"></param>
-	//void PipelineStateCSInitializeForEmit(ID3D12Device* device) override;
+	void PipelineStateCSInitializeForEmit(ID3D12Device* device) override;
 
 	/// <summary>
 	/// 更新
 	/// </summary>
 	/// <param name="device"></param>
-	//void PipelineStateCSInitializeForUpdate(ID3D12Device* device) override;
+	void PipelineStateCSInitializeForUpdate(ID3D12Device* device) override;
+
+private:
+
+	//// ディゾルブデータUAVバッファ
+	//Microsoft::WRL::ComPtr<ID3D12Resource> dissolveBuff_;
+	//// CPUハンドル
+	//D3D12_CPU_DESCRIPTOR_HANDLE uavDissolveHandleCPU_{};
+	//// GPUハンドル
+	//D3D12_GPU_DESCRIPTOR_HANDLE uavDissolveHandleGPU_{};
+	//// ディスクリプタヒープの位置
+	//uint32_t uavDissolveDescriptorHeap_ = 0;
+	//// SRV
+	//// CPUハンドル
+	//D3D12_CPU_DESCRIPTOR_HANDLE srvDissolveHandleCPU_{};
+	//// GPUハンドル
+	//D3D12_GPU_DESCRIPTOR_HANDLE srvDissolveHandleGPU_{};
+	//// ディスクリプタヒープの位置
+	//uint32_t srvDissolveDescriptorHeap_ = 0;
 
 };
 
