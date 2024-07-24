@@ -346,6 +346,9 @@
     <Filter Include="shaders\GPUParticle\CS">
       <UniqueIdentifier>{482ae5e3-9be5-4744-8de5-2b31ea21eb45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\GPUParticle">
+      <UniqueIdentifier>{ea7adfd4-0777-456d-baec-6c83d5512967}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -881,6 +884,9 @@
       <Filter>Application\Object\BaseWeapon</Filter>
     </ClCompile>
     <ClCompile Include="Application\Player\PlayerWeapon\PlayerWeapon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GPUParticle\BonfireParticle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1574,6 +1580,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\PerFrame.h">
       <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GPUParticle\BonfireParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

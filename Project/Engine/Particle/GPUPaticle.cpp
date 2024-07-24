@@ -8,10 +8,25 @@
 #include "BillBoardMatrix.h"
 #include "../Math/DeltaTime.h"
 
-GPUPaticle* GPUPaticle::GetInstance()
+// パーティクルの最大数
+const uint32_t GPUPaticle::kParticleMax = 1024;
+// モデルのディレクトリパス
+const std::string GPUPaticle::kModelDirectoryPath = "Resources/Particle/";
+// モデルのディレクトリパス
+const std::string GPUPaticle::kTextureDirectoryPath = "Resources/Particle/";
+// モデルのファイルの名前
+const std::string GPUPaticle::kFilename = "plane.obj";
+// モデル
+std::unique_ptr<Model> GPUPaticle::model_ = nullptr;
+
+void GPUPaticle::StaticInitialzie()
 {
-	static GPUPaticle instance;
-	return &instance;
+
+	model_.reset(Model::Create(
+		kModelDirectoryPath,
+		kFilename,
+		DirectXCommon::GetInstance()));
+
 }
 
 void GPUPaticle::Initialize(
@@ -27,8 +42,8 @@ void GPUPaticle::Initialize(
 	// バッファの初期化
 	UAVBufferInitialize(device, commandList);
 
-	// モデル関連の初期化
-	ModelInitialize();
+	// マテリアル関連の初期化
+	MaterialInitialize();
 
 	// 描画用ルートシグネチャ設定
 	rootSignature_ = rootSignature;
@@ -104,7 +119,7 @@ void GPUPaticle::Draw(
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(
 		commandList,
 		2,
-		model_->GetTextureHandles()[0]);
+		textureHandle_);
 	// マテリアル
 	commandList->SetGraphicsRootConstantBufferView(3, material_->GetMaterialBuff()->GetGPUVirtualAddress());
 	// 描画
@@ -231,14 +246,17 @@ void GPUPaticle::UAVBufferInitialize(ID3D12Device* device,
 
 }
 
-void GPUPaticle::ModelInitialize()
+void GPUPaticle::MaterialInitialize()
 {
-	model_.reset(Model::Create(
-		kDirectoryPath,
-		kFilename,
-		DirectXCommon::GetInstance()));
 
 	material_.reset(Material::Create());
+
+	if (textureFilename_ == "") {
+		textureHandle_ = model_->GetTextureHandles()[0];
+	}
+	else {
+		textureHandle_ = TextureManager::Load(kTextureDirectoryPath + textureFilename_, DirectXCommon::GetInstance());
+	}
 
 }
 

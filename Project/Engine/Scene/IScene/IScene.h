@@ -84,9 +84,6 @@ protected: // 静的メンバ変数
 	// モデルマネージャー
 	static ModelManager* modelManager_;
 
-	// GPUパーティクル
-	static GPUPaticle* gpuParticle_;
-
 public: // メンバ関数
 
 	/// <summary>

@@ -19,7 +19,6 @@ class GPUPaticle
 
 public:
 
-
 	/// <summary>
 	/// CSのパイプラインステート
 	/// </summary>
@@ -34,10 +33,11 @@ public:
 public:
 
 	/// <summary>
-	/// インスタンス取得
+	/// 静的初期化
 	/// </summary>
-	/// <returns></returns>
-	static GPUPaticle* GetInstance();
+	static void StaticInitialzie();
+
+public:
 
 	/// <summary>
 	/// 初期化
@@ -66,7 +66,7 @@ public:
 		ID3D12GraphicsCommandList* commandList,
 		BaseCamera& camera);
 
-private:
+protected:
 
 	/// <summary>
 	/// パイプラインステートの初期化CS
@@ -77,13 +77,13 @@ private:
 	/// バッファの初期化
 	/// </summary>
 	/// <param name="device"></param>
-	void UAVBufferInitialize(ID3D12Device* device,
+	virtual void UAVBufferInitialize(ID3D12Device* device,
 		ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// モデルの初期化
 	/// </summary>
-	void ModelInitialize();
+	void MaterialInitialize();
 
 	/// <summary>
 	/// 定数バッファ初期化
@@ -101,13 +101,13 @@ private:
 	/// エミット
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>
-	void Emit(ID3D12GraphicsCommandList* commandList);
+	virtual void Emit(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// 更新
 	/// </summary>
 	/// <param name="commandList"></param>
-	void UpdateCS(ID3D12GraphicsCommandList* commandList);
+	virtual void UpdateCS(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// UAVバリア―
@@ -115,45 +115,49 @@ private:
 	/// <param name="commandList"></param>
 	void UAVBarrier(ID3D12GraphicsCommandList* commandList);
 
-private: // パイプラインステートの初期化CS
+protected: // パイプラインステートの初期化CS
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name="device"></param>
-	void PipelineStateCSInitializeForInitialize(ID3D12Device* device);
+	virtual void PipelineStateCSInitializeForInitialize(ID3D12Device* device);
 
 	/// <summary>
 	/// エミット
 	/// </summary>
 	/// <param name="device"></param>
-	void PipelineStateCSInitializeForEmit(ID3D12Device* device);
+	virtual void PipelineStateCSInitializeForEmit(ID3D12Device* device);
 
 	/// <summary>
 	/// 更新
 	/// </summary>
 	/// <param name="device"></param>
-	void PipelineStateCSInitializeForUpdate(ID3D12Device* device);
+	virtual void PipelineStateCSInitializeForUpdate(ID3D12Device* device);
 
-private:
+protected:
 
 	// パーティクルの最大数
-	const uint32_t kParticleMax = 1024;
+	static const uint32_t kParticleMax;
 	// モデルのディレクトリパス
-	const std::string kDirectoryPath = "Resources/Particle/";
+	static const std::string kModelDirectoryPath;
+	// テクスチャのディレクトリパス
+	static const std::string kTextureDirectoryPath;
 	// モデルのファイルの名前
-	const std::string kFilename = "plane.obj";
+	static const std::string kFilename;
+	// モデル
+	static std::unique_ptr<Model> model_;
 
-	// UAVバッファ
+	// バッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> buff_;
-
+	//UAV
 	// CPUハンドル
 	D3D12_CPU_DESCRIPTOR_HANDLE uavHandleCPU_{};
 	// GPUハンドル
 	D3D12_GPU_DESCRIPTOR_HANDLE uavHandleGPU_{};
 	// ディスクリプタヒープの位置
 	uint32_t uavIndexDescriptorHeap_ = 0;
-
+	// SRV
 	// CPUハンドル
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandleCPU_{};
 	// GPUハンドル
@@ -171,27 +175,27 @@ private:
 	// パイプラインステートオブジェクト
 	ID3D12PipelineState* pipelineState_;
 
-	// モデル
-	std::unique_ptr<Model> model_;
-
 	// マテリアル
 	std::unique_ptr<Material> material_;
 
+	// テクスチャ
+	uint32_t textureHandle_;
+
+	// テクスチャ名前
+	std::string textureFilename_ = "";
+
 	// GPUParticleViewバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> gpuParticleViewBuff_;
-
 	// GPUParticleViewマップ
 	GPUParticleView* gpuParticleViewMap_ = nullptr;
 
 	// エミッタバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> emitterBuff_;
-
 	// エミッタマップ
 	EmitterCS* emitterMap_ = nullptr;
 
 	// 時間バッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> perFrameBuff_;
-
 	// 時間マップ
 	PerFrame* perFrameMap_ = nullptr;
 
@@ -212,13 +216,6 @@ private:
 	D3D12_GPU_DESCRIPTOR_HANDLE freeListHandleGPU_{};
 	// ディスクリプタヒープの位置
 	uint32_t freeListDescriptorHeap_ = 0;
-
-private: // シングルトン
-
-	GPUPaticle() = default;
-	~GPUPaticle() = default;
-	GPUPaticle(const GPUPaticle&) = delete;
-	GPUPaticle& operator=(const GPUPaticle&) = delete;
 
 };
 

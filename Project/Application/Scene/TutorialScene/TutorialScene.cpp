@@ -115,6 +115,14 @@ void TutorialScene::Initialize() {
 	followCamera_->SetTarget(player_->GetWorldTransformAdress());
 	player_->SetCamera(static_cast<BaseCamera*>(followCamera_.get()));
 
+	// GPUパーティクル
+	gpuParticle_ = std::make_unique<GPUPaticle>();
+	gpuParticle_->Initialize(
+		dxCommon_->GetDevice(), 
+		dxCommon_->GetCommadListLoad(),
+		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
+		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get());
+
 	IScene::InitilaizeCheck();
 
 }

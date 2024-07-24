@@ -119,4 +119,6 @@ private:
 
 	Player* player_;
 
+	std::unique_ptr<GPUPaticle> gpuParticle_ = nullptr;
+
 };
