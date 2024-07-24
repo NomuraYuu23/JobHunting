@@ -22,6 +22,7 @@
 #include "../../Camera/FollowCamera.h"
 
 #include "../../UI/TutorialUIManager.h"
+#include "../../GPUParticle/BonfireParticle.h"
 
 
 class TutorialScene : public IScene
@@ -119,6 +120,6 @@ private:
 
 	Player* player_;
 
-	std::unique_ptr<GPUPaticle> gpuParticle_ = nullptr;
+	std::unique_ptr<BonfireParticle> bonfireParticle_ = nullptr;
 
 };
