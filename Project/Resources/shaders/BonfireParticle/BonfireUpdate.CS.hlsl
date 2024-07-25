@@ -9,6 +9,8 @@ RWStructuredBuffer<int32_t> gFreeListIndex : register(u1);
 
 RWStructuredBuffer<uint32_t> gFreeList : register(u2);
 
+RWStructuredBuffer<float32_t> gDissolves : register(u3);
+
 [numthreads(1024, 1, 1)]
 void main( uint3 DTid : SV_DispatchThreadID )
 {
@@ -16,12 +18,12 @@ void main( uint3 DTid : SV_DispatchThreadID )
 	uint32_t particleIndex = DTid.x;
 	if (particleIndex < kMaxParticles) {
 
-		if (gParticles[particleIndex].color.a != 0) {
+		if (gDissolves[particleIndex] < 1.0f) {
 			gParticles[particleIndex].translate += gParticles[particleIndex].velocity;
 			gParticles[particleIndex].currentTime += gPerFrame.deltaTime;
 			float32_t alpha = 
-				1.0f - (gParticles[particleIndex].currentTime * rcp(gParticles[particleIndex].lifeTime));
-			gParticles[particleIndex].color.a = saturate(alpha);
+				(gParticles[particleIndex].currentTime * rcp(gParticles[particleIndex].lifeTime));
+			gDissolves[particleIndex] = saturate(alpha);
 		}
 		else {
 

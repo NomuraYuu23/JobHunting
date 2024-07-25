@@ -49,7 +49,7 @@ void main( uint32_t3 DTid : SV_DispatchThreadID )
 				gParticles[particleIndex].lifeTime = 1.0f;
 
 				float32_t sideVelocityMax = 0.01f;
-				float32_t upSpeed = 0.2f;
+				float32_t upSpeed = 0.1f;
 
 				gParticles[particleIndex].velocity = 
 					float32_t3(

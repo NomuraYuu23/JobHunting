@@ -54,7 +54,7 @@ private:
 	/// 更新
 	/// </summary>
 	/// <param name="commandList"></param>
-	//void UpdateCS(ID3D12GraphicsCommandList* commandList) override;
+	void UpdateCS(ID3D12GraphicsCommandList* commandList) override;
 
 private: // パイプラインステートの初期化CS
 

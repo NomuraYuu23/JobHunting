@@ -345,7 +345,6 @@ void GPUPaticle::Emit(ID3D12GraphicsCommandList* commandList)
 void GPUPaticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 {
 
-
 	// SRV
 	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
 	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
