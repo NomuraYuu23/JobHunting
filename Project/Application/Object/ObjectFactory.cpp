@@ -8,6 +8,7 @@
 #include "../Enemy/AxSpearMan/AxSpearMan.h"
 #include "../Enemy/AxSpearMan/AxSpearManWeapon.h"
 #include "../Player/PlayerWeapon/PlayerWeapon.h"
+#include "../Bonfire/Bonfire.h"
 
 ObjectFactory* ObjectFactory::GetInstance()
 {
@@ -87,6 +88,14 @@ IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
 			static_cast<PlayerWeapon*>(object)->SetParent(
 				static_cast<Player*>(objectManager_->GetObjectPointer(
 					static_cast<PlayerWeapon*>(object)->GetParentName())));
+		}
+		else if (data.className == "Bonfire") {
+
+			// インスタンス生成
+			object = new Bonfire();
+
+			// 初期化
+			static_cast<Bonfire*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 		}
 
 	}

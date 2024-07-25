@@ -1,8 +1,8 @@
 #pragma once
 #include "../../Engine/Object/MeshObject.h"
-#include "../../Engine/3D/DrawLine.h"
-
-class Ground : public MeshObject
+#include "../GPUParticle/BonfireParticle.h"
+class Bonfire :
+    public MeshObject
 {
 
 public: // ベースのメンバ関数
@@ -15,13 +15,19 @@ public: // ベースのメンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update() override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション(参照渡し)</param>
 	void Draw(BaseCamera& camera);
+
+	/// <summary>
+	/// パーティクル描画
+	/// </summary>
+	/// <param name="camera"></param>
+	void ParticleDraw(BaseCamera& camera) override;
 
 	/// <summary>
 	/// ImGui描画
@@ -41,8 +47,7 @@ public:
 
 private:
 
-
-
+	std::unique_ptr<BonfireParticle> bonfireParticle_ = nullptr;
 
 };
 

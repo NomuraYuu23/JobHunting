@@ -66,6 +66,12 @@ public:
 		ID3D12GraphicsCommandList* commandList,
 		BaseCamera& camera);
 
+	/// <summary>
+	/// エミッタ情報設定
+	/// </summary>
+	/// <param name="emitter"></param>
+	void SetEmitter(const EmitterCS& emitter);
+
 protected:
 
 	/// <summary>

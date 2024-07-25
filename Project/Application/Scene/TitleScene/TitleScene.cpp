@@ -4,6 +4,8 @@
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../../Engine/Math/Ease.h"
 #include "../../../Engine/3D/ModelDraw.h"
+#include "../../Object/TitleSceneObjectManager.h"
+#include "../../Object/ObjectFactory.h"
 
 TitleScene::~TitleScene()
 {
@@ -36,6 +38,55 @@ void TitleScene::Initialize()
 
 	hsvFilter_ = { 0.0f,0.0f,0.0f };
 
+	// オブジェクトマネージャー
+	objectManager_ = std::make_unique<TitleSceneObjectManager>();
+	ObjectFactory::GetInstance()->SetObjectManager(objectManager_.get());
+	objectManager_->Initialize(kLevelIndexTitle, levelDataManager_);
+
+	// スカイドーム
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Initialize(skydomeModel_.get());
+
+	// 平行光源
+	directionalLight_ = std::make_unique<DirectionalLight>();
+	directionalLight_->Initialize();
+
+	// 点光源
+	pointLightManager_ = std::make_unique<PointLightManager>();
+	pointLightManager_->Initialize();
+	for (size_t i = 0; i < pointLightDatas_.size(); ++i) {
+		pointLightDatas_[i].color = { 1.0f,1.0f,1.0f,1.0f };
+		pointLightDatas_[i].position = { 0.0f, -1.0f, 0.0f };
+		pointLightDatas_[i].intencity = 1.0f;
+		pointLightDatas_[i].radius = 10.0f;
+		pointLightDatas_[i].decay = 10.0f;
+		pointLightDatas_[i].used = false;
+	}
+
+	spotLightManager_ = std::make_unique<SpotLightManager>();
+	spotLightManager_->Initialize();
+	for (size_t i = 0; i < spotLightDatas_.size(); ++i) {
+		spotLightDatas_[i].color = { 1.0f,1.0f,1.0f,1.0f };
+		spotLightDatas_[i].position = { 0.0f, -1.0f, 0.0f };
+		spotLightDatas_[i].intencity = 1.0f;
+		spotLightDatas_[i].direction = { 0.0f, -1.0f, 0.0f }; // ライトの方向
+		spotLightDatas_[i].distance = 10.0f; // ライトの届く距離
+		spotLightDatas_[i].decay = 2.0f; // 減衰率
+		spotLightDatas_[i].cosAngle = 2.0f; // スポットライトの余弦
+		spotLightDatas_[i].cosFalloffStart = 1.0f; // フォールオフ開始位置
+		spotLightDatas_[i].used = false; // 使用している
+	}
+
+	EulerTransform cameraTransform = {
+		1.0f,1.0f,1.0f,
+		0.03f, -0.45f, 0.0f,
+		6.0f, 1.7f, -9.5f};
+
+	camera_.SetTransform(cameraTransform);
+	camera_.Update();
+
+	IScene::InitilaizeCheck();
+
 }
 
 void TitleScene::Update()
@@ -45,6 +96,11 @@ void TitleScene::Update()
 		// 行きたいシーンへ
 		requestSceneNo_ = kTutorial;
 	}
+
+	objectManager_->Update();
+
+	// デバッグカメラ
+	DebugCameraUpdate();
 
 	// ボタンスプライト
 	if (buttonItIncreaseAlphaT_) {
@@ -90,18 +146,43 @@ void TitleScene::Draw()
 {
 
 #pragma region 前景スプライト描画
-	// 前景スプライト描画前処理
-	Sprite::PreDraw(dxCommon_->GetCommadList());
+	//// 前景スプライト描画前処理
+	//Sprite::PreDraw(dxCommon_->GetCommadList());
 
-	//背景
-	//前景スプライト描画
-	titleSprite_->Draw();
-	buttonSprite_->Draw();
+	////背景
+	////前景スプライト描画
+	//titleSprite_->Draw();
+	//buttonSprite_->Draw();
 
-	// 前景スプライト描画後処理
-	Sprite::PostDraw();
+	//// 前景スプライト描画後処理
+	//Sprite::PostDraw();
 
 #pragma endregion
+
+#pragma region モデル描画
+
+	ModelDraw::PreDrawDesc preDrawDesc;
+	preDrawDesc.commandList = dxCommon_->GetCommadList();
+	preDrawDesc.directionalLight = directionalLight_.get();
+	preDrawDesc.fogManager = FogManager::GetInstance();
+	preDrawDesc.pointLightManager = pointLightManager_.get();
+	preDrawDesc.spotLightManager = spotLightManager_.get();
+	preDrawDesc.environmentTextureHandle = skyboxTextureHandle_;
+	ModelDraw::PreDraw(preDrawDesc);
+
+	//3Dオブジェクトはここ
+
+	// スカイドーム
+	skydome_->Draw(camera_);
+
+	objectManager_->Draw(camera_, drawLine_);
+
+	ModelDraw::PostDraw();
+
+#pragma endregion
+
+	// パーティクル描画
+	objectManager_->ParticleDraw(camera_);
 
 	PostEffect::GetInstance()->SetHue(hsvFilter_.hue);
 	PostEffect::GetInstance()->SetSaturation(hsvFilter_.saturation);
@@ -130,12 +211,42 @@ void TitleScene::ImguiDraw()
 	ImGui::DragFloat3("HSV", &hsvFilter_.hue, 0.01f);
 	ImGui::End();
 
+	debugCamera_->ImGuiDraw();
+
 #endif // _DEMO
+
+}
+
+void TitleScene::DebugCameraUpdate()
+{
+
+#ifdef _DEMO
+	if (input_->TriggerKey(DIK_RETURN)) {
+		if (isDebugCameraActive_) {
+			isDebugCameraActive_ = false;
+		}
+		else {
+			isDebugCameraActive_ = true;
+		}
+	}
+
+	// カメラの処理
+	if (isDebugCameraActive_) {
+		// デバッグカメラの更新
+		debugCamera_->Update();
+		// デバッグカメラのビュー行列をコピー
+		camera_ = static_cast<BaseCamera>(*debugCamera_.get());
+		// ビュー行列の転送
+		camera_.Update();
+	}
+#endif
 
 }
 
 void TitleScene::ModelCreate()
 {
+
+	skydomeModel_.reset(Model::Create("Resources/Model/Skydome/", "skydome.obj", dxCommon_));
 
 }
 
@@ -144,6 +255,8 @@ void TitleScene::TextureLoad()
 
 	titleTextureHandle_ = TextureManager::Load("Resources/OutGame/title.png", dxCommon_);
 	buttonTextureHandle_ = TextureManager::Load("Resources/OutGame/button.png", dxCommon_);
+
+	skyboxTextureHandle_ = TextureManager::Load("Resources/default/rostock_laage_airport_4k.dds", DirectXCommon::GetInstance());
 
 }
 

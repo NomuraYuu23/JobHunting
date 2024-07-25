@@ -76,6 +76,9 @@ void MyFramework::Initialize()
 	// 霧
 	FogManager::GetInstance()->Initialize();
 
+	// オブジェクト
+	IObject::StaticInitialize(dxCommon->GetCommadList());
+
 #ifdef _DEMO
 
 	// クエリタイムスタンプ

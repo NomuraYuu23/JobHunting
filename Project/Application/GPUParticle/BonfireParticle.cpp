@@ -20,13 +20,16 @@ void BonfireParticle::Initialize(
 
 	GPUPaticle::Initialize(device, commandList, rootSignature, pipelineState);
 
-	// マッピング
-	emitterMap_->count = 10;
-	emitterMap_->frequency = 0.1f;
-	emitterMap_->frequencyTime = 0.0f;
-	emitterMap_->translate = Vector3(0.0f, 3.0f, 0.0f);
-	emitterMap_->radius = 1.0f;
-	emitterMap_->emit = 0;
+	EmitterCS emitter;
+	emitter.count = 10;
+	emitter.frequency = 0.1f;
+	emitter.frequencyTime = 0.0f;
+	emitter.translate = Vector3(0.0f, 3.0f, 0.0f);
+	emitter.radius = 1.0f;
+	emitter.emit = 0;
+
+
+	SetEmitter(emitter);
 
 }
 

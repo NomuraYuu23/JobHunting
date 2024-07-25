@@ -36,6 +36,11 @@ public: // メンバ関数
 private: // メンバ関数
 
 	/// <summary>
+	/// 
+	/// </summary>
+ 	void DebugCameraUpdate();
+
+	/// <summary>
 	/// モデルクリエイト
 	/// </summary>
 	void ModelCreate() override;
@@ -78,5 +83,12 @@ private: // メンバ変数
 
 	// HSVFilter
 	HSVFilter hsvFilter_;
+
+	// スカイドーム
+	std::unique_ptr<Skydome> skydome_;
+	std::unique_ptr<Model> skydomeModel_;
+
+	// スカイボックス
+	uint32_t skyboxTextureHandle_ = 0;
 
 };

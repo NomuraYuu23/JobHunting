@@ -133,6 +133,19 @@ void GPUPaticle::Draw(
 
 }
 
+void GPUPaticle::SetEmitter(const EmitterCS& emitter)
+{
+
+	// マッピング
+	emitterMap_->count = emitter.count;
+	emitterMap_->frequency = emitter.frequency;
+	emitterMap_->frequencyTime = emitter.frequencyTime;
+	emitterMap_->translate = emitter.translate;
+	emitterMap_->radius = emitter.radius;
+	emitterMap_->emit = emitter.emit;
+
+}
+
 void GPUPaticle::PipelineStateCSInitialize(ID3D12Device* device)
 {
 

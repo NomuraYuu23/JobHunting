@@ -162,6 +162,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\AudioManager\GameAudioManager.cpp" />
     <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp" />
     <ClCompile Include="Application\Block\Block.cpp" />
+    <ClCompile Include="Application\Bonfire\Bonfire.cpp" />
     <ClCompile Include="Application\Camera\FollowCamera.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearMan.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeam.cpp" />
@@ -190,6 +191,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\GameSceneObjectManager.cpp" />
     <ClCompile Include="Application\Object\ObjectFactory.cpp" />
     <ClCompile Include="Application\Object\Sample\SampleObject.cpp" />
+    <ClCompile Include="Application\Object\TitleSceneObjectManager.cpp" />
     <ClCompile Include="Application\Object\TutorialSceneObjectManager.cpp" />
     <ClCompile Include="Application\Particle\Bload\BloadParticle.cpp" />
     <ClCompile Include="Application\Player\Player.cpp" />
@@ -343,6 +345,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\AudioManager\GameAudioManager.h" />
     <ClInclude Include="Application\AudioManager\TitleAudioManager.h" />
     <ClInclude Include="Application\Block\Block.h" />
+    <ClInclude Include="Application\Bonfire\Bonfire.h" />
     <ClInclude Include="Application\Camera\FollowCamera.h" />
     <ClInclude Include="Application\Collider2D\ColliderParentObject2D.h" />
     <ClInclude Include="Application\Collider2D\CollisionConfig2D.h" />
@@ -375,6 +378,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\GameSceneObjectManager.h" />
     <ClInclude Include="Application\Object\ObjectFactory.h" />
     <ClInclude Include="Application\Object\Sample\SampleObject.h" />
+    <ClInclude Include="Application\Object\TitleSceneObjectManager.h" />
     <ClInclude Include="Application\Object\TutorialSceneObjectManager.h" />
     <ClInclude Include="Application\Particle\Bload\BloadParticle.h" />
     <ClInclude Include="Application\Player\Player.h" />
