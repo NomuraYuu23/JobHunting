@@ -358,6 +358,9 @@
     <Filter Include="Application\Object\Bonfire">
       <UniqueIdentifier>{2b4ed839-b0ce-44db-8e0b-9d85684bee39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Player\Title">
+      <UniqueIdentifier>{f2e9c355-4935-4361-8c80-a0131839b051}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -902,6 +905,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Application\Bonfire\Bonfire.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\TitlePlayer\TitlePlayer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1603,6 +1609,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\Bonfire\Bonfire.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\TitlePlayer\TitlePlayer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,6 +9,7 @@
 #include "../Enemy/AxSpearMan/AxSpearManWeapon.h"
 #include "../Player/PlayerWeapon/PlayerWeapon.h"
 #include "../Bonfire/Bonfire.h"
+#include "../Player/TitlePlayer/TitlePlayer.h"
 
 ObjectFactory* ObjectFactory::GetInstance()
 {
@@ -96,6 +97,14 @@ IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
 
 			// 初期化
 			static_cast<Bonfire*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+		}
+		else if (data.className == "TitlePlayer") {
+
+			// インスタンス生成
+			object = new TitlePlayer();
+
+			// 初期化
+			static_cast<TitlePlayer*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 		}
 
 	}

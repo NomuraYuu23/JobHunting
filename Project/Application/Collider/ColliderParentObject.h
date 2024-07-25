@@ -12,7 +12,10 @@ class BaseEnemyAttack;
 class BaseWeapon;
 class Bonfire;
 
-using ColliderParentObject = std::variant<Null*, Player*, PlayerAttack*, Ground*, Block*, BaseEnemy*, BaseEnemyAttack*, BaseWeapon*, Bonfire*>;
+
+class TitlePlayer;
+
+using ColliderParentObject = std::variant<Null*, Player*, PlayerAttack*, Ground*, Block*, BaseEnemy*, BaseEnemyAttack*, BaseWeapon*, Bonfire*, TitlePlayer*>;
 
 // 親がないもの用
 class Null {

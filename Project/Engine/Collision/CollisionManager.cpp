@@ -10,6 +10,7 @@
 #include "../../Application/Enemy/BaseEnemyAttack.h"
 #include "../../Application/Weapon/BaseWeapon.h"
 #include "../../Application/Bonfire/Bonfire.h"
+#include "../../Application/Player/TitlePlayer/TitlePlayer.h"
 
 void CollisionManager::Initialize()
 {
