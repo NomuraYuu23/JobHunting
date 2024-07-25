@@ -25,9 +25,9 @@ public:
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>
 	/// <param name="camera">カメラ</param>
-	//void Draw(
-	//	ID3D12GraphicsCommandList* commandList,
-	//	BaseCamera& camera) override;
+	void Draw(
+		ID3D12GraphicsCommandList* commandList,
+		BaseCamera& camera) override;
 
 private:
 
@@ -55,6 +55,18 @@ private:
 	/// </summary>
 	/// <param name="commandList"></param>
 	void UpdateCS(ID3D12GraphicsCommandList* commandList) override;
+
+	/// <summary>
+	/// リソースバリア
+	/// </summary>
+	/// <param name="commandList"></param>
+	void ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList) override;
+
+	/// <summary>
+	/// リソースバリア
+	/// </summary>
+	/// <param name="commandList"></param>
+	void ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList) override;
 
 private: // パイプラインステートの初期化CS
 

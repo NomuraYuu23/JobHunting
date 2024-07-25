@@ -24,9 +24,65 @@ void BonfireParticle::Initialize(
 	emitterMap_->count = 10;
 	emitterMap_->frequency = 0.1f;
 	emitterMap_->frequencyTime = 0.0f;
-	emitterMap_->translate = Vector3(0.0f, 0.0f, 0.0f);
+	emitterMap_->translate = Vector3(0.0f, 3.0f, 0.0f);
 	emitterMap_->radius = 1.0f;
 	emitterMap_->emit = 0;
+
+}
+
+void BonfireParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
+{
+
+	assert(commandList);
+
+	// GPUParticleViewのマッピング
+	GPUParticleViewMapping(camera);
+
+	// エミット
+	Emit(commandList);
+
+	// バリア
+	UAVBarrier(commandList);
+
+	// 更新
+	UpdateCS(commandList);
+
+	// リソースバリア
+	ResouseBarrierToNonPixelShader(commandList);
+
+	// SRV
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	//形状を設定。PS0に設定しているものとは別。
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	// パイプライン
+	commandList->SetPipelineState(pipelineState_);
+	// ルートシグネチャ
+	commandList->SetGraphicsRootSignature(rootSignature_);
+
+	// 頂点データ
+	commandList->IASetVertexBuffers(0, 1, model_->GetMesh()->GetVbView());
+
+	// GPUパーティクル用
+	commandList->SetGraphicsRootDescriptorTable(0, srvHandleGPU_);
+	// GPUパーティクルのView
+	commandList->SetGraphicsRootConstantBufferView(1, gpuParticleViewBuff_->GetGPUVirtualAddress());
+	// テクスチャ
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(
+		commandList,
+		2,
+		textureHandle_);
+	// マテリアル
+	commandList->SetGraphicsRootConstantBufferView(3, material_->GetMaterialBuff()->GetGPUVirtualAddress());
+	// Dissolve
+	commandList->SetGraphicsRootDescriptorTable(4, srvDissolveHandleGPU_);
+	// 描画
+	commandList->DrawInstanced(6, kParticleMax, 0, 0);
+
+	// リソースバリア
+	ResouseBarrierToUnorderedAccess(commandList);
 
 }
 
@@ -151,6 +207,37 @@ void BonfireParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 	commandList->SetComputeRootDescriptorTable(4, uavDissolveHandleGPU_);
 
 	commandList->Dispatch(1, 1, 1);
+
+}
+
+void BonfireParticle::ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList)
+{
+
+
+	GPUPaticle::ResouseBarrierToNonPixelShader(commandList);
+
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = dissolveBuff_.Get();
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+	commandList->ResourceBarrier(1, &barrier);
+
+}
+
+void BonfireParticle::ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList)
+{
+
+	GPUPaticle::ResouseBarrierToUnorderedAccess(commandList);
+
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = dissolveBuff_.Get();
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
+	commandList->ResourceBarrier(1, &barrier);
 
 }
 

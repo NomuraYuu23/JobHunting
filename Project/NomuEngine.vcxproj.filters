@@ -352,6 +352,9 @@
     <Filter Include="shaders\BonfireParticle">
       <UniqueIdentifier>{2dd60d39-2ed3-40fe-9e5f-3d668d2ccc24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\BonfireParticle\CS">
+      <UniqueIdentifier>{b68dd55c-7912-4a19-9900-2d57191447dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1636,7 +1639,10 @@
       <Filter>shaders\GPUParticle\CS</Filter>
     </None>
     <None Include="Resources\shaders\BonfireParticle\Bonfire.CS.hlsli">
-      <Filter>shaders\BonfireParticle</Filter>
+      <Filter>shaders\BonfireParticle\CS</Filter>
+    </None>
+    <None Include="Resources\shaders\GPUParticle\GPUParticleDissolve.hlsli">
+      <Filter>shaders\GPUParticle</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -1738,14 +1744,20 @@
     <FxCompile Include="Resources\shaders\GPUParticle\ParticleUpdate.CS.hlsl">
       <Filter>shaders\GPUParticle\CS</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\BonfireParticle\BonfireUpdate.CS.hlsl">
+      <Filter>shaders\BonfireParticle\CS</Filter>
+    </FxCompile>
     <FxCompile Include="Resources\shaders\BonfireParticle\BonfireEmit.CS.hlsl">
-      <Filter>shaders\BonfireParticle</Filter>
+      <Filter>shaders\BonfireParticle\CS</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\BonfireParticle\BonfireInitialize.CS.hlsl">
-      <Filter>shaders\BonfireParticle</Filter>
+      <Filter>shaders\BonfireParticle\CS</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\BonfireParticle\BonfireUpdate.CS.hlsl">
-      <Filter>shaders\BonfireParticle</Filter>
+    <FxCompile Include="Resources\shaders\GPUParticle\GPUParticleDissolve.PS.hlsl">
+      <Filter>shaders\GPUParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\GPUParticle\GPUParticleDissolve.VS.hlsl">
+      <Filter>shaders\GPUParticle</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

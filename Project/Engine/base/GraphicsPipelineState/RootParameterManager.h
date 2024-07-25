@@ -25,6 +25,7 @@ enum SRV_PSIndex {
 	kSRV_PSIndexSpotLight = 9, // スポットライト
 	kSRV_PSIndexMaterials = 10, // マテリアル
 	kSRV_PSIndexEnvironmentTexture = 11, // 環境マップ(映り込み用テクスチャ)
+	kSRV_PSIndexDissolve = 12, // Dissolveデータ(float)
 	kSRV_PSIndexOfCount,
 };
 
@@ -101,6 +102,7 @@ enum RootParameterIndex {
 	kRootParameterIndexSprite, // スプライト
 	kRootParameterIndexParticle, // パーティクル
 	kRootParameterIndexGPUParticle, // GPUパーティクル
+	kRootParameterIndexGPUParticleDissolve, // GPUパーティクルdissolveあり
 	kRootParameterIndexCollision2DDebugDraw, // コライダーデバッグ2d
 	kRootParameterIndexLine, // 線
 	kRootParameterIndexWindowSpriteSRV, // ウィンドウスプライトSRV
