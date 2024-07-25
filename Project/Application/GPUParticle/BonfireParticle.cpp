@@ -104,6 +104,32 @@ void BonfireParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
 
 }
 
+void BonfireParticle::Emit(ID3D12GraphicsCommandList* commandList)
+{
+
+	// SRV
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	commandList->SetPipelineState(pipelineStatesCS_[kPiprlineStateCSIndexEmit].Get());//PS0を設定
+	commandList->SetComputeRootSignature(rootSignaturesCS_[kPiprlineStateCSIndexEmit].Get());
+
+	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
+
+	commandList->SetComputeRootConstantBufferView(1, emitterBuff_->GetGPUVirtualAddress());
+
+	commandList->SetComputeRootConstantBufferView(2, perFrameBuff_->GetGPUVirtualAddress());
+
+	commandList->SetComputeRootDescriptorTable(3, freeListIndexHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(4, freeListHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(5, uavDissolveHandleGPU_);
+
+	commandList->Dispatch(1, 1, 1);
+
+}
+
 void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 {
 
@@ -218,7 +244,7 @@ void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[5] = {};
+	D3D12_ROOT_PARAMETER rootParameters[6] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -238,6 +264,12 @@ void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	freeListDescriptorRange[0].NumDescriptors = 1;//数は一つ
 	freeListDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	freeListDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	D3D12_DESCRIPTOR_RANGE dissolveDescriptorRange[1] = {};
+	dissolveDescriptorRange[0].BaseShaderRegister = 3;//iから始まる
+	dissolveDescriptorRange[0].NumDescriptors = 1;//数は一つ
+	dissolveDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	dissolveDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
@@ -261,6 +293,11 @@ void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[4].DescriptorTable.pDescriptorRanges = freeListDescriptorRange;//Tableの中身の配列を指定
 	rootParameters[4].DescriptorTable.NumDescriptorRanges = _countof(freeListDescriptorRange);//Tableで利用する数
+
+	rootParameters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[5].DescriptorTable.pDescriptorRanges = dissolveDescriptorRange;//Tableの中身の配列を指定
+	rootParameters[5].DescriptorTable.NumDescriptorRanges = _countof(dissolveDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ

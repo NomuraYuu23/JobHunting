@@ -48,7 +48,7 @@ private:
 	/// エミット
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>
-	//void Emit(ID3D12GraphicsCommandList* commandList) override;
+	void Emit(ID3D12GraphicsCommandList* commandList) override;
 
 	/// <summary>
 	/// 更新
