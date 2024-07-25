@@ -98,6 +98,12 @@ protected:
 	void GPUParticleViewMapping(BaseCamera& camera);
 
 	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	virtual void InitialzieCS(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
 	/// エミット
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>

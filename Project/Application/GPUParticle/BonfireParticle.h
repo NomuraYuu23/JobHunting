@@ -35,9 +35,15 @@ private:
 	/// バッファの初期化
 	/// </summary>
 	/// <param name="device"></param>
-	//void UAVBufferInitialize(ID3D12Device* device,
-	//		ID3D12GraphicsCommandList* commandList) override;
+	void UAVBufferInitialize(ID3D12Device* device,
+			ID3D12GraphicsCommandList* commandList) override;
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	void InitialzieCS(ID3D12GraphicsCommandList* commandList) override;
+	
 	/// <summary>
 	/// エミット
 	/// </summary>
@@ -72,21 +78,21 @@ private: // パイプラインステートの初期化CS
 
 private:
 
-	//// ディゾルブデータUAVバッファ
-	//Microsoft::WRL::ComPtr<ID3D12Resource> dissolveBuff_;
-	//// CPUハンドル
-	//D3D12_CPU_DESCRIPTOR_HANDLE uavDissolveHandleCPU_{};
-	//// GPUハンドル
-	//D3D12_GPU_DESCRIPTOR_HANDLE uavDissolveHandleGPU_{};
-	//// ディスクリプタヒープの位置
-	//uint32_t uavDissolveDescriptorHeap_ = 0;
-	//// SRV
-	//// CPUハンドル
-	//D3D12_CPU_DESCRIPTOR_HANDLE srvDissolveHandleCPU_{};
-	//// GPUハンドル
-	//D3D12_GPU_DESCRIPTOR_HANDLE srvDissolveHandleGPU_{};
-	//// ディスクリプタヒープの位置
-	//uint32_t srvDissolveDescriptorHeap_ = 0;
+	// ディゾルブデータUAVバッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> dissolveBuff_;
+	// CPUハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE uavDissolveHandleCPU_{};
+	// GPUハンドル
+	D3D12_GPU_DESCRIPTOR_HANDLE uavDissolveHandleGPU_{};
+	// ディスクリプタヒープの位置
+	uint32_t uavDissolveDescriptorHeap_ = 0;
+	// SRV
+	// CPUハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE srvDissolveHandleCPU_{};
+	// GPUハンドル
+	D3D12_GPU_DESCRIPTOR_HANDLE srvDissolveHandleGPU_{};
+	// ディスクリプタヒープの位置
+	uint32_t srvDissolveDescriptorHeap_ = 0;
 
 };
 

@@ -234,21 +234,7 @@ void GPUPaticle::UAVBufferInitialize(ID3D12Device* device,
 	device->CreateUnorderedAccessView(freeListBuff_.Get(), nullptr, &freeListUavDesc, freeListHandleCPU_);
 
 	// CSによる初期化
-
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-
-	commandList->SetPipelineState(pipelineStatesCS_[kPiprlineStateCSIndexInitialize].Get());//PS0を設定
-	commandList->SetComputeRootSignature(rootSignaturesCS_[kPiprlineStateCSIndexInitialize].Get());
-
-	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
-
-	commandList->SetComputeRootDescriptorTable(1, freeListIndexHandleGPU_);
-
-	commandList->SetComputeRootDescriptorTable(2, freeListHandleGPU_);
-
-	commandList->Dispatch(1, 1, 1);
+	InitialzieCS(commandList);
 
 }
 
@@ -309,6 +295,26 @@ void GPUPaticle::GPUParticleViewMapping(BaseCamera& camera)
 	gpuParticleViewMap_->billboardMatrix = BillBoardMatrix::GetBillBoardMatrixAll(camera);
 
 	gpuParticleViewMap_->viewProjection = camera.GetViewProjectionMatrix();
+
+}
+
+void GPUPaticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
+{
+
+	// SRV
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	commandList->SetPipelineState(pipelineStatesCS_[kPiprlineStateCSIndexInitialize].Get());//PS0を設定
+	commandList->SetComputeRootSignature(rootSignaturesCS_[kPiprlineStateCSIndexInitialize].Get());
+
+	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(1, freeListIndexHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(2, freeListHandleGPU_);
+
+	commandList->Dispatch(1, 1, 1);
 
 }
 

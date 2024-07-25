@@ -30,6 +30,80 @@ void BonfireParticle::Initialize(
 
 }
 
+void BonfireParticle::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList)
+{
+
+	// バッファ
+	dissolveBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(float) + 0xff) & ~0xff) * kParticleMax);
+
+	/// UAV
+
+	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
+
+	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	uavDesc.Buffer.FirstElement = 0;
+	uavDesc.Buffer.NumElements = kParticleMax;
+	uavDesc.Buffer.CounterOffsetInBytes = 0;
+	uavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+	uavDesc.Buffer.StructureByteStride = sizeof(float);
+
+	uavDissolveHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	uavDissolveHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	uavDissolveDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
+
+	device->CreateUnorderedAccessView(dissolveBuff_.Get(), nullptr, &uavDesc, uavDissolveHandleCPU_);
+
+	/// ここまでUAV
+
+	/// SRV
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	srvDesc.Buffer.FirstElement = 0;
+	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	srvDesc.Buffer.NumElements = kParticleMax;
+	srvDesc.Buffer.StructureByteStride = sizeof(float);
+
+	srvDissolveHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	srvDissolveHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	srvDissolveDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
+
+	device->CreateShaderResourceView(dissolveBuff_.Get(), &srvDesc, srvDissolveHandleCPU_);
+
+	/// ここまでSRV
+
+	GPUPaticle::UAVBufferInitialize(device, commandList);
+
+}
+
+void BonfireParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
+{
+
+	// SRV
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	commandList->SetPipelineState(pipelineStatesCS_[kPiprlineStateCSIndexInitialize].Get());//PS0を設定
+	commandList->SetComputeRootSignature(rootSignaturesCS_[kPiprlineStateCSIndexInitialize].Get());
+
+	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(1, freeListIndexHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(2, freeListHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(3, uavDissolveHandleGPU_);
+
+	commandList->Dispatch(1, 1, 1);
+
+
+}
+
 void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 {
 
@@ -37,7 +111,7 @@ void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* devic
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[3] = {};
+	D3D12_ROOT_PARAMETER rootParameters[4] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -58,6 +132,12 @@ void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* devic
 	freeListDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	freeListDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
+	D3D12_DESCRIPTOR_RANGE dissolveDescriptorRange[1] = {};
+	dissolveDescriptorRange[0].BaseShaderRegister = 3;//iから始まる
+	dissolveDescriptorRange[0].NumDescriptors = 1;//数は一つ
+	dissolveDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	dissolveDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableの中身の配列を指定
@@ -72,6 +152,11 @@ void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* devic
 	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[2].DescriptorTable.pDescriptorRanges = freeListDescriptorRange;//Tableの中身の配列を指定
 	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(freeListDescriptorRange);//Tableで利用する数
+
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[3].DescriptorTable.pDescriptorRanges = dissolveDescriptorRange;//Tableの中身の配列を指定
+	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(dissolveDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
