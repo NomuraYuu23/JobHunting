@@ -65,10 +65,6 @@ private: // メンバ変数
 
 	bool isDecreasingVolume = true;
 
-	// タイトル
-	std::unique_ptr<Sprite> titleSprite_;
-	uint32_t titleTextureHandle_;
-
 	// ボタン
 	std::unique_ptr<Sprite> buttonSprite_;
 	uint32_t buttonTextureHandle_;
@@ -90,5 +86,9 @@ private: // メンバ変数
 
 	// スカイボックス
 	uint32_t skyboxTextureHandle_ = 0;
+
+	// 衝撃波
+	std::unique_ptr<ShockWaveManager> shockWaveManager_;
+	bool isShockWave_;
 
 };

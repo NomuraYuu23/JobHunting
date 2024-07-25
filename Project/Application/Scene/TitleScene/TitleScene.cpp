@@ -29,8 +29,7 @@ void TitleScene::Initialize()
 	audioManager_->StaticInitialize();
 	audioManager_->Initialize();
 
-	titleSprite_.reset(Sprite::Create(titleTextureHandle_, { 640.0f, 360.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
-	buttonSprite_.reset(Sprite::Create(buttonTextureHandle_, { 640.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
+	buttonSprite_.reset(Sprite::Create(buttonTextureHandle_, { 640.0f, 600.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
 	buttonAlphaT_ = 0.0f;
 	buttonAlphaTSpeed_ = 0.01f;
 	buttonItIncreaseAlphaT_ = true;
@@ -73,7 +72,7 @@ void TitleScene::Initialize()
 	pointLightDatas_[0].color = { 0.93f, 0.47f, 0.0f, 1.0f };
 	pointLightDatas_[0].position = { 0.0f, 0.0f, 0.0f };
 	pointLightDatas_[0].intencity = 1.0f;
-	pointLightDatas_[0].radius = 100.0f;
+	pointLightDatas_[0].radius = 50.0f;
 	pointLightDatas_[0].decay = 10.0f;
 	pointLightDatas_[0].used = true;
 
@@ -101,6 +100,14 @@ void TitleScene::Initialize()
 	camera_.SetTransform(cameraTransform);
 	camera_.Update();
 
+	shockWaveManager_ = std::make_unique<ShockWaveManager>();
+	shockWaveManager_->Initialize();
+	shockWaveManager_->SetCenter(Vector2{ 0.5f, 0.83f });
+	shockWaveManager_->SetDistortion(0.1f);
+	shockWaveManager_->SetRadius(0.0f);
+	shockWaveManager_->SetThickness(0.1f);
+	isShockWave_ = false;
+
 	IScene::InitilaizeCheck();
 
 }
@@ -111,6 +118,7 @@ void TitleScene::Update()
 	if (input_->TriggerJoystick(JoystickButton::kJoystickButtonA)) {
 		// 行きたいシーンへ
 		requestSceneNo_ = kTutorial;
+		isShockWave_ = true;
 	}
 
 	objectManager_->Update();
@@ -154,26 +162,16 @@ void TitleScene::Update()
 	buttonColor_.w = Ease::Easing(Ease::EaseName::Lerp, 0.0f, 1.0f, buttonAlphaT_);
 	buttonSprite_->SetColor(buttonColor_);
 
+	if (isShockWave_) {
+		shockWaveManager_->Update();
+	}
+
 	ImguiDraw();
 
 }
 
 void TitleScene::Draw()
 {
-
-#pragma region 前景スプライト描画
-	//// 前景スプライト描画前処理
-	//Sprite::PreDraw(dxCommon_->GetCommadList());
-
-	////背景
-	////前景スプライト描画
-	//titleSprite_->Draw();
-	//buttonSprite_->Draw();
-
-	//// 前景スプライト描画後処理
-	//Sprite::PostDraw();
-
-#pragma endregion
 
 #pragma region モデル描画
 
@@ -200,14 +198,29 @@ void TitleScene::Draw()
 	// パーティクル描画
 	objectManager_->ParticleDraw(camera_);
 
+	// スプライト描画前処理
+	Sprite::PreDraw(dxCommon_->GetCommadList());
+
+	//背景
+	//前景スプライト描画
+	
+	buttonSprite_->Draw();
+
+	// 前景スプライト描画後処理
+	Sprite::PostDraw();
+
 	PostEffect::GetInstance()->SetHue(hsvFilter_.hue);
 	PostEffect::GetInstance()->SetSaturation(hsvFilter_.saturation);
 	PostEffect::GetInstance()->SetValue(hsvFilter_.value);
 
+	PostEffect::ExecutionAdditionalDesc desc = {};
+	desc.shockWaveManagers[0] = shockWaveManager_.get();
+
 	PostEffect::GetInstance()->Execution(
 		dxCommon_->GetCommadList(),
 		renderTargetTexture_,
-		PostEffect::kCommandIndexHSVFilter
+		PostEffect::kCommandIndexShockWave,
+		&desc
 	);
 
 	renderTargetTexture_->ClearDepthBuffer();
@@ -269,8 +282,7 @@ void TitleScene::ModelCreate()
 void TitleScene::TextureLoad()
 {
 
-	titleTextureHandle_ = TextureManager::Load("Resources/OutGame/title.png", dxCommon_);
-	buttonTextureHandle_ = TextureManager::Load("Resources/OutGame/button.png", dxCommon_);
+	buttonTextureHandle_ = TextureManager::Load("Resources/OutGame/titleString_00.png", dxCommon_);
 
 	skyboxTextureHandle_ = TextureManager::Load("Resources/default/rostock_laage_airport_4k.dds", DirectXCommon::GetInstance());
 
