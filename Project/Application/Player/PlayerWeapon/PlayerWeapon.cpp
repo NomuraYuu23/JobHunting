@@ -15,7 +15,7 @@ void PlayerWeapon::Initialize(LevelData::MeshData* data)
 
 	parentName_ = "000_Player";
 
-	rotate_ = { 0.0f, -1.0f, 0.0f };
+	rotate_ = { 0.0f, 0.0f, 3.14f };
 
 }
 

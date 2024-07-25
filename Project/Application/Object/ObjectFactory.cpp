@@ -84,9 +84,9 @@ IObject* ObjectFactory::CreateObject(LevelData::ObjectData& objectData)
 			// 初期化
 			static_cast<PlayerWeapon*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 			// 親セット
-			//static_cast<PlayerWeapon*>(object)->SetParent(
-			//	static_cast<Player*>(objectManager_->GetObjectPointer(
-			//		static_cast<PlayerWeapon*>(object)->GetParentName())));
+			static_cast<PlayerWeapon*>(object)->SetParent(
+				static_cast<Player*>(objectManager_->GetObjectPointer(
+					static_cast<PlayerWeapon*>(object)->GetParentName())));
 		}
 
 	}

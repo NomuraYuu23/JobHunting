@@ -342,7 +342,7 @@ void BaseWeapon::NodeFollowing()
 	parentRotateMatrix.m[3][1] = 0.0f;
 	parentRotateMatrix.m[3][2] = 0.0f;
 
-	rotateMatrix = Matrix4x4::Multiply(Matrix4x4::Multiply(rotateMatrix, parentRotateMatrix), Matrix4x4::MakeRotateXYZMatrix(rotate_));
+	rotateMatrix = Matrix4x4::Multiply(Matrix4x4::MakeRotateXYZMatrix(rotate_), Matrix4x4::Multiply(rotateMatrix, parentRotateMatrix));
 
 	worldTransform_.worldMatrix_ = Matrix4x4::Multiply(rotateMatrix, Matrix4x4::MakeTranslateMatrix(pos));
 
