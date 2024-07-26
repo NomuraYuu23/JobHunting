@@ -11,7 +11,7 @@ void GhostStateDead::Initialize()
 
 	ghostStateNo_ = GhostState::kGhostStateDead;
 
-	ghostMotionNo_ = kGhostStateDead;
+	ghostMotionNo_ = kGhostMotionDead;
 
 }
 
@@ -19,7 +19,7 @@ void GhostStateDead::Update()
 {
 
 	if (++frameCount_ >= frame_) {
-		ghost_->SetIsDead(true);
+		ghostStateNo_ = GhostState::kGhostStateCadaver;
 	}
 	ghost_->SetReceiveCommand(false);
 

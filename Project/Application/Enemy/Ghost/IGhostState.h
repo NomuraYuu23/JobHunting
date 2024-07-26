@@ -10,6 +10,7 @@ enum GhostState {
 	kGhostStateAttack, // 攻撃
 	kGhostStateDamage, // ダメージ
 	kGhostStateDead, // 死亡
+	kGhostStateCadaver, // 死体
 	kGhostStateOfCount // 数
 };
 

@@ -40,9 +40,10 @@ void Ghost::Update()
 
 	localMatrixManager_->Map();
 
-	// 重力
-
-	worldTransform_.UpdateMatrix();
+	// ワールドトランスフォーム更新
+	if (currentStateNo_ != kGhostMotionCadaver) {
+		worldTransform_.UpdateMatrix();
+	}
 
 	// コライダー
 	ColliderUpdate();

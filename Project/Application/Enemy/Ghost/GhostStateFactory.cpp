@@ -6,6 +6,7 @@
 #include "GhostStateAttack.h"
 #include "GhostStateDamage.h"
 #include "GhostStateDead.h"
+#include "GhostStateCadaver.h"
 
 IGhostState* GhostStateFactory::CreateGhostState(uint32_t ghostStateName)
 {
@@ -28,6 +29,9 @@ IGhostState* GhostStateFactory::CreateGhostState(uint32_t ghostStateName)
 		break;
 	case kGhostStateDead: // 死亡
 		newGhostState = new GhostStateDead();
+		break;
+	case kGhostStateCadaver: // 死体
+		newGhostState = new GhostStateCadaver();
 		break;
 	case kGhostStateOfCount: // 使用不可
 	default:

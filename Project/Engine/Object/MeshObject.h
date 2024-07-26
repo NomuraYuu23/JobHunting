@@ -63,6 +63,7 @@ protected: // 関数
 public: // アクセッサ
 
     ColliderShape* GetCollider() { return collider_.get(); };
+    void SetCollider(ColliderShape* collider) { collider_.reset(collider); };
 
 protected: // 変数
 

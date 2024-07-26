@@ -14,6 +14,7 @@ enum GhostMotionIndex {
 	kGhostMotionAttack, // 攻撃時
 	kGhostMotionDamage, // ダメージ時
 	kGhostMotionDead, // 死亡時
+	kGhostMotionCadaver, // 死体
 	kGhostMotionIndexOfCount // 数
 };
 

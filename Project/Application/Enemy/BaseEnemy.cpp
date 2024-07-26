@@ -1,6 +1,7 @@
 #include "BaseEnemy.h"
 #include "../../Engine/Animation/LocalMatrixDraw.h"
 #include "../../Engine/3D/ModelDraw.h"
+#include "../../Engine/Physics/InertiaTensor.h"
 
 void BaseEnemy::Initialize(LevelData::MeshData* data)
 {
@@ -35,6 +36,10 @@ void BaseEnemy::Initialize(LevelData::MeshData* data)
 
 	//HP
 	HPInit(1);
+
+	// 剛体初期化
+	obb = std::get<OBB>(*collider_.get());
+	rigidBody_.Initialize(0.01f, obb.size_);
 
 }
 

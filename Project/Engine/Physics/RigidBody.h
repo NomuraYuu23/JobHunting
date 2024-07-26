@@ -35,6 +35,15 @@ public: // 変数
 public: // 関数
 
 	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="mass">質量</param>
+	/// <param name="size">サイズ</param>
+	void Initialize(float mass, const Vector3& size);
+
+public: // 関数
+
+	/// <summary>
 	/// トルク(ひねり力)計算
 	/// </summary>
 	/// <param name="centerOfGravity">重心</param>

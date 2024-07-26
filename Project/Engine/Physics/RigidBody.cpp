@@ -1,4 +1,24 @@
 #include "RigidBody.h"
+#include "InertiaTensor.h"
+
+void RigidBody::Initialize(float mass, const Vector3& size)
+{
+
+	// 慣性テンソル作成
+	inertiaTensor = InertiaTensor::CreateRectangular(mass, size);
+
+	// 基本姿勢での慣性テンソル作成
+	basicPostureInertiaTensor = inertiaTensor;
+
+	// 姿勢行列作成
+	postureMatrix = Matrix4x4::MakeRotateXYZMatrix({ 0.0f, 0.0f, 0.0f });
+
+	angularVelocity = { 0.0f,0.0f,0.0f }; // 角速度
+	angularMomentum = { 0.0f,0.0f,0.0f }; // 角運動量
+
+	centerOfGravityVelocity = { 0.0f,0.0f,0.0f }; // 重心位置速度
+
+}
 
 Vector3 RigidBody::TorqueCalc(
 	const Vector3& centerOfGravity,

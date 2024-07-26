@@ -67,22 +67,9 @@ void BaseWeapon::CollisionListRegister(CollisionManager* collisionManager, Colli
 void BaseWeapon::RigidBodyInitialize()
 {
 
-	// OBB
+	// 剛体初期化
 	OBB obb = std::get<OBB>(*collider_.get());
-
-	// 慣性テンソル作成
-	rigidBody_.inertiaTensor = InertiaTensor::CreateRectangular(0.01f, obb.size_);
-
-	// 基本姿勢での慣性テンソル作成
-	rigidBody_.basicPostureInertiaTensor = rigidBody_.inertiaTensor;
-
-	// 姿勢行列作成
-	rigidBody_.postureMatrix = Matrix4x4::MakeRotateXYZMatrix({ 0.0f, 0.0f, 0.0f });
-
-	rigidBody_.angularVelocity = { 0.0f,0.0f,0.0f }; // 角速度
-	rigidBody_.angularMomentum = { 0.0f,0.0f,0.0f }; // 角運動量
-
-	rigidBody_.centerOfGravityVelocity = { 0.0f,0.0f,0.0f }; // 重心位置速度
+	rigidBody_.Initialize(0.01f, obb.size_);
 
 }
 

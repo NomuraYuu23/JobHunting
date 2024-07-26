@@ -361,6 +361,9 @@
     <Filter Include="Application\Object\Player\Title">
       <UniqueIdentifier>{f2e9c355-4935-4361-8c80-a0131839b051}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Enemy\Ghost\State\Cadaver">
+      <UniqueIdentifier>{87597692-bbb0-48d9-928c-4701c49d6bc9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -895,19 +898,22 @@
     <ClCompile Include="Application\Weapon\BaseWeapon.cpp">
       <Filter>Application\Object\BaseWeapon</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\PlayerWeapon\PlayerWeapon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\GPUParticle\BonfireParticle.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\Bonfire\Bonfire.cpp">
+      <Filter>Application\Object\Bonfire</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\TitleSceneObjectManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Bonfire\Bonfire.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Application\Player\TitlePlayer\TitlePlayer.cpp">
+      <Filter>Application\Object\Player\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerWeapon\PlayerWeapon.cpp">
+      <Filter>Application\Object\Player\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GPUParticle\BonfireParticle.cpp">
+      <Filter>Application\GPUParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\Ghost\GhostStateCadaver.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1593,25 +1599,28 @@
     <ClInclude Include="Application\Weapon\BaseWeapon.h">
       <Filter>Application\Object\BaseWeapon</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\PlayerWeapon\PlayerWeapon.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Particle\EmitterCS.h">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\PerFrame.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Application\GPUParticle\BonfireParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Object\TitleSceneObjectManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Bonfire\Bonfire.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Object\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Application\Player\TitlePlayer\TitlePlayer.h">
+      <Filter>Application\Object\Player\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\PlayerWeapon\PlayerWeapon.h">
+      <Filter>Application\Object\Player\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Bonfire\Bonfire.h">
+      <Filter>Application\Object\Bonfire</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GPUParticle\BonfireParticle.h">
+      <Filter>Application\GPUParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\Ghost\GhostStateCadaver.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
