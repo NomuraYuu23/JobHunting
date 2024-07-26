@@ -20,6 +20,14 @@ void RigidBody::Initialize(float mass, const Vector3& size)
 
 }
 
+void RigidBody::ApplyForce(const Vector3& center, const Vector3& pointOfAction, const Vector3& force)
+{
+
+	centerOfGravity = center;
+	torque = RigidBody::TorqueCalc(centerOfGravity, pointOfAction, force);
+
+}
+
 Vector3 RigidBody::TorqueCalc(
 	const Vector3& centerOfGravity,
 	const Vector3& pointOfAction,

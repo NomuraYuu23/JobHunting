@@ -18,7 +18,7 @@ void AxSpearManWeapon::Initialize(LevelData::MeshData* data)
 
 	// 力を加える
 	const Vector3 force = { 0.0f, 0.0f, 500.0f };
-	ApplyForce(worldTransform_.GetWorldPosition() + Vector3{0.0f, -2.5f, 0.0f}, force);
+	rigidBody_.ApplyForce(worldTransform_.GetWorldPosition() ,worldTransform_.GetWorldPosition() + Vector3{0.0f, -2.5f, 0.0f}, force);
 
 }
 

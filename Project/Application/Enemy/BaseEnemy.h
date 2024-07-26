@@ -172,6 +172,9 @@ protected:
 	// 剛体
 	RigidBody rigidBody_;
 
+	// 反発係数
+	float coefficientOfRestitution = 0.0f;
+
 protected:
 
 	/// <summary>

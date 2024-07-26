@@ -56,6 +56,11 @@ void Ghost::ImGuiDraw()
 
 void Ghost::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
+
+	if (std::holds_alternative<Ground*>(colliderPartner)) {
+		OnCollisionGround(colliderPartner, collisionData);
+	}
+
 }
 
 void Ghost::StateInitialize()

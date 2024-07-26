@@ -9,6 +9,7 @@
 #include "../Block/Block.h"
 #include "../Enemy/BaseEnemy.h"
 #include "../../Engine/Physics/Gravity.h"
+#include "../../Engine/Collision/Extrusion.h"
 
 void Player::Initialize(LevelData::MeshData* data)
 {
@@ -270,15 +271,10 @@ void Player::OnCollisionEnemy(ColliderParentObject colliderPartner, const Collis
 
 	BaseEnemy* enemy = std::get<BaseEnemy*>(colliderPartner);
 
-	Vector3 partnerPosition = enemy->GetWorldTransformAdress()->GetWorldPosition();
-	partnerPosition.y = 0.0f;
+	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &std::get<OBB>(*enemy->GetCollider()));
 
-	OBB tmpObb = std::get<OBB>(*enemy->GetCollider());
-	Vector3 partnerSize = tmpObb.size_;
-	Matrix4x4 partnerMatrix = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(partnerSize), enemy->GetWorldTransformAdress()->rotateMatrix_);
-	partnerSize.y = 0.0f;
-
-	Extrusion(partnerPosition, partnerSize, partnerMatrix);
+	worldTransform_.transform_.translate += extrusion;
+	worldTransform_.UpdateMatrix();
 
 }
 
@@ -287,9 +283,9 @@ void Player::OnCollisionGround(ColliderParentObject colliderPartner, const Colli
 
 	Ground* ground = std::get<Ground*>(colliderPartner);
 
-	OBB obb = std::get<OBB>(*ground->GetCollider());
+	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &std::get<OBB>(*ground->GetCollider()));
 
-	worldTransform_.transform_.translate.y = ground->GetWorldTransformAdress()->GetWorldPosition().y + obb.size_.y;
+	worldTransform_.transform_.translate += extrusion;
 	worldTransform_.UpdateMatrix();
 
 }
@@ -297,19 +293,12 @@ void Player::OnCollisionGround(ColliderParentObject colliderPartner, const Colli
 void Player::OnCollisionBlock(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-
 	Block* block = std::get<Block*>(colliderPartner);
 
-	Vector3 partnerPosition = block->GetWorldTransformAdress()->GetWorldPosition();
-	partnerPosition.y = 0.0f;
+	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &std::get<OBB>(*block->GetCollider()));
 
-	OBB tmpObb = std::get<OBB>(*block->GetCollider());
-	Vector3 partnerSize = tmpObb.size_;
-	Matrix4x4 partnerMatrix = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(partnerSize), block->GetWorldTransformAdress()->rotateMatrix_);
-	partnerSize.y = 0.0f;
-
-	Extrusion(partnerPosition, partnerSize, partnerMatrix);
-
+	worldTransform_.transform_.translate += extrusion;
+	worldTransform_.UpdateMatrix();
 
 }
 
@@ -329,41 +318,4 @@ float Player::RatioHP()
 	assert(initHp_ != 0);
 
 	return static_cast<float>(hp_) / static_cast<float>(initHp_);
-}
-
-void Player::Extrusion(
-	const Vector3& partnerPosition, 
-	const Vector3& partnerSize, 
-	const Matrix4x4& partnerMatrix)
-{
-
-	// 位置
-	Vector3 playerPosition = worldTransform_.GetWorldPosition();
-	playerPosition.y = 0.0f;
-
-	// 向き
-	Vector3 direction = Vector3::Normalize(Vector3::Subtract(playerPosition, partnerPosition));
-
-	// プレイヤー距離
-	OBB tmpObb = std::get<OBB>(*collider_.get());
-	Vector3 playerSize = tmpObb.size_;
-	Matrix4x4 playerMatrix = Matrix4x4::Multiply(Matrix4x4::MakeScaleMatrix(playerSize), worldTransform_.rotateMatrix_);
-	playerSize.y = 0.0f;
-
-	Vector3 distancePlayer = Matrix4x4::TransformNormal((direction * -1.0f), playerMatrix);
-	Vector3 distanceEnemy = Matrix4x4::TransformNormal(direction, partnerMatrix);
-
-	distancePlayer = Vector3::MaximumNormalize(distancePlayer) * Vector3::GetAbsMax(playerSize);
-	distanceEnemy = Vector3::MaximumNormalize(distanceEnemy) * Vector3::GetAbsMax(partnerSize);
-
-	// 距離
-	float distance = Vector3::Length(distancePlayer) + Vector3::Length(distanceEnemy);
-
-	// 移動
-	Vector3 move = Vector3::Multiply(distance, direction);
-
-	worldTransform_.transform_.translate = Vector3::Add(partnerPosition, move);
-	worldTransform_.transform_.translate.y = prePosition_.y;
-	worldTransform_.UpdateMatrix();
-
 }

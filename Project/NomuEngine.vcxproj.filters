@@ -916,6 +916,9 @@
     <ClCompile Include="Application\Enemy\Ghost\GhostStateCadaver.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Collision\Extrusion.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1621,6 +1624,9 @@
       <Filter>Application\GPUParticle</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\Ghost\GhostStateCadaver.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Collision\Extrusion.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

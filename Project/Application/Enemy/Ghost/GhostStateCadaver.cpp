@@ -15,7 +15,8 @@ void GhostStateCadaver::Initialize()
 	OBB obb = std::get<OBB>(*ghost_->GetCollider());
 
 	float tmp = obb.size_.y;
-	obb.size_.y = obb.size_.z;
+	obb.size_.y = obb.size_.x;
+	obb.size_.x = tmp;
 	obb.size_.z = tmp;
 
 	ColliderShape* colliderShape = new ColliderShape();
@@ -25,9 +26,7 @@ void GhostStateCadaver::Initialize()
 	// 剛体ちから入れる
 	RigidBody* rigidBody = ghost_->GetRigidBody();
 
-	rigidBody->centerOfGravity = obb.center_;
-	rigidBody->torque = 
-		RigidBody::TorqueCalc(rigidBody->centerOfGravity, rigidBody->centerOfGravity + Vector3{1.0f, 0.0f, .0f}, Vector3{ 0.0f, 500.0f, 0.0f });
+	rigidBody->ApplyForce(obb.center_, rigidBody->centerOfGravity + Vector3{ 1.0f, 0.0f, 0.0f}, Vector3{ 0.0f, 10.0f, 0.0f });
 
 }
 

@@ -228,14 +228,6 @@ public:
 	/// <returns></returns>
 	float RatioHP();
 
-	/// <summary>
-	/// 押し出し
-	/// </summary>
-	void Extrusion(
-		const Vector3& partnerPosition,
-		const Vector3& partnerSize,
-		const Matrix4x4& partnerMatrix);
-
 private: // 衝突処理
 
 	/// <summary>

@@ -80,6 +80,8 @@ void BaseWeapon::RigidBodyUpdate()
 
 	rigidBody_.centerOfGravityVelocity += Gravity::Execute();
 
+	rigidBody_.centerOfGravity = worldTransform_.GetWorldPosition();
+
 	// 速度算出
 	Vector3 velocity = RigidBody::PointVelocityCalc(
 		rigidBody_.angularVelocity,
@@ -283,7 +285,7 @@ void BaseWeapon::OnCollisionGround(ColliderParentObject colliderPartner, const C
 
 	// 力を加える
 	const Vector3 force = { 0.0f, 100.0f, 0.0f };
-	ApplyForce((obbVertex[number] + obbVertex[number2]) * 0.5f, force);
+	rigidBody_.ApplyForce(obb.center_,(obbVertex[number] + obbVertex[number2]) * 0.5f, force);
 	
 	// 反発
 	rigidBody_.centerOfGravityVelocity = rigidBody_.centerOfGravityVelocity * -coefficientOfRestitution;
@@ -293,16 +295,6 @@ void BaseWeapon::OnCollisionGround(ColliderParentObject colliderPartner, const C
 	float sub = ground->GetWorldTransformAdress()->GetWorldPosition().y + groundObb.size_.y - obbVertex[number].y;
 	worldTransform_.transform_.translate.y += sub;
 	worldTransform_.UpdateMatrix(rigidBody_.postureMatrix);
-
-}
-
-void BaseWeapon::ApplyForce(const Vector3& pointOfAction, const Vector3& force)
-{
-
-	OBB obb = std::get<OBB>(*GetCollider());
-
-	rigidBody_.centerOfGravity = obb.center_;
-	rigidBody_.torque = RigidBody::TorqueCalc(rigidBody_.centerOfGravity, pointOfAction, force);
 
 }
 
