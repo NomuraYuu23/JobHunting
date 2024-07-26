@@ -26,6 +26,7 @@ void GhostStateCadaver::Initialize()
 	// 剛体ちから入れる
 	RigidBody* rigidBody = ghost_->GetRigidBody();
 
+	//テンソルを作り直す
 	rigidBody->Initialize(0.01f, obb.size_);
 
 	rigidBody->ApplyForce(obb.center_, rigidBody->centerOfGravity + Vector3{ 1.0f, 0.0f, 0.0f}, Vector3{ 0.0f, 200.0f, 0.0f });
