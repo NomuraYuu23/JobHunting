@@ -43,7 +43,7 @@ void BaseEnemy::Initialize(LevelData::MeshData* data)
 	obb = std::get<OBB>(*collider_.get());
 	rigidBody_.Initialize(0.01f, obb.size_);
 
-	coefficientOfRestitution = 0.5f;
+	coefficientOfRestitution = 0.8f;
 
 }
 
@@ -189,7 +189,7 @@ void BaseEnemy::OnCollisionGround(ColliderParentObject colliderPartner, const Co
 	}
 
 	// 力を加える
-	const Vector3 force = { 0.0f, 100.0f, 0.0f };
+	const Vector3 force = (obb.center_ - (obbVertex[number] + obbVertex[number2]) * 0.5f);
 
 	rigidBody_.ApplyForce(obb.center_, (obbVertex[number] + obbVertex[number2]) * 0.5f, force);
 

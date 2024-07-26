@@ -26,7 +26,10 @@ void GhostStateCadaver::Initialize()
 	// 剛体ちから入れる
 	RigidBody* rigidBody = ghost_->GetRigidBody();
 
-	rigidBody->ApplyForce(obb.center_, rigidBody->centerOfGravity + Vector3{ 1.0f, 0.0f, 0.0f}, Vector3{ 0.0f, 10.0f, 0.0f });
+	rigidBody->Initialize(0.01f, obb.size_);
+
+	rigidBody->ApplyForce(obb.center_, rigidBody->centerOfGravity + Vector3{ 1.0f, 0.0f, 0.0f}, Vector3{ 0.0f, 200.0f, 0.0f });
+	rigidBody->centerOfGravityVelocity.y = 10.0f;
 
 }
 
@@ -34,6 +37,7 @@ void GhostStateCadaver::Update()
 {
 
 	RigidBodyUpdate();
+	ghost_->SetReceiveCommand(false);
 
 }
 
@@ -88,7 +92,7 @@ void GhostStateCadaver::RigidBodyUpdate()
 	}
 
 	// 抵抗
-	const float kResistAngularVelocity = 0.1f;
+	const float kResistAngularVelocity = 5.0f;
 
 	if (rigidBody->angularVelocity.x != 0.0f) {
 		rigidBody->angularVelocity.x =

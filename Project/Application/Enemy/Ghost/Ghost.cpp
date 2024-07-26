@@ -164,6 +164,10 @@ void Ghost::AnimationUpdate()
 void Ghost::Damage(uint32_t damage)
 {
 
+	if (currentStateNo_ == kGhostStateDead || currentStateNo_ == kGhostStateCadaver) {
+		return;
+	}
+
 	BaseEnemy::Damage(damage);
 
 	if (hp_ <= 0) {

@@ -913,11 +913,11 @@
     <ClCompile Include="Application\GPUParticle\BonfireParticle.cpp">
       <Filter>Application\GPUParticle</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Ghost\GhostStateCadaver.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Collision\Extrusion.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\Ghost\GhostStateCadaver.cpp">
+      <Filter>Application\Object\Enemy\Ghost\State\Cadaver</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1623,11 +1623,11 @@
     <ClInclude Include="Application\GPUParticle\BonfireParticle.h">
       <Filter>Application\GPUParticle</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Ghost\GhostStateCadaver.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Collision\Extrusion.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\Ghost\GhostStateCadaver.h">
+      <Filter>Application\Object\Enemy\Ghost\State\Cadaver</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
