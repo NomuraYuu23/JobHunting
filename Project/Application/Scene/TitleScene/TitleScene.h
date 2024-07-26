@@ -77,9 +77,6 @@ private: // メンバ変数
 	// 色
 	Vector4 buttonColor_;
 
-	// HSVFilter
-	HSVFilter hsvFilter_;
-
 	// スカイドーム
 	std::unique_ptr<Skydome> skydome_;
 	std::unique_ptr<Model> skydomeModel_;

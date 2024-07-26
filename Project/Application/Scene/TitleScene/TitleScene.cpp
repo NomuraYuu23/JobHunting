@@ -35,8 +35,6 @@ void TitleScene::Initialize()
 	buttonItIncreaseAlphaT_ = true;
 	buttonColor_ = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	hsvFilter_ = { 0.0f,0.0f,0.0f };
-
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<TitleSceneObjectManager>();
 	ObjectFactory::GetInstance()->SetObjectManager(objectManager_.get());
@@ -102,10 +100,11 @@ void TitleScene::Initialize()
 
 	shockWaveManager_ = std::make_unique<ShockWaveManager>();
 	shockWaveManager_->Initialize();
-	shockWaveManager_->SetCenter(Vector2{ 0.5f, 0.83f });
+	shockWaveManager_->SetCenter(Vector2{ 0.25f, 0.7f });
 	shockWaveManager_->SetDistortion(0.1f);
 	shockWaveManager_->SetRadius(0.0f);
 	shockWaveManager_->SetThickness(0.1f);
+	shockWaveManager_->SetRadiusMax(2.0f);
 	isShockWave_ = false;
 
 	IScene::InitilaizeCheck();
@@ -209,10 +208,6 @@ void TitleScene::Draw()
 	// 前景スプライト描画後処理
 	Sprite::PostDraw();
 
-	PostEffect::GetInstance()->SetHue(hsvFilter_.hue);
-	PostEffect::GetInstance()->SetSaturation(hsvFilter_.saturation);
-	PostEffect::GetInstance()->SetValue(hsvFilter_.value);
-
 	PostEffect::ExecutionAdditionalDesc desc = {};
 	desc.shockWaveManagers[0] = shockWaveManager_.get();
 
@@ -235,10 +230,6 @@ void TitleScene::ImguiDraw()
 #ifdef _DEMO
 
 	PostEffect::GetInstance()->ImGuiDraw();
-
-	ImGui::Begin("HSVFilter");
-	ImGui::DragFloat3("HSV", &hsvFilter_.hue, 0.01f);
-	ImGui::End();
 
 	debugCamera_->ImGuiDraw();
 

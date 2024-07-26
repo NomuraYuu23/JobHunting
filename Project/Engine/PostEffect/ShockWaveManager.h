@@ -55,6 +55,18 @@ public: // アクセッサ
 	/// <param name="thickness">厚み</param>
 	void SetThickness(float thickness) { shockWaveDataMap_->thickness = thickness; }
 
+	/// <summary>
+	/// 半径最大設定
+	/// </summary>
+	/// <param name="radiusMax">半径最大</param>
+	void SetRadiusMax(float radiusMax) { radiusMax_ = radiusMax; }
+
+	/// <summary>
+	/// 半径の加算値設定
+	/// </summary>
+	/// <param name="radiusAddValue">半径の加算値</param>
+	void SetRadiusAddValue(float radiusAddValue) { radiusAddValue_ = radiusAddValue; }
+
 private: //変数
 
 	// デバイス
