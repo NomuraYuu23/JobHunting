@@ -104,6 +104,7 @@ public: // サブクラス
 		kPipelineIndexOutline, // アウトライン
 		kPipelineIndexDissolve, // ディゾルブ
 		kPipelineIndexHSVFilter, // HSVフィルター
+		kPipelineIndexSSAOFirst, // SSAO_1
 
 		kPipelineIndexOfCount // 数を数える用（穴埋め用）
 	};
@@ -130,6 +131,7 @@ public: // サブクラス
 		kCommandIndexOutline, // アウトライン
 		kCommandIndexDissolve, // ディゾルブ
 		kCommandIndexHSVFilter, // HSVフィルター
+		kCommandIndexSSAO, // SSAO
 
 		kCommandIndexOfCount // 数を数えるよう
 	};
@@ -176,6 +178,7 @@ private: // 定数
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainOutline"}, // アウトライン
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainDissolve"}, // ディゾルブ
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainHSVFilter"}, // HSVフィルター
+		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainSSAOFirst"}, // SSAO_1
 	};
 
 	// コマンド情報(コマンド実行可能回数4回)
@@ -200,6 +203,7 @@ private: // 定数
 			{kPipelineIndexOutline, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // アウトライン
 			{kPipelineIndexDissolve, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // ディゾルブ
 			{kPipelineIndexHSVFilter, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // HSVフィルター
+			{kPipelineIndexSSAOFirst, kPipelineIndexOfCount, kPipelineIndexOfCount, kPipelineIndexOfCount}, // HSVSSAO
 		},
 	};
 

@@ -1,18 +1,18 @@
 //  シャドウマッピング用カーネル
 static const float32_t kSSAOKernel[3][3] = {
-	{ 1.0f / 9.0f, 1.0f / 9.0f, 1.0f / 9.0f},
-	{ 1.0f / 9.0f, 1.0f / 9.0f, 1.0f / 9.0f},
-	{ 1.0f / 9.0f, 1.0f / 9.0f, 1.0f / 9.0f},
+	{-1.0f / 6.0f, 0.0f, 1.0f / 6.0f},
+	{-1.0f / 6.0f, 0.0f, 1.0f / 6.0f},
+	{-1.0f / 6.0f, 0.0f, 1.0f / 6.0f},
 };
 
-static const float32_t kSSAOKernelSize = 1.0f;
+static const float32_t kSSAOKernelSize = 3.0f;
 static const float32_t kSSAOMinDistance = 0.1f;
-static const float32_t kSSAOMaxDistance = 10.0f;
-static const float32_t3 kSSAOStrength = { 1.0f, 1.0f, 1.0f };
+static const float32_t kSSAOMaxDistance = 1.5f;
+static const float32_t3 kSSAOStrength = { 0.5f, 0.5f, 0.5f };
 
 static const float32_t kSSAONear = 0.1f;
 
-static const float32_t kSSAOFar = 1000.0f;
+static const float32_t kSSAOFar = 100.0f;
 
 float32_t ViewZToOrthograhicDepth(in const float32_t viewZ) {
 

@@ -1064,7 +1064,7 @@ float32_t4 SSAOFirst(in const float32_t2 index) {
 			occlusion += 1.0f;
 		}
 	}
-	occlusion = clamp(occlusion + rcp(3.0f), 0.0f, 1.0f);
+	occlusion = clamp(occlusion * rcp(3.0f), 0.0f, 1.0f);
 
 	float32_t4 output = float32_t4(float32_t3(1.0f - occlusion * kSSAOStrength), 1.0f);
 

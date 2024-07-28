@@ -210,11 +210,13 @@ void TitleScene::Draw()
 
 	PostEffect::ExecutionAdditionalDesc desc = {};
 	desc.shockWaveManagers[0] = shockWaveManager_.get();
+	PostEffect::GetInstance()->SetProjection(camera_.GetProjectionMatrix());
+	PostEffect::GetInstance()->SetProjectionInverse(Matrix4x4::Inverse(camera_.GetProjectionMatrix()));
 
 	PostEffect::GetInstance()->Execution(
 		dxCommon_->GetCommadList(),
 		renderTargetTexture_,
-		PostEffect::kCommandIndexShockWave,
+		PostEffect::kCommandIndexSSAO,
 		&desc
 	);
 
