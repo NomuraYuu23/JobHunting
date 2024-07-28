@@ -32,7 +32,13 @@ public: // 関数
     /// </summary>
     /// <param name="camera">カメラ</param>
     virtual void Draw(BaseCamera& camera);
-    
+
+    /// <summary>
+    /// パーティクル描画
+    /// </summary>
+    /// <param name="camera">カメラ</param>
+    virtual void ParticleDraw(BaseCamera& camera){}
+
     /// <summary>
     /// コライダー登録
     /// </summary>
@@ -57,6 +63,7 @@ protected: // 関数
 public: // アクセッサ
 
     ColliderShape* GetCollider() { return collider_.get(); };
+    void SetCollider(ColliderShape* collider) { collider_.reset(collider); };
 
 protected: // 変数
 

@@ -1,10 +1,29 @@
 #pragma once
 #include <string>
+#include <Windows.h>
+#include <chrono>
+#include <cstdlib>
+#include <d3d12.h>
+#include "../../externals/DirectXTex/d3dx12.h"
+#include <dxgi1_6.h>
+#include <wrl.h>
 
 #include "../3D/WorldTransform.h"
 
 class IObject
 {
+
+protected: 
+
+	static ID3D12GraphicsCommandList* commandList_;
+
+public:
+
+	/// <summary>
+	/// 静的初期化
+	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	static void StaticInitialize(ID3D12GraphicsCommandList* commandList);
 
 public: // 関数
 

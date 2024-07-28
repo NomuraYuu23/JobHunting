@@ -89,13 +89,6 @@ private:
 protected:
 
     /// <summary>
-    /// 力を加える
-    /// </summary>
-    /// <param name="pointOfAction">力を加える箇所</param>
-    /// <param name="force">力</param>
-    void ApplyForce(const Vector3& pointOfAction, const Vector3& force);
-
-    /// <summary>
     /// ノード追従
     /// </summary>
     void NodeFollowing();

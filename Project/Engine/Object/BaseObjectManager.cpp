@@ -66,6 +66,16 @@ void BaseObjectManager::Draw(BaseCamera& camera, DrawLine* drawLine)
 
 }
 
+void BaseObjectManager::ParticleDraw(BaseCamera& camera)
+{
+
+	for (std::list<ObjectPair>::iterator it = objects_.begin();
+		it != objects_.end(); ++it) {
+		static_cast<MeshObject*>(it->second.get())->ParticleDraw(camera);
+	}
+
+}
+
 void BaseObjectManager::ImGuiDraw()
 {
 

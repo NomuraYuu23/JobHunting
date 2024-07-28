@@ -36,6 +36,11 @@ public: // メンバ関数
 private: // メンバ関数
 
 	/// <summary>
+	/// 
+	/// </summary>
+ 	void DebugCameraUpdate();
+
+	/// <summary>
 	/// モデルクリエイト
 	/// </summary>
 	void ModelCreate() override;
@@ -60,10 +65,6 @@ private: // メンバ変数
 
 	bool isDecreasingVolume = true;
 
-	// タイトル
-	std::unique_ptr<Sprite> titleSprite_;
-	uint32_t titleTextureHandle_;
-
 	// ボタン
 	std::unique_ptr<Sprite> buttonSprite_;
 	uint32_t buttonTextureHandle_;
@@ -76,7 +77,15 @@ private: // メンバ変数
 	// 色
 	Vector4 buttonColor_;
 
-	// HSVFilter
-	HSVFilter hsvFilter_;
+	// スカイドーム
+	std::unique_ptr<Skydome> skydome_;
+	std::unique_ptr<Model> skydomeModel_;
+
+	// スカイボックス
+	uint32_t skyboxTextureHandle_ = 0;
+
+	// 衝撃波
+	std::unique_ptr<ShockWaveManager> shockWaveManager_;
+	bool isShockWave_;
 
 };

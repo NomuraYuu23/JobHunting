@@ -162,6 +162,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\AudioManager\GameAudioManager.cpp" />
     <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp" />
     <ClCompile Include="Application\Block\Block.cpp" />
+    <ClCompile Include="Application\Bonfire\Bonfire.cpp" />
     <ClCompile Include="Application\Camera\FollowCamera.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearMan.cpp" />
     <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeam.cpp" />
@@ -179,16 +180,19 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Enemy\Ghost\Ghost.cpp" />
     <ClCompile Include="Application\Enemy\BaseEnemy.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\GhostCommand.cpp" />
+    <ClCompile Include="Application\Enemy\Ghost\GhostStateCadaver.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\GhostStateChase.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\GhostStateDamage.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\GhostStateDead.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\GhostStateFactory.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\GhostStateRoot.cpp" />
     <ClCompile Include="Application\Enemy\Ghost\IGhostState.cpp" />
+    <ClCompile Include="Application\GPUParticle\BonfireParticle.cpp" />
     <ClCompile Include="Application\Ground\Ground.cpp" />
     <ClCompile Include="Application\Object\GameSceneObjectManager.cpp" />
     <ClCompile Include="Application\Object\ObjectFactory.cpp" />
     <ClCompile Include="Application\Object\Sample\SampleObject.cpp" />
+    <ClCompile Include="Application\Object\TitleSceneObjectManager.cpp" />
     <ClCompile Include="Application\Object\TutorialSceneObjectManager.cpp" />
     <ClCompile Include="Application\Particle\Bload\BloadParticle.cpp" />
     <ClCompile Include="Application\Player\Player.cpp" />
@@ -202,6 +206,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Player\PlayerState\PlayerStateRecovery\PlayerStateRecovery.cpp" />
     <ClCompile Include="Application\Player\PlayerState\PlayerStateRoot\PlayerStateRoot.cpp" />
     <ClCompile Include="Application\Player\PlayerWeapon\PlayerWeapon.cpp" />
+    <ClCompile Include="Application\Player\TitlePlayer\TitlePlayer.cpp" />
     <ClCompile Include="Application\Scene\SelectScene\SelectScene.cpp" />
     <ClCompile Include="Application\Scene\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Application\Scene\TutorialScene\TutorialScene.cpp" />
@@ -253,6 +258,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Collision2D\Collision2D.cpp" />
     <ClCompile Include="Engine\Collision2D\Collision2DDebugDraw.cpp" />
     <ClCompile Include="Engine\Collision2D\Collision2DManager.cpp" />
+    <ClCompile Include="Engine\Collision\Extrusion.cpp" />
     <ClCompile Include="Engine\ContactRecord\ContactRecord.cpp" />
     <ClCompile Include="Engine\Level\LevelData.cpp" />
     <ClCompile Include="Engine\Level\LevelDataLoader.cpp" />
@@ -342,6 +348,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\AudioManager\GameAudioManager.h" />
     <ClInclude Include="Application\AudioManager\TitleAudioManager.h" />
     <ClInclude Include="Application\Block\Block.h" />
+    <ClInclude Include="Application\Bonfire\Bonfire.h" />
     <ClInclude Include="Application\Camera\FollowCamera.h" />
     <ClInclude Include="Application\Collider2D\ColliderParentObject2D.h" />
     <ClInclude Include="Application\Collider2D\CollisionConfig2D.h" />
@@ -363,16 +370,19 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Enemy\Ghost\Ghost.h" />
     <ClInclude Include="Application\Enemy\BaseEnemy.h" />
     <ClInclude Include="Application\Enemy\Ghost\GhostCommand.h" />
+    <ClInclude Include="Application\Enemy\Ghost\GhostStateCadaver.h" />
     <ClInclude Include="Application\Enemy\Ghost\GhostStateChase.h" />
     <ClInclude Include="Application\Enemy\Ghost\GhostStateDamage.h" />
     <ClInclude Include="Application\Enemy\Ghost\GhostStateDead.h" />
     <ClInclude Include="Application\Enemy\Ghost\GhostStateFactory.h" />
     <ClInclude Include="Application\Enemy\Ghost\GhostStateRoot.h" />
     <ClInclude Include="Application\Enemy\Ghost\IGhostState.h" />
+    <ClInclude Include="Application\GPUParticle\BonfireParticle.h" />
     <ClInclude Include="Application\Ground\Ground.h" />
     <ClInclude Include="Application\Object\GameSceneObjectManager.h" />
     <ClInclude Include="Application\Object\ObjectFactory.h" />
     <ClInclude Include="Application\Object\Sample\SampleObject.h" />
+    <ClInclude Include="Application\Object\TitleSceneObjectManager.h" />
     <ClInclude Include="Application\Object\TutorialSceneObjectManager.h" />
     <ClInclude Include="Application\Particle\Bload\BloadParticle.h" />
     <ClInclude Include="Application\Player\Player.h" />
@@ -386,6 +396,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Player\PlayerState\PlayerStateRecovery\PlayerStateRecovery.h" />
     <ClInclude Include="Application\Player\PlayerState\PlayerStateRoot\PlayerStateRoot.h" />
     <ClInclude Include="Application\Player\PlayerWeapon\PlayerWeapon.h" />
+    <ClInclude Include="Application\Player\TitlePlayer\TitlePlayer.h" />
     <ClInclude Include="Application\Scene\SceneName.h" />
     <ClInclude Include="Application\Scene\SelectScene\SelectScene.h" />
     <ClInclude Include="Application\Scene\TitleScene\TitleScene.h" />
@@ -454,6 +465,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Collision2D\Collision2DDebugDraw.h" />
     <ClInclude Include="Engine\Collision2D\Collision2DManager.h" />
     <ClInclude Include="Engine\Collision\CollisionData.h" />
+    <ClInclude Include="Engine\Collision\Extrusion.h" />
     <ClInclude Include="Engine\ContactRecord\ContactRecord.h" />
     <ClInclude Include="Engine\Level\LevelData.h" />
     <ClInclude Include="Engine\Level\LevelDataLoader.h" />
@@ -578,6 +590,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include="NomuEngine.vcxproj.user" />
+    <None Include="Resources\shaders\BonfireParticle\Bonfire.CS.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
     <None Include="Resources\shaders\Collider2DDebug\Collider2DDebug.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -589,6 +606,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="Resources\shaders\GPUParticle\GPUParticle.CS.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="Resources\shaders\GPUParticle\GPUParticleDissolve.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -648,6 +670,21 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ResourceCompile Include="NomuEngine.rc" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Resources\shaders\BonfireParticle\BonfireEmit.CS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\BonfireParticle\BonfireInitialize.CS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\BonfireParticle\BonfireUpdate.CS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Resources\shaders\Collider2DDebug\Collider2DDebug.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -657,6 +694,16 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\GPUParticle\GPUParticleDissolve.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\GPUParticle\GPUParticleDissolve.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Resources\shaders\GPUParticle\ParticleEmit.CS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">Compute</ShaderType>

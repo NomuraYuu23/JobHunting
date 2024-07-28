@@ -67,22 +67,9 @@ void BaseWeapon::CollisionListRegister(CollisionManager* collisionManager, Colli
 void BaseWeapon::RigidBodyInitialize()
 {
 
-	// OBB
+	// 剛体初期化
 	OBB obb = std::get<OBB>(*collider_.get());
-
-	// 慣性テンソル作成
-	rigidBody_.inertiaTensor = InertiaTensor::CreateRectangular(0.01f, obb.size_);
-
-	// 基本姿勢での慣性テンソル作成
-	rigidBody_.basicPostureInertiaTensor = rigidBody_.inertiaTensor;
-
-	// 姿勢行列作成
-	rigidBody_.postureMatrix = Matrix4x4::MakeRotateXYZMatrix({ 0.0f, 0.0f, 0.0f });
-
-	rigidBody_.angularVelocity = { 0.0f,0.0f,0.0f }; // 角速度
-	rigidBody_.angularMomentum = { 0.0f,0.0f,0.0f }; // 角運動量
-
-	rigidBody_.centerOfGravityVelocity = { 0.0f,0.0f,0.0f }; // 重心位置速度
+	rigidBody_.Initialize(0.01f, obb.size_);
 
 }
 
@@ -92,6 +79,8 @@ void BaseWeapon::RigidBodyUpdate()
 	// 重力
 
 	rigidBody_.centerOfGravityVelocity += Gravity::Execute();
+
+	rigidBody_.centerOfGravity = worldTransform_.GetWorldPosition();
 
 	// 速度算出
 	Vector3 velocity = RigidBody::PointVelocityCalc(
@@ -296,7 +285,7 @@ void BaseWeapon::OnCollisionGround(ColliderParentObject colliderPartner, const C
 
 	// 力を加える
 	const Vector3 force = { 0.0f, 100.0f, 0.0f };
-	ApplyForce((obbVertex[number] + obbVertex[number2]) * 0.5f, force);
+	rigidBody_.ApplyForce(obb.center_,(obbVertex[number] + obbVertex[number2]) * 0.5f, force);
 	
 	// 反発
 	rigidBody_.centerOfGravityVelocity = rigidBody_.centerOfGravityVelocity * -coefficientOfRestitution;
@@ -306,16 +295,6 @@ void BaseWeapon::OnCollisionGround(ColliderParentObject colliderPartner, const C
 	float sub = ground->GetWorldTransformAdress()->GetWorldPosition().y + groundObb.size_.y - obbVertex[number].y;
 	worldTransform_.transform_.translate.y += sub;
 	worldTransform_.UpdateMatrix(rigidBody_.postureMatrix);
-
-}
-
-void BaseWeapon::ApplyForce(const Vector3& pointOfAction, const Vector3& force)
-{
-
-	OBB obb = std::get<OBB>(*GetCollider());
-
-	rigidBody_.centerOfGravity = obb.center_;
-	rigidBody_.torque = RigidBody::TorqueCalc(rigidBody_.centerOfGravity, pointOfAction, force);
 
 }
 
@@ -342,7 +321,7 @@ void BaseWeapon::NodeFollowing()
 	parentRotateMatrix.m[3][1] = 0.0f;
 	parentRotateMatrix.m[3][2] = 0.0f;
 
-	rotateMatrix = Matrix4x4::Multiply(Matrix4x4::Multiply(rotateMatrix, parentRotateMatrix), Matrix4x4::MakeRotateXYZMatrix(rotate_));
+	rotateMatrix = Matrix4x4::Multiply(Matrix4x4::MakeRotateXYZMatrix(rotate_), Matrix4x4::Multiply(rotateMatrix, parentRotateMatrix));
 
 	worldTransform_.worldMatrix_ = Matrix4x4::Multiply(rotateMatrix, Matrix4x4::MakeTranslateMatrix(pos));
 

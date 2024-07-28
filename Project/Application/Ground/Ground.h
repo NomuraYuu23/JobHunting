@@ -10,7 +10,7 @@ public: // ベースのメンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize(LevelData::MeshData* data);
+	void Initialize(LevelData::MeshData* data) override;
 
 	/// <summary>
 	/// 更新

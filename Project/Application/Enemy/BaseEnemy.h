@@ -6,6 +6,7 @@
 #include "../../Engine/3D/DrawLine.h"
 
 #include "../Enemy/BaseEnemyAttack.h"
+#include "../../Engine/Physics/RigidBody.h"
 
 class BaseEnemy : public MeshObject
 {
@@ -168,6 +169,12 @@ protected:
 	int32_t hp_;
 	uint32_t initHp_;
 
+	// 剛体
+	RigidBody rigidBody_;
+
+	// 反発係数
+	float coefficientOfRestitution = 0.0f;
+
 protected:
 
 	/// <summary>
@@ -206,6 +213,8 @@ public: // アクセッサ
 	Animation* GetAnimationAddress() { return &animation_; }
 
 	LocalMatrixManager* GetLocalMatrixManager() { return localMatrixManager_.get(); }
+
+	RigidBody* GetRigidBody() { return &rigidBody_; };
 
 };
 

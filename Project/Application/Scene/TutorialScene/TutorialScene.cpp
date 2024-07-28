@@ -115,6 +115,14 @@ void TutorialScene::Initialize() {
 	followCamera_->SetTarget(player_->GetWorldTransformAdress());
 	player_->SetCamera(static_cast<BaseCamera*>(followCamera_.get()));
 
+	// GPUパーティクル
+	bonfireParticle_ = std::make_unique<BonfireParticle>();
+	bonfireParticle_->Initialize(
+		dxCommon_->GetDevice(), 
+		dxCommon_->GetCommadListLoad(),
+		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticleDissolve].Get(),
+		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticleDissolve].Get());
+
 	IScene::InitilaizeCheck();
 
 }
@@ -177,7 +185,7 @@ void TutorialScene::Update() {
 
 	//パーティクル
 	particleManager_->Update(camera_);
-	gpuParticle_->Update();
+	bonfireParticle_->Update();
 
 }
 
@@ -234,7 +242,7 @@ void TutorialScene::Draw() {
 
 	// パーティクルはここ
 	particleManager_->Draw(camera_.GetViewProjectionMatrix(), dxCommon_->GetCommadList());
-	gpuParticle_->Draw(dxCommon_->GetCommadList(), camera_);
+	bonfireParticle_->Draw(dxCommon_->GetCommadList(), camera_);
 
 #pragma endregion
 

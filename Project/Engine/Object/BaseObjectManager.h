@@ -41,6 +41,12 @@ public: //virtual
 	virtual void Draw(BaseCamera& camera, DrawLine * drawLine);
 
 	/// <summary>
+	/// パーティクル描画
+	/// </summary>
+	/// <param name="camera">カメラ</param>
+	virtual void ParticleDraw(BaseCamera& camera);
+
+	/// <summary>
 	///	ImGui描画
 	/// </summary>
 	virtual void ImGuiDraw();

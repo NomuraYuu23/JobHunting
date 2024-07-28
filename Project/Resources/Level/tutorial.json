@@ -2257,6 +2257,43 @@
                     4.0
                 ]
             }
+        },
+        {
+            "type": "MESH",
+            "name": "PlayerWeapon",
+            "transform": {
+                "translation": [
+                    4.6486053466796875,
+                    0.0,
+                    1.9202319383621216
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "PlayerWeapon.obj",
+            "directoryPath": "Resources/Model/Player",
+            "className": "PlayerWeapon",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "size": [
+                    1.0,
+                    0.30000001192092896,
+                    3.0
+                ]
+            }
         }
     ]
 }

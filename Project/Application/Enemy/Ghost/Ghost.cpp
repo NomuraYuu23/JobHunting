@@ -40,9 +40,10 @@ void Ghost::Update()
 
 	localMatrixManager_->Map();
 
-	// 重力
-
-	worldTransform_.UpdateMatrix();
+	// ワールドトランスフォーム更新
+	if (currentStateNo_ != kGhostMotionCadaver) {
+		worldTransform_.UpdateMatrix();
+	}
 
 	// コライダー
 	ColliderUpdate();
@@ -55,6 +56,11 @@ void Ghost::ImGuiDraw()
 
 void Ghost::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
+
+	if (std::holds_alternative<Ground*>(colliderPartner)) {
+		OnCollisionGround(colliderPartner, collisionData);
+	}
+
 }
 
 void Ghost::StateInitialize()
@@ -157,6 +163,10 @@ void Ghost::AnimationUpdate()
 
 void Ghost::Damage(uint32_t damage)
 {
+
+	if (currentStateNo_ == kGhostStateDead || currentStateNo_ == kGhostStateCadaver) {
+		return;
+	}
 
 	BaseEnemy::Damage(damage);
 

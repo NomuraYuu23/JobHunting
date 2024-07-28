@@ -67,18 +67,17 @@ void MyFramework::Initialize()
 		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexParticle].Get()
 	);
 
-	GPUPaticle::GetInstance()->Initialize(
-		dxCommon->GetDevice(),
-		dxCommon->GetCommadList(),
-		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
-		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get()
-		);
+	// GPUパーティクル
+	GPUPaticle::StaticInitialzie();
 
 	// ポストエフェクト
 	PostEffect::GetInstance()->Initialize();
 
 	// 霧
 	FogManager::GetInstance()->Initialize();
+
+	// オブジェクト
+	IObject::StaticInitialize(dxCommon->GetCommadList());
 
 #ifdef _DEMO
 

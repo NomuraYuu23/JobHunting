@@ -22,6 +22,7 @@
 #include "../../Camera/FollowCamera.h"
 
 #include "../../UI/TutorialUIManager.h"
+#include "../../GPUParticle/BonfireParticle.h"
 
 
 class TutorialScene : public IScene
@@ -118,5 +119,7 @@ private:
 	uint32_t skyboxTextureHandle_ = 0;
 
 	Player* player_;
+
+	std::unique_ptr<BonfireParticle> bonfireParticle_ = nullptr;
 
 };

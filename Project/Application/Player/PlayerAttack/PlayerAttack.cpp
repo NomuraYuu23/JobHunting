@@ -12,10 +12,10 @@ void PlayerAttack::Initialize(WorldTransform* parent)
 	worldTransform_.UpdateMatrix();
 
 	// 攻撃球の半径
-	radius_ = 1.0f;
+	radius_ = 2.0f;
 
 	// 攻撃球のプレイヤーからのローカル位置
-	center_ = { 0.0f, 1.5f, 1.5f };
+	center_ = { 0.0f, 1.5f, 3.0f };
 
 	// あたり判定コライダー
 	ColliderShape* collider = new ColliderShape();

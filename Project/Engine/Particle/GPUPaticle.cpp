@@ -8,10 +8,25 @@
 #include "BillBoardMatrix.h"
 #include "../Math/DeltaTime.h"
 
-GPUPaticle* GPUPaticle::GetInstance()
+// パーティクルの最大数
+const uint32_t GPUPaticle::kParticleMax = 1024;
+// モデルのディレクトリパス
+const std::string GPUPaticle::kModelDirectoryPath = "Resources/Particle/";
+// モデルのディレクトリパス
+const std::string GPUPaticle::kTextureDirectoryPath = "Resources/Particle/";
+// モデルのファイルの名前
+const std::string GPUPaticle::kFilename = "plane.obj";
+// モデル
+std::unique_ptr<Model> GPUPaticle::model_ = nullptr;
+
+void GPUPaticle::StaticInitialzie()
 {
-	static GPUPaticle instance;
-	return &instance;
+
+	model_.reset(Model::Create(
+		kModelDirectoryPath,
+		kFilename,
+		DirectXCommon::GetInstance()));
+
 }
 
 void GPUPaticle::Initialize(
@@ -27,8 +42,8 @@ void GPUPaticle::Initialize(
 	// バッファの初期化
 	UAVBufferInitialize(device, commandList);
 
-	// モデル関連の初期化
-	ModelInitialize();
+	// マテリアル関連の初期化
+	MaterialInitialize();
 
 	// 描画用ルートシグネチャ設定
 	rootSignature_ = rootSignature;
@@ -81,6 +96,9 @@ void GPUPaticle::Draw(
 	// 更新
 	UpdateCS(commandList);
 
+	// リソースバリア
+	ResouseBarrierToNonPixelShader(commandList);
+
 	// SRV
 	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
 	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
@@ -104,11 +122,27 @@ void GPUPaticle::Draw(
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(
 		commandList,
 		2,
-		model_->GetTextureHandles()[0]);
+		textureHandle_);
 	// マテリアル
 	commandList->SetGraphicsRootConstantBufferView(3, material_->GetMaterialBuff()->GetGPUVirtualAddress());
 	// 描画
 	commandList->DrawInstanced(6, kParticleMax, 0, 0);
+
+	// リソースバリア
+	ResouseBarrierToUnorderedAccess(commandList);
+
+}
+
+void GPUPaticle::SetEmitter(const EmitterCS& emitter)
+{
+
+	// マッピング
+	emitterMap_->count = emitter.count;
+	emitterMap_->frequency = emitter.frequency;
+	emitterMap_->frequencyTime = emitter.frequencyTime;
+	emitterMap_->translate = emitter.translate;
+	emitterMap_->radius = emitter.radius;
+	emitterMap_->emit = emitter.emit;
 
 }
 
@@ -213,32 +247,21 @@ void GPUPaticle::UAVBufferInitialize(ID3D12Device* device,
 	device->CreateUnorderedAccessView(freeListBuff_.Get(), nullptr, &freeListUavDesc, freeListHandleCPU_);
 
 	// CSによる初期化
-
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-
-	commandList->SetPipelineState(pipelineStatesCS_[kPiprlineStateCSIndexInitialize].Get());//PS0を設定
-	commandList->SetComputeRootSignature(rootSignaturesCS_[kPiprlineStateCSIndexInitialize].Get());
-
-	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
-
-	commandList->SetComputeRootDescriptorTable(1, freeListIndexHandleGPU_);
-
-	commandList->SetComputeRootDescriptorTable(2, freeListHandleGPU_);
-
-	commandList->Dispatch(1, 1, 1);
+	InitialzieCS(commandList);
 
 }
 
-void GPUPaticle::ModelInitialize()
+void GPUPaticle::MaterialInitialize()
 {
-	model_.reset(Model::Create(
-		kDirectoryPath,
-		kFilename,
-		DirectXCommon::GetInstance()));
 
 	material_.reset(Material::Create());
+
+	if (textureFilename_ == "") {
+		textureHandle_ = model_->GetTextureHandles()[0];
+	}
+	else {
+		textureHandle_ = TextureManager::Load(kTextureDirectoryPath + textureFilename_, DirectXCommon::GetInstance());
+	}
 
 }
 
@@ -288,6 +311,26 @@ void GPUPaticle::GPUParticleViewMapping(BaseCamera& camera)
 
 }
 
+void GPUPaticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
+{
+
+	// SRV
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	commandList->SetPipelineState(pipelineStatesCS_[kPiprlineStateCSIndexInitialize].Get());//PS0を設定
+	commandList->SetComputeRootSignature(rootSignaturesCS_[kPiprlineStateCSIndexInitialize].Get());
+
+	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(1, freeListIndexHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(2, freeListHandleGPU_);
+
+	commandList->Dispatch(1, 1, 1);
+
+}
+
 void GPUPaticle::Emit(ID3D12GraphicsCommandList* commandList)
 {
 
@@ -315,7 +358,6 @@ void GPUPaticle::Emit(ID3D12GraphicsCommandList* commandList)
 void GPUPaticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 {
 
-
 	// SRV
 	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
 	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
@@ -326,6 +368,10 @@ void GPUPaticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
 
 	commandList->SetComputeRootConstantBufferView(1, perFrameBuff_->GetGPUVirtualAddress());
+
+	commandList->SetComputeRootDescriptorTable(2, freeListIndexHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(3, freeListHandleGPU_);
 
 	commandList->Dispatch(1, 1, 1);
 
@@ -339,6 +385,32 @@ void GPUPaticle::UAVBarrier(ID3D12GraphicsCommandList* commandList)
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
 	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
 	barrier.UAV.pResource = buff_.Get();
+	commandList->ResourceBarrier(1, &barrier);
+
+}
+
+void GPUPaticle::ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList)
+{
+
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = buff_.Get();
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+	commandList->ResourceBarrier(1, &barrier);
+
+}
+
+void GPUPaticle::ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList)
+{
+
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = buff_.Get();
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
 	commandList->ResourceBarrier(1, &barrier);
 
 }

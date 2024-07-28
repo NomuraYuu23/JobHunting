@@ -115,7 +115,6 @@ void RootParameterManager::Initialize()
 #pragma endregion
 
 #pragma region アニメーションなしアウトライン
-	//CreateForNormalOutline();
 	data.push_back(kCBV_VSIndexWorldTransform); // ワールドトランスフォーム
 	data.push_back(kCBV_VSIndexOutlineData); // アウトラインデータ
 	Analyze(kRootParameterIndexNormalOutline, data); // 解析
@@ -123,7 +122,6 @@ void RootParameterManager::Initialize()
 #pragma endregion
 
 #pragma region スプライト
-	//RootParameterInitializeForSprite();
 	data.push_back(kCBV_VSIndexSpriteForGPU); // スプライト用
 	data.push_back(kCBV_PSIndexMaterial); // マテリアル
 	data.push_back(kSRV_PSIndexTexture0); // テクスチャ
@@ -132,7 +130,6 @@ void RootParameterManager::Initialize()
 #pragma endregion
 
 #pragma region パーティクル
-	//RootParameterInitializeForParticle();
 	data.push_back(kCBV_PSIndexMaterial); // マテリアル
 	data.push_back(kSRV_VSIndexParticleForGPU); // パーティクル用
 	data.push_back(kSRV_PSIndexTexture0); // テクスチャ
@@ -142,7 +139,6 @@ void RootParameterManager::Initialize()
 #pragma endregion
 
 #pragma region GPUパーティクル
-	//RootParameterInitializeForParticle();
 	data.push_back(kSRV_VSIndexGPUParticleForGPU); // GPUパーティクル用
 	data.push_back(kCBV_VSIndexGPUParticleView); // GPUパーティクルのView
 	data.push_back(kSRV_PSIndexTexture0); // テクスチャ
@@ -151,8 +147,18 @@ void RootParameterManager::Initialize()
 	data.clear(); // クリア
 #pragma endregion
 
+
+#pragma region GPUパーティクル
+	data.push_back(kSRV_VSIndexGPUParticleForGPU); // GPUパーティクル用
+	data.push_back(kCBV_VSIndexGPUParticleView); // GPUパーティクルのView
+	data.push_back(kSRV_PSIndexTexture0); // テクスチャ
+	data.push_back(kCBV_PSIndexMaterial); // マテリアル
+	data.push_back(kSRV_PSIndexDissolve); // Dissolveデータ(float)
+	Analyze(kRootParameterIndexGPUParticleDissolve, data); // 解析
+	data.clear(); // クリア
+#pragma endregion
+
 #pragma region コライダーデバッグ2D
-	//RootParameterInitializeForCollision2DDebugDraw();
 	data.push_back(kCBV_PSIndexMaterial); // マテリアル
 	data.push_back(kSRV_VSIndexCollider2DDebugDrawForGPU); // コライダーデバッグ2D用
 	data.push_back(kSRV_PSIndexTexture0); // テクスチャ
@@ -162,7 +168,6 @@ void RootParameterManager::Initialize()
 #pragma endregion
 
 #pragma region 線
-	//RootParameterInitializeForLine();
 	data.push_back(kCBV_VSIndexViewProjection); // VP
 	data.push_back(kSRV_VSIndexLineForGPU); // LineForGPU
 	Analyze(kRootParameterIndexLine, data); // 解析

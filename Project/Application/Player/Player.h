@@ -25,6 +25,9 @@ enum PlayerMotionIndex {
 	kPlayerMotionAttack1st, // 攻撃時(1段目)
 	kPlayerMotionAttack2nd, // 攻撃時(2段目)
 	kPlayerMotionAvoidance, // 回避時
+	kPlayerMotionRest, // 座る
+
+
 	kPlayerMotionDash, // ダッシュ時
 	kPlayerMotionWalk, // 歩行時
 	kPlayerMotionGuard, // ガード時
@@ -176,6 +179,8 @@ private:  // パーツ,アニメーション定数
 		"Attack1st",
 		"Attack2nd",
 		"Avoidance",
+		"Rest",
+
 		"Dash",
 		"Walk",
 		"Guard",
@@ -222,14 +227,6 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	float RatioHP();
-
-	/// <summary>
-	/// 押し出し
-	/// </summary>
-	void Extrusion(
-		const Vector3& partnerPosition,
-		const Vector3& partnerSize,
-		const Matrix4x4& partnerMatrix);
 
 private: // 衝突処理
 
