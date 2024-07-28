@@ -73,6 +73,7 @@ void PostEffect::Initialize()
 	computeParametersMap_->paraSize = { 0.3f, 0.3f };// パラの大きさ
 	computeParametersMap_->paraPosition = { 1.0f, 1.0f }; // パラの位置
 
+	computeParametersMap_->projection = Matrix4x4::MakeIdentity4x4(); // プロジェクション行列
 	computeParametersMap_->projectionInverse = Matrix4x4::MakeIdentity4x4(); // プロジェクション逆行列
 
 	computeParametersMap_->outlineSigma = 1.0f; // 標準偏差

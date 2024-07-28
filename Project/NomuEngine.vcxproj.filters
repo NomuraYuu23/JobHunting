@@ -1786,5 +1786,8 @@
     <FxCompile Include="Resources\shaders\GPUParticle\GPUParticleDissolve.VS.hlsl">
       <Filter>shaders\GPUParticle</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\SSAO.CS.hlsl">
+      <Filter>shaders\PostEffect</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

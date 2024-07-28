@@ -62,6 +62,7 @@ public: // サブクラス
 		Vector2 paraSize; // パラの大きさ
 		Vector2 paraPosition; // パラの位置
 
+		Matrix4x4 projection; // プロジェクション行列
 		Matrix4x4 projectionInverse; // プロジェクション逆行列
 
 		float outlineSigma; // 標準偏差
@@ -454,6 +455,12 @@ public: // アクセッサ
 	/// </summary>
 	/// <param name="paraPosition">パラの位置</param>
 	void SetParaPosition(const Vector2& paraPosition) { computeParametersMap_->paraPosition = paraPosition; }
+
+	/// <summary>
+	/// プロジェクション行列設定
+	/// </summary>
+	/// <param name="projection">プロジェクション行列</param>
+	void SetProjection(const Matrix4x4& projection) { computeParametersMap_->projection = projection; }
 
 	/// <summary>
 	/// プロジェクション逆行列設定
