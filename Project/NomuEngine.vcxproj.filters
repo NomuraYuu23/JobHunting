@@ -166,9 +166,6 @@
     <Filter Include="shaders\Line">
       <UniqueIdentifier>{d0b2d68d-ef6e-4a33-aab1-23dd984656c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="shaders\OutLine">
-      <UniqueIdentifier>{93bb0985-6574-4a4b-ad28-c695d75abd21}</UniqueIdentifier>
-    </Filter>
     <Filter Include="shaders\Patrticle">
       <UniqueIdentifier>{8a770c6d-962d-4bbb-a0cf-609fc3c270e1}</UniqueIdentifier>
     </Filter>
@@ -1644,9 +1641,6 @@
     <None Include="Resources\shaders\Line\Line.hlsli">
       <Filter>shaders\Line</Filter>
     </None>
-    <None Include="Resources\shaders\Outline\Outline.hlsli">
-      <Filter>shaders\OutLine</Filter>
-    </None>
     <None Include="Resources\shaders\Particle\Particle.hlsli">
       <Filter>shaders\Patrticle</Filter>
     </None>
@@ -1701,12 +1695,6 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\Line\Line.PS.hlsl">
       <Filter>shaders\Line</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\Outline\Outline.PS.hlsl">
-      <Filter>shaders\OutLine</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\Outline\Outline.VS.hlsl">
-      <Filter>shaders\OutLine</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\Particle\Particle.PS.hlsl">
       <Filter>shaders\Patrticle</Filter>
