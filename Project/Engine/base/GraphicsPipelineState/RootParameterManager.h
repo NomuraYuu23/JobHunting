@@ -61,7 +61,7 @@ enum CBV_PSIndex {
 enum CBV_VSIndex {
 
 	kCBV_VSIndexWorldTransform = 0,// ワールドトランスフォーム
-	kCBV_VSIndexOutlineData = 1,// アウトラインデータ
+
 	kCBV_VSIndexParticleStart = 2,// パーティクルの開始位置
 	kCBV_VSIndexViewProjection = 3,// viewProjection
 	kCBV_VSIndexSpriteForGPU = 4, // スプライト用
@@ -96,8 +96,6 @@ enum RootParameterIndex {
 	kRootParameterIndexAnimModel, // アニメーションありモデル
 	kRootParameterIndexManyModels, // たくさんのアニメーション無しモデル
 	kRootParameterIndexManyAnimModels, // たくさんのアニメーション無しモデル
-
-	kRootParameterIndexNormalOutline, // アニメーション無しアウトライン
 
 	kRootParameterIndexSprite, // スプライト
 	kRootParameterIndexParticle, // パーティクル

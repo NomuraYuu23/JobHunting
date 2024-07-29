@@ -1,6 +1,7 @@
 #include "PostEffect.hlsli"
 
 #include "LuminanceBasedOutline.CS.hlsl"
+#include "SSAO.CS.hlsl"
 
 #include "PostEffectCalc.CS.hlsl"
 
@@ -53,6 +54,7 @@ struct ComputeParameters {
 	float32_t2 paraSize; // パラの大きさ
 	float32_t2 paraPosition; // パラの位置
 
+	float32_t4x4 projection; // プロジェクション行列
 	float32_t4x4 projectionInverse; // プロジェクション逆行列
 	
 	float32_t outlineSigma; // アウトライン標準偏差
@@ -291,59 +293,6 @@ void mainGaussianBlurVertical(uint32_t3 dispatchId : SV_DispatchThreadID)
 		destinationImage0[dispatchId.xy] = GaussianBlurVertical(dispatchId.xy);
 
 	}
-
-}
-
-// ブルーム
-float32_t4 Bloom(in const float32_t2 index, in const  float32_t2 dir) {
-
-	// 入力色
-	float32_t4 input = { 0.0f,0.0f,0.0f,0.0f };
-	
-	// 出力色
-	float32_t4 output = { 0.0f,0.0f,0.0f,0.0f };
-
-	// 一時的なインデックス
-	float32_t2 indexTmp = { 0.0f,0.0f };
-
-	// 重み
-	float32_t weight = 0.0f;
-
-	// 重み合計
-	float32_t weightSum = 0.0f;
-
-	for (int32_t i = -gComputeConstants.kernelSize * rcp(2); i < gComputeConstants.kernelSize * rcp(2); i += 2) {
-
-		// インデックス
-		indexTmp = index;
-
-		indexTmp.x += (float32_t(i) + 0.5f) * dir.x;
-		indexTmp.y += (float32_t(i) + 0.5f) * dir.y;
-		
-		if (dir.x == 1.0f) {
-			input = sourceImage0[indexTmp];
-		}
-		else {
-			input = destinationImage1[indexTmp];
-		}
-
-		// 重み確認
-		weight = Gauss(float32_t(i), gComputeConstants.gaussianSigma) + Gauss(float32_t(i) + 1.0f, gComputeConstants.gaussianSigma);
-
-		// 色確認
-		if (((input.r + input.g + input.b) * rcp(3.0f) > gComputeConstants.threshold)) {
-			// outputに加算
-			output += input * weight;
-		}
-		// 重みの合計に加算
-		weightSum += weight;
-	}
-
-	// 重みの合計分割る
-	output *= rcp(weightSum);
-
-	// 代入
-	return output;
 
 }
 
@@ -1070,3 +1019,70 @@ void mainHSVFilter(uint32_t3 dispatchId : SV_DispatchThreadID) {
 	}
 
 }
+
+float32_t4 SSAOFirst(in const float32_t2 index) {
+
+	float32_t2 texcoord = GetTexcoord(index, float32_t2(gComputeConstants.threadIdTotalX, gComputeConstants.threadIdTotalY));
+
+	// ビュー
+	float32_t ndcDepth = depthTexture[index].r;
+	float32_t4 viewSpace = mul(float32_t4(0.0f, 0.0f, ndcDepth, 1.0f), gComputeConstants.projectionInverse);
+	float32_t viewZ = viewSpace.z * rcp(viewSpace.w);
+
+	// 位置
+	float32_t clipW = gComputeConstants.projection[2][3] * viewZ + gComputeConstants.projection[3][3];
+	float32_t4 clipPosition = float32_t4((float32_t3(texcoord, ndcDepth) - 0.5f) * 2.0f, 1.0f);
+	clipPosition *= clipW;
+	float32_t3 viewPosition = mul(gComputeConstants.projectionInverse,clipPosition).xyz;
+
+	//法線
+	float32_t3 viewNormal = sourceImage1[index].xyz;
+	viewNormal = viewNormal * 2.0f - 1.0f;
+
+	// ノイズ
+	float32_t3 random = Noise(texcoord * gComputeConstants.time) - 0.5f;
+	float32_t3 target = normalize(random - viewNormal) * dot(random, viewNormal);
+	float32_t3 bitangent = cross(viewNormal, target);
+	float32_t3x3 kernelMatrix = float32_t3x3(target, bitangent, viewNormal);
+
+	// 遮蔽係数
+	float32_t occlusion = 0.0f;
+	for (int32_t i = 0; i < 3; ++i) {
+		float32_t3 sampleVector = 
+			mul(float32_t3(kSSAOKernel[i][0], kSSAOKernel[i][1], kSSAOKernel[i][2]),kernelMatrix);
+		float32_t3 samplePoint = viewPosition + (sampleVector * kSSAOKernelSize);
+		float32_t4 samplePointNDC = mul(float32_t4(samplePoint, 1.0f),gComputeConstants.projection);
+		samplePointNDC *= rcp(samplePointNDC.w);
+
+		float32_t2 samplePointUv = samplePointNDC.xy * 0.5f + 0.5f;
+		samplePointUv.x = gComputeConstants.threadIdTotalX;
+		samplePointUv.y = gComputeConstants.threadIdTotalY;
+		float32_t realDepth = GetLinearDepth(depthTexture[samplePointUv].r);
+		float32_t sampleDepth = ViewZToOrthograhicDepth(samplePoint.z);
+		float32_t delta = sampleDepth - realDepth;
+		if (delta > kSSAOMinDistance && delta < kSSAOMaxDistance) {
+			occlusion += 1.0f;
+		}
+	}
+	occlusion = clamp(occlusion + rcp(3.0f), 0.0f, 1.0f);
+
+	float32_t4 output = float32_t4(float32_t3(1.0f - occlusion * kSSAOStrength), 1.0f);
+
+	return output;
+
+}
+
+[numthreads(THREAD_X, THREAD_Y, THREAD_Z)]
+void mainSSAOFirst(uint32_t3 dispatchId : SV_DispatchThreadID) {
+
+	if (dispatchId.x < gComputeConstants.threadIdTotalX &&
+		dispatchId.y < gComputeConstants.threadIdTotalY) {
+
+		destinationImage0[dispatchId.xy] = SSAOFirst(dispatchId.xy);
+
+	}
+
+}
+
+
+

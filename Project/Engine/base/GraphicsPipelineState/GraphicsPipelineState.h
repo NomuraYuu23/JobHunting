@@ -26,8 +26,6 @@ public: // サブクラス
 		kPipelineStateIndexManyModels, // たくさんのモデル
 		kPipelineStateIndexAnimManyModels, // たくさんのアニメーションモデル
 
-		kPipelineStateIndexNormalOutline, // アニメーション無しモデルアウトライン
-
 		kPipelineStateIndexSprite, //スプライト
 		kPipelineStateIndexWindowSpriteSRV, // ウィンドウスプライトSRV
 		kPipelineStateIndexLine, // 線

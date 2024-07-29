@@ -44,7 +44,7 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/Model/NormalModel.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/Model/Model.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-	desc.numRenderTargets = 1;
+	desc.numRenderTargets = 2;
 	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
 #pragma endregion
@@ -62,7 +62,7 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/Model/AnimModel.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/Model/Model.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-	desc.numRenderTargets = 1;
+	desc.numRenderTargets = 2;
 	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
 #pragma endregion
@@ -80,7 +80,7 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/Model/AnimModel.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/Model/Model.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-	desc.numRenderTargets = 1;
+	desc.numRenderTargets = 2;
 	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
 #pragma endregion
@@ -98,7 +98,7 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.filePathVS = L"Resources/shaders/Model/ManyNormalModels.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/Model/ManyModels.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-	desc.numRenderTargets = 1;
+	desc.numRenderTargets = 2;
 	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	Create(desc);
 #pragma endregion
@@ -115,24 +115,6 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	desc.fillMode = D3D12_FILL_MODE_SOLID;
 	desc.filePathVS = L"Resources/shaders/Model/ManyAnimModels.VS.hlsl";
 	desc.filePathPS = L"Resources/shaders/Model/ManyModels.PS.hlsl";
-	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-	desc.numRenderTargets = 1;
-	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	Create(desc);
-#pragma endregion
-
-#pragma region アニメーション無しアウトライン
-	desc.pipelineStateIndex = kPipelineStateIndexNormalOutline;
-	desc.rootParameterIndex = kRootParameterIndexNormalOutline;
-	desc.samplerIndex = kSamplerIndexNormal;
-	desc.depthEnable = false;
-	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
-	desc.inputLayoutIndex = kInputLayoutIndexNormal;
-	desc.blendStateIndex = kBlendStateIndexNormal;
-	desc.cullMode = D3D12_CULL_MODE_BACK;
-	desc.fillMode = D3D12_FILL_MODE_SOLID;
-	desc.filePathVS = L"Resources/shaders/Outline/Outline.VS.hlsl";
-	desc.filePathPS = L"Resources/shaders/Outline/Outline.PS.hlsl";
 	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	desc.numRenderTargets = 2;
 	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;

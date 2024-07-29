@@ -114,13 +114,6 @@ void RootParameterManager::Initialize()
 	data.clear(); // クリア
 #pragma endregion
 
-#pragma region アニメーションなしアウトライン
-	data.push_back(kCBV_VSIndexWorldTransform); // ワールドトランスフォーム
-	data.push_back(kCBV_VSIndexOutlineData); // アウトラインデータ
-	Analyze(kRootParameterIndexNormalOutline, data); // 解析
-	data.clear(); // クリア
-#pragma endregion
-
 #pragma region スプライト
 	data.push_back(kCBV_VSIndexSpriteForGPU); // スプライト用
 	data.push_back(kCBV_PSIndexMaterial); // マテリアル

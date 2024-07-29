@@ -59,6 +59,7 @@ struct SpotLightCalcData {
 
 struct PixelShaderOutput {
 	float32_t4 color : SV_TARGET0;
+	float32_t4 normal : SV_TARGET1;
 };
 
 SamplerState gSampler : register(s0);
@@ -526,6 +527,9 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	if (textureColor.a == 0.0 || output.color.a == 0.0) {
 		discard;
 	}
+
+	output.normal.xyz = (input.normal + float32_t3(1.0f,1.0f,1.0f)) * 0.5f ;
+	output.normal.a = 1.0f;
 
 	return output;
 }
