@@ -272,7 +272,11 @@ void GameScene::Draw() {
 
 		renderTargetTexture_->ClearDepthBuffer();
 
+		PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
+
 		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+
+		PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
 
 	}
 	else {
@@ -283,7 +287,11 @@ void GameScene::Draw() {
 			PostEffect::kCommandIndexBloom
 		);
 
+		PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
+
 		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+
+		PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
 
 	}
 
@@ -293,7 +301,11 @@ void GameScene::Draw() {
 		PostEffect::kCommandIndexOutline
 	);
 
+	PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
+
 	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+
+	PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
 
 	renderTargetTexture_->ClearDepthBuffer();
 
@@ -305,7 +317,11 @@ void GameScene::Draw() {
 			PostEffect::kCommandIndexRadialBlur
 		);
 
+		PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
+
 		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+
+		PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
 
 	}
 
@@ -319,7 +335,11 @@ void GameScene::Draw() {
 
 		renderTargetTexture_->ClearDepthBuffer();
 
+		PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
+
 		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+
+		PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
 
 	}
 

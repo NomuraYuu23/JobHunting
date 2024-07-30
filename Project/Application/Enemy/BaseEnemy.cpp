@@ -189,7 +189,10 @@ void BaseEnemy::OnCollisionGround(ColliderParentObject colliderPartner, const Co
 	}
 
 	// 力を加える
-	const Vector3 force = (obb.center_ - (obbVertex[number] + obbVertex[number2]) * 0.5f);
+	//Vector3 force = (obb.center_ - (obbVertex[number] + obbVertex[number2]) * 0.5f);
+	//force.x = 0.0f;
+	//force.z = 0.0f;
+	Vector3 force = { 0.0f,10.0f,0.0f };
 
 	rigidBody_.ApplyForce(obb.center_, (obbVertex[number] + obbVertex[number2]) * 0.5f, force);
 

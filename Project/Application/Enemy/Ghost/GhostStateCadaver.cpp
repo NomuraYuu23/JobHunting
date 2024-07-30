@@ -93,7 +93,7 @@ void GhostStateCadaver::RigidBodyUpdate()
 	}
 
 	// 抵抗
-	const float kResistAngularVelocity = 5.0f;
+	const float kResistAngularVelocity = 1.0f;
 
 	if (rigidBody->angularVelocity.x != 0.0f) {
 		rigidBody->angularVelocity.x =

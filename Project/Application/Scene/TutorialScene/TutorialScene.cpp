@@ -246,6 +246,56 @@ void TutorialScene::Draw() {
 
 #pragma endregion
 
+
+
+	PostEffect::GetInstance()->SetKernelSize(33);
+	PostEffect::GetInstance()->SetGaussianSigma(33.0f);
+	PostEffect::GetInstance()->SetProjectionInverse(Matrix4x4::Inverse(camera_.GetProjectionMatrix()));
+	PostEffect::GetInstance()->SetRadialBlurStrength(0.2f);
+	PostEffect::GetInstance()->SetThreshold(0.25f);
+
+	PostEffect::GetInstance()->Execution(
+		dxCommon_->GetCommadList(),
+		renderTargetTexture_,
+		PostEffect::kCommandIndexBloom
+	);
+
+	PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
+
+	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+
+	PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
+
+	PostEffect::GetInstance()->Execution(
+		dxCommon_->GetCommadList(),
+		renderTargetTexture_,
+		PostEffect::kCommandIndexOutline
+	);
+
+	PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
+
+	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+
+	PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
+
+	renderTargetTexture_->ClearDepthBuffer();
+
+	if (player_->GetCurrentStateNo() == kPlayerStateAvoidance) {
+
+		PostEffect::GetInstance()->Execution(
+			dxCommon_->GetCommadList(),
+			renderTargetTexture_,
+			PostEffect::kCommandIndexRadialBlur
+		);
+
+		PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
+
+		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+
+		PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
+
+	}
+
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommadList());

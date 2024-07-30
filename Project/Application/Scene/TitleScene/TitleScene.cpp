@@ -197,19 +197,12 @@ void TitleScene::Draw()
 	// パーティクル描画
 	objectManager_->ParticleDraw(camera_);
 
-	// スプライト描画前処理
-	Sprite::PreDraw(dxCommon_->GetCommadList());
-
-	//背景
-	//前景スプライト描画
-	
-	buttonSprite_->Draw();
-
-	// 前景スプライト描画後処理
-	Sprite::PostDraw();
 
 	PostEffect::ExecutionAdditionalDesc desc = {};
 	desc.shockWaveManagers[0] = shockWaveManager_.get();
+	PostEffect::GetInstance()->SetKernelSize(33);
+	PostEffect::GetInstance()->SetGaussianSigma(8.0f);
+	PostEffect::GetInstance()->SetThreshold(0.11f);
 
 	PostEffect::GetInstance()->Execution(
 		dxCommon_->GetCommadList(),
@@ -220,7 +213,38 @@ void TitleScene::Draw()
 
 	renderTargetTexture_->ClearDepthBuffer();
 
+	PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
+
 	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+
+	PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
+
+	//ブルーム
+	PostEffect::GetInstance()->Execution(
+		dxCommon_->GetCommadList(),
+		renderTargetTexture_,
+		PostEffect::kCommandIndexBloom,
+		&desc
+	);
+
+	renderTargetTexture_->ClearDepthBuffer();
+
+	PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
+
+	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+
+	PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
+
+	// スプライト描画前処理
+	Sprite::PreDraw(dxCommon_->GetCommadList());
+
+	//背景
+	//前景スプライト描画
+	
+	buttonSprite_->Draw();
+
+	// 前景スプライト描画後処理
+	Sprite::PostDraw();
 
 }
 
