@@ -120,6 +120,4 @@ private:
 
 	Player* player_;
 
-	std::unique_ptr<BonfireParticle> bonfireParticle_ = nullptr;
-
 };
