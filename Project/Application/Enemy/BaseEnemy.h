@@ -136,20 +136,6 @@ protected: // パーツ,アニメーション変数
 protected: // 衝突処理
 
 	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name="colliderPartner"></param>
-	/// <param name="collisionData"></param>
-	void OnCollisionEnemy(ColliderParentObject colliderPartner, const CollisionData& collisionData);
-
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name="colliderPartner"></param>
-	/// <param name="collisionData"></param>
-	void OnCollisionTutorialEnemy(ColliderParentObject colliderPartner, const CollisionData& collisionData);
-
-	/// <summary>
 	/// 地面との当たり判定
 	/// </summary>
 	/// <param name="colliderPartner"></param>

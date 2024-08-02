@@ -82,6 +82,11 @@ void AxSpearMan::ImGuiDraw()
 
 void AxSpearMan::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
+
+	if (std::holds_alternative<Block*>(colliderPartner)) {
+		OnCollisionBlock(colliderPartner, collisionData);
+	}
+
 }
 
 void AxSpearMan::CollisionListRegister(CollisionManager* collisionManager)

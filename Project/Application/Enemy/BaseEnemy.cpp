@@ -4,6 +4,8 @@
 #include "../../Engine/Physics/InertiaTensor.h"
 
 #include "../Ground/Ground.h"
+#include "../Block/Block.h"
+#include "../../Engine/Collision/Extrusion.h"
 
 void BaseEnemy::Initialize(LevelData::MeshData* data)
 {
@@ -90,7 +92,6 @@ void BaseEnemy::CollisionListRegister(CollisionManager* collisionManager, Collid
 
 void BaseEnemy::OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
-
 
 	// 地面情報取得
 	Ground* ground = std::get<Ground*>(colliderPartner);
@@ -188,10 +189,7 @@ void BaseEnemy::OnCollisionGround(ColliderParentObject colliderPartner, const Co
 
 	}
 
-	// 力を加える
-	//Vector3 force = (obb.center_ - (obbVertex[number] + obbVertex[number2]) * 0.5f);
-	//force.x = 0.0f;
-	//force.z = 0.0f;
+
 	Vector3 force = { 0.0f,10.0f,0.0f };
 
 	rigidBody_.ApplyForce(obb.center_, (obbVertex[number] + obbVertex[number2]) * 0.5f, force);
@@ -204,6 +202,18 @@ void BaseEnemy::OnCollisionGround(ColliderParentObject colliderPartner, const Co
 	float sub = ground->GetWorldTransformAdress()->GetWorldPosition().y + groundObb.size_.y - obbVertex[number].y;
 	worldTransform_.transform_.translate.y += sub;
 	worldTransform_.UpdateMatrix(rigidBody_.postureMatrix);
+
+}
+
+void BaseEnemy::OnCollisionBlock(ColliderParentObject colliderPartner, const CollisionData& collisionData)
+{
+
+	Block* block = std::get<Block*>(colliderPartner);
+
+	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &std::get<OBB>(*block->GetCollider()));
+
+	worldTransform_.transform_.translate += extrusion;
+	worldTransform_.UpdateMatrix();
 
 }
 
