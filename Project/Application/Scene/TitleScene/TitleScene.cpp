@@ -37,7 +37,7 @@ void TitleScene::Initialize()
 
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<TitleSceneObjectManager>();
-	ObjectFactory::GetInstance()->SetObjectManager(objectManager_.get());
+	ObjectFactory::GetInstance()->Initialize(objectManager_.get());
 	objectManager_->Initialize(kLevelIndexTitle, levelDataManager_);
 
 	// スカイドーム
@@ -213,11 +213,8 @@ void TitleScene::Draw()
 
 	renderTargetTexture_->ClearDepthBuffer();
 
-	PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
 
 	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
-
-	PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
 
 	//ブルーム
 	PostEffect::GetInstance()->Execution(
@@ -229,11 +226,7 @@ void TitleScene::Draw()
 
 	renderTargetTexture_->ClearDepthBuffer();
 
-	PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
-
 	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
-
-	PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
 
 	// スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommadList());

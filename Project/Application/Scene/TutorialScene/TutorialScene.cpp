@@ -60,7 +60,7 @@ void TutorialScene::Initialize() {
 
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<TutorialSceneObjectManager>();
-	ObjectFactory::GetInstance()->SetObjectManager(objectManager_.get());
+	ObjectFactory::GetInstance()->Initialize(objectManager_.get());
 	objectManager_->Initialize(kLevelIndexTutorial, levelDataManager_);
 
 	// プレイヤー
@@ -250,11 +250,7 @@ void TutorialScene::Draw() {
 		PostEffect::kCommandIndexBloom
 	);
 
-	PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
-
 	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
-
-	PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
 
 	PostEffect::GetInstance()->Execution(
 		dxCommon_->GetCommadList(),
@@ -262,11 +258,7 @@ void TutorialScene::Draw() {
 		PostEffect::kCommandIndexOutline
 	);
 
-	PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
-
 	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
-
-	PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
 
 	renderTargetTexture_->ClearDepthBuffer();
 
@@ -278,11 +270,7 @@ void TutorialScene::Draw() {
 			PostEffect::kCommandIndexRadialBlur
 		);
 
-		PostEffect::GetInstance()->GetEditTextures(0)->ChangePixelShaderResource(dxCommon_->GetCommadList());
-
 		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
-
-		PostEffect::GetInstance()->GetEditTextures(0)->ChangeUnorderedAccessResource(dxCommon_->GetCommadList());
 
 	}
 
