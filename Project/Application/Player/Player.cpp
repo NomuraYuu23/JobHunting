@@ -56,6 +56,7 @@ void Player::Initialize(LevelData::MeshData* data)
 
 	// 初期設定
 	material_->SetEnableLighting(BlinnPhongReflection);
+	material_->SetEnvironmentCoefficient(0.01f);
 
 }
 

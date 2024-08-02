@@ -18,7 +18,7 @@ void BaseWeapon::Initialize(LevelData::MeshData* data)
 	// 抵抗
 	coefficientOfRestitution = 0.8f;
 
-	material_->SetEnvironmentCoefficient(1.0f);
+	material_->SetEnvironmentCoefficient(0.02f);
 
 }
 

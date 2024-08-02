@@ -12,6 +12,7 @@ void TitlePlayer::Initialize(LevelData::MeshData* data)
 	collider_.reset(colliderShape);
 
 	material_->SetEnableLighting(BlinnPhongReflection);
+	material_->SetEnvironmentCoefficient(0.005f);
 
 	EulerTransform uvTransform;
 	uvTransform.scale = { 100.0f, 100.0f,1.0f };
