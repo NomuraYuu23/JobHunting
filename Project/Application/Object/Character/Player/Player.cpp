@@ -1,15 +1,14 @@
 #include "Player.h"
-#include "../../Engine/Collider/Capsule/Capsule.h"
-#include "../../Engine/2D/ImguiManager.h"
-#include "../../Engine/3D/ModelDraw.h"
-#include "../../Engine/Animation/LocalMatrixDraw.h"
-#include "../../Engine/Math/DeltaTime.h"
+#include "../../../Engine/Collider/Capsule/Capsule.h"
+#include "../../../Engine/2D/ImguiManager.h"
+#include "../../../Engine/3D/ModelDraw.h"
+#include "../../../Engine/Animation/LocalMatrixDraw.h"
+#include "../../../Engine/Math/DeltaTime.h"
+#include "../../../Engine/Physics/Gravity.h"
+#include "../../../Engine/Collision/Extrusion.h"
 
-#include "../Ground/Ground.h"
-#include "../Block/Block.h"
+#include "../../Obstacle/BaseObstacle.h"
 #include "../Enemy/BaseEnemy.h"
-#include "../../Engine/Physics/Gravity.h"
-#include "../../Engine/Collision/Extrusion.h"
 
 void Player::Initialize(LevelData::MeshData* data)
 {
@@ -151,11 +150,8 @@ void Player::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 	if (std::holds_alternative<BaseEnemy*>(colliderPartner)) {
 		OnCollisionEnemy(colliderPartner, collisionData);
 	}
-	else if (std::holds_alternative<Ground*>(colliderPartner)) {
-		OnCollisionGround(colliderPartner, collisionData);
-	}
-	else if (std::holds_alternative<Block*>(colliderPartner)) {
-		OnCollisionBlock(colliderPartner, collisionData);
+	else if (std::holds_alternative<BaseObstacle*>(colliderPartner)) {
+		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 
 }
@@ -278,24 +274,12 @@ void Player::OnCollisionEnemy(ColliderParentObject colliderPartner, const Collis
 
 }
 
-void Player::OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData)
+void Player::OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	Ground* ground = std::get<Ground*>(colliderPartner);
+	BaseObstacle* obstacle = std::get<BaseObstacle*>(colliderPartner);
 
-	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &std::get<OBB>(*ground->GetCollider()));
-
-	worldTransform_.transform_.translate += extrusion;
-	worldTransform_.UpdateMatrix();
-
-}
-
-void Player::OnCollisionBlock(ColliderParentObject colliderPartner, const CollisionData& collisionData)
-{
-
-	Block* block = std::get<Block*>(colliderPartner);
-
-	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &std::get<OBB>(*block->GetCollider()));
+	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &std::get<OBB>(*obstacle->GetCollider()));
 
 	worldTransform_.transform_.translate += extrusion;
 	worldTransform_.UpdateMatrix();

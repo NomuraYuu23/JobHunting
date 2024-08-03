@@ -361,6 +361,9 @@
     <Filter Include="Application\Object\Enemy\Ghost\State\Cadaver">
       <UniqueIdentifier>{87597692-bbb0-48d9-928c-4701c49d6bc9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Obstacle">
+      <UniqueIdentifier>{86476363-7738-4157-a04a-70a59cd5cda7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -673,34 +676,34 @@
     <ClCompile Include="Application\Camera\FollowCamera.cpp">
       <Filter>Application\FollowCamera</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\PlayerState\PlayerStateRoot\PlayerStateRoot.cpp">
+    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateRoot\PlayerStateRoot.cpp">
       <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\PlayerState\PlayerStateAttack\PlayerStateAttack.cpp">
+    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateAttack\PlayerStateAttack.cpp">
       <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\PlayerState\PlayerStateAvoidance\PlayerStateAvoidance.cpp">
+    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateAvoidance\PlayerStateAvoidance.cpp">
       <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\PlayerState\PlayerStateFactory.cpp">
+    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateFactory.cpp">
       <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\PlayerState\PlayerStateGuard\PlayerStateGuard.cpp">
+    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateGuard\PlayerStateGuard.cpp">
       <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\PlayerState\PlayerStateRecovery\PlayerStateRecovery.cpp">
+    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateRecovery\PlayerStateRecovery.cpp">
       <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\PlayerState\IPlayerState.cpp">
+    <ClCompile Include="Application\Object\Character\Player\PlayerState\IPlayerState.cpp">
       <Filter>Application\Object\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\PlayerCommand\PlayerCommand.cpp">
+    <ClCompile Include="Application\Object\Character\Player\PlayerCommand\PlayerCommand.cpp">
       <Filter>Application\Object\Player\System</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\PlayerAttack\PlayerAttack.cpp">
+    <ClCompile Include="Application\Object\Character\Player\PlayerAttack\PlayerAttack.cpp">
       <Filter>Application\Object\Player\System</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\Player.cpp">
+    <ClCompile Include="Application\Object\Character\Player\Player.cpp">
       <Filter>Application\Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="Application\Particle\Bload\BloadParticle.cpp">
@@ -793,37 +796,37 @@
     <ClCompile Include="Application\System\GameOverSystem.cpp">
       <Filter>Application\System</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Ground\Ground.cpp">
+    <ClCompile Include="Application\Object\Obstacle\Ground\Ground.cpp">
       <Filter>Application\Object\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Block\Block.cpp">
+    <ClCompile Include="Application\Object\Obstacle\Block\Block.cpp">
       <Filter>Application\Object\Block</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\BaseEnemy.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\BaseEnemy.cpp">
       <Filter>Application\Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Ghost\Ghost.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\Ghost\Ghost.cpp">
       <Filter>Application\Object\Enemy\Ghost</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Ghost\GhostCommand.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostCommand.cpp">
       <Filter>Application\Object\Enemy\Ghost</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Ghost\GhostStateFactory.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateFactory.cpp">
       <Filter>Application\Object\Enemy\Ghost\State</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Ghost\IGhostState.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\Ghost\IGhostState.cpp">
       <Filter>Application\Object\Enemy\Ghost\State</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\BaseEnemyAttack.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\BaseEnemyAttack.cpp">
       <Filter>Application\Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearMan.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearMan.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateFactory.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateFactory.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\IAxSpearManState.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\IAxSpearManState.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object\BaseObjectManager.cpp">
@@ -832,43 +835,43 @@
     <ClCompile Include="Application\Object\GameSceneObjectManager.cpp">
       <Filter>Application\Object\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State\DashSwingDown</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateRoot.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateRoot.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State\Root</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateWaitSee.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitSee.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State\WaitSee</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Ghost\GhostStateAttack.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateAttack.cpp">
       <Filter>Application\Object\Enemy\Ghost\State\Attack</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Ghost\GhostStateChase.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateChase.cpp">
       <Filter>Application\Object\Enemy\Ghost\State\Chase</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Ghost\GhostStateDamage.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateDamage.cpp">
       <Filter>Application\Object\Enemy\Ghost\State\Damage</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Ghost\GhostStateRoot.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateRoot.cpp">
       <Filter>Application\Object\Enemy\Ghost\State\Root</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Ghost\GhostStateDead.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateDead.cpp">
       <Filter>Application\Object\Enemy\Ghost\State\Dead</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\TutorialSceneObjectManager.cpp">
       <Filter>Application\Object\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateShakeOff.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateShakeOff.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State\ShakeOff</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManState3Consecutive.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManState3Consecutive.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State\3Consecutive</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManCommand.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManCommand.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Command</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManWeapon.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Engine\PostEffect\ShockWaveManager.cpp">
@@ -880,19 +883,19 @@
     <ClCompile Include="Engine\PostEffect\Velocity2DManager.cpp">
       <Filter>Engine\PostEffect\Velocity2D</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeam.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManBeam.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Beam</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManBeamAttack.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManBeamAttack.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Beam</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\AxSpearMan\AxSpearManStateBeam.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateBeam.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Physics\Gravity.cpp">
       <Filter>Engine\Physics\Gravity</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Weapon\BaseWeapon.cpp">
+    <ClCompile Include="Application\Object\Weapon\BaseWeapon.cpp">
       <Filter>Application\Object\BaseWeapon</Filter>
     </ClCompile>
     <ClCompile Include="Application\Bonfire\Bonfire.cpp">
@@ -901,10 +904,10 @@
     <ClCompile Include="Application\Object\TitleSceneObjectManager.cpp">
       <Filter>Application\Object\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\TitlePlayer\TitlePlayer.cpp">
+    <ClCompile Include="Application\Object\Character\Player\TitlePlayer\TitlePlayer.cpp">
       <Filter>Application\Object\Player\Title</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\PlayerWeapon\PlayerWeapon.cpp">
+    <ClCompile Include="Application\Object\Character\Player\PlayerWeapon\PlayerWeapon.cpp">
       <Filter>Application\Object\Player\System</Filter>
     </ClCompile>
     <ClCompile Include="Application\GPUParticle\BonfireParticle.cpp">
@@ -913,8 +916,11 @@
     <ClCompile Include="Engine\Collision\Extrusion.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Ghost\GhostStateCadaver.cpp">
+    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateCadaver.cpp">
       <Filter>Application\Object\Enemy\Ghost\State\Cadaver</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Obstacle\BaseObstacle.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1311,34 +1317,34 @@
     <ClInclude Include="Application\Camera\FollowCamera.h">
       <Filter>Application\FollowCamera</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\IPlayerState.h">
+    <ClInclude Include="Application\Object\Character\Player\PlayerState\IPlayerState.h">
       <Filter>Application\Object\Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\PlayerStateRoot\PlayerStateRoot.h">
+    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateRoot\PlayerStateRoot.h">
       <Filter>Application\Object\Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\PlayerStateAttack\PlayerStateAttack.h">
+    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateAttack\PlayerStateAttack.h">
       <Filter>Application\Object\Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\PlayerStateAvoidance\PlayerStateAvoidance.h">
+    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateAvoidance\PlayerStateAvoidance.h">
       <Filter>Application\Object\Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\PlayerStateFactory.h">
+    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateFactory.h">
       <Filter>Application\Object\Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\PlayerStateGuard\PlayerStateGuard.h">
+    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateGuard\PlayerStateGuard.h">
       <Filter>Application\Object\Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\PlayerState\PlayerStateRecovery\PlayerStateRecovery.h">
+    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateRecovery\PlayerStateRecovery.h">
       <Filter>Application\Object\Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\PlayerAttack\PlayerAttack.h">
+    <ClInclude Include="Application\Object\Character\Player\PlayerAttack\PlayerAttack.h">
       <Filter>Application\Object\Player\System</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\Player.h">
+    <ClInclude Include="Application\Object\Character\Player\Player.h">
       <Filter>Application\Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\PlayerCommand\PlayerCommand.h">
+    <ClInclude Include="Application\Object\Character\Player\PlayerCommand\PlayerCommand.h">
       <Filter>Application\Object\Player\System</Filter>
     </ClInclude>
     <ClInclude Include="Application\Particle\Bload\BloadParticle.h">
@@ -1491,37 +1497,37 @@
     <ClInclude Include="Application\System\GameOverSystem.h">
       <Filter>Application\System</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Ground\Ground.h">
+    <ClInclude Include="Application\Object\Obstacle\Ground\Ground.h">
       <Filter>Application\Object\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Block\Block.h">
+    <ClInclude Include="Application\Object\Obstacle\Block\Block.h">
       <Filter>Application\Object\Block</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\BaseEnemy.h">
+    <ClInclude Include="Application\Object\Character\Enemy\BaseEnemy.h">
       <Filter>Application\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Ghost\Ghost.h">
+    <ClInclude Include="Application\Object\Character\Enemy\Ghost\Ghost.h">
       <Filter>Application\Object\Enemy\Ghost</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Ghost\GhostCommand.h">
+    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostCommand.h">
       <Filter>Application\Object\Enemy\Ghost</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Ghost\IGhostState.h">
+    <ClInclude Include="Application\Object\Character\Enemy\Ghost\IGhostState.h">
       <Filter>Application\Object\Enemy\Ghost\State</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Ghost\GhostStateFactory.h">
+    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateFactory.h">
       <Filter>Application\Object\Enemy\Ghost\State</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\BaseEnemyAttack.h">
+    <ClInclude Include="Application\Object\Character\Enemy\BaseEnemyAttack.h">
       <Filter>Application\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearMan.h">
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearMan.h">
       <Filter>Application\Object\Enemy\AxSpearMan</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateFactory.h">
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateFactory.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\IAxSpearManState.h">
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\IAxSpearManState.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\BaseObjectManager.h">
@@ -1530,43 +1536,43 @@
     <ClInclude Include="Application\Object\GameSceneObjectManager.h">
       <Filter>Application\Object\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.h">
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State\DashSwingDown</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateRoot.h">
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateRoot.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State\Root</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateWaitSee.h">
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitSee.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State\WaitSee</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Ghost\GhostStateAttack.h">
+    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateAttack.h">
       <Filter>Application\Object\Enemy\Ghost\State\Attack</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Ghost\GhostStateChase.h">
+    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateChase.h">
       <Filter>Application\Object\Enemy\Ghost\State\Chase</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Ghost\GhostStateDamage.h">
+    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateDamage.h">
       <Filter>Application\Object\Enemy\Ghost\State\Damage</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Ghost\GhostStateRoot.h">
+    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateRoot.h">
       <Filter>Application\Object\Enemy\Ghost\State\Root</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Ghost\GhostStateDead.h">
+    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateDead.h">
       <Filter>Application\Object\Enemy\Ghost\State\Dead</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\TutorialSceneObjectManager.h">
       <Filter>Application\Object\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateShakeOff.h">
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateShakeOff.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State\ShakeOff</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManState3Consecutive.h">
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManState3Consecutive.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State\3Consecutive</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManCommand.h">
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManCommand.h">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Command</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManWeapon.h">
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManWeapon.h">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Engine\PostEffect\ShockWaveData.h">
@@ -1584,19 +1590,19 @@
     <ClInclude Include="Engine\PostEffect\HSVFilter.h">
       <Filter>Engine\PostEffect\HSVFilter</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeam.h">
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManBeam.h">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Beam</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManBeamAttack.h">
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManBeamAttack.h">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Beam</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\AxSpearMan\AxSpearManStateBeam.h">
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateBeam.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Physics\Gravity.h">
       <Filter>Engine\Physics\Gravity</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Weapon\BaseWeapon.h">
+    <ClInclude Include="Application\Object\Weapon\BaseWeapon.h">
       <Filter>Application\Object\BaseWeapon</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Particle\EmitterCS.h">
@@ -1608,10 +1614,10 @@
     <ClInclude Include="Application\Object\TitleSceneObjectManager.h">
       <Filter>Application\Object\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\TitlePlayer\TitlePlayer.h">
+    <ClInclude Include="Application\Object\Character\Player\TitlePlayer\TitlePlayer.h">
       <Filter>Application\Object\Player\Title</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\PlayerWeapon\PlayerWeapon.h">
+    <ClInclude Include="Application\Object\Character\Player\PlayerWeapon\PlayerWeapon.h">
       <Filter>Application\Object\Player\System</Filter>
     </ClInclude>
     <ClInclude Include="Application\Bonfire\Bonfire.h">
@@ -1623,8 +1629,11 @@
     <ClInclude Include="Engine\Collision\Extrusion.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Ghost\GhostStateCadaver.h">
+    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateCadaver.h">
       <Filter>Application\Object\Enemy\Ghost\State\Cadaver</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Obstacle\BaseObstacle.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

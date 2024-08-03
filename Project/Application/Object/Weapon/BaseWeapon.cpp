@@ -1,8 +1,9 @@
 #include "BaseWeapon.h"
-#include "../Ground/Ground.h"
 #include "../../../Engine/Physics/InertiaTensor.h"
-#include "../../Engine/Math/DeltaTime.h"
-#include "../../Engine/Physics/Gravity.h"
+#include "../../../Engine/Math/DeltaTime.h"
+#include "../../../Engine/Physics/Gravity.h"
+#include "../Obstacle/BaseObstacle.h"
+#include "../../../Engine/Collision/Extrusion.h"
 
 void BaseWeapon::Initialize(LevelData::MeshData* data)
 {
@@ -40,8 +41,8 @@ void BaseWeapon::Update()
 void BaseWeapon::OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
-	if (std::holds_alternative<Ground*>(colliderPartner)) {
-		OnCollisionGround(colliderPartner, collisionData);
+	if (std::holds_alternative<BaseObstacle*>(colliderPartner)) {
+		OnCollisionObstacle(colliderPartner, collisionData);
 	}
 
 }
@@ -184,12 +185,11 @@ void BaseWeapon::ColliderUpdate()
 
 }
 
-void BaseWeapon::OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData)
+void BaseWeapon::OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
-
 	// 地面情報取得
-	Ground* ground = std::get<Ground*>(colliderPartner);
-	OBB groundOBB = std::get<OBB>(*ground->GetCollider());
+	BaseObstacle* obstacle = std::get<BaseObstacle*>(colliderPartner);
+	OBB obstacleBB = std::get<OBB>(*obstacle->GetCollider());
 
 	OBB obb = std::get<OBB>(*GetCollider());
 
@@ -269,7 +269,7 @@ void BaseWeapon::OnCollisionGround(ColliderParentObject colliderPartner, const C
 	}
 
 	for (uint32_t i = 2; i < 8; i++) {
-		
+
 		if (minY > obbVertex[i].y) {
 			minY2 = minY;
 			number2 = number;
@@ -280,20 +280,20 @@ void BaseWeapon::OnCollisionGround(ColliderParentObject colliderPartner, const C
 			minY2 = obbVertex[i].y;
 			number2 = i;
 		}
-	
+
 	}
 
-	// 力を加える
-	const Vector3 force = { 0.0f, 100.0f, 0.0f };
-	rigidBody_.ApplyForce(obb.center_,(obbVertex[number] + obbVertex[number2]) * 0.5f, force);
-	
+
+	Vector3 force = { 0.0f,10.0f,0.0f };
+
+	rigidBody_.ApplyForce(obb.center_, (obbVertex[number] + obbVertex[number2]) * 0.5f, force);
+
 	// 反発
 	rigidBody_.centerOfGravityVelocity = rigidBody_.centerOfGravityVelocity * -coefficientOfRestitution;
 
-	// 押し出し
-	OBB groundObb = std::get<OBB>(*ground->GetCollider());
-	float sub = ground->GetWorldTransformAdress()->GetWorldPosition().y + groundObb.size_.y - obbVertex[number].y;
-	worldTransform_.transform_.translate.y += sub;
+	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &std::get<OBB>(*obstacle->GetCollider()));
+
+	worldTransform_.transform_.translate += extrusion;
 	worldTransform_.UpdateMatrix(rigidBody_.postureMatrix);
 
 }

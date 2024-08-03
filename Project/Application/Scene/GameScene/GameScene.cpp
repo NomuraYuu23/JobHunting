@@ -7,13 +7,12 @@
 #include "../../Particle/EmitterName.h"
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../../Engine/3D/ModelDraw.h"
-
-// 仮
-
-#include "../../Player/PlayerState/PlayerStateAttack/PlayerStateAttack.h"
 #include "../../../Engine/base/WindowSprite.h"
 #include "../../Object/GameSceneObjectManager.h"
 #include "../../Object/ObjectFactory.h"
+
+#include "../../Object/Character/Player/Player.h"
+#include "../../Object/Character/Enemy/BaseEnemy.h"
 
 GameScene::~GameScene()
 {

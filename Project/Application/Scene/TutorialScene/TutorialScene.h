@@ -6,7 +6,6 @@
 #include "../../UI/UIManager.h"
 #include "../../AudioManager/GameAudioManager.h"
 #include "../../Skydome/Skydome.h"
-#include "../../Ground/Ground.h"
 
 #include "../../Object/Sample/SampleObject.h" // サンプルオブジェクト
 
@@ -17,8 +16,6 @@
 #include "../../../Engine/Collision2D/Collision2DManager.h"
 #include "../../../Engine/Collision2D/Collision2DDebugDraw.h"
 
-// プレイヤー
-#include "../../Player/Player.h"
 #include "../../Camera/FollowCamera.h"
 
 #include "../../UI/TutorialUIManager.h"

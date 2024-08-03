@@ -1,11 +1,10 @@
 #include "BaseEnemy.h"
-#include "../../Engine/Animation/LocalMatrixDraw.h"
-#include "../../Engine/3D/ModelDraw.h"
-#include "../../Engine/Physics/InertiaTensor.h"
+#include "../../../Engine/Animation/LocalMatrixDraw.h"
+#include "../../../Engine/3D/ModelDraw.h"
+#include "../../../Engine/Physics/InertiaTensor.h"
+#include "../../../Engine/Collision/Extrusion.h"
 
-#include "../Ground/Ground.h"
-#include "../Block/Block.h"
-#include "../../Engine/Collision/Extrusion.h"
+#include "../../Obstacle/BaseObstacle.h"
 
 void BaseEnemy::Initialize(LevelData::MeshData* data)
 {
@@ -90,12 +89,12 @@ void BaseEnemy::CollisionListRegister(CollisionManager* collisionManager, Collid
 
 }
 
-void BaseEnemy::OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData)
+void BaseEnemy::OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
 	// 地面情報取得
-	Ground* ground = std::get<Ground*>(colliderPartner);
-	OBB groundOBB = std::get<OBB>(*ground->GetCollider());
+	BaseObstacle* obstacle = std::get<BaseObstacle*>(colliderPartner);
+	OBB obstacleBB = std::get<OBB>(*obstacle->GetCollider());
 
 	OBB obb = std::get<OBB>(*GetCollider());
 
@@ -197,23 +196,10 @@ void BaseEnemy::OnCollisionGround(ColliderParentObject colliderPartner, const Co
 	// 反発
 	rigidBody_.centerOfGravityVelocity = rigidBody_.centerOfGravityVelocity * -coefficientOfRestitution;
 
-	// 押し出し
-	OBB groundObb = std::get<OBB>(*ground->GetCollider());
-	float sub = ground->GetWorldTransformAdress()->GetWorldPosition().y + groundObb.size_.y - obbVertex[number].y;
-	worldTransform_.transform_.translate.y += sub;
-	worldTransform_.UpdateMatrix(rigidBody_.postureMatrix);
-
-}
-
-void BaseEnemy::OnCollisionBlock(ColliderParentObject colliderPartner, const CollisionData& collisionData)
-{
-
-	Block* block = std::get<Block*>(colliderPartner);
-
-	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &std::get<OBB>(*block->GetCollider()));
+	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &std::get<OBB>(*obstacle->GetCollider()));
 
 	worldTransform_.transform_.translate += extrusion;
-	worldTransform_.UpdateMatrix();
+	worldTransform_.UpdateMatrix(rigidBody_.postureMatrix);
 
 }
 

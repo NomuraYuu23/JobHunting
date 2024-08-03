@@ -1,15 +1,15 @@
 #include "ObjectFactory.h"
 #include "../../Engine/Object/MeshObject.h"
 
-#include "../Player/Player.h"
-#include "../Ground/Ground.h"
-#include "../Block/Block.h"
-#include "../Enemy/Ghost/Ghost.h"
-#include "../Enemy/AxSpearMan/AxSpearMan.h"
-#include "../Enemy/AxSpearMan/AxSpearManWeapon.h"
-#include "../Player/PlayerWeapon/PlayerWeapon.h"
+#include "../Object/Character/Player/Player.h"
+#include "../Object/Obstacle/Ground/Ground.h"
+#include "../Object/Obstacle/Block/Block.h"
+#include "../Object/Character/Enemy/Ghost/Ghost.h"
+#include "../Object/Character/Enemy/AxSpearMan/AxSpearMan.h"
+#include "../Object/Character/Enemy/AxSpearMan/AxSpearManWeapon.h"
+#include "../Object/Character/Player//PlayerWeapon/PlayerWeapon.h"
 #include "../Bonfire/Bonfire.h"
-#include "../Player/TitlePlayer/TitlePlayer.h"
+#include "../Object/Character/Player/TitlePlayer/TitlePlayer.h"
 
 // 親取得用
 Player* ObjectFactory::player_ = nullptr;
@@ -160,10 +160,10 @@ IObject* ObjectFactory::CreateObjectPlayerWeapon(LevelData::ObjectData& objectDa
 
 	// 初期化
 	static_cast<PlayerWeapon*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
-	// 親セット
-	static_cast<PlayerWeapon*>(object)->SetParent(
-		static_cast<Player*>(objectManager_->GetObjectPointer(
-			static_cast<PlayerWeapon*>(object)->GetParentName())));
+	//// 親セット
+	//static_cast<PlayerWeapon*>(object)->SetParent(
+	//	static_cast<Player*>(objectManager_->GetObjectPointer(
+	//		static_cast<PlayerWeapon*>(object)->GetParentName())));
 	return object;
 }
 

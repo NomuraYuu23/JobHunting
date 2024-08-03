@@ -1,20 +1,17 @@
 #pragma once
-#include "../../Engine/Collider/Collider.h"
+#include "../../../Engine/Collider/Collider.h"
 #include "PlayerState/IPlayerState.h"
 #include "PlayerState/PlayerStateFactory.h"
 #include "PlayerCommand/PlayerCommand.h"
 #include "PlayerAttack/PlayerAttack.h"
-#include "../../Engine/Collider/ColliderShape.h"
-#include "../../Engine/Collision/CollisionData.h"
-#include "../../Engine/Camera/BaseCamera.h"
-#include "../../Engine/3D/Model.h"
-#include "../../Engine/Animation/Animation.h"
-#include "../../Engine/3D/DrawLine.h"
-
-
-
-#include "../../Engine/Level/LevelData.h"
-#include "../../Engine/Object/MeshObject.h"
+#include "../../../Engine/Collider/ColliderShape.h"
+#include "../../../Engine/Collision/CollisionData.h"
+#include "../../../Engine/Camera/BaseCamera.h"
+#include "../../../Engine/3D/Model.h"
+#include "../../../Engine/Animation/Animation.h"
+#include "../../../Engine/3D/DrawLine.h"
+#include "../../../Engine/Level/LevelData.h"
+#include "../../../Engine/Object/MeshObject.h"
 
 /// <summary>
 /// プレイヤーのモーション一覧
@@ -231,25 +228,18 @@ public:
 private: // 衝突処理
 
 	/// <summary>
-	/// 
+	/// 敵との衝突処理
 	/// </summary>
 	/// <param name="colliderPartner"></param>
 	/// <param name="collisionData"></param>
 	void OnCollisionEnemy(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
 	/// <summary>
-	/// 地面との当たり判定
+	/// 障害物との衝突処理
 	/// </summary>
 	/// <param name="colliderPartner"></param>
 	/// <param name="collisionData"></param>
-	void OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData);
-
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name="colliderPartner"></param>
-	/// <param name="collisionData"></param>
-	void OnCollisionBlock(ColliderParentObject colliderPartner, const CollisionData& collisionData);
+	void OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
 public: // アクセッサ
 

@@ -7,13 +7,12 @@
 #include "../../Particle/EmitterName.h"
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../../Engine/3D/ModelDraw.h"
-
-// 仮
-
-#include "../../Player/PlayerState/PlayerStateAttack/PlayerStateAttack.h"
 #include "../../../Engine/base/OutputLog.h"
 #include "../../Object/TutorialSceneObjectManager.h"
 #include "../../Object/ObjectFactory.h"
+
+#include "../../Object/Character/Player/Player.h"
+#include "../../Object/Character/Enemy/BaseEnemy.h"
 
 TutorialScene::~TutorialScene()
 {

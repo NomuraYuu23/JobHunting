@@ -1,6 +1,6 @@
 #pragma once
-#include "../../Engine/Object/MeshObject.h"
-#include "../../Engine/Physics/RigidBody.h"
+#include "../../../Engine/Object/MeshObject.h"
+#include "../../../Engine/Physics/RigidBody.h"
 
 class BaseWeapon : public MeshObject
 {
@@ -80,11 +80,11 @@ protected:
 private:
 
     /// <summary>
-    /// 地面との当たり判定
+    /// 障害物との衝突処理
     /// </summary>
     /// <param name="colliderPartner"></param>
     /// <param name="collisionData"></param>
-    void OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData);
+    void OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
 protected:
 

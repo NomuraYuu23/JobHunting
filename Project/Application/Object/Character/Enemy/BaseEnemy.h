@@ -1,12 +1,11 @@
 #pragma once
 
-#include "../../Engine/Level/LevelData.h"
-#include "../../Engine/Object/MeshObject.h"
-#include "../../Engine/Animation/Animation.h"
-#include "../../Engine/3D/DrawLine.h"
-
+#include "../../../Engine/Level/LevelData.h"
+#include "../../../Engine/Object/MeshObject.h"
+#include "../../../Engine/Animation/Animation.h"
+#include "../../../Engine/3D/DrawLine.h"
+#include "../../../Engine/Physics/RigidBody.h"
 #include "../Enemy/BaseEnemyAttack.h"
-#include "../../Engine/Physics/RigidBody.h"
 
 class BaseEnemy : public MeshObject
 {
@@ -136,18 +135,11 @@ protected: // パーツ,アニメーション変数
 protected: // 衝突処理
 
 	/// <summary>
-	/// 地面との当たり判定
+	/// 障害物との衝突処理
 	/// </summary>
 	/// <param name="colliderPartner"></param>
 	/// <param name="collisionData"></param>
-	void OnCollisionGround(ColliderParentObject colliderPartner, const CollisionData& collisionData);
-
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name="colliderPartner"></param>
-	/// <param name="collisionData"></param>
-	void OnCollisionBlock(ColliderParentObject colliderPartner, const CollisionData& collisionData);
+	void OnCollisionObstacle(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
 protected:
 

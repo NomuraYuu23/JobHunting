@@ -1,10 +1,8 @@
 #pragma once
-#include "../../Engine/Object/MeshObject.h"
-#include "../../Engine/3D/DrawLine.h"
-
-class Block : public MeshObject
+#include "../../../Engine/Object/MeshObject.h"
+class BaseObstacle :
+    public MeshObject
 {
-
 
 public: // ベースのメンバ関数
 
@@ -16,33 +14,29 @@ public: // ベースのメンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	virtual void Update();
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション(参照渡し)</param>
-	void Draw(BaseCamera& camera);
+	virtual void Draw(BaseCamera& camera);
 
 	/// <summary>
 	/// ImGui描画
 	/// </summary>
-	void ImGuiDraw();
+	virtual void ImGuiDraw();
 
 	/// <summary>
 	/// 衝突処理
 	/// </summary>
 	/// <param name="colliderPartner"></param>
 	/// <param name="collisionData"></param>
-	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData);
+	virtual void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
 public:
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
-
-private:
-
-
 
 };
 

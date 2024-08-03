@@ -1,14 +1,13 @@
 #pragma once
-#include "../../../Engine/Physics/RigidBody.h"
+#include "../../../Weapon/BaseWeapon.h"
 
-#include "../../Weapon/BaseWeapon.h"
+class Player;
 
-class AxSpearMan;
-
-class AxSpearManWeapon : public BaseWeapon
+class PlayerWeapon :
+    public BaseWeapon
 {
 
-public: 
+public:
 
     /// <summary>
     /// 初期化
@@ -25,7 +24,7 @@ public:
     /// 親
     /// </summary>
     /// <param name="parent"></param>
-    void SetParent(AxSpearMan* parent);
+    void SetParent(Player* parent);
 
     /// <summary>
     /// 衝突処理
@@ -35,7 +34,7 @@ public:
     void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) override;
 
 private:
-    
+
     /// <summary>
     /// 親あるとき更新
     /// </summary>
@@ -59,7 +58,7 @@ private:
 private:
 
     // 親
-    AxSpearMan* parent_;
+    Player* parent_;
 
 };
 
