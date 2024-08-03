@@ -1,6 +1,6 @@
 #include "PlayerStateAvoidance.h"
 #include "../../Player.h"
-#include "../../../../Engine/Math/Ease.h"
+#include "../../../../../../Engine/Math/Ease.h"
 
 void PlayerStateAvoidance::Initialize()
 {

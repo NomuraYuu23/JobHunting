@@ -150,14 +150,14 @@ Vector3 Extrusion::OBBAndOBB(OBB* pushedOut, OBB* pushOut)
 
 	//平面とObb
 	float r = 0.0f;
-	//Vector3* playerOtientatuons = collision->GetColliderShape()->GetOtientatuons();
+	Vector3* playerOtientatuons = pushedOut->otientatuons_;
 	float playersize[3] = {
 		pushedOut->size_.x,
 		pushedOut->size_.y,
 		pushedOut->size_.z,
 	};
 	for (size_t i = 0; i < 3; i++) {
-		r += std::fabsf(Vector3::Dot(pushOutOtientatuons[i] * playersize[i], icePlaneNormal[num]));
+		r += std::fabsf(Vector3::Dot(playerOtientatuons[i] * playersize[i], icePlaneNormal[num]));
 	}
 
 	//平面とobbの距離

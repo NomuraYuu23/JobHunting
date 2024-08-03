@@ -1,6 +1,6 @@
 #include "PlayerStateRecovery.h"
 #include "../../Player.h"
-#include "../../../../Engine/Math/Ease.h"
+#include "../../../../../../Engine/Math/Ease.h"
 
 void PlayerStateRecovery::Initialize()
 {
