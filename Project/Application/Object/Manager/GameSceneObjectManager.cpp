@@ -1,5 +1,5 @@
 #include "GameSceneObjectManager.h"
-#include "ObjectFactory.h"
+#include "../ObjectFactory.h"
 
 void GameSceneObjectManager::Initialize(LevelIndex levelIndex, LevelDataManager* levelDataManager)
 {

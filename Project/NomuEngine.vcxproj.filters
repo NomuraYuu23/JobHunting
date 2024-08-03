@@ -832,7 +832,7 @@
     <ClCompile Include="Engine\Object\BaseObjectManager.cpp">
       <Filter>Engine\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\GameSceneObjectManager.cpp">
+    <ClCompile Include="Application\Object\Manager\GameSceneObjectManager.cpp">
       <Filter>Application\Object\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.cpp">
@@ -859,7 +859,7 @@
     <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateDead.cpp">
       <Filter>Application\Object\Enemy\Ghost\State\Dead</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\TutorialSceneObjectManager.cpp">
+    <ClCompile Include="Application\Object\Manager\TutorialSceneObjectManager.cpp">
       <Filter>Application\Object\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateShakeOff.cpp">
@@ -898,10 +898,10 @@
     <ClCompile Include="Application\Object\Weapon\BaseWeapon.cpp">
       <Filter>Application\Object\BaseWeapon</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Bonfire\Bonfire.cpp">
+    <ClCompile Include="Application\Object\Bonfire\Bonfire.cpp">
       <Filter>Application\Object\Bonfire</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\TitleSceneObjectManager.cpp">
+    <ClCompile Include="Application\Object\Manager\TitleSceneObjectManager.cpp">
       <Filter>Application\Object\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Character\Player\TitlePlayer\TitlePlayer.cpp">
@@ -1533,7 +1533,7 @@
     <ClInclude Include="Engine\Object\BaseObjectManager.h">
       <Filter>Engine\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\GameSceneObjectManager.h">
+    <ClInclude Include="Application\Object\Manager\GameSceneObjectManager.h">
       <Filter>Application\Object\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.h">
@@ -1560,7 +1560,7 @@
     <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateDead.h">
       <Filter>Application\Object\Enemy\Ghost\State\Dead</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\TutorialSceneObjectManager.h">
+    <ClInclude Include="Application\Object\Manager\TutorialSceneObjectManager.h">
       <Filter>Application\Object\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateShakeOff.h">
@@ -1611,7 +1611,7 @@
     <ClInclude Include="Engine\Math\PerFrame.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\TitleSceneObjectManager.h">
+    <ClInclude Include="Application\Object\Manager\TitleSceneObjectManager.h">
       <Filter>Application\Object\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Player\TitlePlayer\TitlePlayer.h">
@@ -1620,7 +1620,7 @@
     <ClInclude Include="Application\Object\Character\Player\PlayerWeapon\PlayerWeapon.h">
       <Filter>Application\Object\Player\System</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Bonfire\Bonfire.h">
+    <ClInclude Include="Application\Object\Bonfire\Bonfire.h">
       <Filter>Application\Object\Bonfire</Filter>
     </ClInclude>
     <ClInclude Include="Application\GPUParticle\BonfireParticle.h">

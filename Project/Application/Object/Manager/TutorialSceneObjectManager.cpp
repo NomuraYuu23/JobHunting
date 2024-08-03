@@ -1,5 +1,5 @@
 #include "TutorialSceneObjectManager.h"
-#include "ObjectFactory.h"
+#include "../ObjectFactory.h"
 
 void TutorialSceneObjectManager::Initialize(LevelIndex levelIndex, LevelDataManager* levelDataManager)
 {

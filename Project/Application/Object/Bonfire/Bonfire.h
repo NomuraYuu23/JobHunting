@@ -1,6 +1,6 @@
 #pragma once
-#include "../../Engine/Object/MeshObject.h"
-#include "../GPUParticle/BonfireParticle.h"
+#include "../../../Engine/Object/MeshObject.h"
+#include "../../GPUParticle/BonfireParticle.h"
 class Bonfire :
     public MeshObject
 {

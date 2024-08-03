@@ -7,7 +7,7 @@
 #include "../../Application/Object/Character/Enemy/BaseEnemy.h"
 #include "../../Application/Object/Character/Enemy/BaseEnemyAttack.h"
 #include "../../Application/Object/Weapon/BaseWeapon.h"
-#include "../../Application/Bonfire/Bonfire.h"
+#include "../../Application/Object/Bonfire/Bonfire.h"
 #include "../../Application/Object/Character/Player/TitlePlayer/TitlePlayer.h"
 #include "../../Application/Object/Obstacle/BaseObstacle.h"
 

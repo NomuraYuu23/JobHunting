@@ -1,6 +1,6 @@
 #pragma once
-#include "../../Engine/Object/BaseObjectManager.h"
-class TitleSceneObjectManager :
+#include "../../../Engine/Object/BaseObjectManager.h"
+class TutorialSceneObjectManager :
     public BaseObjectManager
 {
 
