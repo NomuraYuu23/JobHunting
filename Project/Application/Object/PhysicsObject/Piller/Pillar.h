@@ -1,7 +1,7 @@
 #pragma once
-#include "../BaseObstacle.h"
+#include "../BasePhysicsObject.h"
 class Pillar :
-    public BaseObstacle
+    public BasePhysicsObject
 {
 
 public: // ベースのメンバ関数

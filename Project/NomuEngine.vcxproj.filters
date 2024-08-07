@@ -364,8 +364,11 @@
     <Filter Include="Application\Object\Obstacle\Ground">
       <UniqueIdentifier>{59beeb5c-dcf2-4572-b6ee-2ee83a88d375}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Object\Obstacle\Pillar">
+    <Filter Include="Application\Object\Obstacle\PillarFoundation">
       <UniqueIdentifier>{e20c0039-5692-417f-8b05-a870c533d65f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Physics">
+      <UniqueIdentifier>{142f1e33-82f0-4c05-8dff-f9a8288dbd7d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -929,6 +932,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\Pillar\PillarFoundation.cpp">
+      <Filter>Application\Object\Obstacle\PillarFoundation</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\PhysicsObject\BasePhysicsObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1648,6 +1654,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\Pillar\PillarFoundation.h">
+      <Filter>Application\Object\Obstacle\PillarFoundation</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\PhysicsObject\BasePhysicsObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

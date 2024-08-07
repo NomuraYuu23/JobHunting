@@ -10,6 +10,8 @@
 #include "../../Application/Object/Bonfire/Bonfire.h"
 #include "../../Application/Object/Character/Player/TitlePlayer/TitlePlayer.h"
 #include "../../Application/Object/Obstacle/BaseObstacle.h"
+#include "../../Application/Object/PhysicsObject/BasePhysicsObject.h"
+
 
 void CollisionManager::Initialize()
 {

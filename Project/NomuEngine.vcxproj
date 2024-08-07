@@ -194,6 +194,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Obstacle\BaseObstacle.cpp" />
     <ClCompile Include="Application\Object\Obstacle\Pillar\Pillar.cpp" />
     <ClCompile Include="Application\Object\Obstacle\Pillar\PillarFoundation.cpp" />
+    <ClCompile Include="Application\Object\PhysicsObject\BasePhysicsObject.cpp" />
     <ClCompile Include="Application\Object\Sample\SampleObject.cpp" />
     <ClCompile Include="Application\Object\Manager\TitleSceneObjectManager.cpp" />
     <ClCompile Include="Application\Object\Manager\TutorialSceneObjectManager.cpp" />
@@ -387,6 +388,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Obstacle\BaseObstacle.h" />
     <ClInclude Include="Application\Object\Obstacle\Pillar\Pillar.h" />
     <ClInclude Include="Application\Object\Obstacle\Pillar\PillarFoundation.h" />
+    <ClInclude Include="Application\Object\PhysicsObject\BasePhysicsObject.h" />
     <ClInclude Include="Application\Object\Sample\SampleObject.h" />
     <ClInclude Include="Application\Object\Manager\TitleSceneObjectManager.h" />
     <ClInclude Include="Application\Object\Manager\TutorialSceneObjectManager.h" />
