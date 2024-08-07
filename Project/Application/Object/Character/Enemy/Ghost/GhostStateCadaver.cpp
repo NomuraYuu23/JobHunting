@@ -32,6 +32,8 @@ void GhostStateCadaver::Initialize()
 	rigidBody->ApplyForce(obb.center_, rigidBody->centerOfGravity + Vector3{ 1.0f, 0.0f, 0.0f}, Vector3{ 0.0f, 50.0f, 0.0f });
 	rigidBody->centerOfGravityVelocity.y = 10.0f;
 
+	ghost_->SetUsedRigidBody(true);
+
 }
 
 void GhostStateCadaver::Update()

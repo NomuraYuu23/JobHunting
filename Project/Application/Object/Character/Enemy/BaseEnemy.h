@@ -150,6 +150,9 @@ protected:
 	// 剛体
 	RigidBody rigidBody_;
 
+	// 剛体使うか
+	bool usedRigidBody_;
+
 	// 反発係数
 	float coefficientOfRestitution = 0.0f;
 
@@ -193,6 +196,8 @@ public: // アクセッサ
 	LocalMatrixManager* GetLocalMatrixManager() { return localMatrixManager_.get(); }
 
 	RigidBody* GetRigidBody() { return &rigidBody_; };
+
+	void SetUsedRigidBody(bool usedRigidBody) { usedRigidBody_ = usedRigidBody; }
 
 };
 
