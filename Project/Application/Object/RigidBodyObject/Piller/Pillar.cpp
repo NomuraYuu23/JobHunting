@@ -3,7 +3,6 @@
 void Pillar::Initialize(LevelData::MeshData* data)
 {
 
-
-
+	BaseRigidBodyObject::Initialize(data);
 
 }

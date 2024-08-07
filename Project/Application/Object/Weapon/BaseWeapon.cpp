@@ -189,7 +189,6 @@ void BaseWeapon::OnCollisionObstacle(ColliderParentObject colliderPartner, const
 {
 	// 地面情報取得
 	BaseObstacle* obstacle = std::get<BaseObstacle*>(colliderPartner);
-	OBB obstacleBB = std::get<OBB>(*obstacle->GetCollider());
 
 	OBB obb = std::get<OBB>(*GetCollider());
 

@@ -161,6 +161,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\AudioManager\ClearAudioManager.cpp" />
     <ClCompile Include="Application\AudioManager\GameAudioManager.cpp" />
     <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp" />
+    <ClCompile Include="Application\Collider\ColliderParentIdentification.cpp" />
     <ClCompile Include="Application\Object\Obstacle\Block\Block.cpp" />
     <ClCompile Include="Application\Object\Bonfire\Bonfire.cpp" />
     <ClCompile Include="Application\Camera\FollowCamera.cpp" />
@@ -192,9 +193,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Manager\GameSceneObjectManager.cpp" />
     <ClCompile Include="Application\Object\ObjectFactory.cpp" />
     <ClCompile Include="Application\Object\Obstacle\BaseObstacle.cpp" />
-    <ClCompile Include="Application\Object\Obstacle\Pillar\Pillar.cpp" />
+    <ClCompile Include="Application\Object\RigidBodyObject\Piller\Pillar.cpp" />
     <ClCompile Include="Application\Object\Obstacle\Pillar\PillarFoundation.cpp" />
-    <ClCompile Include="Application\Object\PhysicsObject\BasePhysicsObject.cpp" />
+    <ClCompile Include="Application\Object\RigidBodyObject\BaseRigidBodyObject.cpp" />
     <ClCompile Include="Application\Object\Sample\SampleObject.cpp" />
     <ClCompile Include="Application\Object\Manager\TitleSceneObjectManager.cpp" />
     <ClCompile Include="Application\Object\Manager\TutorialSceneObjectManager.cpp" />
@@ -351,6 +352,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\AudioManager\ClearAudioManager.h" />
     <ClInclude Include="Application\AudioManager\GameAudioManager.h" />
     <ClInclude Include="Application\AudioManager\TitleAudioManager.h" />
+    <ClInclude Include="Application\Collider\ColliderParentIdentification.h" />
     <ClInclude Include="Application\Object\Obstacle\Block\Block.h" />
     <ClInclude Include="Application\Object\Bonfire\Bonfire.h" />
     <ClInclude Include="Application\Camera\FollowCamera.h" />
@@ -386,9 +388,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Manager\GameSceneObjectManager.h" />
     <ClInclude Include="Application\Object\ObjectFactory.h" />
     <ClInclude Include="Application\Object\Obstacle\BaseObstacle.h" />
-    <ClInclude Include="Application\Object\Obstacle\Pillar\Pillar.h" />
+    <ClInclude Include="Application\Object\RigidBodyObject\Piller\Pillar.h" />
     <ClInclude Include="Application\Object\Obstacle\Pillar\PillarFoundation.h" />
-    <ClInclude Include="Application\Object\PhysicsObject\BasePhysicsObject.h" />
+    <ClInclude Include="Application\Object\RigidBodyObject\BaseRigidBodyObject.h" />
     <ClInclude Include="Application\Object\Sample\SampleObject.h" />
     <ClInclude Include="Application\Object\Manager\TitleSceneObjectManager.h" />
     <ClInclude Include="Application\Object\Manager\TutorialSceneObjectManager.h" />

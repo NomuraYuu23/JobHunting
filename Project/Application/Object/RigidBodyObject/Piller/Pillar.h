@@ -1,7 +1,7 @@
 #pragma once
-#include "../BasePhysicsObject.h"
+#include "../BaseRigidBodyObject.h"
 class Pillar :
-    public BasePhysicsObject
+    public BaseRigidBodyObject
 {
 
 public: // ベースのメンバ関数

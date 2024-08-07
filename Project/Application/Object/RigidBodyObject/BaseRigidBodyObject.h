@@ -1,6 +1,7 @@
 #pragma once
 #include "../../../Engine/Object/MeshObject.h"
-class BasePhysicsObject :
+#include "../../../Engine/Physics/RigidBody.h"
+class BaseRigidBodyObject :
     public MeshObject
 {
 
@@ -34,9 +35,28 @@ public: // ベースのメンバ関数
 	/// <param name="collisionData"></param>
 	virtual void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
+private:
+
+	/// <summary>
+	/// 剛体初期化
+	/// </summary>
+	virtual void RigidBodyInitialize();
+
+	/// <summary>
+	/// 剛体更新
+	/// </summary>
+	virtual void RigidBodyUpdate();
+
 public:
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
+
+private:
+
+	// 剛体
+	RigidBody rigidBody_;
+	// 反発係数
+	float coefficientOfRestitution = 0.0f;
 
 };
 

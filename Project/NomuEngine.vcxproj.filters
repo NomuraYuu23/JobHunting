@@ -928,13 +928,16 @@
     <ClCompile Include="Application\Object\Obstacle\BaseObstacle.cpp">
       <Filter>Application\Object\Obstacle</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Obstacle\Pillar\Pillar.cpp">
+    <ClCompile Include="Application\Object\RigidBodyObject\Piller\Pillar.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\Pillar\PillarFoundation.cpp">
       <Filter>Application\Object\Obstacle\PillarFoundation</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\PhysicsObject\BasePhysicsObject.cpp">
+    <ClCompile Include="Application\Object\RigidBodyObject\BaseRigidBodyObject.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Collider\ColliderParentIdentification.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1650,13 +1653,16 @@
     <ClInclude Include="Application\Object\Obstacle\BaseObstacle.h">
       <Filter>Application\Object\Obstacle</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\Obstacle\Pillar\Pillar.h">
+    <ClInclude Include="Application\Object\RigidBodyObject\Piller\Pillar.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\Pillar\PillarFoundation.h">
       <Filter>Application\Object\Obstacle\PillarFoundation</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\PhysicsObject\BasePhysicsObject.h">
+    <ClInclude Include="Application\Object\RigidBodyObject\BaseRigidBodyObject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Collider\ColliderParentIdentification.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
