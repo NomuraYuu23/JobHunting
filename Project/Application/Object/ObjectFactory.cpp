@@ -10,6 +10,7 @@
 #include "../Object/Character/Player//PlayerWeapon/PlayerWeapon.h"
 #include "../Object/Bonfire/Bonfire.h"
 #include "../Object/Character/Player/TitlePlayer/TitlePlayer.h"
+#include "Obstacle/Pillar/PillarFoundation.h"
 
 // 親取得用
 Player* ObjectFactory::player_ = nullptr;
@@ -62,6 +63,10 @@ void ObjectFactory::Initialize(BaseObjectManager* objectManager)
 
 	createObjectFunctions_[kCreateObjectIndexTitlePlayer].first = "TitlePlayer";
 	createObjectFunctions_[kCreateObjectIndexTitlePlayer].second = ObjectFactory::CreateObjectTitlePlayer;
+	
+	createObjectFunctions_[kCreateObjectIndexPillarFoundation].first = "PillarFoundation";
+	createObjectFunctions_[kCreateObjectIndexPillarFoundation].second = ObjectFactory::CreateObjectPillarFoundation;
+	
 
 }
 
@@ -182,5 +187,14 @@ IObject* ObjectFactory::CreateObjectTitlePlayer(LevelData::ObjectData& objectDat
 	IObject* object = new TitlePlayer();
 	// 初期化
 	static_cast<TitlePlayer*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	return object;
+}
+
+IObject* ObjectFactory::CreateObjectPillarFoundation(LevelData::ObjectData& objectData)
+{
+	// インスタンス生成
+	IObject* object = new PillarFoundation();
+	// 初期化
+	static_cast<PillarFoundation*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 	return object;
 }

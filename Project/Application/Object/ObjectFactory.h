@@ -19,6 +19,7 @@ public: // サブクラス,定数
 		kCreateObjectIndexPlayerWeapon, // プレイヤーの武器
 		kCreateObjectIndexBonfire, // かがり火
 		kCreateObjectIndexTitlePlayer, // タイトル用プレイヤー
+		kCreateObjectIndexPillarFoundation, // 柱土台
 		kCreateObjectIndexOfCount, // 数数える用
 
 	};
@@ -116,6 +117,14 @@ private: // メンバ関数
 	/// <param name="objectData">オブジェクトデータ</param>
 	/// <returns>オブジェクト</returns>
 	static IObject* CreateObjectTitlePlayer(LevelData::ObjectData& objectData);
+
+	
+	/// <summary>
+	/// タイトル用プレイヤー
+	/// </summary>
+	/// <param name="objectData">オブジェクトデータ</param>
+	/// <returns>オブジェクト</returns>
+	static IObject* CreateObjectPillarFoundation(LevelData::ObjectData& objectData);
 
 private:
 

@@ -838,6 +838,7 @@
             "fileName": "AxSpearMan.gltf",
             "directoryPath": "Resources/Model/AxSpearMan",
             "className": "AxSpearMan",
+            "parentName": "null",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -925,6 +926,44 @@
                     1.0,
                     0.20000000298023224,
                     3.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Piller",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -7.25,
+                    1.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "PillarFoundation.obj",
+            "directoryPath": "Resources/Model/Piller",
+            "className": "PillarFoundation",
+            "parentName": "",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
                 ]
             }
         }
