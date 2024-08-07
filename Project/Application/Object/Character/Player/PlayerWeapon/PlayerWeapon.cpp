@@ -13,8 +13,6 @@ void PlayerWeapon::Initialize(LevelData::MeshData* data)
 	worldTransform_.transform_.translate.y = 5.0f;
 	worldTransform_.UpdateMatrix();
 
-	parentName_ = "000_Player";
-
 	rotate_ = { 0.0f, 0.0f, 3.14f };
 
 }

@@ -197,6 +197,12 @@ void LevelDataLoader::MeshLoad(LevelData* levelData, nlohmann::json& object)
 		objectData.className = object["className"];
 	}
 
+	// クラスの名前があるならとってくる
+	if (object.contains("parentName")) {
+		// ファイル名
+		objectData.parentName = object["parentName"];
+	}
+
 	// コライダーがあるならとってくる
 	if (object.contains("collider")) {
 		objectData.collider = ColliderLoad(object, objectData.transform);

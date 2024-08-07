@@ -12,13 +12,7 @@ void AxSpearManWeapon::Initialize(LevelData::MeshData* data)
 	worldTransform_.transform_.translate.y = 5.0f;
 	worldTransform_.UpdateMatrix();
 
-	parentName_ = "AxSpearMan00";
-
 	rotate_ = { 0.0f, -1.0f, 0.0f };
-
-	// 力を加える
-	const Vector3 force = { 0.0f, 0.0f, 500.0f };
-	rigidBody_.ApplyForce(worldTransform_.GetWorldPosition() ,worldTransform_.GetWorldPosition() + Vector3{0.0f, -2.5f, 0.0f}, force);
 
 }
 

@@ -14,6 +14,9 @@ void MeshObject::Initialize(LevelData::MeshData* data)
 	// ディレクトリパス
 	directoryPath_ = data->directoryPath;
 
+	// 親の名前
+	parentName_ = data->parentName;
+
 	// モデル
 	model_ = ModelManager::GetInstance()->GetModel(directoryPath_, fileName_);
 

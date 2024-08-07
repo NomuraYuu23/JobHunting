@@ -39,6 +39,8 @@ public: // サブクラス
 		std::string directoryPath;
 		// クラスの名前
 		std::string className;
+		// 親の名前
+		std::string parentName;
 
 		// コライダー
 		ColliderShape collider;

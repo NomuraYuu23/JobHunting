@@ -2207,6 +2207,7 @@
             "fileName": "Player.gltf",
             "directoryPath": "Resources/Model/Player",
             "className": "Player",
+            "parentName": "",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2281,6 +2282,7 @@
             "fileName": "PlayerWeapon.obj",
             "directoryPath": "Resources/Model/Player",
             "className": "PlayerWeapon",
+            "parentName": "000_Player",
             "collider": {
                 "type": "BOX",
                 "center": [
