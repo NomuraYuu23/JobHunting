@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Engine/Object/AbstractObjectFactory.h"
 #include "../../Engine/Level/LevelData.h"
-#include "GameSceneObjectManager.h"
+#include "../../Engine/Object/BaseObjectManager.h"
 
 class ObjectFactory :
     public AbstractObjectFactory

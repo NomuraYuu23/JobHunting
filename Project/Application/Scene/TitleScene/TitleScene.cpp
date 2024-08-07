@@ -4,7 +4,7 @@
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../../Engine/Math/Ease.h"
 #include "../../../Engine/3D/ModelDraw.h"
-#include "../../Object/TitleSceneObjectManager.h"
+#include "../../Object/Manager/TitleSceneObjectManager.h"
 #include "../../Object/ObjectFactory.h"
 
 TitleScene::~TitleScene()

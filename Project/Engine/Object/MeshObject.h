@@ -65,6 +65,12 @@ public: // アクセッサ
     ColliderShape* GetCollider() { return collider_.get(); };
     void SetCollider(ColliderShape* collider) { collider_.reset(collider); };
 
+    /// <summary>
+    /// 親の名前
+    /// </summary>
+    /// <returns></returns>
+    std::string GetParentName() { return parentName_; }
+
 protected: // 変数
 
     // ファイル名前
@@ -81,6 +87,9 @@ protected: // 変数
 
     // コライダー
     std::unique_ptr<ColliderShape> collider_;
+
+    // 親の名前
+    std::string parentName_;
 
 };
 

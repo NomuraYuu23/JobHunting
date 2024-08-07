@@ -253,12 +253,6 @@
     <Filter Include="Engine\Object">
       <UniqueIdentifier>{e07ee63c-28e4-42ff-b09b-caf09754b225}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Object\Ground">
-      <UniqueIdentifier>{59beeb5c-dcf2-4572-b6ee-2ee83a88d375}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Block">
-      <UniqueIdentifier>{1d2d094d-bc38-4f06-a0b3-44bff7959339}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Object\Enemy\Ghost">
       <UniqueIdentifier>{6126349a-0e49-4181-9162-1455d53c579e}</UniqueIdentifier>
     </Filter>
@@ -363,6 +357,15 @@
     </Filter>
     <Filter Include="Application\Object\Obstacle">
       <UniqueIdentifier>{86476363-7738-4157-a04a-70a59cd5cda7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Obstacle\Block">
+      <UniqueIdentifier>{1d2d094d-bc38-4f06-a0b3-44bff7959339}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Obstacle\Ground">
+      <UniqueIdentifier>{59beeb5c-dcf2-4572-b6ee-2ee83a88d375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Obstacle\Pillar">
+      <UniqueIdentifier>{e20c0039-5692-417f-8b05-a870c533d65f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -797,10 +800,10 @@
       <Filter>Application\System</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\Ground\Ground.cpp">
-      <Filter>Application\Object\Ground</Filter>
+      <Filter>Application\Object\Obstacle\Ground</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\Block\Block.cpp">
-      <Filter>Application\Object\Block</Filter>
+      <Filter>Application\Object\Obstacle\Block</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\BaseEnemy.cpp">
       <Filter>Application\Object\Enemy</Filter>
@@ -920,6 +923,12 @@
       <Filter>Application\Object\Enemy\Ghost\State\Cadaver</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\BaseObstacle.cpp">
+      <Filter>Application\Object\Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Obstacle\Pillar\Pillar.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Obstacle\Pillar\PillarFoundation.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1498,10 +1507,10 @@
       <Filter>Application\System</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\Ground\Ground.h">
-      <Filter>Application\Object\Ground</Filter>
+      <Filter>Application\Object\Obstacle\Ground</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\Block\Block.h">
-      <Filter>Application\Object\Block</Filter>
+      <Filter>Application\Object\Obstacle\Block</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Enemy\BaseEnemy.h">
       <Filter>Application\Object\Enemy</Filter>
@@ -1633,6 +1642,12 @@
       <Filter>Application\Object\Enemy\Ghost\State\Cadaver</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\BaseObstacle.h">
+      <Filter>Application\Object\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Obstacle\Pillar\Pillar.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Obstacle\Pillar\PillarFoundation.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

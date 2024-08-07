@@ -8,7 +8,7 @@
 #include "../Object/Character/Enemy/AxSpearMan/AxSpearMan.h"
 #include "../Object/Character/Enemy/AxSpearMan/AxSpearManWeapon.h"
 #include "../Object/Character/Player//PlayerWeapon/PlayerWeapon.h"
-#include "../Bonfire/Bonfire.h"
+#include "../Object/Bonfire/Bonfire.h"
 #include "../Object/Character/Player/TitlePlayer/TitlePlayer.h"
 
 // 親取得用
@@ -160,10 +160,10 @@ IObject* ObjectFactory::CreateObjectPlayerWeapon(LevelData::ObjectData& objectDa
 
 	// 初期化
 	static_cast<PlayerWeapon*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
-	//// 親セット
-	//static_cast<PlayerWeapon*>(object)->SetParent(
-	//	static_cast<Player*>(objectManager_->GetObjectPointer(
-	//		static_cast<PlayerWeapon*>(object)->GetParentName())));
+	// 親セット
+	static_cast<PlayerWeapon*>(object)->SetParent(
+		static_cast<Player*>(objectManager_->GetObjectPointer(
+			static_cast<PlayerWeapon*>(object)->GetParentName())));
 	return object;
 }
 

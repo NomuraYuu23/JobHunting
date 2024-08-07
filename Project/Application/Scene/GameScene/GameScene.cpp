@@ -8,7 +8,7 @@
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../../Engine/3D/ModelDraw.h"
 #include "../../../Engine/base/WindowSprite.h"
-#include "../../Object/GameSceneObjectManager.h"
+#include "../../Object/Manager/GameSceneObjectManager.h"
 #include "../../Object/ObjectFactory.h"
 
 #include "../../Object/Character/Player/Player.h"

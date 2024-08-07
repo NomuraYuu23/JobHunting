@@ -20,12 +20,6 @@ public:
     void Update() override;
 
     /// <summary>
-    /// 親の名前
-    /// </summary>
-    /// <returns></returns>
-    std::string GetParentName() { return parentName_; }
-
-    /// <summary>
     /// 衝突処理
     /// </summary>
     /// <param name="colliderPartner"></param>
@@ -103,9 +97,6 @@ protected: // メンバ変数
 
     // 回転
     Vector3 rotate_ = { 0.0f, -1.57f, 0.0f };
-
-    // 親の名前
-    std::string parentName_;
 
     // 剛体
     RigidBody rigidBody_;
