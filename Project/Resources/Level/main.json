@@ -931,7 +931,7 @@
         },
         {
             "type": "MESH",
-            "name": "Piller",
+            "name": "Pillar0",
             "transform": {
                 "translation": [
                     0.0,
@@ -950,7 +950,7 @@
                 ]
             },
             "fileName": "PillarFoundation.obj",
-            "directoryPath": "Resources/Model/Piller",
+            "directoryPath": "Resources/Model/Pillar",
             "className": "PillarFoundation",
             "parentName": "",
             "collider": {
@@ -964,6 +964,44 @@
                     2.0,
                     2.0,
                     2.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "PillarA0",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -7.25,
+                    3.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "Pillar.obj",
+            "directoryPath": "Resources/Model/Pillar",
+            "className": "Pillar",
+            "parentName": "Pillar0",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    3.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    6.0
                 ]
             }
         }

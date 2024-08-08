@@ -1,5 +1,6 @@
 #pragma once
 #include "../BaseRigidBodyObject.h"
+#include "../../Obstacle/Pillar/PillarFoundation.h"
 class Pillar :
     public BaseRigidBodyObject
 {
@@ -23,6 +24,19 @@ public: // ベースのメンバ関数
 	/// <param name="collisionData"></param>
 	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) override;
 
+public:
+
+	/// <summary>
+	/// ダメージ
+	/// </summary>
+	void Damage(uint32_t damage);
+
+	/// <summary>
+	/// 親設定
+	/// </summary>
+	/// <param name="parent">親</param>
+	void SetParent(PillarFoundation* parent);
+
 private:
 
 	// 耐久値初期値
@@ -32,7 +46,13 @@ private:
 	bool broken_;
 
 	// 耐久値
-	uint32_t durable_;
+	int32_t durable_;
+
+	// 親
+	PillarFoundation* parent_;
+
+	// コライダーの位置
+	Vector3 colliderAddPos = { 0.0f,3.0f,0.0f };
 
 };
 

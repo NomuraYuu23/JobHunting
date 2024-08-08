@@ -11,6 +11,7 @@
 #include "../Object/Bonfire/Bonfire.h"
 #include "../Object/Character/Player/TitlePlayer/TitlePlayer.h"
 #include "Obstacle/Pillar/PillarFoundation.h"
+#include "../Object/RigidBodyObject/Piller/Pillar.h"
 
 // 親取得用
 Player* ObjectFactory::player_ = nullptr;
@@ -66,7 +67,9 @@ void ObjectFactory::Initialize(BaseObjectManager* objectManager)
 	
 	createObjectFunctions_[kCreateObjectIndexPillarFoundation].first = "PillarFoundation";
 	createObjectFunctions_[kCreateObjectIndexPillarFoundation].second = ObjectFactory::CreateObjectPillarFoundation;
-	
+
+	createObjectFunctions_[kCreateObjectIndexPillar].first = "Pillar";
+	createObjectFunctions_[kCreateObjectIndexPillar].second = ObjectFactory::CreateObjectPillar;
 
 }
 
@@ -196,5 +199,19 @@ IObject* ObjectFactory::CreateObjectPillarFoundation(LevelData::ObjectData& obje
 	IObject* object = new PillarFoundation();
 	// 初期化
 	static_cast<PillarFoundation*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	return object;
+}
+
+IObject* ObjectFactory::CreateObjectPillar(LevelData::ObjectData& objectData)
+{
+	// インスタンス生成
+	IObject* object = new Pillar();
+
+	// 初期化
+	static_cast<Pillar*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	// 親セット
+	static_cast<Pillar*>(object)->SetParent(
+		static_cast<PillarFoundation*>(objectManager_->GetObjectPointer(
+			static_cast<Pillar*>(object)->GetParentName())));
 	return object;
 }
