@@ -51,7 +51,7 @@ public:
 
 	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
 
-private:
+protected:
 
 	// 剛体
 	RigidBody rigidBody_;

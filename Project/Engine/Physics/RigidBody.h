@@ -2,6 +2,7 @@
 #include "MassPoint.h"
 #include "../Math/Matrix4x4.h"
 #include "../Math/Quaternion.h"
+#include "../Collider/OBB/OBB.h"
 
 class RigidBody
 {
@@ -48,6 +49,19 @@ public: // 関数
 	/// <param name="pointOfAction">力を加える場所</param>
 	/// <param name="force">力</param>
 	void ApplyForce(const Vector3& center, const Vector3& pointOfAction, const Vector3& force);
+
+	static void CollisionPositionConfirmation(RigidBody* rigidBody,
+		const OBB& myObb,
+		const OBB& pairObb,
+		float coefficientOfRestitution,
+		bool isGround,
+		float power);
+
+private:
+
+	static void FindTwoPoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8], const Vector3& pairPos);
+
+	static void FindTwoPoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8]);
 
 public: // 関数
 

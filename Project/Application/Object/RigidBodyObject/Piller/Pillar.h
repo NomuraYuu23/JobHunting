@@ -29,7 +29,9 @@ public:
 	/// <summary>
 	/// ダメージ
 	/// </summary>
-	void Damage(uint32_t damage);
+	/// <param name="damage">ダメージ量</param>
+	/// <param name="colliderPartner">衝突相手</param>
+	void Damage(uint32_t damage, ColliderParentObject colliderPartner);
 
 	/// <summary>
 	/// 親設定

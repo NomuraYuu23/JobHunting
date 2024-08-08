@@ -57,7 +57,7 @@ void Pillar::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 		attack->GetContactRecord().AddHistory(serialNumber_);
 
 		// 衝突処理
-		Damage(1);
+		Damage(1, colliderPartner);
 
 	}
 	else if (std::holds_alternative<PlayerAttack*>(colliderPartner)) {
@@ -73,21 +73,52 @@ void Pillar::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 		attack->GetContactRecord().AddHistory(serialNumber_);
 
 		// 衝突処理
-		Damage(1);
+		Damage(1, colliderPartner);
 
 	}
 
 }
 
-void Pillar::Damage(uint32_t damage)
+void Pillar::Damage(uint32_t damage, ColliderParentObject colliderPartner)
 {
 
 	durable_ -= damage;
 
 	if (durable_ <= 0) {
+	
+		OBB pairOBB;
+
 		broken_ = true;
 		worldTransform_.transform_.translate = worldTransform_.GetWorldPosition();
 		worldTransform_.parent_ = nullptr;
+
+		OBB obb = std::get<OBB>(*GetCollider());
+		if (std::holds_alternative<BaseEnemyAttack*>(colliderPartner)) {
+
+			BaseEnemyAttack* attack = std::get<BaseEnemyAttack*>(colliderPartner);
+
+			Sphere sphere = std::get<Sphere>(*attack->GetCollider());
+			Vector3 size = { sphere.radius_, sphere.radius_, sphere.radius_ };
+
+			pairOBB.Initialize(sphere.center_, Matrix4x4::MakeIdentity4x4(), size, static_cast<Null*>(nullptr));
+
+		}
+		else if (std::holds_alternative<PlayerAttack*>(colliderPartner)) {
+
+			PlayerAttack* attack = std::get<PlayerAttack*>(colliderPartner);
+		
+			Sphere sphere = std::get<Sphere>(*attack->GetCollider());
+			Vector3 size = { sphere.radius_, sphere.radius_, sphere.radius_ };
+
+			pairOBB.Initialize(sphere.center_, Matrix4x4::MakeIdentity4x4(), size, static_cast<Null*>(nullptr));
+
+		}
+		else {
+			assert(0);
+		}
+
+		RigidBody::CollisionPositionConfirmation(&rigidBody_, obb, pairOBB, coefficientOfRestitution, false, 10.0f);
+	
 	}
 
 }
