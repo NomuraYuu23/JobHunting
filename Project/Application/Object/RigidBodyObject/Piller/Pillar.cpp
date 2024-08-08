@@ -1,5 +1,6 @@
 #include "Pillar.h"
 #include "../../Character/Enemy/BaseEnemyAttack.h"
+#include "../../Character/Player/PlayerAttack/PlayerAttack.h"
 
 void Pillar::Initialize(LevelData::MeshData* data)
 {
@@ -26,9 +27,8 @@ void Pillar::Update()
 	OBB obb = std::get<OBB>(*collider_.get());
 
 	obb.center_ = worldTransform_.GetWorldPosition();
-	obb.center_ += colliderAddPos;
+	obb.center_ += Matrix4x4::TransformNormal(colliderAddPos,worldTransform_.rotateMatrix_);
 	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
-
 
 	ColliderShape* colliderShape = new ColliderShape();
 
@@ -44,9 +44,25 @@ void Pillar::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 	if (broken_) {
 		BaseRigidBodyObject::OnCollision(colliderPartner, collisionData);
 	}
-	else if(std::holds_alternative<BaseEnemyAttack*>(colliderPartner)/* || std::holds_alternative<PlayerAttack*>(colliderPartner)*/){
+	else if(std::holds_alternative<BaseEnemyAttack*>(colliderPartner)){
 
 		BaseEnemyAttack* attack = std::get<BaseEnemyAttack*>(colliderPartner);
+
+		// 履歴確認
+		if (attack->GetContactRecord().ConfirmHistory(serialNumber_)) {
+			return;
+		}
+
+		// 履歴登録
+		attack->GetContactRecord().AddHistory(serialNumber_);
+
+		// 衝突処理
+		Damage(1);
+
+	}
+	else if (std::holds_alternative<PlayerAttack*>(colliderPartner)) {
+
+		PlayerAttack* attack = std::get<PlayerAttack*>(colliderPartner);
 
 		// 履歴確認
 		if (attack->GetContactRecord().ConfirmHistory(serialNumber_)) {
@@ -70,6 +86,7 @@ void Pillar::Damage(uint32_t damage)
 
 	if (durable_ <= 0) {
 		broken_ = true;
+		worldTransform_.transform_.translate = worldTransform_.GetWorldPosition();
 		worldTransform_.parent_ = nullptr;
 	}
 

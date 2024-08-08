@@ -49,6 +49,10 @@ void BaseRigidBodyObject::OnCollision(ColliderParentObject colliderPartner, cons
 	// 情報取得
 	MeshObject* pair = ColliderParentIdentification::Execution(colliderPartner);
 
+	if (!pair) {
+		return;
+	}
+
 	OBB pairOBB = std::get<OBB>(*pair->GetCollider());
 
 	OBB obb = std::get<OBB>(*GetCollider());

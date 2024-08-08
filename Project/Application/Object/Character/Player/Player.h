@@ -193,9 +193,6 @@ private: // プレイヤーデータ
 	// 初期HP
 	uint32_t initHp_;
 
-	// 死んだか
-	bool isDead_;
-
 	// プレイヤーの攻撃情報
 	std::unique_ptr<PlayerAttack> attack_;
 
