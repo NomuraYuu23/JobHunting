@@ -5,6 +5,9 @@
 void MeshObject::Initialize(LevelData::MeshData* data)
 {
 
+	serialNumber_ = newSerialNumber_;
+	newSerialNumber_++;
+
 	// 名前
 	name_ = data->name;
 

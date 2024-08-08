@@ -95,15 +95,6 @@ private: // ベースのメンバ変数
 	// コマンドを受け取るか
 	bool receiveCommand_;
 
-	//衝突属性(自分)
-	uint32_t collisionAttribute_ = 0x00000001;
-
-	// 衝突マスク(相手)
-	uint32_t collisionMask_ = 0xfffffffe;
-
-	// シリアルナンバー
-	uint32_t serialNumber_ = 0;
-
 private: // ステート関数
 
 	/// <summary>
@@ -256,10 +247,6 @@ public: // アクセッサ
 	IPlayerState* GetPlayerState() { return playerState_.get(); }
 
 	uint32_t GetCurrentStateNo() { return currentStateNo_; }
-
-	uint32_t GetSerialNumber() { return serialNumber_; }
-
-	bool GetIsDead() { return isDead_; }
 
 	int32_t GetHp() { return hp_; }
 

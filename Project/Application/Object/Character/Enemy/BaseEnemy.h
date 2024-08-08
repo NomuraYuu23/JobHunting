@@ -55,15 +55,6 @@ public: // ベースのメンバ関数
 
 protected: // ベースのメンバ変数
 
-	//衝突属性(自分)
-	uint32_t collisionAttribute_ = 0x00000001;
-
-	// 衝突マスク(相手)
-	uint32_t collisionMask_ = 0xfffffffe;
-
-	// シリアルナンバー
-	uint32_t serialNumber_ = 0;
-
 	// アタック
 	std::unique_ptr<BaseEnemyAttack> attack_;
 

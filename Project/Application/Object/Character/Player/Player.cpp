@@ -15,8 +15,16 @@ void Player::Initialize(LevelData::MeshData* data)
 
 	MeshObject::Initialize(data);
 
+	//衝突属性(自分)
+	collisionAttribute_ = 0x00000001;
+
+	// 衝突マスク(相手)
+	collisionMask_ = 0xfffffffe;
+
 	OBB obb = std::get<OBB>(*collider_.get());
 	obb.SetParentObject(this);
+	obb.SetCollisionAttribute(collisionAttribute_);
+	obb.SetCollisionMask(collisionMask_);
 	ColliderShape* colliderShape = new ColliderShape();
 	*colliderShape = obb;
 	collider_.reset(colliderShape);
