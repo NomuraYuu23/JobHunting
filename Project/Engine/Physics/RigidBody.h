@@ -59,9 +59,13 @@ public: // 関数
 
 private:
 
-	static void FindTwoPoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8], const Vector3& pairPos);
+	static void FindTwoClosePoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8], const Vector3& pairPos);
 
-	static void FindTwoPoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8]);
+	static void FindTwoClosePoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8]);
+
+	static void FindTwoFarPoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8], const Vector3& pairPos);
+
+	static void FindTwoFarPoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8]);
 
 public: // 関数
 

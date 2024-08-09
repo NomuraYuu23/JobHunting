@@ -93,29 +93,37 @@ void RigidBody::CollisionPositionConfirmation(
 
 	}
 
-	// ペアに近い点を二つ見つける
+	// ペアに近い点、遠い点をそれぞれ二つ見つける
 	// 力の設定
-	uint32_t number = 0;
-	uint32_t number2 = 0;
+	uint32_t closeNumber = 0;
+	uint32_t closeNumber2 = 0;
+
+	uint32_t farNumber = 0;
+	uint32_t farNumber2 = 0;
 
 	Vector3 force = { 0.0f,0.0f,0.0f };
 	if (isGround) {
-		FindTwoPoints(number, number2, obbVertex);
-		force.y = power;
+		FindTwoClosePoints(closeNumber, closeNumber2, obbVertex);
+		FindTwoFarPoints(farNumber, farNumber2, obbVertex);
+		force.y = -power;
 	}
 	else {
-		FindTwoPoints(number, number2, obbVertex, pairObb.center_);
-		force = Vector3::Normalize(Vector3::Subtract(myObb.center_, pairObb.center_)) * power;
+		FindTwoClosePoints(closeNumber, closeNumber2, obbVertex, pairObb.center_);
+		FindTwoFarPoints(farNumber, farNumber2, obbVertex, pairObb.center_);
+		force = Vector3::Normalize(Vector3::Subtract(myObb.center_, pairObb.center_)) * -power;
 	}
 
-	rigidBody->ApplyForce(myObb.center_, (obbVertex[number] + obbVertex[number2]) * 0.5f, force);
+	rigidBody->ApplyForce(
+		(obbVertex[closeNumber] + obbVertex[closeNumber2]) * 0.5f, 
+		(obbVertex[farNumber] + obbVertex[farNumber2]) * 0.5f,
+		force);
 
 	// 反発
 	rigidBody->centerOfGravityVelocity = rigidBody->centerOfGravityVelocity * -coefficientOfRestitution;
 
 }
 
-void RigidBody::FindTwoPoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8], const Vector3& pairPos)
+void RigidBody::FindTwoClosePoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8], const Vector3& pairPos)
 {
 
 	float minDistance = 0.0f;
@@ -156,7 +164,7 @@ void RigidBody::FindTwoPoints(uint32_t& ansNumber, uint32_t& ansNumber2, const V
 
 }
 
-void RigidBody::FindTwoPoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8])
+void RigidBody::FindTwoClosePoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8])
 {
 
 	// 保存用
@@ -186,6 +194,85 @@ void RigidBody::FindTwoPoints(uint32_t& ansNumber, uint32_t& ansNumber2, const V
 		}
 		else if (minY2 > obbVertex[i].y) {
 			minY2 = obbVertex[i].y;
+			ansNumber2 = i;
+		}
+
+	}
+
+}
+
+void RigidBody::FindTwoFarPoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8], const Vector3& pairPos)
+{
+
+
+	float maxDistance = 0.0f;
+	float maxDistance2 = 0.0f;
+
+	float distanceTmp = 0.0f;
+
+	maxDistance = Vector3::Length(Vector3::Subtract(obbVertex[0], pairPos));
+	ansNumber = 0;
+	maxDistance2 = Vector3::Length(Vector3::Subtract(obbVertex[1], pairPos));
+	ansNumber2 = 1;
+
+	if (maxDistance < maxDistance2) {
+		distanceTmp = maxDistance;
+
+		maxDistance = maxDistance2;
+		ansNumber = 1;
+		maxDistance2 = distanceTmp;
+		ansNumber2 = 0;
+	}
+
+	for (uint32_t i = 2; i < 8; i++) {
+
+		distanceTmp = Vector3::Length(Vector3::Subtract(obbVertex[i], pairPos));
+
+		if (maxDistance < distanceTmp) {
+			maxDistance2 = maxDistance;
+			ansNumber2 = ansNumber;
+			maxDistance = distanceTmp;
+			ansNumber = i;
+		}
+		else if (maxDistance2 < distanceTmp) {
+			maxDistance2 = distanceTmp;
+			ansNumber2 = i;
+		}
+
+	}
+
+}
+
+void RigidBody::FindTwoFarPoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8])
+{
+
+	// 保存用
+	float maxY = 0.0f;
+	float maxY2 = 0.0f;
+
+	if (obbVertex[0].y < obbVertex[1].y) {
+		maxY = obbVertex[1].y;
+		ansNumber = 1;
+		maxY2 = obbVertex[0].y;
+		ansNumber2 = 0;
+	}
+	else {
+		maxY = obbVertex[0].y;
+		ansNumber = 0;
+		maxY2 = obbVertex[1].y;
+		ansNumber2 = 1;
+	}
+
+	for (uint32_t i = 2; i < 8; i++) {
+
+		if (maxY < obbVertex[i].y) {
+			maxY2 = maxY;
+			ansNumber2 = ansNumber;
+			maxY = obbVertex[i].y;
+			ansNumber = i;
+		}
+		else if (maxY2 < obbVertex[i].y) {
+			maxY2 = obbVertex[i].y;
 			ansNumber2 = i;
 		}
 

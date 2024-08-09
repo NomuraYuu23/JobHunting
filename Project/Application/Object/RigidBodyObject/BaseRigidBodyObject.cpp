@@ -111,7 +111,7 @@ void BaseRigidBodyObject::RigidBodyUpdate()
 	rigidBody_.angularVelocity = RigidBody::AngularVelocityCalc(rigidBody_.inertiaTensor, rigidBody_.angularMomentum);
 
 	// 角速度の制御処理
-	const float kMaxAngularVelocity = 10.0f;
+	const float kMaxAngularVelocity = 5.0f;
 	if (std::fabsf(rigidBody_.angularVelocity.x) > kMaxAngularVelocity) {
 		rigidBody_.angularVelocity.x = rigidBody_.angularVelocity.x / std::fabsf(rigidBody_.angularVelocity.x) * kMaxAngularVelocity;
 	}
