@@ -1,5 +1,6 @@
 #include "RigidBody.h"
 #include "InertiaTensor.h"
+#include "Gravity.h"
 
 void RigidBody::Initialize(float mass, const Vector3& size)
 {
@@ -120,6 +121,17 @@ void RigidBody::CollisionPositionConfirmation(
 
 	// 反発
 	rigidBody->centerOfGravityVelocity = rigidBody->centerOfGravityVelocity * -coefficientOfRestitution;
+	
+	// 小さい値だったら動かさない
+	if (std::fabsf(rigidBody->centerOfGravityVelocity.x) < Gravity::GetPower() * kDeltaTime_) {
+		rigidBody->centerOfGravityVelocity.x = 0.0f;
+	}
+	if (std::fabsf(rigidBody->centerOfGravityVelocity.y) < Gravity::GetPower() * kDeltaTime_) {
+		rigidBody->centerOfGravityVelocity.y = 0.0f;
+	}
+	if (std::fabsf(rigidBody->centerOfGravityVelocity.z) < Gravity::GetPower() * kDeltaTime_) {
+		rigidBody->centerOfGravityVelocity.z = 0.0f;
+	}
 
 }
 

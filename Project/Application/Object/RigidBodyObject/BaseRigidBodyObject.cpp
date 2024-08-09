@@ -85,7 +85,7 @@ void BaseRigidBodyObject::RigidBodyUpdate()
 
 	rigidBody_.centerOfGravityVelocity += Gravity::Execute();
 
-	rigidBody_.centerOfGravity = worldTransform_.GetWorldPosition();
+	//rigidBody_.centerOfGravity = worldTransform_.GetWorldPosition();
 
 	// 速度算出
 	Vector3 velocity = RigidBody::PointVelocityCalc(
@@ -111,7 +111,7 @@ void BaseRigidBodyObject::RigidBodyUpdate()
 	rigidBody_.angularVelocity = RigidBody::AngularVelocityCalc(rigidBody_.inertiaTensor, rigidBody_.angularMomentum);
 
 	// 角速度の制御処理
-	const float kMaxAngularVelocity = 5.0f;
+	const float kMaxAngularVelocity = 1.0f;
 	if (std::fabsf(rigidBody_.angularVelocity.x) > kMaxAngularVelocity) {
 		rigidBody_.angularVelocity.x = rigidBody_.angularVelocity.x / std::fabsf(rigidBody_.angularVelocity.x) * kMaxAngularVelocity;
 	}
@@ -125,7 +125,7 @@ void BaseRigidBodyObject::RigidBodyUpdate()
 	}
 
 	// 抵抗
-	const float kResistAngularVelocity = 0.1f;
+	const float kResistAngularVelocity = 0.5f;
 
 	if (rigidBody_.angularVelocity.x != 0.0f) {
 		rigidBody_.angularVelocity.x =

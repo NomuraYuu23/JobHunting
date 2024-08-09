@@ -24,10 +24,13 @@ private: // 変数
 public: // アクセッサ
 	
 	// 向き
-	void SetDirction(const Vector3& dirction) { dirction_ = dirction; }
+	static void SetDirction(const Vector3& dirction) { dirction_ = dirction; }
 
 	// 力
-	void SetPower(const float& power) { power_ = power;	}
+	static void SetPower(const float& power) { power_ = power;	}
+
+	// 力
+	static float GetPower() { return power_; }
 
 };
 

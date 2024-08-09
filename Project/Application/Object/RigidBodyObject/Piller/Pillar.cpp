@@ -12,6 +12,8 @@ void Pillar::Initialize(LevelData::MeshData* data)
 	// 耐久値
 	durable_ = kInitDurable_;
 
+	coefficientOfRestitution = 0.1f;
+
 }
 
 void Pillar::Update()
