@@ -24,6 +24,8 @@ void BaseWeapon::Initialize(LevelData::MeshData* data)
 void BaseWeapon::Update()
 {
 
+	MeshObject::Update();
+
 	// 親あり更新
 	if (parentMatrix_) {
 		WithParentsUpdate();
@@ -35,6 +37,9 @@ void BaseWeapon::Update()
 
 	// コライダーの更新
 	ColliderUpdate();
+
+	// 速度保存
+	SaveVelocityUpdate();
 
 }
 

@@ -37,6 +37,13 @@ void MeshObject::Initialize(LevelData::MeshData* data)
 
 }
 
+void MeshObject::Update()
+{
+
+	prePosition_ = worldTransform_.GetWorldPosition();
+
+}
+
 void MeshObject::Draw(BaseCamera& camera)
 {
 
@@ -81,5 +88,12 @@ void MeshObject::ColliderInitialize(ColliderShape collider)
 		collider_.reset(colliderShape);
 
 	}
+
+}
+
+void MeshObject::SaveVelocityUpdate()
+{
+
+	saveVelocity_ = worldTransform_.GetWorldPosition() - prePosition_;
 
 }

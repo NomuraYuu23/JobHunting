@@ -25,7 +25,7 @@ public: // 関数
     /// <summary>
     /// 更新処理
     /// </summary>
-    virtual void Update() {};
+    virtual void Update();
 
     /// <summary>
     /// 描画
@@ -60,6 +60,11 @@ protected: // 関数
     /// <param name="collider">コライダー</param>
     virtual void ColliderInitialize(ColliderShape collider);
 
+    /// <summary>
+    /// 保存用速度
+    /// </summary>
+    virtual void SaveVelocityUpdate();
+
 public: // アクセッサ
 
     ColliderShape* GetCollider() { return collider_.get(); };
@@ -70,6 +75,12 @@ public: // アクセッサ
     /// </summary>
     /// <returns></returns>
     std::string GetParentName() { return parentName_; }
+
+    /// <summary>
+    /// 保存用速度
+    /// </summary>
+    /// <returns></returns>
+    Vector3 GetSaveVelocity() { return saveVelocity_; }
 
 protected: // 変数
 
@@ -90,6 +101,12 @@ protected: // 変数
 
     // 親の名前
     std::string parentName_;
+
+    // 前フレームの位置
+    Vector3 prePosition_;
+
+    // 保存用速度
+    Vector3 saveVelocity_;
 
 };
 

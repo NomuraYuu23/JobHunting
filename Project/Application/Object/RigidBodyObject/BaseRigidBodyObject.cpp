@@ -60,7 +60,26 @@ void BaseRigidBodyObject::OnCollision(ColliderParentObject colliderPartner, cons
 
 	bool isGround = (pair->GetName() == "Ground");
 
-	RigidBody::CollisionPositionConfirmation(&rigidBody_, obb, pairOBB, coefficientOfRestitution, isGround, 10.0f);
+	// 力設定
+	Vector3 pairVelocity = pair->GetSaveVelocity();
+	Vector3 velocity = saveVelocity_;
+	Vector3 force = {0.0f, 0.0f, 0.0f};
+
+	// 速度方向が逆か？
+	if (velocity.x * pairVelocity.x <= 0.0f) {
+		force.x = -velocity.x + pairVelocity.x;
+	}
+	if (velocity.y * pairVelocity.y <= 0.0f) {
+		force.y = -velocity.y + pairVelocity.y;
+	}
+	if (velocity.z * pairVelocity.z <= 0.0f) {
+		force.z = -velocity.z + pairVelocity.z;
+	}
+
+	// 値が小さいので100倍しとく
+	float power = Vector3::Length(force) * 100.0f;
+
+	//RigidBody::CollisionPositionConfirmation(&rigidBody_, obb, pairOBB, coefficientOfRestitution, isGround, power);
 
 	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &pairOBB);
 
@@ -84,8 +103,6 @@ void BaseRigidBodyObject::RigidBodyUpdate()
 	// 重力
 
 	rigidBody_.centerOfGravityVelocity += Gravity::Execute();
-
-	//rigidBody_.centerOfGravity = worldTransform_.GetWorldPosition();
 
 	// 速度算出
 	Vector3 velocity = RigidBody::PointVelocityCalc(
@@ -112,6 +129,7 @@ void BaseRigidBodyObject::RigidBodyUpdate()
 
 	// 角速度の制御処理
 	const float kMaxAngularVelocity = 1.0f;
+	
 	if (std::fabsf(rigidBody_.angularVelocity.x) > kMaxAngularVelocity) {
 		rigidBody_.angularVelocity.x = rigidBody_.angularVelocity.x / std::fabsf(rigidBody_.angularVelocity.x) * kMaxAngularVelocity;
 	}
@@ -144,6 +162,8 @@ void BaseRigidBodyObject::RigidBodyUpdate()
 			rigidBody_.angularVelocity.z / std::fabsf(rigidBody_.angularVelocity.z)
 			* std::fmaxf(0.0f, std::fabsf(rigidBody_.angularVelocity.z) - kResistAngularVelocity);
 	}
+
+	//centerOfGravityVelocity抵抗付けてみる
 
 	// ひねり力を0に
 	rigidBody_.torque = { 0.0f,0.0f,0.0f };

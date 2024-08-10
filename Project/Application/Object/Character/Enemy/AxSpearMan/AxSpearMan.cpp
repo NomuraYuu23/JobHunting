@@ -29,6 +29,8 @@ void AxSpearMan::Initialize(LevelData::MeshData* data)
 void AxSpearMan::Update()
 {
 
+	BaseEnemy::Update();
+
 	if (receiveCommand_) {
 		nextStateNo_ = command_->Command();
 	}
@@ -62,6 +64,9 @@ void AxSpearMan::Update()
 	if (isBeamDraw_) {
 		BeamUpdate();
 	}
+
+	// 速度保存
+	SaveVelocityUpdate();
 
 }
 

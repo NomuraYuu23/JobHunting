@@ -69,12 +69,11 @@ void Player::Initialize(LevelData::MeshData* data)
 void Player::Update()
 {
 
+	MeshObject::Update();
+
 	if (receiveCommand_) {
 		nextStateNo_ = playerCommand_->Command();
 	}
-
-	// 前フレーム記録
-	prePosition_ = worldTransform_.GetWorldPosition();
 
 	// ステート
 	StateUpdate();
@@ -93,6 +92,9 @@ void Player::Update()
 
 	// コライダー
 	ColliderUpdate();
+
+	// 速度保存
+	SaveVelocityUpdate();
 
 }
 

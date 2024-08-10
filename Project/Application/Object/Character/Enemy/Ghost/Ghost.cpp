@@ -23,12 +23,11 @@ void Ghost::Initialize(LevelData::MeshData* data)
 void Ghost::Update()
 {
 
+	BaseEnemy::Update();
+
 	if (receiveCommand_) {
 		nextStateNo_ = command_->Command();
 	}
-
-	// 前フレーム記録
-	prePosition_ = worldTransform_.GetWorldPosition();
 
 	// ステート
 	StateUpdate();
@@ -47,6 +46,9 @@ void Ghost::Update()
 
 	// コライダー
 	ColliderUpdate();
+
+	// 速度保存
+	SaveVelocityUpdate();
 
 }
 

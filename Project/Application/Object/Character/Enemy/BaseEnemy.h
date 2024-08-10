@@ -15,13 +15,18 @@ public: // ベースのメンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize(LevelData::MeshData* data);
+	virtual void Initialize(LevelData::MeshData* data) override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション(参照渡し)</param>
-	void Draw(BaseCamera& camera);
+	void Draw(BaseCamera& camera) override;
 
 	/// <summary>
 	/// ImGui描画

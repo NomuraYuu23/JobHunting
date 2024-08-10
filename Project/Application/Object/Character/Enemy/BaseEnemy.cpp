@@ -57,6 +57,13 @@ void BaseEnemy::Initialize(LevelData::MeshData* data)
 
 }
 
+void BaseEnemy::Update()
+{
+
+	MeshObject::Update();
+
+}
+
 void BaseEnemy::Draw(BaseCamera& camera)
 {
 

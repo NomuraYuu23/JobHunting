@@ -107,9 +107,6 @@ private:
 	// 高さ
 	float height_;
 
-	// 前フレームの座標
-	Vector3 prePosition_;
-
 	// プレイヤー
 	Player* player_;
 

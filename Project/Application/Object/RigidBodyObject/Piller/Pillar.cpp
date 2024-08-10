@@ -19,6 +19,8 @@ void Pillar::Initialize(LevelData::MeshData* data)
 void Pillar::Update()
 {
 
+	MeshObject::Update();
+
 	if (broken_) {
 		BaseRigidBodyObject::Update();
 	}
@@ -37,6 +39,9 @@ void Pillar::Update()
 	*colliderShape = obb;
 
 	collider_.reset(colliderShape);
+
+	// 速度保存
+	SaveVelocityUpdate();
 
 }
 
@@ -119,7 +124,7 @@ void Pillar::Damage(uint32_t damage, ColliderParentObject colliderPartner)
 			assert(0);
 		}
 
-		RigidBody::CollisionPositionConfirmation(&rigidBody_, obb, pairOBB, coefficientOfRestitution, false, 10.0f);
+		RigidBody::CollisionPositionConfirmation(&rigidBody_, obb, pairOBB, coefficientOfRestitution, false, 200.0f);
 	
 	}
 
