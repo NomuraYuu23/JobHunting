@@ -391,6 +391,9 @@
     <Filter Include="shaders\PostEffect\ScanLine">
       <UniqueIdentifier>{4bfbab16-2f26-452d-bd3d-821e29981d79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\RGBShift">
+      <UniqueIdentifier>{35cc77c7-f7b0-41c7-8465-60e95763fae8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1875,6 +1878,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\ScanLine.CS.hlsl">
       <Filter>shaders\PostEffect\ScanLine</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\RGBShift.CS.hlsl">
+      <Filter>shaders\PostEffect\RGBShift</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
