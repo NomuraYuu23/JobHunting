@@ -226,11 +226,12 @@ void TitleScene::Draw()
 
 	//renderTargetTexture_->ClearDepthBuffer();
 
-	//
+
+	PostEffect::GetInstance()->SetTime(5.11f);
 	PostEffect::GetInstance()->Execution(
 		dxCommon_->GetCommadList(),
 		renderTargetTexture_,
-		PostEffect::kCommandIndexMotionBlur
+		PostEffect::kCommandIndexWhiteNoize
 	);
 
 	renderTargetTexture_->ClearDepthBuffer();

@@ -385,6 +385,9 @@
     <Filter Include="shaders\PostEffect\MotionBlur">
       <UniqueIdentifier>{8d653675-ba8c-49e3-be73-41d08937bb70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\WhiteNoise">
+      <UniqueIdentifier>{a9bcd606-4cb2-4de2-951d-0e315e0ef41e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1863,6 +1866,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\MotionBlur.CS.hlsl">
       <Filter>shaders\PostEffect\MotionBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\WhiteNoise.CS.hlsl">
+      <Filter>shaders\PostEffect\WhiteNoise</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
