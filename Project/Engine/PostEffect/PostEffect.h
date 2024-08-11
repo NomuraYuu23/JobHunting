@@ -166,7 +166,7 @@ private: // 定数
 		std::pair{L"Resources/shaders/PostEffect/ScanLine.CS.hlsl", L"main"}, // 走査線
 		std::pair{L"Resources/shaders/PostEffect/RGBShift.CS.hlsl", L"main"}, // RGBずらし
 		std::pair{L"Resources/shaders/PostEffect/BarrelCurved.CS.hlsl", L"main"}, // 樽状湾曲
-		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainVignette"}, // ビネット
+		std::pair{L"Resources/shaders/PostEffect/Vignette.CS.hlsl", L"main"}, // ビネット
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainGlitch"}, // グリッチ
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainRadialBlur"}, // 放射状ブラー
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainShockWave"}, // 衝撃波

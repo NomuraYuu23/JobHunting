@@ -231,7 +231,7 @@ void TitleScene::Draw()
 	PostEffect::GetInstance()->Execution(
 		dxCommon_->GetCommadList(),
 		renderTargetTexture_,
-		PostEffect::kCommandIndexBarrelCurved
+		PostEffect::kCommandIndexVignette
 	);
 
 	renderTargetTexture_->ClearDepthBuffer();

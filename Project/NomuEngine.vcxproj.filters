@@ -397,6 +397,9 @@
     <Filter Include="shaders\PostEffect\BarrelCurved">
       <UniqueIdentifier>{f3d89efa-cf17-4b99-a89c-053cb09ff422}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\Vignette">
+      <UniqueIdentifier>{9ea545bd-631a-4e67-971e-9de83c28ab11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1887,6 +1890,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\BarrelCurved.CS.hlsl">
       <Filter>shaders\PostEffect\BarrelCurved</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\Vignette.CS.hlsl">
+      <Filter>shaders\PostEffect\Vignette</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
