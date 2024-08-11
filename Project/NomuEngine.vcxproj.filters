@@ -370,6 +370,9 @@
     <Filter Include="Application\Object\Physics">
       <UniqueIdentifier>{142f1e33-82f0-4c05-8dff-f9a8288dbd7d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Physics\Pillar">
+      <UniqueIdentifier>{fd49b6f0-2fb5-4617-a706-ffe73f043ec7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -919,26 +922,26 @@
     <ClCompile Include="Application\GPUParticle\BonfireParticle.cpp">
       <Filter>Application\GPUParticle</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Collision\Extrusion.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateCadaver.cpp">
       <Filter>Application\Object\Enemy\Ghost\State\Cadaver</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\BaseObstacle.cpp">
       <Filter>Application\Object\Obstacle</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\RigidBodyObject\Piller\Pillar.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\Pillar\PillarFoundation.cpp">
       <Filter>Application\Object\Obstacle\PillarFoundation</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\RigidBodyObject\BaseRigidBodyObject.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\RigidBodyObject\Piller\Pillar.cpp">
+      <Filter>Application\Object\Physics\Pillar</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Collision\Extrusion.cpp">
+      <Filter>Engine\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Application\Collider\ColliderParentIdentification.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1644,26 +1647,26 @@
     <ClInclude Include="Application\GPUParticle\BonfireParticle.h">
       <Filter>Application\GPUParticle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Collision\Extrusion.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateCadaver.h">
       <Filter>Application\Object\Enemy\Ghost\State\Cadaver</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\BaseObstacle.h">
       <Filter>Application\Object\Obstacle</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\RigidBodyObject\Piller\Pillar.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\Pillar\PillarFoundation.h">
       <Filter>Application\Object\Obstacle\PillarFoundation</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\RigidBodyObject\BaseRigidBodyObject.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Object\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\RigidBodyObject\Piller\Pillar.h">
+      <Filter>Application\Object\Physics\Pillar</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Collision\Extrusion.h">
+      <Filter>Engine\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Application\Collider\ColliderParentIdentification.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
