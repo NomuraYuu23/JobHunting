@@ -159,8 +159,8 @@ private: // 定数
 		std::pair{L"Resources/shaders/PostEffect/BinaryThreshold.CS.hlsl", L"main"}, // 二値化
 		std::pair{L"Resources/shaders/PostEffect/GaussianBlurHorizontal.CS.hlsl", L"main"}, // ガウスブラー水平
 		std::pair{L"Resources/shaders/PostEffect/GaussianBlurVertical.CS.hlsl", L"main"}, // ガウスブラー垂直
-		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainBloomHorizontal"},  // ブルーム水平
-		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainBloomVertical"},  // ブルーム垂直
+		std::pair{L"Resources/shaders/PostEffect/BloomHorizontal.CS.hlsl", L"main"},  // ブルーム水平
+		std::pair{L"Resources/shaders/PostEffect/BloomVertical.CS.hlsl", L"main"},  // ブルーム垂直
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainMotionBlur"}, // モーションブラー
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainWhiteNoise"}, // ホワイトノイズ
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainScanLine"}, // 走査線

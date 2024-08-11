@@ -134,3 +134,21 @@ float32_t WrapValue(
 	return minRange + modValue;
 
 }
+
+float32_t4 BlurAdd(in const float32_t4 input0, in const float32_t4 input1) {
+
+	float32_t alphaSum = input0.a + input1.a;
+
+	if (alphaSum != 0.0f) {
+		float32_t a1 = input0.a * rcp(alphaSum);
+		float32_t a2 = input1.a * rcp(alphaSum);
+
+		float32_t3 col = input0.rgb * a1 + input1.rgb * a2;
+
+		return float32_t4(col, min(alphaSum, 1.0f));
+	}
+
+	return float32_t4(0.0f, 0.0f, 0.0f, 0.0f);
+
+}
+

@@ -379,6 +379,9 @@
     <Filter Include="shaders\PostEffect\GaussianBlur">
       <UniqueIdentifier>{a15c603c-00e8-43ec-9f9e-5100706adb9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\Bloom">
+      <UniqueIdentifier>{8c679bab-b11a-41d7-924b-b9fd60a3b749}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1848,6 +1851,12 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\GaussianBlurVertical.CS.hlsl">
       <Filter>shaders\PostEffect\GaussianBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\BloomHorizontal.CS.hlsl">
+      <Filter>shaders\PostEffect\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\BloomVertical.CS.hlsl">
+      <Filter>shaders\PostEffect\Bloom</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

@@ -230,7 +230,7 @@ void TitleScene::Draw()
 	PostEffect::GetInstance()->Execution(
 		dxCommon_->GetCommadList(),
 		renderTargetTexture_,
-		PostEffect::kCommandIndexGaussianBlur
+		PostEffect::kCommandIndexBloom
 	);
 
 	renderTargetTexture_->ClearDepthBuffer();

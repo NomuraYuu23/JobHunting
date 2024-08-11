@@ -84,24 +84,6 @@ void mainBinaryThreshold(uint32_t3 dispatchId : SV_DispatchThreadID)
 
 }
 
-// ブラー画像との合成
-float32_t4 BlurAdd(in const float32_t4 input0, in const float32_t4 input1) {
-
-	float32_t alphaSum = input0.a + input1.a;
-
-	if (alphaSum != 0.0f) {
-		float32_t a1 = input0.a * rcp(alphaSum);
-		float32_t a2 = input1.a * rcp(alphaSum);
-
-		float32_t3 col = input0.rgb * a1 + input1.rgb * a2;
-
-		return float32_t4(col, min(alphaSum, 1.0f));
-	}
-
-	return float32_t4(0.0f, 0.0f, 0.0f, 0.0f);
-
-}
-
 // レンダーターゲット画像の書き込まれていない部分を透明に
 float32_t4 RTTCorrection(in const float32_t4 input) {
 
