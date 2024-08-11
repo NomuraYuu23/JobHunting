@@ -157,8 +157,8 @@ private: // 定数
 	const std::array<std::pair<const std::wstring, const wchar_t*>, kPipelineIndexOfCount> shaderNames_ =
 	{
 		std::pair{L"Resources/shaders/PostEffect/BinaryThreshold.CS.hlsl", L"main"}, // 二値化
-		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainGaussianBlurHorizontal"}, // ガウスブラー水平
-		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainGaussianBlurVertical"}, // ガウスブラー垂直
+		std::pair{L"Resources/shaders/PostEffect/GaussianBlurHorizontal.CS.hlsl", L"main"}, // ガウスブラー水平
+		std::pair{L"Resources/shaders/PostEffect/GaussianBlurVertical.CS.hlsl", L"main"}, // ガウスブラー垂直
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainBloomHorizontal"},  // ブルーム水平
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainBloomVertical"},  // ブルーム垂直
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainMotionBlur"}, // モーションブラー

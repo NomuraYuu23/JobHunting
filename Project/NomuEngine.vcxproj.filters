@@ -376,6 +376,9 @@
     <Filter Include="shaders\PostEffect\BinaryThreshold">
       <UniqueIdentifier>{093be72a-54f4-4c89-9465-faf8cf1c7f5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\GaussianBlur">
+      <UniqueIdentifier>{a15c603c-00e8-43ec-9f9e-5100706adb9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1839,6 +1842,12 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\BinaryThreshold.CS.hlsl">
       <Filter>shaders\PostEffect\BinaryThreshold</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\GaussianBlurHorizontal.CS.hlsl">
+      <Filter>shaders\PostEffect\GaussianBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\GaussianBlurVertical.CS.hlsl">
+      <Filter>shaders\PostEffect\GaussianBlur</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
