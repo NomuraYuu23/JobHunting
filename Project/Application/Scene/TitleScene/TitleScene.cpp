@@ -231,7 +231,7 @@ void TitleScene::Draw()
 	PostEffect::GetInstance()->Execution(
 		dxCommon_->GetCommadList(),
 		renderTargetTexture_,
-		PostEffect::kCommandIndexWhiteNoize
+		PostEffect::kCommandIndexScanLine
 	);
 
 	renderTargetTexture_->ClearDepthBuffer();

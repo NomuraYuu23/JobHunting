@@ -163,7 +163,7 @@ private: // 定数
 		std::pair{L"Resources/shaders/PostEffect/BloomVertical.CS.hlsl", L"main"},  // ブルーム垂直
 		std::pair{L"Resources/shaders/PostEffect/MotionBlur.CS.hlsl", L"main"}, // モーションブラー
 		std::pair{L"Resources/shaders/PostEffect/WhiteNoise.CS.hlsl", L"main"}, // ホワイトノイズ
-		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainScanLine"}, // 走査線
+		std::pair{L"Resources/shaders/PostEffect/ScanLine.CS.hlsl", L"main"}, // 走査線
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainRGBShift"}, // RGBずらし
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainBarrelCurved"}, // 樽状湾曲
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainVignette"}, // ビネット
