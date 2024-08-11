@@ -394,6 +394,9 @@
     <Filter Include="shaders\PostEffect\RGBShift">
       <UniqueIdentifier>{35cc77c7-f7b0-41c7-8465-60e95763fae8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\BarrelCurved">
+      <UniqueIdentifier>{f3d89efa-cf17-4b99-a89c-053cb09ff422}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1881,6 +1884,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\RGBShift.CS.hlsl">
       <Filter>shaders\PostEffect\RGBShift</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\BarrelCurved.CS.hlsl">
+      <Filter>shaders\PostEffect\BarrelCurved</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
