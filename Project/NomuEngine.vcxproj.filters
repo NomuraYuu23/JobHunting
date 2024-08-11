@@ -373,6 +373,9 @@
     <Filter Include="Application\Object\Physics\Pillar">
       <UniqueIdentifier>{fd49b6f0-2fb5-4617-a706-ffe73f043ec7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\BinaryThreshold">
+      <UniqueIdentifier>{093be72a-54f4-4c89-9465-faf8cf1c7f5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1719,6 +1722,9 @@
     <None Include="Resources\shaders\GPUParticle\GPUParticleDissolve.hlsli">
       <Filter>shaders\GPUParticle</Filter>
     </None>
+    <None Include="Resources\shaders\PostEffect\PostEffectParameters.hlsli">
+      <Filter>shaders\PostEffect</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NomuEngine.rc">
@@ -1830,6 +1836,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\SSAO.CS.hlsl">
       <Filter>shaders\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\BinaryThreshold.CS.hlsl">
+      <Filter>shaders\PostEffect\BinaryThreshold</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

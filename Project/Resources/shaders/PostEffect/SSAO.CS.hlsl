@@ -1,4 +1,4 @@
-//  シャドウマッピング用カーネル
+//  SSAO用カーネル
 static const float32_t kSSAOKernel[3][3] = {
 	{ 1.0f / 9.0f, 1.0f / 9.0f, 1.0f / 9.0f},
 	{ 1.0f / 9.0f, 1.0f / 9.0f, 1.0f / 9.0f},

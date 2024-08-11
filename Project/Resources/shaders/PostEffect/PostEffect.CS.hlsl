@@ -1,75 +1,11 @@
 #include "PostEffect.hlsli"
 
+#include "PostEffectParameters.hlsli"
+
 #include "LuminanceBasedOutline.CS.hlsl"
 #include "SSAO.CS.hlsl"
 
 #include "PostEffectCalc.CS.hlsl"
-
-// 定数データ
-struct ComputeParameters {
-
-	uint32_t threadIdOffsetX; // スレッドのオフセットX
-	uint32_t threadIdTotalX; // スレッドの総数X
-	uint32_t threadIdOffsetY; // スレッドのオフセットY
-	uint32_t threadIdTotalY; // スレッドの総数Y
-
-	uint32_t threadIdOffsetZ; // スレッドのオフセットZ
-	uint32_t threadIdTotalZ; // スレッドの総数Z
-	float32_t threshold; // しきい値
-	float32_t time; // 時間
-
-	float32_t4 clearColor; // クリアするときの色
-	
-	int32_t kernelSize; // カーネルサイズ
-	float32_t gaussianSigma; // 標準偏差
-	float32_t2 rShift; // Rずらし
-	
-	float32_t2 gShift; // Gずらし
-	float32_t2 bShift; // Bずらし
-	
-	float32_t distortion; // 歪み
-	float32_t vignetteSize; // ビネットの大きさ
-	float32_t vignetteChange; // ビネットの変化
-	float32_t horzGlitchPase; //水平
-
-	float32_t vertGlitchPase; //垂直
-	float32_t glitchStepValue; // グリッチのステップ値
-	float32_t2 radialBlurCenter; // 放射状ブラーの中心座標
-
-	int32_t radialBlurSamples; // 放射状ブラーのサンプル回数
-	float32_t radialBlurStrength; // 放射状ブラーの広がる強さ
-	float32_t radialBlurMask; // 放射状ブラーが適用されないサイズ
-	float32_t colorLerpT; // 色変える系のLerpT
-	
-	float32_t2 colorSize; // 色変える系の大きさ
-	float32_t2 colorPosition; // 色変える系の位置
-
-	float32_t4 flareColor; // フレアの色
-	
-	float32_t2 flareSize; // フレアの大きさ
-	float32_t2 flarePosition; // フレアの位置
-
-	float32_t4 paraColor; // パラの色
-	
-	float32_t2 paraSize; // パラの大きさ
-	float32_t2 paraPosition; // パラの位置
-
-	float32_t4x4 projection; // プロジェクション行列
-	float32_t4x4 projectionInverse; // プロジェクション逆行列
-	
-	float32_t outlineSigma; // アウトライン標準偏差
-	float32_t3 maskEdgeColor; // マスクのエッジの色
-
-	float32_t maskThreshold; // マスクしきい値
-	float32_t maskEdgeRangeOfDetection; // マスクのエッジ検出範囲
-
-	float32_t hue;
-	float32_t saturation;
-	float32_t value;
-
-	uint32_t executionFlag;  // 実行フラグ(複数組み合わせたときのやつ)
-
-};
 
 // 定数データ
 ConstantBuffer<ComputeParameters> gComputeConstants : register(b0);

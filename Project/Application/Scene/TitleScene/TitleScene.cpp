@@ -198,30 +198,39 @@ void TitleScene::Draw()
 	objectManager_->ParticleDraw(camera_);
 
 
-	PostEffect::ExecutionAdditionalDesc desc = {};
-	desc.shockWaveManagers[0] = shockWaveManager_.get();
-	PostEffect::GetInstance()->SetKernelSize(33);
-	PostEffect::GetInstance()->SetGaussianSigma(8.0f);
-	PostEffect::GetInstance()->SetThreshold(0.11f);
+	//PostEffect::ExecutionAdditionalDesc desc = {};
+	//desc.shockWaveManagers[0] = shockWaveManager_.get();
+	//PostEffect::GetInstance()->SetKernelSize(33);
+	//PostEffect::GetInstance()->SetGaussianSigma(8.0f);
+	//PostEffect::GetInstance()->SetThreshold(0.11f);
 
+	//PostEffect::GetInstance()->Execution(
+	//	dxCommon_->GetCommadList(),
+	//	renderTargetTexture_,
+	//	PostEffect::kCommandIndexShockWave,
+	//	&desc
+	//);
+
+	//renderTargetTexture_->ClearDepthBuffer();
+
+
+	//WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+
+	////ブルーム
+	//PostEffect::GetInstance()->Execution(
+	//	dxCommon_->GetCommadList(),
+	//	renderTargetTexture_,
+	//	PostEffect::kCommandIndexBloom,
+	//	&desc
+	//);
+
+	//renderTargetTexture_->ClearDepthBuffer();
+
+	//
 	PostEffect::GetInstance()->Execution(
 		dxCommon_->GetCommadList(),
 		renderTargetTexture_,
-		PostEffect::kCommandIndexShockWave,
-		&desc
-	);
-
-	renderTargetTexture_->ClearDepthBuffer();
-
-
-	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
-
-	//ブルーム
-	PostEffect::GetInstance()->Execution(
-		dxCommon_->GetCommadList(),
-		renderTargetTexture_,
-		PostEffect::kCommandIndexBloom,
-		&desc
+		PostEffect::kCommandIndexBinaryThreshold
 	);
 
 	renderTargetTexture_->ClearDepthBuffer();
