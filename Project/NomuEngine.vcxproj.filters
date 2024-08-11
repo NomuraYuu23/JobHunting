@@ -400,6 +400,9 @@
     <Filter Include="shaders\PostEffect\Vignette">
       <UniqueIdentifier>{9ea545bd-631a-4e67-971e-9de83c28ab11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\Glitch">
+      <UniqueIdentifier>{3b20f8fb-03d2-4ee5-b3c4-518c1653b030}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1893,6 +1896,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\Vignette.CS.hlsl">
       <Filter>shaders\PostEffect\Vignette</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\Glitch.CS.hlsl">
+      <Filter>shaders\PostEffect\Glitch</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
