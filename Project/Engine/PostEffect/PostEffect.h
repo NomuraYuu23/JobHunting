@@ -169,7 +169,7 @@ private: // 定数
 		std::pair{L"Resources/shaders/PostEffect/Vignette.CS.hlsl", L"main"}, // ビネット
 		std::pair{L"Resources/shaders/PostEffect/Glitch.CS.hlsl", L"main"}, // グリッチ
 		std::pair{L"Resources/shaders/PostEffect/RadialBlur.CS.hlsl", L"main"}, // 放射状ブラー
-		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainShockWave"}, // 衝撃波
+		std::pair{L"Resources/shaders/PostEffect/ShockWave.CS.hlsl", L"main"}, // 衝撃波
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainFlarePara"}, // フレア パラ
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainGrayScale"}, // グレイスケール
 		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainSepia"}, // セピア

@@ -406,6 +406,9 @@
     <Filter Include="shaders\PostEffect\RadialBlur">
       <UniqueIdentifier>{58230b50-f98f-4000-ad7d-6db42ebc18c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\ShockWave">
+      <UniqueIdentifier>{4bc83bb9-e91b-4fe6-a6e0-ef8a7cef425b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1905,6 +1908,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\RadialBlur.CS.hlsl">
       <Filter>shaders\PostEffect\RadialBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\ShockWave.CS.hlsl">
+      <Filter>shaders\PostEffect\ShockWave</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
