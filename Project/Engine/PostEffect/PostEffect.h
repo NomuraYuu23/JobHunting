@@ -175,7 +175,7 @@ private: // 定数
 		std::pair{L"Resources/shaders/PostEffect/Sepia.CS.hlsl", L"main"}, // セピア
 		std::pair{L"Resources/shaders/PostEffect/Outline.CS.hlsl", L"main"}, // アウトライン
 		std::pair{L"Resources/shaders/PostEffect/Dissolve.CS.hlsl", L"main"}, // ディゾルブ
-		std::pair{L"Resources/shaders/PostEffect/PostEffect.CS.hlsl", L"mainHSVFilter"}, // HSVフィルター
+		std::pair{L"Resources/shaders/PostEffect/HSVFilter.CS.hlsl", L"main"}, // HSVフィルター
 	};
 
 	// コマンド情報(コマンド実行可能回数4回)

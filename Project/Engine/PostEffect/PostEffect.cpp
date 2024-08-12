@@ -152,6 +152,9 @@ void PostEffect::ImGuiDraw()
 	ImGui::DragFloat("outlineSigma", &computeParametersMap_->outlineSigma, 0.01f);
 	ImGui::ColorEdit3("maskEdgeColor", &computeParametersMap_->maskEdgeColor.x);
 	ImGui::DragFloat("maskThreshold", &computeParametersMap_->maskThreshold, 0.01f);
+	ImGui::DragFloat("hue", &computeParametersMap_->hue, 0.01f);
+	ImGui::DragFloat("saturation", &computeParametersMap_->saturation, 0.01f);
+	ImGui::DragFloat("value", &computeParametersMap_->value, 0.01f);
 	ImGui::DragFloat("maskEdgeRangeOfDetection", &computeParametersMap_->maskEdgeRangeOfDetection, 0.001f);
 
 	ImGui::DragInt("executionFlag", &computeParametersMap_->executionFlag, 0.1f, 0, 31);
