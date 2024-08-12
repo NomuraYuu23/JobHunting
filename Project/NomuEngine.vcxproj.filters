@@ -421,6 +421,9 @@
     <Filter Include="shaders\PostEffect\Outline">
       <UniqueIdentifier>{403a3d69-320d-42f5-8a33-676b06195cd3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\Dissolve">
+      <UniqueIdentifier>{88bf9002-ffb8-4cac-a715-4f162aa85a1a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1935,6 +1938,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\Outline.CS.hlsl">
       <Filter>shaders\PostEffect\Outline</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\Dissolve.CS.hlsl">
+      <Filter>shaders\PostEffect\Dissolve</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
