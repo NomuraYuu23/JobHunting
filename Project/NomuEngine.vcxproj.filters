@@ -418,6 +418,9 @@
     <Filter Include="shaders\PostEffect\Sepia">
       <UniqueIdentifier>{8a9df7a5-d25c-4558-95cb-8a3d0fc0fe78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\Outline">
+      <UniqueIdentifier>{403a3d69-320d-42f5-8a33-676b06195cd3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1929,6 +1932,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\Sepia.CS.hlsl">
       <Filter>shaders\PostEffect\Sepia</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\Outline.CS.hlsl">
+      <Filter>shaders\PostEffect\Outline</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
