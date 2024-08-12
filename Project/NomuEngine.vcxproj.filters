@@ -415,6 +415,9 @@
     <Filter Include="shaders\PostEffect\GrayScale">
       <UniqueIdentifier>{8318aa39-6b38-4576-8e72-5dc296dc9783}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\Sepia">
+      <UniqueIdentifier>{8a9df7a5-d25c-4558-95cb-8a3d0fc0fe78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1923,6 +1926,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\GrayScale.CS.hlsl">
       <Filter>shaders\PostEffect\GrayScale</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\Sepia.CS.hlsl">
+      <Filter>shaders\PostEffect\Sepia</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
