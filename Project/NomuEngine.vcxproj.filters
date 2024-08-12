@@ -412,6 +412,9 @@
     <Filter Include="shaders\PostEffect\FlarePara">
       <UniqueIdentifier>{bde438a5-b975-43f3-aecc-bfbb037a15e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\GrayScale">
+      <UniqueIdentifier>{8318aa39-6b38-4576-8e72-5dc296dc9783}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1917,6 +1920,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\FlarePara.CS.hlsl">
       <Filter>shaders\PostEffect\FlarePara</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\GrayScale.CS.hlsl">
+      <Filter>shaders\PostEffect\GrayScale</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
