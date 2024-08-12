@@ -409,6 +409,9 @@
     <Filter Include="shaders\PostEffect\ShockWave">
       <UniqueIdentifier>{4bc83bb9-e91b-4fe6-a6e0-ef8a7cef425b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\PostEffect\FlarePara">
+      <UniqueIdentifier>{bde438a5-b975-43f3-aecc-bfbb037a15e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1911,6 +1914,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\ShockWave.CS.hlsl">
       <Filter>shaders\PostEffect\ShockWave</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffect\FlarePara.CS.hlsl">
+      <Filter>shaders\PostEffect\FlarePara</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
