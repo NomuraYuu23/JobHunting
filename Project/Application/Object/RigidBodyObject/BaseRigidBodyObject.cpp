@@ -79,7 +79,7 @@ void BaseRigidBodyObject::OnCollision(ColliderParentObject colliderPartner, cons
 	// 値が小さいので100倍しとく
 	float power = Vector3::Length(force) * 100.0f;
 
-	//RigidBody::CollisionPositionConfirmation(&rigidBody_, obb, pairOBB, coefficientOfRestitution, isGround, power);
+	RigidBody::CollisionPositionConfirmation(&rigidBody_, obb, pairOBB, coefficientOfRestitution, isGround, power);
 
 	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &pairOBB);
 
