@@ -24,6 +24,8 @@ void Skydome::Initialize(Model* model) {
 
 	// ワールド変換データの初期化
 	worldTransform_.Initialize(model_->GetRootNode());
+	worldTransform_.transform_.scale = { 2.0f,2.0f,2.0f };
+	worldTransform_.UpdateMatrix();
 
 	localMatrixManager_ = std::make_unique<LocalMatrixManager>();
 	localMatrixManager_->Initialize(model_->GetRootNode());
