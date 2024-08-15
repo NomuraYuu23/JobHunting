@@ -39,7 +39,7 @@ void PlayerStateRoot::Update()
 			if (input_->PushJoystick(JoystickButton::kJoystickButtonB)) {
 				// ダッシュ
 				Move(move, worldTransform, dashSpeed_);
-				//playerMotionNo_ = kPlayerMotionDash;
+				playerMotionNo_ = kPlayerMotionRun;
 			}
 			else {
 				//ランニング
