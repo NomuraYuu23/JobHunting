@@ -997,6 +997,9 @@
     <ClCompile Include="Application\Collider\ColliderParentIdentification.cpp">
       <Filter>Application\Collider</Filter>
     </ClCompile>
+    <ClCompile Include="Application\System\BossSystem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1721,6 +1724,9 @@
     </ClInclude>
     <ClInclude Include="Application\Collider\ColliderParentIdentification.h">
       <Filter>Application\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\BossSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

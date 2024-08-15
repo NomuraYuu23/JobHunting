@@ -119,6 +119,9 @@ void GameScene::Initialize() {
 	gameOverSystem_ = std::make_unique<GameOverSystem>();
 	gameOverSystem_->Initialize(gameOverStringTextureHandle_, gameOverButtonTextureHandle_);
 
+	bossSystem_ = std::make_unique<BossSystem>();
+	bossSystem_->Initialize(objectManager_.get());
+
 	IScene::InitilaizeCheck();
 
 }
@@ -177,6 +180,8 @@ void GameScene::Update() {
 	// オブジェクトマネージャー
 	objectManager_->Update();
 
+	bossSystem_->Update();
+
 	// あたり判定
 	collisionManager_->ListClear();
 
@@ -187,7 +192,7 @@ void GameScene::Update() {
 	// スカイドーム
 	skydome_->Update();
 
-	uiManager_->Update(player_->RatioHP(), bossEnemy_->RatioHP());
+	uiManager_->Update(player_->RatioHP(), bossEnemy_->RatioHP(), bossSystem_->GetIsBossBattle());
 
 	// デバッグカメラ
 	DebugCameraUpdate();

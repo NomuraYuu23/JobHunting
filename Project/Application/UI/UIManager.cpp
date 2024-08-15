@@ -42,13 +42,17 @@ void UIManager::Initialize(const std::array<uint32_t, kUIIndexOfCount>& textureH
 	enemyHPFrameSprite_->SetAnchorPoint(Vector2{ 0.0f, 0.0f });
 	enemyHPFrameSprite_->SetSize(Vector2{ 1010.0f, 30.0f });
 
+	isBossBattle_ = false;
+
 }
 
-void UIManager::Update(float playerRatioHP, float enemyRatioHP)
+void UIManager::Update(float playerRatioHP, float enemyRatioHP, bool isBossBattle)
 {
 
 	playerHPSprite_->SetSize(Vector2{ playerHPSizeX_ * playerRatioHP, 20.0f });
 	enemyHPSprite_->SetSize(Vector2{ enemyHPSizeX_ * enemyRatioHP, 20.0f });
+
+	isBossBattle_ = isBossBattle;
 
 }
 
@@ -63,8 +67,10 @@ void UIManager::Draw()
 	playerHPFrameSprite_->Draw();
 	playerHPSprite_->Draw();
 
-	// エネミーHP
-	enemyHPFrameSprite_->Draw();
-	enemyHPSprite_->Draw();
+	if (isBossBattle_) {
+		// エネミーHP
+		enemyHPFrameSprite_->Draw();
+		enemyHPSprite_->Draw();
+	}
 
 }

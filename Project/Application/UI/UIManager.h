@@ -21,7 +21,7 @@ public:
 	void Initialize(const std::array<uint32_t, kUIIndexOfCount>& textureHandles);
 
 	// 更新
-	void Update(float playerRatioHP, float enemyRatioHP);
+	void Update(float playerRatioHP, float enemyRatioHP, bool isBossBattle);
 
 	// 描画
 	void Draw();
@@ -41,5 +41,8 @@ private:
 	float enemyHPSizeX_;
 
 	std::array<uint32_t, kUIIndexOfCount> textureHandles_;
+
+	// ボス戦中か
+	bool isBossBattle_;
 
 };
