@@ -195,5 +195,7 @@ public: // アクセッサ
 
 	void SetUsedRigidBody(bool usedRigidBody) { usedRigidBody_ = usedRigidBody; }
 
+	uint32_t GetCurrentStateNo() { return currentStateNo_; };
+
 };
 

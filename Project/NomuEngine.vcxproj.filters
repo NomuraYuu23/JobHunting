@@ -1010,7 +1010,7 @@
       <Filter>Application\System</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\BossFog\BossFog.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\Object\Obstacle\BossFog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1744,7 +1744,7 @@
       <Filter>Application\System</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\BossFog\BossFog.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Object\Obstacle\BossFog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

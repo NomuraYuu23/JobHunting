@@ -17,9 +17,6 @@ public:
 
 private:
 
-	// プレイヤーの名前
-	const std::string kPlayerName_ = "000_Player";
-
 	// ボスの名前
 	const std::string kBossName_ = "AxSpearMan00";
 
@@ -28,9 +25,6 @@ private:
 
 	// ボス戦中か
 	bool isBossBattle_;
-
-	// プレイヤー
-	Player* player_;
 
 	// ボス
 	BaseEnemy* boss_;
