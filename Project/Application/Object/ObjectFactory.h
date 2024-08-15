@@ -2,6 +2,7 @@
 #include "../../Engine/Object/AbstractObjectFactory.h"
 #include "../../Engine/Level/LevelData.h"
 #include "../../Engine/Object/BaseObjectManager.h"
+#include "../System/BossSystem.h"
 
 class ObjectFactory :
     public AbstractObjectFactory
@@ -21,6 +22,7 @@ public: // サブクラス,定数
 		kCreateObjectIndexTitlePlayer, // タイトル用プレイヤー
 		kCreateObjectIndexPillarFoundation, // 柱土台
 		kCreateObjectIndexPillar, // 柱
+		kCreateObjectIndexBossFog, // ボス霧
 		kCreateObjectIndexOfCount, // 数数える用
 
 	};
@@ -39,7 +41,8 @@ public: //メンバ関数
 	/// 初期化
 	/// </summary>
 	/// <param name="objectManager">オブジェクトマネージャー</param>
-	void Initialize(BaseObjectManager* objectManager);
+	/// <param name="bossSystem">ボスシステム</param>
+	void Initialize(BaseObjectManager* objectManager, BossSystem* bossSystem);
 
 	/// <summary>
 	/// オブジェクト作成
@@ -53,6 +56,12 @@ public: //メンバ関数
 	/// </summary>
 	/// <param name="objectManager"></param>
 	void SetObjectManager(BaseObjectManager* objectManager) { objectManager_ = objectManager; }
+
+	/// <summary>
+	/// ボスシステム
+	/// </summary>
+	/// <param name="bossSystem"></param>
+	void SetBossSystem(BossSystem* bossSystem) { bossSystem_ = bossSystem; }
 
 private: // メンバ関数
 
@@ -134,6 +143,13 @@ private: // メンバ関数
 	/// <returns>オブジェクト</returns>
 	static IObject* CreateObjectPillar(LevelData::ObjectData& objectData);
 
+	/// <summary>
+	/// ボス霧
+	/// </summary>
+	/// <param name="objectData">オブジェクトデータ</param>
+	/// <returns>オブジェクト</returns>
+	static IObject* CreateObjectBossFog(LevelData::ObjectData& objectData);
+
 private:
 
 	// 親取得用
@@ -148,6 +164,9 @@ private:
 
 	// マネージャー
 	static BaseObjectManager* objectManager_;
+
+	// 親取得用
+	static BossSystem* bossSystem_;
 
 private:
 	ObjectFactory() = default;

@@ -59,8 +59,14 @@ void GameScene::Initialize() {
 
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<GameSceneObjectManager>();
-	ObjectFactory::GetInstance()->Initialize(objectManager_.get());
+	
+	bossSystem_ = std::make_unique<BossSystem>();
+	
+	ObjectFactory::GetInstance()->Initialize(objectManager_.get(), bossSystem_.get());
+	
 	objectManager_->Initialize(kLevelIndexMain, levelDataManager_);
+
+	bossSystem_->Initialize(objectManager_.get());
 
 	// プレイヤー
 	player_ = static_cast<Player*>(objectManager_->GetObjectPointer("000_Player"));
@@ -118,9 +124,6 @@ void GameScene::Initialize() {
 
 	gameOverSystem_ = std::make_unique<GameOverSystem>();
 	gameOverSystem_->Initialize(gameOverStringTextureHandle_, gameOverButtonTextureHandle_);
-
-	bossSystem_ = std::make_unique<BossSystem>();
-	bossSystem_->Initialize(objectManager_.get());
 
 	IScene::InitilaizeCheck();
 

@@ -4827,6 +4827,43 @@
                     6.0
                 ]
             }
+        },
+        {
+            "type": "MESH",
+            "name": "Block03.006",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -70.0,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    5.0,
+                    10.0
+                ]
+            },
+            "fileName": "Block.obj",
+            "directoryPath": "Resources/Model/Block",
+            "className": "BossFog",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    20.0,
+                    10.0,
+                    20.0
+                ]
+            }
         }
     ]
 }

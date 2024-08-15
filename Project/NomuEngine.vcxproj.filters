@@ -430,6 +430,9 @@
     <Filter Include="Application\Object\Enemy\AxSpearMan\State\WaitingForBattle">
       <UniqueIdentifier>{e7155d2d-fb3e-446b-8017-34e4e4a97e93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Obstacle\BossFog">
+      <UniqueIdentifier>{5048ec20-8169-4b3c-bb62-1d909bc63a36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1000,10 +1003,13 @@
     <ClCompile Include="Application\Collider\ColliderParentIdentification.cpp">
       <Filter>Application\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Application\System\BossSystem.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitingForBattle.cpp">
+      <Filter>Application\Object\Enemy\AxSpearMan\State\WaitingForBattle</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\System\BossSystem.cpp">
+      <Filter>Application\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Obstacle\BossFog\BossFog.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1731,10 +1737,13 @@
     <ClInclude Include="Application\Collider\ColliderParentIdentification.h">
       <Filter>Application\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Application\System\BossSystem.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitingForBattle.h">
+      <Filter>Application\Object\Enemy\AxSpearMan\State\WaitingForBattle</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\System\BossSystem.h">
+      <Filter>Application\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Obstacle\BossFog\BossFog.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,6 +12,7 @@
 #include "../Object/Character/Player/TitlePlayer/TitlePlayer.h"
 #include "Obstacle/Pillar/PillarFoundation.h"
 #include "../Object/RigidBodyObject/Piller/Pillar.h"
+#include "../Object/Obstacle/BossFog/BossFog.h"
 
 // 親取得用
 Player* ObjectFactory::player_ = nullptr;
@@ -26,16 +27,19 @@ std::array<
 // マネージャー
 BaseObjectManager* ObjectFactory::objectManager_ = nullptr;
 
+BossSystem* ObjectFactory::bossSystem_ = nullptr;
+
 ObjectFactory* ObjectFactory::GetInstance()
 {
 	static ObjectFactory instance;
 	return &instance;
 }
 
-void ObjectFactory::Initialize(BaseObjectManager* objectManager)
+void ObjectFactory::Initialize(BaseObjectManager* objectManager, BossSystem* bossSystem)
 {
 
 	objectManager_ = objectManager;
+	bossSystem_ = bossSystem;
 
 	// 関数を入れていく
 	createObjectFunctions_[kCreateObjectIndexPlayer].first = "Player";
@@ -70,6 +74,9 @@ void ObjectFactory::Initialize(BaseObjectManager* objectManager)
 
 	createObjectFunctions_[kCreateObjectIndexPillar].first = "Pillar";
 	createObjectFunctions_[kCreateObjectIndexPillar].second = ObjectFactory::CreateObjectPillar;
+
+	createObjectFunctions_[kCreateObjectIndexBossFog].first = "BossFog";
+	createObjectFunctions_[kCreateObjectIndexBossFog].second = ObjectFactory::CreateObjectBossFog;
 
 }
 
@@ -214,4 +221,16 @@ IObject* ObjectFactory::CreateObjectPillar(LevelData::ObjectData& objectData)
 		static_cast<PillarFoundation*>(objectManager_->GetObjectPointer(
 			static_cast<Pillar*>(object)->GetParentName())));
 	return object;
+}
+
+IObject* ObjectFactory::CreateObjectBossFog(LevelData::ObjectData& objectData)
+{
+	
+	// インスタンス生成
+	IObject* object = new BossFog();
+	// 初期化
+	static_cast<BossFog*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	static_cast<BossFog*>(object)->SetBossSystem(bossSystem_);
+	return object;
+
 }

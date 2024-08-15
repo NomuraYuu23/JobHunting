@@ -37,7 +37,7 @@ void TitleScene::Initialize()
 
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<TitleSceneObjectManager>();
-	ObjectFactory::GetInstance()->Initialize(objectManager_.get());
+	ObjectFactory::GetInstance()->Initialize(objectManager_.get(), nullptr);
 	objectManager_->Initialize(kLevelIndexTitle, levelDataManager_);
 
 	// スカイドーム
