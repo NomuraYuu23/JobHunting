@@ -73,6 +73,25 @@ void FollowCamera::Update(float elapsedTime) {
 	BaseCamera::Update();
 }
 
+void FollowCamera::SetTarget(const WorldTransform* target)
+{
+
+	target_ = target;
+
+	// 追従座標の補間
+	Vector3 targetPos = { target_->worldMatrix_.m[3][0], target_->worldMatrix_.m[3][1], target_->worldMatrix_.m[3][2] };
+	interTarget_ = targetPos;
+
+	// オフセット
+	Vector3 offset = OffsetCalc();
+
+	transform_.translate = Vector3::Add(interTarget_, offset);
+
+	//ビュー更新
+	BaseCamera::Update();
+
+}
+
 
 Vector3 FollowCamera::OffsetCalc() const
 {
