@@ -6,6 +6,7 @@
 #include "AxSpearManStateShakeOff.h"
 #include "AxSpearManState3Consecutive.h"
 #include "AxSpearManStateBeam.h"
+#include "AxSpearManStateWaitingForBattle.h"
 
 IAxSpearManState* AxSpearManStateFactory::CreateAxSpearManState(uint32_t axSpearManStateName)
 {
@@ -31,6 +32,9 @@ IAxSpearManState* AxSpearManStateFactory::CreateAxSpearManState(uint32_t axSpear
 		break;
 	case kAxSpearManStateBeam:// ビーム
 		newAxSpearManState = new AxSpearManStateBeam();
+		break;
+	case kAxSpearManStateWaitingForBattle:// バトル待ち
+		newAxSpearManState = new AxSpearManStateWaitingForBattle();
 		break;
 	case kAxSpearManStateOfCount: // 使用不可
 	default:

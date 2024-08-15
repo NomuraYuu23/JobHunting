@@ -11,6 +11,7 @@ enum AxSpearManState {
 	kAxSpearManStateShakeOff, // 振り払い
 	kAxSpearManState3Consecutive, // 3連撃
 	kAxSpearManStateBeam, // ビーム
+	kAxSpearManStateWaitingForBattle, // バトル待ち
 	kAxSpearManStateOfCount // 数
 };
 

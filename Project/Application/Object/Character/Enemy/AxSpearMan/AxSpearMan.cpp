@@ -24,6 +24,8 @@ void AxSpearMan::Initialize(LevelData::MeshData* data)
 	beamAttack_ = std::make_unique<AxSpearManBeamAttack>();
 	beamAttack_->Initialize(&worldTransform_);
 
+	receiveCommand_ = false;
+
 }
 
 void AxSpearMan::Update()

@@ -427,6 +427,9 @@
     <Filter Include="shaders\PostEffect\HSVFilter">
       <UniqueIdentifier>{e4bed640-a217-4143-a704-421f4f242a9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Enemy\AxSpearMan\State\WaitingForBattle">
+      <UniqueIdentifier>{e7155d2d-fb3e-446b-8017-34e4e4a97e93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -998,6 +1001,9 @@
       <Filter>Application\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Application\System\BossSystem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitingForBattle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1726,6 +1732,9 @@
       <Filter>Application\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Application\System\BossSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitingForBattle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
