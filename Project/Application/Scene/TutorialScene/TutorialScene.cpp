@@ -233,6 +233,9 @@ void TutorialScene::Draw() {
 	// パーティクルはここ
 	particleManager_->Draw(camera_.GetViewProjectionMatrix(), dxCommon_->GetCommadList());
 
+	// パーティクル描画
+	objectManager_->ParticleDraw(camera_);
+
 #pragma endregion
 
 

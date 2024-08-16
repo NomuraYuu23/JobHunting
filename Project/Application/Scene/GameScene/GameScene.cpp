@@ -257,6 +257,9 @@ void GameScene::Draw() {
 	// パーティクルはここ
 	particleManager_->Draw(camera_.GetViewProjectionMatrix(), dxCommon_->GetCommadList());
 
+	// パーティクル描画
+	objectManager_->ParticleDraw(camera_);
+
 #pragma endregion
 
 	PostEffect::GetInstance()->SetKernelSize(33);

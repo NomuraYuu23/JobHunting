@@ -1,10 +1,11 @@
 #pragma once
-
 #include "../../Engine/Particle/GPUParticle.h"
 
 class BloadParticleGPU :
     public GPUParticle
 {
+
+public:
 
 	/// <summary>
 	/// 初期化

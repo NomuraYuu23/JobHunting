@@ -96,6 +96,8 @@ void Player::Update()
 	// 速度保存
 	SaveVelocityUpdate();
 
+	attack_->ParticleUpdate();
+
 }
 
 void Player::Draw(BaseCamera& camera)
@@ -182,6 +184,13 @@ void Player::CollisionListRegister(CollisionManager* collisionManager, ColliderD
 	MeshObject::CollisionListRegister(collisionManager, colliderDebugDraw);
 
 	attack_->CollisionListRegister(collisionManager, colliderDebugDraw);
+
+}
+
+void Player::ParticleDraw(BaseCamera& camera)
+{
+
+	attack_->ParticleDraw(commandList_, camera);
 
 }
 
