@@ -170,17 +170,6 @@ void PlayerAttack::OnCollisionEnemy(ColliderParentObject colliderPartner, const 
 	// 衝突処理
 	enemy->Damage(damage_);
 
-	//EulerTransform transform = { { 5.0f, 5.0f, 5.0f },{ 0.0f, 0.0f, 0.0f}, enemy->GetWorldTransformAdress()->GetWorldPosition() };
-	//EmitterDesc emitterDesc{};
-	//emitterDesc.transform = &transform;
-	//emitterDesc.instanceCount = 3;
-	//emitterDesc.frequency = 0.005f;
-	//emitterDesc.lifeTime = 0.1f;
-	//emitterDesc.paeticleName = ParticleName::kBloadParticle;
-	//emitterDesc.particleModelNum = ParticleModelIndex::kCircle;
-
-	//ParticleManager::GetInstance()->MakeEmitter(&emitterDesc, 0);
-
 	EmitterCS emitter;
 	emitter.count = 10;
 	emitter.frequency = 0.1f;

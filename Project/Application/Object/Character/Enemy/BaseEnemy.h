@@ -58,6 +58,12 @@ public: // ベースのメンバ関数
 	/// <param name="colliderDebugDraw"></param>
 	virtual void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw) override;
 
+	/// <summary>
+	/// パーティクル描画
+	/// </summary>
+	/// <param name="camera">カメラ</param>
+	void ParticleDraw(BaseCamera& camera) override;
+
 protected: // ベースのメンバ変数
 
 	// アタック

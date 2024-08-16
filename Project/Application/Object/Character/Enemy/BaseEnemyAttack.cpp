@@ -1,5 +1,6 @@
 #include "BaseEnemyAttack.h"
 #include "../Player/Player.h"
+#include "../../../../Engine/Math/DeltaTime.h"
 
 void BaseEnemyAttack::Initialize(WorldTransform* parent)
 {
@@ -27,6 +28,29 @@ void BaseEnemyAttack::Initialize(WorldTransform* parent)
 
 	// あたり判定を取るか
 	isAttackJudgment_ = false;
+
+	// パーティクル
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+
+	bloadParticle_ = std::make_unique<BloadParticleGPU>();
+
+	bloadParticle_->Initialize(
+		dxCommon->GetDevice(),
+		dxCommon->GetCommadListLoad(),
+		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
+		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get());
+
+	EmitterCS emitter;
+	emitter.count = 10;
+	emitter.frequency = 0.1f;
+	emitter.frequencyTime = 0.0f;
+	emitter.translate = worldTransform_.GetWorldPosition();
+	emitter.radius = 1.0f;
+	emitter.emit = 0;
+
+	bloadParticle_->SetEmitter(emitter);
+
+	particleTime_ = particleTimeMax_;
 
 }
 
@@ -98,6 +122,36 @@ void BaseEnemyAttack::CollisionListRegister(CollisionManager* collisionManager, 
 
 }
 
+void BaseEnemyAttack::ParticleDraw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
+{
+
+	bloadParticle_->Draw(commandList, camera);
+
+}
+
+void BaseEnemyAttack::ParticleUpdate()
+{
+	particleTime_ += kDeltaTime_;
+
+	if (particleTimeMax_ <= particleTime_) {
+		particleTime_ = particleTimeMax_;
+		EmitterCS emitter;
+		emitter.count = 10;
+		emitter.frequency = 0.1f;
+		emitter.frequencyTime = 0.0f;
+		emitter.translate = worldTransform_.GetWorldPosition();
+		emitter.radius = 1.0f;
+		emitter.emit = 0;
+
+		bloadParticle_->SetEmitter(emitter);
+
+	}
+	else {
+		bloadParticle_->Update();
+	}
+
+}
+
 void BaseEnemyAttack::OnCollisionPlayer(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 
@@ -115,16 +169,15 @@ void BaseEnemyAttack::OnCollisionPlayer(ColliderParentObject colliderPartner, co
 	// 衝突処理
 	player->Damage(damage_);
 
-	// エミッタ
-	//EulerTransform transform = { { 5.0f, 5.0f, 5.0f },{ 0.0f, 0.0f, 0.0f}, player->GetWorldTransformAdress()->GetWorldPosition() };
-	//EmitterDesc emitterDesc{};
-	//emitterDesc.transform = &transform;
-	//emitterDesc.instanceCount = 3;
-	//emitterDesc.frequency = 0.005f;
-	//emitterDesc.lifeTime = 0.1f;
-	//emitterDesc.paeticleName = ParticleName::kBloadParticle;
-	//emitterDesc.particleModelNum = ParticleModelIndex::kCircle;
+	EmitterCS emitter;
+	emitter.count = 10;
+	emitter.frequency = 0.1f;
+	emitter.frequencyTime = 0.0f;
+	emitter.translate = player->GetWorldTransformAdress()->GetWorldPosition();
+	emitter.radius = 1.0f;
+	emitter.emit = 0;
 
-	//ParticleManager::GetInstance()->MakeEmitter(&emitterDesc, 0);
+	bloadParticle_->SetEmitter(emitter);
+	particleTime_ = 0.0f;
 
 }

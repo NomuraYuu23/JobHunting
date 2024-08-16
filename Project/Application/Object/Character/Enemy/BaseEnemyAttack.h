@@ -4,6 +4,7 @@
 #include "../../../Engine/ContactRecord/ContactRecord.h"
 #include "../../../Engine/Collision/CollisionManager.h"
 #include "../../../Engine/Collider/ColliderDebugDraw/ColliderDebugDraw.h"
+#include "../../../GPUParticle/BloadParticleGPU.h"
 
 class BaseEnemyAttack
 {
@@ -49,6 +50,18 @@ public: // 変数
 	/// </summary>
 	/// <param name="collisionManager"></param>
 	void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw);
+
+	/// <summary>
+	/// パーティクル描画
+	/// </summary>
+	/// <param name="camera">カメラ</param>
+	/// <param name="commandList">コマンドリスト</param>
+	void ParticleDraw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera);
+
+	/// <summary>
+	/// パーティクル更新
+	/// </summary>
+	void ParticleUpdate();
 
 public: // アクセッサ
 
@@ -118,6 +131,13 @@ protected:
 
 	// あたり判定を取るか
 	bool isAttackJudgment_;
+
+	// パーティクル
+	std::unique_ptr<BloadParticleGPU> bloadParticle_;
+
+	//パーティクルタイム
+	float particleTime_ = 0.0f;
+	const float particleTimeMax_ = 0.3f;
 
 };
 
