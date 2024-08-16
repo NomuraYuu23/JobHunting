@@ -14,7 +14,7 @@
 
 #pragma comment(lib, "dxcompiler.lib")
 
-class GPUPaticle
+class GPUParticle
 {
 
 public:

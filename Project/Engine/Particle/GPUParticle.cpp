@@ -1,39 +1,85 @@
-#include "BonfireParticle.h"
-#include "../../Engine/base/BufferResource.h"
-#include "../../Engine/Particle/ParticleCS.h"
-#include "../../Engine/base/SRVDescriptorHerpManager.h"
-#include "../../Engine/base/CompileShader.h"
-#include "../../Engine/base/Log.h"
-#include "../../Engine/base/TextureManager.h"
-#include "../../Engine/Particle/BillBoardMatrix.h"
-#include "../../Engine/Math/DeltaTime.h"
+#include "GPUParticle.h"
+#include "../base/BufferResource.h"
+#include "ParticleCS.h"
+#include "../base/SRVDescriptorHerpManager.h"
+#include "../base/CompileShader.h"
+#include "../base/Log.h"
+#include "../base/TextureManager.h"
+#include "BillBoardMatrix.h"
+#include "../Math/DeltaTime.h"
 
+// パーティクルの最大数
+const uint32_t GPUParticle::kParticleMax = 1024;
+// モデルのディレクトリパス
+const std::string GPUParticle::kModelDirectoryPath = "Resources/Particle/";
+// モデルのディレクトリパス
+const std::string GPUParticle::kTextureDirectoryPath = "Resources/Particle/";
+// モデルのファイルの名前
+const std::string GPUParticle::kFilename = "plane.obj";
+// モデル
+std::unique_ptr<Model> GPUParticle::model_ = nullptr;
 
-void BonfireParticle::Initialize(
-	ID3D12Device* device, 
-	ID3D12GraphicsCommandList* commandList, 
-	ID3D12RootSignature* rootSignature, 
-	ID3D12PipelineState* pipelineState)
+void GPUParticle::StaticInitialzie()
 {
 
-	textureFilename_ = "Bonfire.png";
-
-	GPUParticle::Initialize(device, commandList, rootSignature, pipelineState);
-
-	EmitterCS emitter;
-	emitter.count = 10;
-	emitter.frequency = 0.1f;
-	emitter.frequencyTime = 0.0f;
-	emitter.translate = Vector3(0.0f, 3.0f, 0.0f);
-	emitter.radius = 1.0f;
-	emitter.emit = 0;
-
-
-	SetEmitter(emitter);
+	model_.reset(Model::Create(
+		kModelDirectoryPath,
+		kFilename,
+		DirectXCommon::GetInstance()));
 
 }
 
-void BonfireParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
+void GPUParticle::Initialize(
+	ID3D12Device* device,
+	ID3D12GraphicsCommandList* commandList,
+	ID3D12RootSignature* rootSignature,
+	ID3D12PipelineState* pipelineState)
+{
+
+	// CSの初期化
+	PipelineStateCSInitialize(device);
+
+	// バッファの初期化
+	UAVBufferInitialize(device, commandList);
+
+	// マテリアル関連の初期化
+	MaterialInitialize();
+
+	// 描画用ルートシグネチャ設定
+	rootSignature_ = rootSignature;
+
+	// 描画用パイプラインステート設定
+	pipelineState_ = pipelineState;
+	
+	// 定数バッファ初期化
+	ConstantBufferInitialzie(device);
+
+}
+
+void GPUParticle::Update()
+{
+
+	// 時間加算
+	emitterMap_->frequencyTime += kDeltaTime_;
+
+	// 射出間隔を上回ったら射出許可を出して時間を調整
+	if (emitterMap_->frequency <= emitterMap_->frequencyTime) {
+		emitterMap_->frequencyTime -= emitterMap_->frequency;
+		emitterMap_->emit = 1;
+	}
+	// 射出間隔を上回っていないので、射出許可は出ない
+	else {
+		emitterMap_->emit = 0;
+	}
+
+	// 時間経過
+	perFrameMap_->time_ += perFrameMap_->deltaTime_;
+
+}
+
+void GPUParticle::Draw(
+	ID3D12GraphicsCommandList* commandList,
+	BaseCamera& camera)
 {
 
 	assert(commandList);
@@ -79,8 +125,6 @@ void BonfireParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& c
 		textureHandle_);
 	// マテリアル
 	commandList->SetGraphicsRootConstantBufferView(3, material_->GetMaterialBuff()->GetGPUVirtualAddress());
-	// Dissolve
-	commandList->SetGraphicsRootDescriptorTable(4, srvDissolveHandleGPU_);
 	// 描画
 	commandList->DrawInstanced(6, kParticleMax, 0, 0);
 
@@ -89,11 +133,36 @@ void BonfireParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& c
 
 }
 
-void BonfireParticle::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList)
+void GPUParticle::SetEmitter(const EmitterCS& emitter)
+{
+
+	// マッピング
+	emitterMap_->count = emitter.count;
+	emitterMap_->frequency = emitter.frequency;
+	emitterMap_->frequencyTime = emitter.frequencyTime;
+	emitterMap_->translate = emitter.translate;
+	emitterMap_->radius = emitter.radius;
+	emitterMap_->emit = emitter.emit;
+
+}
+
+void GPUParticle::PipelineStateCSInitialize(ID3D12Device* device)
+{
+
+	PipelineStateCSInitializeForInitialize(device);
+
+	PipelineStateCSInitializeForEmit(device);
+
+	PipelineStateCSInitializeForUpdate(device);
+
+}
+
+void GPUParticle::UAVBufferInitialize(ID3D12Device* device,
+	ID3D12GraphicsCommandList* commandList)
 {
 
 	// バッファ
-	dissolveBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(float) + 0xff) & ~0xff) * kParticleMax);
+	buff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(ParticleCS) + 0xff) & ~0xff) * kParticleMax);
 
 	/// UAV
 
@@ -105,14 +174,14 @@ void BonfireParticle::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsCo
 	uavDesc.Buffer.NumElements = kParticleMax;
 	uavDesc.Buffer.CounterOffsetInBytes = 0;
 	uavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
-	uavDesc.Buffer.StructureByteStride = sizeof(float);
+	uavDesc.Buffer.StructureByteStride = sizeof(ParticleCS);
 
-	uavDissolveHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
-	uavDissolveHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
-	uavDissolveDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	uavHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	uavHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	uavIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
 	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
 
-	device->CreateUnorderedAccessView(dissolveBuff_.Get(), nullptr, &uavDesc, uavDissolveHandleCPU_);
+	device->CreateUnorderedAccessView(buff_.Get(), nullptr, &uavDesc, uavHandleCPU_);
 
 	/// ここまでUAV
 
@@ -125,22 +194,124 @@ void BonfireParticle::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsCo
 	srvDesc.Buffer.FirstElement = 0;
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	srvDesc.Buffer.NumElements = kParticleMax;
-	srvDesc.Buffer.StructureByteStride = sizeof(float);
+	srvDesc.Buffer.StructureByteStride = sizeof(ParticleCS);
 
-	srvDissolveHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
-	srvDissolveHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
-	srvDissolveDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	srvHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	srvHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	srvIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
 	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
 
-	device->CreateShaderResourceView(dissolveBuff_.Get(), &srvDesc, srvDissolveHandleCPU_);
+	device->CreateShaderResourceView(buff_.Get(), &srvDesc, srvHandleCPU_);
 
 	/// ここまでSRV
 
-	GPUParticle::UAVBufferInitialize(device, commandList);
+	// フリーリストインデックスUAVバッファ
+	freeListIndexBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(int32_t) + 0xff) & ~0xff));
+
+	D3D12_UNORDERED_ACCESS_VIEW_DESC freeListIndexUavDesc{};
+
+	freeListIndexUavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	freeListIndexUavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	freeListIndexUavDesc.Buffer.FirstElement = 0;
+	freeListIndexUavDesc.Buffer.NumElements = 1;
+	freeListIndexUavDesc.Buffer.CounterOffsetInBytes = 0;
+	freeListIndexUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+	freeListIndexUavDesc.Buffer.StructureByteStride = sizeof(int32_t);
+
+	freeListIndexHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	freeListIndexHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	freeListIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
+
+	device->CreateUnorderedAccessView(freeListIndexBuff_.Get(), nullptr, &freeListIndexUavDesc, freeListIndexHandleCPU_);
+
+
+	// フリーリストUAVバッファ
+	freeListBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(uint32_t) + 0xff) & ~0xff) * kParticleMax);
+
+	D3D12_UNORDERED_ACCESS_VIEW_DESC freeListUavDesc{};
+
+	freeListUavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	freeListUavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	freeListUavDesc.Buffer.FirstElement = 0;
+	freeListUavDesc.Buffer.NumElements = kParticleMax;
+	freeListUavDesc.Buffer.CounterOffsetInBytes = 0;
+	freeListUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+	freeListUavDesc.Buffer.StructureByteStride = sizeof(uint32_t);
+
+	freeListHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	freeListHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	freeListDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
+
+	device->CreateUnorderedAccessView(freeListBuff_.Get(), nullptr, &freeListUavDesc, freeListHandleCPU_);
+
+	// CSによる初期化
+	InitialzieCS(commandList);
 
 }
 
-void BonfireParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
+void GPUParticle::MaterialInitialize()
+{
+
+	material_.reset(Material::Create());
+
+	if (textureFilename_ == "") {
+		textureHandle_ = model_->GetTextureHandles()[0];
+	}
+	else {
+		textureHandle_ = TextureManager::Load(kTextureDirectoryPath + textureFilename_, DirectXCommon::GetInstance());
+	}
+
+}
+
+void GPUParticle::ConstantBufferInitialzie(ID3D12Device* device)
+{
+
+	//GPUParticleViewを作る
+	gpuParticleViewBuff_ = BufferResource::CreateBufferResource(device, (sizeof(GPUParticleView) + 0xff) & ~0xff);
+	//書き込むためのアドレスを取得
+	gpuParticleViewBuff_->Map(0, nullptr, reinterpret_cast<void**>(&gpuParticleViewMap_));
+
+	// マッピング
+	gpuParticleViewMap_->billboardMatrix = Matrix4x4::MakeIdentity4x4();
+	gpuParticleViewMap_->viewProjection = Matrix4x4::MakeIdentity4x4();
+
+	//エミッタを作る
+	emitterBuff_ = BufferResource::CreateBufferResource(device, (sizeof(EmitterCS) + 0xff) & ~0xff);
+	//書き込むためのアドレスを取得
+	emitterBuff_->Map(0, nullptr, reinterpret_cast<void**>(&emitterMap_));
+
+	// マッピング
+	emitterMap_->count = 10;
+	emitterMap_->frequency = 0.5f;
+	emitterMap_->frequencyTime = 0.0f;
+	emitterMap_->translate = Vector3(0.0f, 0.0f, 0.0f);
+	emitterMap_->radius = 1.0f;
+	emitterMap_->emit = 0;
+
+	// 時間バッファ
+	perFrameBuff_ = BufferResource::CreateBufferResource(device, (sizeof(PerFrame) + 0xff) & ~0xff);
+	//書き込むためのアドレスを取得
+	perFrameBuff_->Map(0, nullptr, reinterpret_cast<void**>(&perFrameMap_));
+
+	// 時間マップ
+	perFrameMap_->deltaTime_ = kDeltaTime_;
+	perFrameMap_->time_ = 0.0f;
+
+}
+
+void GPUParticle::GPUParticleViewMapping(BaseCamera& camera)
+{
+
+	// 全軸
+	gpuParticleViewMap_->billboardMatrix = BillBoardMatrix::GetBillBoardMatrixAll(camera);
+
+	gpuParticleViewMap_->viewProjection = camera.GetViewProjectionMatrix();
+
+}
+
+void GPUParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -156,13 +327,11 @@ void BonfireParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
 
 	commandList->SetComputeRootDescriptorTable(2, freeListHandleGPU_);
 
-	commandList->SetComputeRootDescriptorTable(3, uavDissolveHandleGPU_);
-
 	commandList->Dispatch(1, 1, 1);
 
 }
 
-void BonfireParticle::Emit(ID3D12GraphicsCommandList* commandList)
+void GPUParticle::Emit(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -182,13 +351,11 @@ void BonfireParticle::Emit(ID3D12GraphicsCommandList* commandList)
 
 	commandList->SetComputeRootDescriptorTable(4, freeListHandleGPU_);
 
-	commandList->SetComputeRootDescriptorTable(5, uavDissolveHandleGPU_);
-
 	commandList->Dispatch(1, 1, 1);
 
 }
 
-void BonfireParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
+void GPUParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -206,51 +373,56 @@ void BonfireParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 
 	commandList->SetComputeRootDescriptorTable(3, freeListHandleGPU_);
 
-	commandList->SetComputeRootDescriptorTable(4, uavDissolveHandleGPU_);
-
 	commandList->Dispatch(1, 1, 1);
 
 }
 
-void BonfireParticle::ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList)
+void GPUParticle::UAVBarrier(ID3D12GraphicsCommandList* commandList)
 {
-
-
-	GPUParticle::ResouseBarrierToNonPixelShader(commandList);
-
+	
 	D3D12_RESOURCE_BARRIER barrier{};
-	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
 	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier.Transition.pResource = dissolveBuff_.Get();
-	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
-	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+	barrier.UAV.pResource = buff_.Get();
 	commandList->ResourceBarrier(1, &barrier);
 
 }
 
-void BonfireParticle::ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList)
+void GPUParticle::ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList)
 {
-
-	GPUParticle::ResouseBarrierToUnorderedAccess(commandList);
 
 	D3D12_RESOURCE_BARRIER barrier{};
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier.Transition.pResource = dissolveBuff_.Get();
-	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+	barrier.Transition.pResource = buff_.Get();
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+	commandList->ResourceBarrier(1, &barrier);
+
+}
+
+void GPUParticle::ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList)
+{
+
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = buff_.Get();
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
 	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
 	commandList->ResourceBarrier(1, &barrier);
 
 }
 
-void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
+void GPUParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[4] = {};
+	D3D12_ROOT_PARAMETER rootParameters[3] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -271,12 +443,6 @@ void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* devic
 	freeListDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	freeListDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
-	D3D12_DESCRIPTOR_RANGE dissolveDescriptorRange[1] = {};
-	dissolveDescriptorRange[0].BaseShaderRegister = 3;//iから始まる
-	dissolveDescriptorRange[0].NumDescriptors = 1;//数は一つ
-	dissolveDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
-	dissolveDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
-
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableの中身の配列を指定
@@ -291,11 +457,6 @@ void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* devic
 	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[2].DescriptorTable.pDescriptorRanges = freeListDescriptorRange;//Tableの中身の配列を指定
 	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(freeListDescriptorRange);//Tableで利用する数
-
-	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
-	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
-	rootParameters[3].DescriptorTable.pDescriptorRanges = dissolveDescriptorRange;//Tableの中身の配列を指定
-	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(dissolveDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
@@ -333,7 +494,7 @@ void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* devic
 
 	// シェーダコンパイル
 	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/BonfireParticle/BonfireInitialize.CS.hlsl",
+		L"Resources/shaders/GPUParticle/ParticleInitialize.CS.hlsl",
 		L"cs_6_0",
 		L"main");
 
@@ -350,14 +511,14 @@ void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* devic
 
 }
 
-void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
+void GPUParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[6] = {};
+	D3D12_ROOT_PARAMETER rootParameters[5] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -377,12 +538,6 @@ void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	freeListDescriptorRange[0].NumDescriptors = 1;//数は一つ
 	freeListDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	freeListDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
-
-	D3D12_DESCRIPTOR_RANGE dissolveDescriptorRange[1] = {};
-	dissolveDescriptorRange[0].BaseShaderRegister = 3;//iから始まる
-	dissolveDescriptorRange[0].NumDescriptors = 1;//数は一つ
-	dissolveDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
-	dissolveDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
@@ -406,11 +561,6 @@ void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[4].DescriptorTable.pDescriptorRanges = freeListDescriptorRange;//Tableの中身の配列を指定
 	rootParameters[4].DescriptorTable.NumDescriptorRanges = _countof(freeListDescriptorRange);//Tableで利用する数
-
-	rootParameters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
-	rootParameters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
-	rootParameters[5].DescriptorTable.pDescriptorRanges = dissolveDescriptorRange;//Tableの中身の配列を指定
-	rootParameters[5].DescriptorTable.NumDescriptorRanges = _countof(dissolveDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
@@ -448,7 +598,7 @@ void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 
 	// シェーダコンパイル
 	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/BonfireParticle/BonfireEmit.CS.hlsl",
+		L"Resources/shaders/GPUParticle/ParticleEmit.CS.hlsl",
 		L"cs_6_0",
 		L"main");
 
@@ -465,14 +615,14 @@ void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 
 }
 
-void BonfireParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
+void GPUParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[5] = {};
+	D3D12_ROOT_PARAMETER rootParameters[4] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -493,12 +643,6 @@ void BonfireParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 	freeListDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	freeListDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
-	D3D12_DESCRIPTOR_RANGE dissolveDescriptorRange[1] = {};
-	dissolveDescriptorRange[0].BaseShaderRegister = 3;//iから始まる
-	dissolveDescriptorRange[0].NumDescriptors = 1;//数は一つ
-	dissolveDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
-	dissolveDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
-
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableの中身の配列を指定
@@ -517,11 +661,6 @@ void BonfireParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[3].DescriptorTable.pDescriptorRanges = freeListDescriptorRange;//Tableの中身の配列を指定
 	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(freeListDescriptorRange);//Tableで利用する数
-
-	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
-	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
-	rootParameters[4].DescriptorTable.pDescriptorRanges = dissolveDescriptorRange;//Tableの中身の配列を指定
-	rootParameters[4].DescriptorTable.NumDescriptorRanges = _countof(dissolveDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
@@ -559,7 +698,7 @@ void BonfireParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 
 	// シェーダコンパイル
 	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/BonfireParticle/BonfireUpdate.CS.hlsl",
+		L"Resources/shaders/GPUParticle/ParticleUpdate.CS.hlsl",
 		L"cs_6_0",
 		L"main");
 

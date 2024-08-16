@@ -24,7 +24,7 @@
 #include "../../PostEffect/PostEffect.h" // ポストエフェクト
 #include "../../../Engine/3D/ModelDraw.h" // モデル描画
 #include "../../../Engine/base/WindowSprite.h" // ウインドウスプライト
-#include "../../Particle/GPUPaticle.h" // GPUパーティクル
+#include "../../Particle/GPUParticle.h" // GPUパーティクル
 
 // 数学系
 #include "../../Math/DeltaTime.h" // デルタタイム

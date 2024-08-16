@@ -340,12 +340,6 @@
     <Filter Include="Application\GPUParticle">
       <UniqueIdentifier>{ea7adfd4-0777-456d-baec-6c83d5512967}</UniqueIdentifier>
     </Filter>
-    <Filter Include="shaders\BonfireParticle">
-      <UniqueIdentifier>{2dd60d39-2ed3-40fe-9e5f-3d668d2ccc24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders\BonfireParticle\CS">
-      <UniqueIdentifier>{b68dd55c-7912-4a19-9900-2d57191447dd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Object\Bonfire">
       <UniqueIdentifier>{2b4ed839-b0ce-44db-8e0b-9d85684bee39}</UniqueIdentifier>
     </Filter>
@@ -432,6 +426,24 @@
     </Filter>
     <Filter Include="Application\Object\Obstacle\BossFog">
       <UniqueIdentifier>{5048ec20-8169-4b3c-bb62-1d909bc63a36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\GPUParticle\BonfireParticle">
+      <UniqueIdentifier>{68fbc3ac-bccf-4147-a2f7-782eb40ba7c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\GPUParticle\BloadParticle">
+      <UniqueIdentifier>{d302d8dc-09a4-42fb-817a-45f774bdc37c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\GPUParticle\BonfireParticle">
+      <UniqueIdentifier>{2dd60d39-2ed3-40fe-9e5f-3d668d2ccc24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\GPUParticle\BonfireParticle\CS">
+      <UniqueIdentifier>{b68dd55c-7912-4a19-9900-2d57191447dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\GPUParticle\BloadParticle">
+      <UniqueIdentifier>{0f8b438b-72de-4fb6-b7dc-f3b819eac664}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\GPUParticle\BloadParticle\CS">
+      <UniqueIdentifier>{990f24b8-1d49-404f-bae2-03d82e4b1a60}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -832,7 +844,7 @@
     <ClCompile Include="Engine\Particle\BillBoardMatrix.cpp">
       <Filter>Engine\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Particle\GPUPaticle.cpp">
+    <ClCompile Include="Engine\Particle\GPUParticle.cpp">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Level\LevelData.cpp">
@@ -979,9 +991,6 @@
     <ClCompile Include="Application\Object\Character\Player\PlayerWeapon\PlayerWeapon.cpp">
       <Filter>Application\Object\Player\System</Filter>
     </ClCompile>
-    <ClCompile Include="Application\GPUParticle\BonfireParticle.cpp">
-      <Filter>Application\GPUParticle</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateCadaver.cpp">
       <Filter>Application\Object\Enemy\Ghost\State\Cadaver</Filter>
     </ClCompile>
@@ -1011,6 +1020,12 @@
     </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\BossFog\BossFog.cpp">
       <Filter>Application\Object\Obstacle\BossFog</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GPUParticle\BonfireParticle.cpp">
+      <Filter>Application\GPUParticle\BonfireParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GPUParticle\BloadParticleGPU.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1536,7 +1551,7 @@
     <ClInclude Include="Engine\Particle\BillBoardMatrix.h">
       <Filter>Engine\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Particle\GPUPaticle.h">
+    <ClInclude Include="Engine\Particle\GPUParticle.h">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Particle\EmitterDesc.h">
@@ -1713,9 +1728,6 @@
     <ClInclude Include="Application\Object\Bonfire\Bonfire.h">
       <Filter>Application\Object\Bonfire</Filter>
     </ClInclude>
-    <ClInclude Include="Application\GPUParticle\BonfireParticle.h">
-      <Filter>Application\GPUParticle</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateCadaver.h">
       <Filter>Application\Object\Enemy\Ghost\State\Cadaver</Filter>
     </ClInclude>
@@ -1745,6 +1757,12 @@
     </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\BossFog\BossFog.h">
       <Filter>Application\Object\Obstacle\BossFog</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GPUParticle\BonfireParticle.h">
+      <Filter>Application\GPUParticle\BonfireParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GPUParticle\BloadParticleGPU.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1792,13 +1810,16 @@
       <Filter>shaders\GPUParticle\CS</Filter>
     </None>
     <None Include="Resources\shaders\BonfireParticle\Bonfire.CS.hlsli">
-      <Filter>shaders\BonfireParticle\CS</Filter>
+      <Filter>shaders\GPUParticle\BonfireParticle\CS</Filter>
     </None>
     <None Include="Resources\shaders\GPUParticle\GPUParticleDissolve.hlsli">
       <Filter>shaders\GPUParticle</Filter>
     </None>
     <None Include="Resources\shaders\PostEffect\PostEffectParameters.hlsli">
       <Filter>shaders\PostEffect</Filter>
+    </None>
+    <None Include="Resources\shaders\BloadParticle\Bload.CS.hlsli">
+      <Filter>shaders\GPUParticle\BloadParticle\CS</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -1895,13 +1916,13 @@
       <Filter>shaders\GPUParticle\CS</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\BonfireParticle\BonfireUpdate.CS.hlsl">
-      <Filter>shaders\BonfireParticle\CS</Filter>
+      <Filter>shaders\GPUParticle\BonfireParticle\CS</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\BonfireParticle\BonfireEmit.CS.hlsl">
-      <Filter>shaders\BonfireParticle\CS</Filter>
+      <Filter>shaders\GPUParticle\BonfireParticle\CS</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\BonfireParticle\BonfireInitialize.CS.hlsl">
-      <Filter>shaders\BonfireParticle\CS</Filter>
+      <Filter>shaders\GPUParticle\BonfireParticle\CS</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\GPUParticle\GPUParticleDissolve.PS.hlsl">
       <Filter>shaders\GPUParticle</Filter>
@@ -1971,6 +1992,15 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffect\HSVFilter.CS.hlsl">
       <Filter>shaders\PostEffect\HSVFilter</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\BloadParticle\BloadEmit.CS.hlsl">
+      <Filter>shaders\GPUParticle\BloadParticle\CS</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\BloadParticle\BloadInitialize.CS.hlsl">
+      <Filter>shaders\GPUParticle\BloadParticle\CS</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\BloadParticle\BloadUpdate.CS.hlsl">
+      <Filter>shaders\GPUParticle\BloadParticle\CS</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
