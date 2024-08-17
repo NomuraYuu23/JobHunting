@@ -20,7 +20,7 @@ public:
 	/// 追従対象セッター
 	/// </summary>
 	/// <param name="target"></param>
-	void SetTarget(const WorldTransform* target) { target_ = target; }
+	void SetTarget(const WorldTransform* target);
 
 	void SetDestinationAngle(const Vector3& destinationAngle) { destinationAngle_ = destinationAngle; }
 

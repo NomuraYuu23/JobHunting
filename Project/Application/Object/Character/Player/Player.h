@@ -12,6 +12,7 @@
 #include "../../../Engine/3D/DrawLine.h"
 #include "../../../Engine/Level/LevelData.h"
 #include "../../../Engine/Object/MeshObject.h"
+#include "../../../GPUParticle/FieldSparksParticle.h"
 
 /// <summary>
 /// プレイヤーのモーション一覧
@@ -44,7 +45,7 @@ public: // ベースのメンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize(LevelData::MeshData* data);
+	void Initialize(LevelData::MeshData* data) override;
 
 	/// <summary>
 	/// 更新
@@ -78,14 +79,20 @@ public: // ベースのメンバ関数
 	/// 衝突マネージャー登録
 	/// </summary>
 	/// <param name="collisionManager"></param>
-	virtual void CollisionListRegister(CollisionManager* collisionManager) override;
+	void CollisionListRegister(CollisionManager* collisionManager) override;
 
 	/// <summary>
 	/// 衝突マネージャー登録
 	/// </summary>
 	/// <param name="collisionManager"></param>
 	/// <param name="colliderDebugDraw"></param>
-	virtual void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw) override;
+	void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw) override;
+
+	/// <summary>
+	/// パーティクル描画
+	/// </summary>
+	/// <param name="camera">カメラ</param>
+	void ParticleDraw(BaseCamera& camera) override;
 
 private: // ベースのメンバ変数
 
@@ -199,6 +206,10 @@ private: // プレイヤーデータ
 	// 前フレームの位置
 	Vector3 prePosition_;
 
+	// フィールドパーティクル
+	std::unique_ptr<FieldSparksParticle> fieldSparksParticle_;
+	EmitterCS fieldSparksEmitter_;
+
 public:
 
 	/// <summary>
@@ -252,5 +263,7 @@ public: // アクセッサ
 	PlayerAttack* GetPlayerAttack() { return attack_.get(); }
 
 	LocalMatrixManager* GetLocalMatrixManager() { return localMatrixManager_.get(); }
+
+	void SetHP(uint32_t hp) { hp_ = hp; }
 
 };

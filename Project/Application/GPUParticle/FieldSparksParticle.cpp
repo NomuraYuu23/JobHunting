@@ -1,4 +1,4 @@
-#include "BonfireParticle.h"
+#include "FieldSparksParticle.h"
 #include "../../Engine/base/BufferResource.h"
 #include "../../Engine/Particle/ParticleCS.h"
 #include "../../Engine/base/SRVDescriptorHerpManager.h"
@@ -8,15 +8,10 @@
 #include "../../Engine/Particle/BillBoardMatrix.h"
 #include "../../Engine/Math/DeltaTime.h"
 
-
-void BonfireParticle::Initialize(
-	ID3D12Device* device, 
-	ID3D12GraphicsCommandList* commandList, 
-	ID3D12RootSignature* rootSignature, 
-	ID3D12PipelineState* pipelineState)
+void FieldSparksParticle::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, ID3D12RootSignature* rootSignature, ID3D12PipelineState* pipelineState)
 {
 
-	textureFilename_ = "Bonfire.png";
+	textureFilename_ = "circle.png";
 
 	GPUParticle::Initialize(device, commandList, rootSignature, pipelineState);
 
@@ -28,13 +23,13 @@ void BonfireParticle::Initialize(
 	emitter.radius = 1.0f;
 	emitter.emit = 0;
 
-
 	SetEmitter(emitter);
 
 }
 
-void BonfireParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
+void FieldSparksParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
 {
+
 
 	assert(commandList);
 
@@ -79,8 +74,7 @@ void BonfireParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& c
 		textureHandle_);
 	// マテリアル
 	commandList->SetGraphicsRootConstantBufferView(3, material_->GetMaterialBuff()->GetGPUVirtualAddress());
-	// Dissolve
-	commandList->SetGraphicsRootDescriptorTable(4, srvDissolveHandleGPU_);
+
 	// 描画
 	commandList->DrawInstanced(6, kParticleMax, 0, 0);
 
@@ -89,58 +83,14 @@ void BonfireParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& c
 
 }
 
-void BonfireParticle::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList)
+void FieldSparksParticle::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList)
 {
-
-	// バッファ
-	dissolveBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(float) + 0xff) & ~0xff) * kParticleMax);
-
-	/// UAV
-
-	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
-
-	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
-	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-	uavDesc.Buffer.FirstElement = 0;
-	uavDesc.Buffer.NumElements = kParticleMax;
-	uavDesc.Buffer.CounterOffsetInBytes = 0;
-	uavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
-	uavDesc.Buffer.StructureByteStride = sizeof(float);
-
-	uavDissolveHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
-	uavDissolveHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
-	uavDissolveDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
-	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
-
-	device->CreateUnorderedAccessView(dissolveBuff_.Get(), nullptr, &uavDesc, uavDissolveHandleCPU_);
-
-	/// ここまでUAV
-
-	/// SRV
-
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = DXGI_FORMAT_UNKNOWN;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-	srvDesc.Buffer.FirstElement = 0;
-	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	srvDesc.Buffer.NumElements = kParticleMax;
-	srvDesc.Buffer.StructureByteStride = sizeof(float);
-
-	srvDissolveHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
-	srvDissolveHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
-	srvDissolveDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
-	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
-
-	device->CreateShaderResourceView(dissolveBuff_.Get(), &srvDesc, srvDissolveHandleCPU_);
-
-	/// ここまでSRV
 
 	GPUParticle::UAVBufferInitialize(device, commandList);
 
 }
 
-void BonfireParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
+void FieldSparksParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -156,13 +106,11 @@ void BonfireParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
 
 	commandList->SetComputeRootDescriptorTable(2, freeListHandleGPU_);
 
-	commandList->SetComputeRootDescriptorTable(3, uavDissolveHandleGPU_);
-
 	commandList->Dispatch(1, 1, 1);
 
 }
 
-void BonfireParticle::Emit(ID3D12GraphicsCommandList* commandList)
+void FieldSparksParticle::Emit(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -182,13 +130,11 @@ void BonfireParticle::Emit(ID3D12GraphicsCommandList* commandList)
 
 	commandList->SetComputeRootDescriptorTable(4, freeListHandleGPU_);
 
-	commandList->SetComputeRootDescriptorTable(5, uavDissolveHandleGPU_);
-
 	commandList->Dispatch(1, 1, 1);
 
 }
 
-void BonfireParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
+void FieldSparksParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -206,51 +152,18 @@ void BonfireParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 
 	commandList->SetComputeRootDescriptorTable(3, freeListHandleGPU_);
 
-	commandList->SetComputeRootDescriptorTable(4, uavDissolveHandleGPU_);
-
 	commandList->Dispatch(1, 1, 1);
 
 }
 
-void BonfireParticle::ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList)
-{
-
-
-	GPUParticle::ResouseBarrierToNonPixelShader(commandList);
-
-	D3D12_RESOURCE_BARRIER barrier{};
-	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier.Transition.pResource = dissolveBuff_.Get();
-	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
-	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
-	commandList->ResourceBarrier(1, &barrier);
-
-}
-
-void BonfireParticle::ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList)
-{
-
-	GPUParticle::ResouseBarrierToUnorderedAccess(commandList);
-
-	D3D12_RESOURCE_BARRIER barrier{};
-	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier.Transition.pResource = dissolveBuff_.Get();
-	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
-	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
-	commandList->ResourceBarrier(1, &barrier);
-
-}
-
-void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
+void FieldSparksParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[4] = {};
+	D3D12_ROOT_PARAMETER rootParameters[3] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -271,12 +184,6 @@ void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* devic
 	freeListDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	freeListDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
-	D3D12_DESCRIPTOR_RANGE dissolveDescriptorRange[1] = {};
-	dissolveDescriptorRange[0].BaseShaderRegister = 3;//iから始まる
-	dissolveDescriptorRange[0].NumDescriptors = 1;//数は一つ
-	dissolveDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
-	dissolveDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
-
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableの中身の配列を指定
@@ -291,11 +198,6 @@ void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* devic
 	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[2].DescriptorTable.pDescriptorRanges = freeListDescriptorRange;//Tableの中身の配列を指定
 	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(freeListDescriptorRange);//Tableで利用する数
-
-	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
-	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
-	rootParameters[3].DescriptorTable.pDescriptorRanges = dissolveDescriptorRange;//Tableの中身の配列を指定
-	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(dissolveDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
@@ -333,7 +235,7 @@ void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* devic
 
 	// シェーダコンパイル
 	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/BonfireParticle/BonfireInitialize.CS.hlsl",
+		L"Resources/shaders/FieldSparksParticle/FieldSparksInitialize.CS.hlsl",
 		L"cs_6_0",
 		L"main");
 
@@ -350,14 +252,14 @@ void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* devic
 
 }
 
-void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
+void FieldSparksParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[6] = {};
+	D3D12_ROOT_PARAMETER rootParameters[5] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -377,12 +279,6 @@ void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	freeListDescriptorRange[0].NumDescriptors = 1;//数は一つ
 	freeListDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	freeListDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
-
-	D3D12_DESCRIPTOR_RANGE dissolveDescriptorRange[1] = {};
-	dissolveDescriptorRange[0].BaseShaderRegister = 3;//iから始まる
-	dissolveDescriptorRange[0].NumDescriptors = 1;//数は一つ
-	dissolveDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
-	dissolveDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
@@ -406,11 +302,6 @@ void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[4].DescriptorTable.pDescriptorRanges = freeListDescriptorRange;//Tableの中身の配列を指定
 	rootParameters[4].DescriptorTable.NumDescriptorRanges = _countof(freeListDescriptorRange);//Tableで利用する数
-
-	rootParameters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
-	rootParameters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
-	rootParameters[5].DescriptorTable.pDescriptorRanges = dissolveDescriptorRange;//Tableの中身の配列を指定
-	rootParameters[5].DescriptorTable.NumDescriptorRanges = _countof(dissolveDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
@@ -448,7 +339,7 @@ void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 
 	// シェーダコンパイル
 	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/BonfireParticle/BonfireEmit.CS.hlsl",
+		L"Resources/shaders/FieldSparksParticle/FieldSparksEmit.CS.hlsl",
 		L"cs_6_0",
 		L"main");
 
@@ -465,14 +356,14 @@ void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 
 }
 
-void BonfireParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
+void FieldSparksParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[5] = {};
+	D3D12_ROOT_PARAMETER rootParameters[4] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -493,12 +384,6 @@ void BonfireParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 	freeListDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	freeListDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
-	D3D12_DESCRIPTOR_RANGE dissolveDescriptorRange[1] = {};
-	dissolveDescriptorRange[0].BaseShaderRegister = 3;//iから始まる
-	dissolveDescriptorRange[0].NumDescriptors = 1;//数は一つ
-	dissolveDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
-	dissolveDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
-
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableの中身の配列を指定
@@ -517,11 +402,6 @@ void BonfireParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[3].DescriptorTable.pDescriptorRanges = freeListDescriptorRange;//Tableの中身の配列を指定
 	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(freeListDescriptorRange);//Tableで利用する数
-
-	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
-	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
-	rootParameters[4].DescriptorTable.pDescriptorRanges = dissolveDescriptorRange;//Tableの中身の配列を指定
-	rootParameters[4].DescriptorTable.NumDescriptorRanges = _countof(dissolveDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
@@ -559,7 +439,7 @@ void BonfireParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 
 	// シェーダコンパイル
 	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/BonfireParticle/BonfireUpdate.CS.hlsl",
+		L"Resources/shaders/FieldSparksParticle/FieldSparksUpdate.CS.hlsl",
 		L"cs_6_0",
 		L"main");
 

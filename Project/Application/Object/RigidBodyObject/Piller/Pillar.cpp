@@ -135,7 +135,8 @@ void Pillar::SetParent(PillarFoundation* parent)
 
 	parent_ = parent;
 
-	worldTransform_.transform_.translate = {0.0f,0.0f,0.0f};
+	//土台分
+	worldTransform_.transform_.translate = {0.0f,2.0f,0.0f};
 	worldTransform_.parent_ = parent_->GetWorldTransformAdress();
 
 }

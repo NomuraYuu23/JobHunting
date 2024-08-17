@@ -59,7 +59,7 @@ void TutorialScene::Initialize() {
 
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<TutorialSceneObjectManager>();
-	ObjectFactory::GetInstance()->Initialize(objectManager_.get());
+	ObjectFactory::GetInstance()->Initialize(objectManager_.get(), nullptr);
 	objectManager_->Initialize(kLevelIndexTutorial, levelDataManager_);
 
 	// プレイヤー
@@ -166,6 +166,8 @@ void TutorialScene::Update() {
 
 	collisionManager_->CheakAllCollision();
 
+	player_->SetHP(3);
+
 	// スカイドーム
 	skydome_->Update();
 
@@ -232,6 +234,9 @@ void TutorialScene::Draw() {
 
 	// パーティクルはここ
 	particleManager_->Draw(camera_.GetViewProjectionMatrix(), dxCommon_->GetCommadList());
+
+	// パーティクル描画
+	objectManager_->ParticleDraw(camera_);
 
 #pragma endregion
 

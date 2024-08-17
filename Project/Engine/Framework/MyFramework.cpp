@@ -66,7 +66,7 @@ void MyFramework::Initialize()
 	);
 
 	// GPUパーティクル
-	GPUPaticle::StaticInitialzie();
+	GPUParticle::StaticInitialzie();
 
 	// ポストエフェクト
 	PostEffect::GetInstance()->Initialize();

@@ -1,85 +1,33 @@
-#include "GPUPaticle.h"
-#include "../base/BufferResource.h"
-#include "ParticleCS.h"
-#include "../base/SRVDescriptorHerpManager.h"
-#include "../base/CompileShader.h"
-#include "../base/Log.h"
-#include "../base/TextureManager.h"
-#include "BillBoardMatrix.h"
-#include "../Math/DeltaTime.h"
+#include "BloadParticleGPU.h"
+#include "../../Engine/base/BufferResource.h"
+#include "../../Engine/Particle/ParticleCS.h"
+#include "../../Engine/base/SRVDescriptorHerpManager.h"
+#include "../../Engine/base/CompileShader.h"
+#include "../../Engine/base/Log.h"
+#include "../../Engine/base/TextureManager.h"
+#include "../../Engine/Particle/BillBoardMatrix.h"
+#include "../../Engine/Math/DeltaTime.h"
 
-// パーティクルの最大数
-const uint32_t GPUPaticle::kParticleMax = 1024;
-// モデルのディレクトリパス
-const std::string GPUPaticle::kModelDirectoryPath = "Resources/Particle/";
-// モデルのディレクトリパス
-const std::string GPUPaticle::kTextureDirectoryPath = "Resources/Particle/";
-// モデルのファイルの名前
-const std::string GPUPaticle::kFilename = "plane.obj";
-// モデル
-std::unique_ptr<Model> GPUPaticle::model_ = nullptr;
-
-void GPUPaticle::StaticInitialzie()
+void BloadParticleGPU::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, ID3D12RootSignature* rootSignature, ID3D12PipelineState* pipelineState)
 {
 
-	model_.reset(Model::Create(
-		kModelDirectoryPath,
-		kFilename,
-		DirectXCommon::GetInstance()));
+	textureFilename_ = "circle.png";
+
+	GPUParticle::Initialize(device, commandList, rootSignature, pipelineState);
+
+	EmitterCS emitter;
+	emitter.count = 10;
+	emitter.frequency = 0.1f;
+	emitter.frequencyTime = 0.0f;
+	emitter.translate = Vector3(0.0f, 3.0f, 0.0f);
+	emitter.radius = 1.0f;
+	emitter.emit = 0;
+
+	SetEmitter(emitter);
 
 }
 
-void GPUPaticle::Initialize(
-	ID3D12Device* device,
-	ID3D12GraphicsCommandList* commandList,
-	ID3D12RootSignature* rootSignature,
-	ID3D12PipelineState* pipelineState)
-{
-
-	// CSの初期化
-	PipelineStateCSInitialize(device);
-
-	// バッファの初期化
-	UAVBufferInitialize(device, commandList);
-
-	// マテリアル関連の初期化
-	MaterialInitialize();
-
-	// 描画用ルートシグネチャ設定
-	rootSignature_ = rootSignature;
-
-	// 描画用パイプラインステート設定
-	pipelineState_ = pipelineState;
-	
-	// 定数バッファ初期化
-	ConstantBufferInitialzie(device);
-
-}
-
-void GPUPaticle::Update()
-{
-
-	// 時間加算
-	emitterMap_->frequencyTime += kDeltaTime_;
-
-	// 射出間隔を上回ったら射出許可を出して時間を調整
-	if (emitterMap_->frequency <= emitterMap_->frequencyTime) {
-		emitterMap_->frequencyTime -= emitterMap_->frequency;
-		emitterMap_->emit = 1;
-	}
-	// 射出間隔を上回っていないので、射出許可は出ない
-	else {
-		emitterMap_->emit = 0;
-	}
-
-	// 時間経過
-	perFrameMap_->time_ += perFrameMap_->deltaTime_;
-
-}
-
-void GPUPaticle::Draw(
-	ID3D12GraphicsCommandList* commandList,
-	BaseCamera& camera)
+void BloadParticleGPU::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
 {
 
 	assert(commandList);
@@ -125,6 +73,7 @@ void GPUPaticle::Draw(
 		textureHandle_);
 	// マテリアル
 	commandList->SetGraphicsRootConstantBufferView(3, material_->GetMaterialBuff()->GetGPUVirtualAddress());
+
 	// 描画
 	commandList->DrawInstanced(6, kParticleMax, 0, 0);
 
@@ -133,185 +82,14 @@ void GPUPaticle::Draw(
 
 }
 
-void GPUPaticle::SetEmitter(const EmitterCS& emitter)
+void BloadParticleGPU::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList)
 {
 
-	// マッピング
-	emitterMap_->count = emitter.count;
-	emitterMap_->frequency = emitter.frequency;
-	emitterMap_->frequencyTime = emitter.frequencyTime;
-	emitterMap_->translate = emitter.translate;
-	emitterMap_->radius = emitter.radius;
-	emitterMap_->emit = emitter.emit;
+	GPUParticle::UAVBufferInitialize(device, commandList);
 
 }
 
-void GPUPaticle::PipelineStateCSInitialize(ID3D12Device* device)
-{
-
-	PipelineStateCSInitializeForInitialize(device);
-
-	PipelineStateCSInitializeForEmit(device);
-
-	PipelineStateCSInitializeForUpdate(device);
-
-}
-
-void GPUPaticle::UAVBufferInitialize(ID3D12Device* device,
-	ID3D12GraphicsCommandList* commandList)
-{
-
-	// バッファ
-	buff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(ParticleCS) + 0xff) & ~0xff) * kParticleMax);
-
-	/// UAV
-
-	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
-
-	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
-	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-	uavDesc.Buffer.FirstElement = 0;
-	uavDesc.Buffer.NumElements = kParticleMax;
-	uavDesc.Buffer.CounterOffsetInBytes = 0;
-	uavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
-	uavDesc.Buffer.StructureByteStride = sizeof(ParticleCS);
-
-	uavHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
-	uavHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
-	uavIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
-	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
-
-	device->CreateUnorderedAccessView(buff_.Get(), nullptr, &uavDesc, uavHandleCPU_);
-
-	/// ここまでUAV
-
-	/// SRV
-
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = DXGI_FORMAT_UNKNOWN;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-	srvDesc.Buffer.FirstElement = 0;
-	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	srvDesc.Buffer.NumElements = kParticleMax;
-	srvDesc.Buffer.StructureByteStride = sizeof(ParticleCS);
-
-	srvHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
-	srvHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
-	srvIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
-	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
-
-	device->CreateShaderResourceView(buff_.Get(), &srvDesc, srvHandleCPU_);
-
-	/// ここまでSRV
-
-	// フリーリストインデックスUAVバッファ
-	freeListIndexBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(int32_t) + 0xff) & ~0xff));
-
-	D3D12_UNORDERED_ACCESS_VIEW_DESC freeListIndexUavDesc{};
-
-	freeListIndexUavDesc.Format = DXGI_FORMAT_UNKNOWN;
-	freeListIndexUavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-	freeListIndexUavDesc.Buffer.FirstElement = 0;
-	freeListIndexUavDesc.Buffer.NumElements = 1;
-	freeListIndexUavDesc.Buffer.CounterOffsetInBytes = 0;
-	freeListIndexUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
-	freeListIndexUavDesc.Buffer.StructureByteStride = sizeof(int32_t);
-
-	freeListIndexHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
-	freeListIndexHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
-	freeListIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
-	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
-
-	device->CreateUnorderedAccessView(freeListIndexBuff_.Get(), nullptr, &freeListIndexUavDesc, freeListIndexHandleCPU_);
-
-
-	// フリーリストUAVバッファ
-	freeListBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(uint32_t) + 0xff) & ~0xff) * kParticleMax);
-
-	D3D12_UNORDERED_ACCESS_VIEW_DESC freeListUavDesc{};
-
-	freeListUavDesc.Format = DXGI_FORMAT_UNKNOWN;
-	freeListUavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-	freeListUavDesc.Buffer.FirstElement = 0;
-	freeListUavDesc.Buffer.NumElements = kParticleMax;
-	freeListUavDesc.Buffer.CounterOffsetInBytes = 0;
-	freeListUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
-	freeListUavDesc.Buffer.StructureByteStride = sizeof(uint32_t);
-
-	freeListHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
-	freeListHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
-	freeListDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
-	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
-
-	device->CreateUnorderedAccessView(freeListBuff_.Get(), nullptr, &freeListUavDesc, freeListHandleCPU_);
-
-	// CSによる初期化
-	InitialzieCS(commandList);
-
-}
-
-void GPUPaticle::MaterialInitialize()
-{
-
-	material_.reset(Material::Create());
-
-	if (textureFilename_ == "") {
-		textureHandle_ = model_->GetTextureHandles()[0];
-	}
-	else {
-		textureHandle_ = TextureManager::Load(kTextureDirectoryPath + textureFilename_, DirectXCommon::GetInstance());
-	}
-
-}
-
-void GPUPaticle::ConstantBufferInitialzie(ID3D12Device* device)
-{
-
-	//GPUParticleViewを作る
-	gpuParticleViewBuff_ = BufferResource::CreateBufferResource(device, (sizeof(GPUParticleView) + 0xff) & ~0xff);
-	//書き込むためのアドレスを取得
-	gpuParticleViewBuff_->Map(0, nullptr, reinterpret_cast<void**>(&gpuParticleViewMap_));
-
-	// マッピング
-	gpuParticleViewMap_->billboardMatrix = Matrix4x4::MakeIdentity4x4();
-	gpuParticleViewMap_->viewProjection = Matrix4x4::MakeIdentity4x4();
-
-	//エミッタを作る
-	emitterBuff_ = BufferResource::CreateBufferResource(device, (sizeof(EmitterCS) + 0xff) & ~0xff);
-	//書き込むためのアドレスを取得
-	emitterBuff_->Map(0, nullptr, reinterpret_cast<void**>(&emitterMap_));
-
-	// マッピング
-	emitterMap_->count = 10;
-	emitterMap_->frequency = 0.5f;
-	emitterMap_->frequencyTime = 0.0f;
-	emitterMap_->translate = Vector3(0.0f, 0.0f, 0.0f);
-	emitterMap_->radius = 1.0f;
-	emitterMap_->emit = 0;
-
-	// 時間バッファ
-	perFrameBuff_ = BufferResource::CreateBufferResource(device, (sizeof(PerFrame) + 0xff) & ~0xff);
-	//書き込むためのアドレスを取得
-	perFrameBuff_->Map(0, nullptr, reinterpret_cast<void**>(&perFrameMap_));
-
-	// 時間マップ
-	perFrameMap_->deltaTime_ = kDeltaTime_;
-	perFrameMap_->time_ = 0.0f;
-
-}
-
-void GPUPaticle::GPUParticleViewMapping(BaseCamera& camera)
-{
-
-	// 全軸
-	gpuParticleViewMap_->billboardMatrix = BillBoardMatrix::GetBillBoardMatrixAll(camera);
-
-	gpuParticleViewMap_->viewProjection = camera.GetViewProjectionMatrix();
-
-}
-
-void GPUPaticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
+void BloadParticleGPU::InitialzieCS(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -331,7 +109,7 @@ void GPUPaticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
 
 }
 
-void GPUPaticle::Emit(ID3D12GraphicsCommandList* commandList)
+void BloadParticleGPU::Emit(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -355,7 +133,7 @@ void GPUPaticle::Emit(ID3D12GraphicsCommandList* commandList)
 
 }
 
-void GPUPaticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
+void BloadParticleGPU::UpdateCS(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -377,45 +155,7 @@ void GPUPaticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 
 }
 
-void GPUPaticle::UAVBarrier(ID3D12GraphicsCommandList* commandList)
-{
-	
-	D3D12_RESOURCE_BARRIER barrier{};
-
-	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
-	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier.UAV.pResource = buff_.Get();
-	commandList->ResourceBarrier(1, &barrier);
-
-}
-
-void GPUPaticle::ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList)
-{
-
-	D3D12_RESOURCE_BARRIER barrier{};
-	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier.Transition.pResource = buff_.Get();
-	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
-	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
-	commandList->ResourceBarrier(1, &barrier);
-
-}
-
-void GPUPaticle::ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList)
-{
-
-	D3D12_RESOURCE_BARRIER barrier{};
-	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier.Transition.pResource = buff_.Get();
-	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
-	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
-	commandList->ResourceBarrier(1, &barrier);
-
-}
-
-void GPUPaticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
+void BloadParticleGPU::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
@@ -494,7 +234,7 @@ void GPUPaticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 
 	// シェーダコンパイル
 	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/GPUParticle/ParticleInitialize.CS.hlsl",
+		L"Resources/shaders/BloadParticle/BloadInitialize.CS.hlsl",
 		L"cs_6_0",
 		L"main");
 
@@ -511,7 +251,7 @@ void GPUPaticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 
 }
 
-void GPUPaticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
+void BloadParticleGPU::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
@@ -598,7 +338,7 @@ void GPUPaticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 
 	// シェーダコンパイル
 	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/GPUParticle/ParticleEmit.CS.hlsl",
+		L"Resources/shaders/BloadParticle/BloadEmit.CS.hlsl",
 		L"cs_6_0",
 		L"main");
 
@@ -615,7 +355,7 @@ void GPUPaticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 
 }
 
-void GPUPaticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
+void BloadParticleGPU::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
@@ -698,7 +438,7 @@ void GPUPaticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 
 	// シェーダコンパイル
 	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/GPUParticle/ParticleUpdate.CS.hlsl",
+		L"Resources/shaders/BloadParticle/BloadUpdate.CS.hlsl",
 		L"cs_6_0",
 		L"main");
 
@@ -714,3 +454,4 @@ void GPUPaticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 	assert(SUCCEEDED(hr));
 
 }
+

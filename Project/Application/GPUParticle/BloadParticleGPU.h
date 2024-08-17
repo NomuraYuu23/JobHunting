@@ -1,8 +1,8 @@
 #pragma once
-
 #include "../../Engine/Particle/GPUParticle.h"
 
-class BonfireParticle : public GPUParticle
+class BloadParticleGPU :
+    public GPUParticle
 {
 
 public:
@@ -36,14 +36,14 @@ private:
 	/// </summary>
 	/// <param name="device"></param>
 	void UAVBufferInitialize(ID3D12Device* device,
-			ID3D12GraphicsCommandList* commandList) override;
+		ID3D12GraphicsCommandList* commandList) override;
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>
 	void InitialzieCS(ID3D12GraphicsCommandList* commandList) override;
-	
+
 	/// <summary>
 	/// エミット
 	/// </summary>
@@ -55,18 +55,6 @@ private:
 	/// </summary>
 	/// <param name="commandList"></param>
 	void UpdateCS(ID3D12GraphicsCommandList* commandList) override;
-
-	/// <summary>
-	/// リソースバリア
-	/// </summary>
-	/// <param name="commandList"></param>
-	void ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList) override;
-
-	/// <summary>
-	/// リソースバリア
-	/// </summary>
-	/// <param name="commandList"></param>
-	void ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList) override;
 
 private: // パイプラインステートの初期化CS
 
@@ -87,24 +75,6 @@ private: // パイプラインステートの初期化CS
 	/// </summary>
 	/// <param name="device"></param>
 	void PipelineStateCSInitializeForUpdate(ID3D12Device* device) override;
-
-private:
-
-	// ディゾルブデータUAVバッファ
-	Microsoft::WRL::ComPtr<ID3D12Resource> dissolveBuff_;
-	// CPUハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE uavDissolveHandleCPU_{};
-	// GPUハンドル
-	D3D12_GPU_DESCRIPTOR_HANDLE uavDissolveHandleGPU_{};
-	// ディスクリプタヒープの位置
-	uint32_t uavDissolveDescriptorHeap_ = 0;
-	// SRV
-	// CPUハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE srvDissolveHandleCPU_{};
-	// GPUハンドル
-	D3D12_GPU_DESCRIPTOR_HANDLE srvDissolveHandleGPU_{};
-	// ディスクリプタヒープの位置
-	uint32_t srvDissolveDescriptorHeap_ = 0;
 
 };
 
