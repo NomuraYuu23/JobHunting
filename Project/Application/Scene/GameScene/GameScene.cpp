@@ -59,8 +59,14 @@ void GameScene::Initialize() {
 
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<GameSceneObjectManager>();
-	ObjectFactory::GetInstance()->Initialize(objectManager_.get());
+	
+	bossSystem_ = std::make_unique<BossSystem>();
+	
+	ObjectFactory::GetInstance()->Initialize(objectManager_.get(), bossSystem_.get());
+	
 	objectManager_->Initialize(kLevelIndexMain, levelDataManager_);
+
+	bossSystem_->Initialize(objectManager_.get());
 
 	// プレイヤー
 	player_ = static_cast<Player*>(objectManager_->GetObjectPointer("000_Player"));
@@ -177,6 +183,8 @@ void GameScene::Update() {
 	// オブジェクトマネージャー
 	objectManager_->Update();
 
+	bossSystem_->Update();
+
 	// あたり判定
 	collisionManager_->ListClear();
 
@@ -187,7 +195,7 @@ void GameScene::Update() {
 	// スカイドーム
 	skydome_->Update();
 
-	uiManager_->Update(player_->RatioHP(), bossEnemy_->RatioHP());
+	uiManager_->Update(player_->RatioHP(), bossEnemy_->RatioHP(), bossSystem_->GetIsBossBattle());
 
 	// デバッグカメラ
 	DebugCameraUpdate();
@@ -248,6 +256,9 @@ void GameScene::Draw() {
 
 	// パーティクルはここ
 	particleManager_->Draw(camera_.GetViewProjectionMatrix(), dxCommon_->GetCommadList());
+
+	// パーティクル描画
+	objectManager_->ParticleDraw(camera_);
 
 #pragma endregion
 

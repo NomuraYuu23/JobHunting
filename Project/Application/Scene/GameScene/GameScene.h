@@ -19,6 +19,7 @@
 
 // ゲームオーバーシステム
 #include "../../System/GameOverSystem.h"
+#include "../../System/BossSystem.h"
 
 class GameScene : public IScene
 {
@@ -123,5 +124,8 @@ private:
 
 	// ボス
 	BaseEnemy* bossEnemy_ = nullptr;
+
+	// ボスシステム
+	std::unique_ptr<BossSystem> bossSystem_;
 
 };
