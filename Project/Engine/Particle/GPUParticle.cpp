@@ -133,16 +133,19 @@ void GPUParticle::Draw(
 
 }
 
-void GPUParticle::SetEmitter(const EmitterCS& emitter)
+void GPUParticle::SetEmitter(const EmitterCS& emitter, bool isEmitSet)
 {
 
 	// マッピング
 	emitterMap_->count = emitter.count;
 	emitterMap_->frequency = emitter.frequency;
-	emitterMap_->frequencyTime = emitter.frequencyTime;
 	emitterMap_->translate = emitter.translate;
 	emitterMap_->radius = emitter.radius;
-	emitterMap_->emit = emitter.emit;
+
+	if (isEmitSet) {
+		emitterMap_->emit = emitter.emit;
+		emitterMap_->frequencyTime = emitter.frequencyTime;
+	}
 
 }
 

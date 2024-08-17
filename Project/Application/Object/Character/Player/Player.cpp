@@ -74,15 +74,14 @@ void Player::Initialize(LevelData::MeshData* data)
 		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticleDissolve].Get(),
 		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticleDissolve].Get());
 
-	EmitterCS emitter;
-	emitter.count = 5;
-	emitter.frequency = 0.5f;
-	emitter.frequencyTime = 0.0f;
-	emitter.translate = worldTransform_.transform_.translate;
-	emitter.radius = 10.0f;
-	emitter.emit = 0;
+	fieldSparksEmitter_.count = 5;
+	fieldSparksEmitter_.frequency = 0.5f;
+	fieldSparksEmitter_.frequencyTime = 0.0f;
+	fieldSparksEmitter_.translate = worldTransform_.transform_.translate;
+	fieldSparksEmitter_.radius = 10.0f;
+	fieldSparksEmitter_.emit = 0;
 
-	fieldSparksParticle_->SetEmitter(emitter);
+	fieldSparksParticle_->SetEmitter(fieldSparksEmitter_);
 
 }
 
@@ -120,6 +119,8 @@ void Player::Update()
 
 	// フィールドパーティクル
 	fieldSparksParticle_->Update();
+	fieldSparksEmitter_.translate = worldTransform_.GetWorldPosition();
+	fieldSparksParticle_->SetEmitter(fieldSparksEmitter_,false);
 
 }
 

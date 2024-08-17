@@ -69,8 +69,9 @@ public:
 	/// <summary>
 	/// エミッタ情報設定
 	/// </summary>
-	/// <param name="emitter"></param>
-	void SetEmitter(const EmitterCS& emitter);
+	/// <param name="emitter">エミッター</param>
+	/// <param name="isEmitSet">エミッター情報をセットするか</param>
+	void SetEmitter(const EmitterCS& emitter, bool isEmitSet = true);
 
 protected:
 

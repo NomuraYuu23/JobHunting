@@ -208,6 +208,7 @@ private: // プレイヤーデータ
 
 	// フィールドパーティクル
 	std::unique_ptr<FieldSparksParticle> fieldSparksParticle_;
+	EmitterCS fieldSparksEmitter_;
 
 public:
 
