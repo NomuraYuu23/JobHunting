@@ -12,7 +12,7 @@
 #include "../../../Engine/3D/DrawLine.h"
 #include "../../../Engine/Level/LevelData.h"
 #include "../../../Engine/Object/MeshObject.h"
-#include "../../../Particle/Bload/BloadParticle.h"
+#include "../../../GPUParticle/FieldSparksParticle.h"
 
 /// <summary>
 /// プレイヤーのモーション一覧
@@ -205,6 +205,9 @@ private: // プレイヤーデータ
 
 	// 前フレームの位置
 	Vector3 prePosition_;
+
+	// フィールドパーティクル
+	std::unique_ptr<FieldSparksParticle> fieldSparksParticle_;
 
 public:
 

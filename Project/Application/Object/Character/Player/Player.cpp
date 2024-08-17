@@ -64,6 +64,26 @@ void Player::Initialize(LevelData::MeshData* data)
 	// 初期設定
 	material_->SetEnableLighting(BlinnPhongReflection);
 
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+
+	// フィールドパーティクル
+	fieldSparksParticle_ = std::make_unique<FieldSparksParticle>();
+	fieldSparksParticle_->Initialize(
+		dxCommon->GetDevice(),
+		dxCommon->GetCommadListLoad(),
+		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticleDissolve].Get(),
+		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticleDissolve].Get());
+
+	EmitterCS emitter;
+	emitter.count = 5;
+	emitter.frequency = 0.5f;
+	emitter.frequencyTime = 0.0f;
+	emitter.translate = worldTransform_.transform_.translate;
+	emitter.radius = 10.0f;
+	emitter.emit = 0;
+
+	fieldSparksParticle_->SetEmitter(emitter);
+
 }
 
 void Player::Update()
@@ -97,6 +117,9 @@ void Player::Update()
 	SaveVelocityUpdate();
 
 	attack_->ParticleUpdate();
+
+	// フィールドパーティクル
+	fieldSparksParticle_->Update();
 
 }
 
@@ -190,7 +213,11 @@ void Player::CollisionListRegister(CollisionManager* collisionManager, ColliderD
 void Player::ParticleDraw(BaseCamera& camera)
 {
 
+	assert(commandList_);
+
 	attack_->ParticleDraw(commandList_, camera);
+
+	fieldSparksParticle_->Draw(commandList_, camera);
 
 }
 
