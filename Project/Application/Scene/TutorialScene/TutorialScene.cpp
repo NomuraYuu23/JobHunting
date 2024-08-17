@@ -166,6 +166,8 @@ void TutorialScene::Update() {
 
 	collisionManager_->CheakAllCollision();
 
+	player_->SetHP(3);
+
 	// スカイドーム
 	skydome_->Update();
 

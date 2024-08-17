@@ -260,4 +260,6 @@ public: // アクセッサ
 
 	LocalMatrixManager* GetLocalMatrixManager() { return localMatrixManager_.get(); }
 
+	void SetHP(uint32_t hp) { hp_ = hp; }
+
 };
