@@ -79,7 +79,7 @@ void BaseRigidBodyObject::OnCollision(ColliderParentObject colliderPartner, cons
 	// 値が小さいので100倍しとく
 	float power = Vector3::Length(force) * 100.0f;
 
-	RigidBody::CollisionPositionConfirmation(&rigidBody_, obb, pairOBB, coefficientOfRestitution, isGround, power);
+	RigidBody::CollisionPositionConfirmation(&rigidBody_, obb, pairOBB, coefficientOfRestitution, isGround, 30.0f);
 
 	Vector3 extrusion = Extrusion::OBBAndOBB(&std::get<OBB>(*collider_), &pairOBB);
 
@@ -143,7 +143,7 @@ void BaseRigidBodyObject::RigidBodyUpdate()
 	}
 
 	// 抵抗
-	const float kResistAngularVelocity = 0.5f;
+	const float kResistAngularVelocity = 0.8f;
 
 	if (rigidBody_.angularVelocity.x != 0.0f) {
 		rigidBody_.angularVelocity.x =

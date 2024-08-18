@@ -124,7 +124,13 @@ void Pillar::Damage(uint32_t damage, ColliderParentObject colliderPartner)
 			assert(0);
 		}
 
-		RigidBody::CollisionPositionConfirmation(&rigidBody_, obb, pairOBB, coefficientOfRestitution, false, 200.0f);
+
+		Vector3 point = {};
+		point.x = obb.center_.x;
+		point.y = obb.center_.y + obb.size_.y;
+		point.z = obb.center_.z;
+		rigidBody_.ApplyForce(obb.center_, point, Vector3{ 500.0f, 0.0f, 0.0f });
+		rigidBody_.centerOfGravityVelocity.x = 1.0f;
 	
 	}
 

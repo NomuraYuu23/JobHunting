@@ -19,6 +19,8 @@ void RigidBody::Initialize(float mass, const Vector3& size)
 
 	centerOfGravityVelocity = { 0.0f,0.0f,0.0f }; // 重心位置速度
 
+	preVertexNumber_ = 6;
+
 }
 
 void RigidBody::ApplyForce(const Vector3& center, const Vector3& pointOfAction, const Vector3& force)
@@ -38,59 +40,49 @@ void RigidBody::CollisionPositionConfirmation(
 	float power)
 {
 
-	// 地面に近い点を2点求める
-	Vector3 obbVertex[8];
+	// 力を入れる頂点作成(面の中心)
+	Vector3 vertex[6] = {};
 
-	obbVertex[0] = {
+	vertex[0] = {
 		+myObb.size_.x,
+		0.0f,
+		0.0f };
+
+	vertex[1] = {
+		0.0f,
 		+myObb.size_.y,
+		0.0f };
+
+	vertex[2] = {
+		0.0f,
+		0.0f,
 		+myObb.size_.z };
 
-	obbVertex[1] = {
-		+myObb.size_.x,
-		+myObb.size_.y,
-		-myObb.size_.z };
-
-	obbVertex[2] = {
-		+myObb.size_.x,
-		-myObb.size_.y,
-		+myObb.size_.z };
-
-	obbVertex[3] = {
-		+myObb.size_.x,
-		-myObb.size_.y,
-		-myObb.size_.z };
-
-	obbVertex[4] = {
+	vertex[3] = {
 		-myObb.size_.x,
-		+myObb.size_.y,
-		+myObb.size_.z };
+		0.0f,
+		0.0f };
 
-	obbVertex[5] = {
-		-myObb.size_.x,
-		+myObb.size_.y,
-		-myObb.size_.z };
-
-	obbVertex[6] = {
-		-myObb.size_.x,
+	vertex[4] = {
+		0.0f,
 		-myObb.size_.y,
-		+myObb.size_.z };
+		0.0f };
 
-	obbVertex[7] = {
-		-myObb.size_.x,
-		-myObb.size_.y,
+	vertex[5] = {
+		0.0f,
+		0.0f,
 		-myObb.size_.z };
 
 	Matrix4x4 obbRotateMatrix = {
-		myObb.otientatuons_[0].x,myObb.otientatuons_[0].y,myObb.otientatuons_[0].z,0.0f,
-		myObb.otientatuons_[1].x,myObb.otientatuons_[1].y,myObb.otientatuons_[1].z,0.0f,
-		myObb.otientatuons_[2].x,myObb.otientatuons_[2].y,myObb.otientatuons_[2].z,0.0f,
-		0.0f,0.0f,0.0f,1.0f };
+	myObb.otientatuons_[0].x,myObb.otientatuons_[0].y,myObb.otientatuons_[0].z,0.0f,
+	myObb.otientatuons_[1].x,myObb.otientatuons_[1].y,myObb.otientatuons_[1].z,0.0f,
+	myObb.otientatuons_[2].x,myObb.otientatuons_[2].y,myObb.otientatuons_[2].z,0.0f,
+	0.0f,0.0f,0.0f,1.0f };
 
-	for (uint32_t i = 0; i < 8; i++) {
+	for (uint32_t i = 0; i < 6; i++) {
 
-		obbVertex[i] = Matrix4x4::Transform(obbVertex[i], obbRotateMatrix);
-		obbVertex[i] = Vector3::Add(obbVertex[i], myObb.center_);
+		vertex[i] = Matrix4x4::Transform(vertex[i], obbRotateMatrix);
+		vertex[i] = Vector3::Add(vertex[i], myObb.center_);
 
 	}
 
@@ -104,20 +96,21 @@ void RigidBody::CollisionPositionConfirmation(
 
 	Vector3 force = { 0.0f,0.0f,0.0f };
 	if (isGround) {
-		FindTwoClosePoints(closeNumber, closeNumber2, obbVertex);
-		FindTwoFarPoints(farNumber, farNumber2, obbVertex);
-		force.y = -power;
+		FindTwoClosePoints(closeNumber, closeNumber2, vertex);
+		force.y = power;
 	}
 	else {
-		FindTwoClosePoints(closeNumber, closeNumber2, obbVertex, pairObb.center_);
-		FindTwoFarPoints(farNumber, farNumber2, obbVertex, pairObb.center_);
-		force = Vector3::Normalize(Vector3::Subtract(myObb.center_, pairObb.center_)) * -power;
+		// 一旦地面だけ
+		return;
 	}
 
-	rigidBody->ApplyForce(
-		(obbVertex[closeNumber] + obbVertex[closeNumber2]) * 0.5f, 
-		(obbVertex[farNumber] + obbVertex[farNumber2]) * 0.5f,
-		force);
+	if (rigidBody->preVertexNumber_ != closeNumber2) {
+		rigidBody->ApplyForce(
+			myObb.center_,
+			vertex[closeNumber2],
+			force);
+		rigidBody->preVertexNumber_ = closeNumber2;
+	}
 
 	// 反発
 	rigidBody->centerOfGravityVelocity = rigidBody->centerOfGravityVelocity * -coefficientOfRestitution;
@@ -176,36 +169,36 @@ void RigidBody::FindTwoClosePoints(uint32_t& ansNumber, uint32_t& ansNumber2, co
 
 }
 
-void RigidBody::FindTwoClosePoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8])
+void RigidBody::FindTwoClosePoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 vertex[6])
 {
 
 	// 保存用
 	float minY = 0.0f;
 	float minY2 = 0.0f;
 
-	if (obbVertex[0].y > obbVertex[1].y) {
-		minY = obbVertex[1].y;
+	if (vertex[0].y > vertex[1].y) {
+		minY = vertex[1].y;
 		ansNumber = 1;
-		minY2 = obbVertex[0].y;
+		minY2 = vertex[0].y;
 		ansNumber2 = 0;
 	}
 	else {
-		minY = obbVertex[0].y;
+		minY = vertex[0].y;
 		ansNumber = 0;
-		minY2 = obbVertex[1].y;
+		minY2 = vertex[1].y;
 		ansNumber2 = 1;
 	}
 
 	for (uint32_t i = 2; i < 8; i++) {
 
-		if (minY > obbVertex[i].y) {
+		if (minY > vertex[i].y) {
 			minY2 = minY;
 			ansNumber2 = ansNumber;
-			minY = obbVertex[i].y;
+			minY = vertex[i].y;
 			ansNumber = i;
 		}
-		else if (minY2 > obbVertex[i].y) {
-			minY2 = obbVertex[i].y;
+		else if (minY2 > vertex[i].y) {
+			minY2 = vertex[i].y;
 			ansNumber2 = i;
 		}
 

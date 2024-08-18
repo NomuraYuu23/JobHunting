@@ -33,6 +33,8 @@ public: // 変数
 	Vector3 centerOfGravityVelocity; // 重心位置速度
 	Vector3 centerOfGravity; // 重心位置 
 
+	uint32_t preVertexNumber_;
+
 public: // 関数
 
 	/// <summary>
@@ -61,7 +63,7 @@ private:
 
 	static void FindTwoClosePoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8], const Vector3& pairPos);
 
-	static void FindTwoClosePoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8]);
+	static void FindTwoClosePoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 vertex[6]);
 
 	static void FindTwoFarPoints(uint32_t& ansNumber, uint32_t& ansNumber2, const Vector3 obbVertex[8], const Vector3& pairPos);
 
