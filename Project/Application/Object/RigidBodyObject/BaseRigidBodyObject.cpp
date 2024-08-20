@@ -58,7 +58,11 @@ void BaseRigidBodyObject::OnCollision(ColliderParentObject colliderPartner, cons
 
 	OBB obb = std::get<OBB>(*GetCollider());
 
-	bool isGround = (pair->GetName() == "Ground");
+	std::string name = pair->GetName();
+	size_t len = name.length();
+	size_t find = name.find("Ground");
+	find = static_cast<size_t>(std::fminf(static_cast<float>(len), static_cast<float>(find)));
+	bool isGround = (find != len);
 
 	// 力設定
 	Vector3 pairVelocity = pair->GetSaveVelocity();

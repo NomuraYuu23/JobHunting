@@ -124,8 +124,12 @@ void BaseEnemy::OnCollisionObstacle(ColliderParentObject colliderPartner, const 
 	OBB obb = std::get<OBB>(*GetCollider());
 
 	if (usedRigidBody_) {
-	
-		bool isGround = (obstacle->GetName() == "Ground");
+
+		std::string name = obstacle->GetName();
+		size_t len = name.length();
+		size_t find = name.find("Ground");
+		find = static_cast<size_t>(std::fminf(static_cast<float>(len), static_cast<float>(find)));
+		bool isGround = (find != len);
 
 		RigidBody::CollisionPositionConfirmation(&rigidBody_, obb, obstacleOBB, coefficientOfRestitution, isGround, 10.0f);
 

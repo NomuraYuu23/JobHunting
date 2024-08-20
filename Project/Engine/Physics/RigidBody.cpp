@@ -109,9 +109,10 @@ void RigidBody::CollisionPositionConfirmation(
 		force.y = -power;
 	}
 	else {
-		FindTwoClosePoints(closeNumber, closeNumber2, obbVertex, pairObb.center_);
-		FindTwoFarPoints(farNumber, farNumber2, obbVertex, pairObb.center_);
-		force = Vector3::Normalize(Vector3::Subtract(myObb.center_, pairObb.center_)) * -power;
+		//FindTwoClosePoints(closeNumber, closeNumber2, obbVertex, pairObb.center_);
+		//FindTwoFarPoints(farNumber, farNumber2, obbVertex, pairObb.center_);
+		//force = Vector3::Normalize(Vector3::Subtract(myObb.center_, pairObb.center_)) * -power;
+		return;
 	}
 
 	rigidBody->ApplyForce(
