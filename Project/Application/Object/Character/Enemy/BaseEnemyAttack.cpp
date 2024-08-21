@@ -152,6 +152,11 @@ void BaseEnemyAttack::ParticleUpdate()
 
 }
 
+Vector3 BaseEnemyAttack::GetParentPos()
+{
+	return worldTransform_.parent_->GetWorldPosition();
+}
+
 void BaseEnemyAttack::OnCollisionPlayer(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 

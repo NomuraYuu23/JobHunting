@@ -63,6 +63,12 @@ public: // 変数
 	/// </summary>
 	void ParticleUpdate();
 
+	/// <summary>
+	/// 親のワールドポジション
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetParentPos();
+
 public: // アクセッサ
 
 	/// <summary>
@@ -99,6 +105,12 @@ public: // アクセッサ
 	/// </summary>
 	/// <param name="center"></param>
 	void SetCenter(const Vector3& center) { center_ = center; }
+
+	/// <summary>
+	/// ワールドトランスフォームアドレス取得
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
 
 private:
 

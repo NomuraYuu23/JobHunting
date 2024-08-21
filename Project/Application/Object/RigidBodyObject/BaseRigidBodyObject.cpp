@@ -81,7 +81,7 @@ void BaseRigidBodyObject::OnCollision(ColliderParentObject colliderPartner, cons
 	}
 
 	// 値が小さいので100倍しとく
-	float power = Vector3::Length(force) * 100.0f;
+	float power = Vector3::Length(force) * 50.0f;
 
 	RigidBody::CollisionPositionConfirmation(&rigidBody_, obb, pairOBB, coefficientOfRestitution, isGround, power);
 

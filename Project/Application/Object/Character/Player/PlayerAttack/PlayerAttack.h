@@ -62,6 +62,12 @@ public: // 変数
 	/// パーティクル更新
 	/// </summary>
 	void ParticleUpdate();
+
+	/// <summary>
+	/// 親のワールドポジション
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetParentPos();
 	
 public: // アクセッサ
 
@@ -87,6 +93,12 @@ public: // アクセッサ
 	/// あたり判定を取るか
 	/// </summary>
 	bool GetIsAttackJudgment() { return isAttackJudgment_; }
+
+	/// <summary>
+	/// ワールドトランスフォームアドレス取得
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform* GetWorldTransformAdress() { return &worldTransform_; }
 
 private:
 

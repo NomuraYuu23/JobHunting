@@ -153,6 +153,11 @@ void PlayerAttack::ParticleUpdate()
 
 }
 
+Vector3 PlayerAttack::GetParentPos()
+{
+	return worldTransform_.parent_->GetWorldPosition();
+}
+
 void PlayerAttack::OnCollisionEnemy(ColliderParentObject colliderPartner, const CollisionData& collisionData)
 {
 

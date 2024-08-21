@@ -100,32 +100,44 @@ void Pillar::Damage(uint32_t damage, ColliderParentObject colliderPartner)
 		worldTransform_.parent_ = nullptr;
 
 		OBB obb = std::get<OBB>(*GetCollider());
+		Vector3 attackPos = {};
 		if (std::holds_alternative<BaseEnemyAttack*>(colliderPartner)) {
 
 			BaseEnemyAttack* attack = std::get<BaseEnemyAttack*>(colliderPartner);
-
-			Sphere sphere = std::get<Sphere>(*attack->GetCollider());
-			Vector3 size = { sphere.radius_, sphere.radius_, sphere.radius_ };
-
-			pairOBB.Initialize(sphere.center_, Matrix4x4::MakeIdentity4x4(), size, static_cast<Null*>(nullptr));
+			attackPos = attack->GetParentPos();
+			
 
 		}
 		else if (std::holds_alternative<PlayerAttack*>(colliderPartner)) {
 
 			PlayerAttack* attack = std::get<PlayerAttack*>(colliderPartner);
-		
-			Sphere sphere = std::get<Sphere>(*attack->GetCollider());
-			Vector3 size = { sphere.radius_, sphere.radius_, sphere.radius_ };
-
-			pairOBB.Initialize(sphere.center_, Matrix4x4::MakeIdentity4x4(), size, static_cast<Null*>(nullptr));
+			attackPos = attack->GetParentPos();
 
 		}
 		else {
 			assert(0);
 		}
 
-		RigidBody::CollisionPositionConfirmation(&rigidBody_, obb, pairOBB, coefficientOfRestitution, false, 200.0f);
-	
+		Vector3 myPos = worldTransform_.GetWorldPosition();
+		attackPos.y = 0.0f;
+		myPos.y = 0.0f;
+		Vector3 dir = Vector3::Normalize(myPos - attackPos);
+		float power = 150.0f;
+		if (dir.x == 0.0f && dir.z == 0.0f) {
+			dir.z = 0.0f;
+			dir.x = power;
+		}
+		else if (std::fabsf(dir.x) > std::fabsf(dir.z)) {
+			dir.z = 0.0f;
+			dir.x = power * (dir.x / std::fabsf(dir.x));
+		}
+		else {
+			dir.z = power * (dir.z / std::fabsf(dir.z));
+			dir.x = 0.0f;
+		}
+
+		rigidBody_.ApplyForce(obb.center_, obb.center_ + colliderAddPos, dir);
+
 	}
 
 }
