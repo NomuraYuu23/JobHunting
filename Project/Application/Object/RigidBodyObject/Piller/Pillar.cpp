@@ -150,6 +150,15 @@ void Pillar::Damage(uint32_t damage, ColliderParentObject colliderPartner)
 
 	durable_ -= damage;
 
+	// パーティクル
+	EmitterCS emitter;
+	emitter.count = 10;
+	emitter.frequency = 0.1f;
+	emitter.frequencyTime = 0.0f;
+	emitter.translate = worldTransform_.GetWorldPosition();
+	emitter.radius = 1.0f;
+	emitter.emit = 0;
+
 	if (durable_ <= 0) {
 	
 		OBB pairOBB;
@@ -197,17 +206,14 @@ void Pillar::Damage(uint32_t damage, ColliderParentObject colliderPartner)
 
 		rigidBody_.ApplyForce(obb.center_, obb.center_ + colliderAddPos, dir);
 
+		float centerOfGravityVelocityPower = 2.5f;
+		rigidBody_.centerOfGravityVelocity = Vector3::Normalize(dir) * centerOfGravityVelocityPower;
+
+		emitter.count = 30;
+
 	}
 
 	// パーティクル
-	EmitterCS emitter;
-	emitter.count = 10;
-	emitter.frequency = 0.1f;
-	emitter.frequencyTime = 0.0f;
-	emitter.translate = worldTransform_.GetWorldPosition();
-	emitter.radius = 1.0f;
-	emitter.emit = 0;
-
 	pillarSmokeParticle_->SetEmitter(emitter);
 	particleTime_ = 0.0f;
 

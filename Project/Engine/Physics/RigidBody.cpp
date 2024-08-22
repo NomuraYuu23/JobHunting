@@ -109,7 +109,7 @@ void RigidBody::CollisionPositionConfirmation(
 		force.y = -power;
 	}
 	else {
-		rigidBody->centerOfGravityVelocity = rigidBody->centerOfGravityVelocity * -coefficientOfRestitution;
+		rigidBody->centerOfGravityVelocity.y = 0.0f; // 重力があるため0にしないと変になる
 		return;
 	}
 
