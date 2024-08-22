@@ -17,10 +17,6 @@ IParticle* MakeParticle::Run(ParticleDesc* particleDesc, uint32_t paeticleName)
 		particle = new IParticle();
 		particle->Initialize(particleDesc);
 		break;
-	case kBloadParticle:
-		particle = new BloadParticle();
-		particle->Initialize(particleDesc);
-		break;
 	case kCountOfParticleName:
 	default:
 		assert(0);

@@ -193,9 +193,6 @@
     <Filter Include="Application\Object\Player\System">
       <UniqueIdentifier>{072e4e32-ee4e-4e4e-90e7-21f4d6cbdbb2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Particle\Bload">
-      <UniqueIdentifier>{f1cc4b72-f9f2-4fa4-9156-03519d51ad66}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Object\Enemy">
       <UniqueIdentifier>{46ce4367-7435-4b32-8c8e-245c987ef51d}</UniqueIdentifier>
     </Filter>
@@ -796,9 +793,6 @@
     <ClCompile Include="Application\Object\Character\Player\Player.cpp">
       <Filter>Application\Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Particle\Bload\BloadParticle.cpp">
-      <Filter>Application\Particle\Bload</Filter>
-    </ClCompile>
     <ClCompile Include="Application\UI\TutorialUIManager.cpp">
       <Filter>Application\UI</Filter>
     </ClCompile>
@@ -1033,7 +1027,7 @@
     <ClCompile Include="Application\GPUParticle\BonfireParticle.cpp">
       <Filter>Application\GPUParticle\BonfireParticle</Filter>
     </ClCompile>
-    <ClCompile Include="Application\GPUParticle\BloadParticleGPU.cpp">
+    <ClCompile Include="Application\GPUParticle\BloadParticle.cpp">
       <Filter>Application\GPUParticle\BloadParticle</Filter>
     </ClCompile>
     <ClCompile Include="Application\GPUParticle\FieldSparksParticle.cpp">
@@ -1464,9 +1458,6 @@
     <ClInclude Include="Application\Object\Character\Player\PlayerCommand\PlayerCommand.h">
       <Filter>Application\Object\Player\System</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Particle\Bload\BloadParticle.h">
-      <Filter>Application\Particle\Bload</Filter>
-    </ClInclude>
     <ClInclude Include="Application\UI\TutorialUIManager.h">
       <Filter>Application\UI</Filter>
     </ClInclude>
@@ -1773,7 +1764,7 @@
     <ClInclude Include="Application\GPUParticle\BonfireParticle.h">
       <Filter>Application\GPUParticle\BonfireParticle</Filter>
     </ClInclude>
-    <ClInclude Include="Application\GPUParticle\BloadParticleGPU.h">
+    <ClInclude Include="Application\GPUParticle\BloadParticle.h">
       <Filter>Application\GPUParticle\BloadParticle</Filter>
     </ClInclude>
     <ClInclude Include="Application\GPUParticle\FieldSparksParticle.h">

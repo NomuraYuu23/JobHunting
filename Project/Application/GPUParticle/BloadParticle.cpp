@@ -1,4 +1,4 @@
-#include "BloadParticleGPU.h"
+#include "BloadParticle.h"
 #include "../../Engine/base/BufferResource.h"
 #include "../../Engine/Particle/ParticleCS.h"
 #include "../../Engine/base/SRVDescriptorHerpManager.h"
@@ -8,7 +8,7 @@
 #include "../../Engine/Particle/BillBoardMatrix.h"
 #include "../../Engine/Math/DeltaTime.h"
 
-void BloadParticleGPU::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, ID3D12RootSignature* rootSignature, ID3D12PipelineState* pipelineState)
+void BloadParticle::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, ID3D12RootSignature* rootSignature, ID3D12PipelineState* pipelineState)
 {
 
 	textureFilename_ = "circle.png";
@@ -27,7 +27,7 @@ void BloadParticleGPU::Initialize(ID3D12Device* device, ID3D12GraphicsCommandLis
 
 }
 
-void BloadParticleGPU::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
+void BloadParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
 {
 
 	assert(commandList);
@@ -82,14 +82,14 @@ void BloadParticleGPU::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& 
 
 }
 
-void BloadParticleGPU::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList)
+void BloadParticle::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList)
 {
 
 	GPUParticle::UAVBufferInitialize(device, commandList);
 
 }
 
-void BloadParticleGPU::InitialzieCS(ID3D12GraphicsCommandList* commandList)
+void BloadParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -109,7 +109,7 @@ void BloadParticleGPU::InitialzieCS(ID3D12GraphicsCommandList* commandList)
 
 }
 
-void BloadParticleGPU::Emit(ID3D12GraphicsCommandList* commandList)
+void BloadParticle::Emit(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -133,7 +133,7 @@ void BloadParticleGPU::Emit(ID3D12GraphicsCommandList* commandList)
 
 }
 
-void BloadParticleGPU::UpdateCS(ID3D12GraphicsCommandList* commandList)
+void BloadParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -155,7 +155,7 @@ void BloadParticleGPU::UpdateCS(ID3D12GraphicsCommandList* commandList)
 
 }
 
-void BloadParticleGPU::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
+void BloadParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
@@ -251,7 +251,7 @@ void BloadParticleGPU::PipelineStateCSInitializeForInitialize(ID3D12Device* devi
 
 }
 
-void BloadParticleGPU::PipelineStateCSInitializeForEmit(ID3D12Device* device)
+void BloadParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
@@ -355,7 +355,7 @@ void BloadParticleGPU::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 
 }
 
-void BloadParticleGPU::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
+void BloadParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};

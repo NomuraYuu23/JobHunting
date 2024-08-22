@@ -32,7 +32,7 @@ void BaseEnemyAttack::Initialize(WorldTransform* parent)
 	// パーティクル
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
-	bloadParticle_ = std::make_unique<BloadParticleGPU>();
+	bloadParticle_ = std::make_unique<BloadParticle>();
 
 	bloadParticle_->Initialize(
 		dxCommon->GetDevice(),

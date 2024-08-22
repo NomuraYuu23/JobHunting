@@ -162,7 +162,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\AudioManager\GameAudioManager.cpp" />
     <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp" />
     <ClCompile Include="Application\Collider\ColliderParentIdentification.cpp" />
-    <ClCompile Include="Application\GPUParticle\BloadParticleGPU.cpp" />
+    <ClCompile Include="Application\GPUParticle\BloadParticle.cpp" />
     <ClCompile Include="Application\GPUParticle\FieldSparksParticle.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitingForBattle.cpp" />
     <ClCompile Include="Application\Object\Obstacle\Block\Block.cpp" />
@@ -203,7 +203,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Sample\SampleObject.cpp" />
     <ClCompile Include="Application\Object\Manager\TitleSceneObjectManager.cpp" />
     <ClCompile Include="Application\Object\Manager\TutorialSceneObjectManager.cpp" />
-    <ClCompile Include="Application\Particle\Bload\BloadParticle.cpp" />
     <ClCompile Include="Application\Object\Character\Player\Player.cpp" />
     <ClCompile Include="Application\Object\Character\Player\PlayerAttack\PlayerAttack.cpp" />
     <ClCompile Include="Application\Object\Character\Player\PlayerCommand\PlayerCommand.cpp" />
@@ -358,7 +357,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\AudioManager\GameAudioManager.h" />
     <ClInclude Include="Application\AudioManager\TitleAudioManager.h" />
     <ClInclude Include="Application\Collider\ColliderParentIdentification.h" />
-    <ClInclude Include="Application\GPUParticle\BloadParticleGPU.h" />
+    <ClInclude Include="Application\GPUParticle\BloadParticle.h" />
     <ClInclude Include="Application\GPUParticle\FieldSparksParticle.h" />
     <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitingForBattle.h" />
     <ClInclude Include="Application\Object\Obstacle\Block\Block.h" />
@@ -403,7 +402,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Sample\SampleObject.h" />
     <ClInclude Include="Application\Object\Manager\TitleSceneObjectManager.h" />
     <ClInclude Include="Application\Object\Manager\TutorialSceneObjectManager.h" />
-    <ClInclude Include="Application\Particle\Bload\BloadParticle.h" />
     <ClInclude Include="Application\Object\Character\Player\Player.h" />
     <ClInclude Include="Application\Object\Character\Player\PlayerAttack\PlayerAttack.h" />
     <ClInclude Include="Application\Object\Character\Player\PlayerCommand\PlayerCommand.h" />

@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Engine/Particle/GPUParticle.h"
 
-class BloadParticleGPU :
+class BloadParticle :
     public GPUParticle
 {
 

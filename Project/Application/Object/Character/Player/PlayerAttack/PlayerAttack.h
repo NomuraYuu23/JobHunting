@@ -4,7 +4,7 @@
 #include "../../../Engine/ContactRecord/ContactRecord.h"
 #include "../../../Engine/Collision/CollisionManager.h"
 #include "../../../Engine/Collider/ColliderDebugDraw/ColliderDebugDraw.h"
-#include "../../../../GPUParticle/BloadParticleGPU.h"
+#include "../../../../GPUParticle/BloadParticle.h"
 
 class PlayerAttack
 {
@@ -133,7 +133,7 @@ private:
 	bool isAttackJudgment_;
 
 	// パーティクル
-	std::unique_ptr<BloadParticleGPU> bloadParticle_;
+	std::unique_ptr<BloadParticle> bloadParticle_;
 
 	//パーティクルタイム
 	float particleTime_ = 0.0f;
