@@ -82,6 +82,8 @@ public: // アクセッサ
     /// <returns></returns>
     Vector3 GetSaveVelocity() { return saveVelocity_; }
 
+    void SetMaterialColor(const Vector4 color) { return material_->SetColor(color); }
+
 protected: // 変数
 
     // ファイル名前

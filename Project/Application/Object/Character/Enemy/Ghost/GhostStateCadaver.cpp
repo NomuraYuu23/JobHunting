@@ -42,6 +42,23 @@ void GhostStateCadaver::Update()
 	RigidBodyUpdate();
 	ghost_->SetReceiveCommand(false);
 
+	alphaChangeStartTimeCount += kDeltaTime_;
+
+	if (alphaChangeStartTimeCount >= alphaChangeStartTime) {
+		alphaChangeStartTimeCount = alphaChangeStartTime;
+
+		alpha -= alphaSpeed;
+
+		if (alpha <= 0.0f) {
+			alpha = 0.0f;
+			ghost_->SetIsDead(true);
+		}
+
+		Vector4 color = { 1.0f, 1.0f, 1.0f, alpha };
+		ghost_->SetMaterialColor(color);
+
+	}
+
 }
 
 void GhostStateCadaver::RigidBodyUpdate()

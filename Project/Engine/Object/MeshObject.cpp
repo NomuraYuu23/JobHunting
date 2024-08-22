@@ -47,6 +47,9 @@ void MeshObject::Update()
 void MeshObject::Draw(BaseCamera& camera)
 {
 
+	if (material_->GetMaterialMap()->color.w == 0.0f) {
+		return;
+	}
 
 	ModelDraw::NormalObjectDesc desc;
 
