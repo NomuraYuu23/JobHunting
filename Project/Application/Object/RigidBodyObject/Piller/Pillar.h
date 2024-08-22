@@ -74,7 +74,7 @@ private:
 
 	//パーティクルタイム
 	float particleTime_ = 0.0f;
-	const float particleTimeMax_ = 10.3f;
+	const float particleTimeMax_ = 0.3f;
 
 };
 

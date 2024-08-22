@@ -24,6 +24,7 @@ void main(uint3 DTid : SV_DispatchThreadID)
 			float32_t alpha =
 				(gParticles[particleIndex].currentTime * rcp(gParticles[particleIndex].lifeTime));
 			gDissolves[particleIndex] = saturate(alpha);
+			gParticles[particleIndex].color.a = saturate(alpha);
 		}
 		else {
 

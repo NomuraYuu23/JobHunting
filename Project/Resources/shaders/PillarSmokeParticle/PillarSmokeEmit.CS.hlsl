@@ -45,12 +45,12 @@ void main(uint32_t3 DTid : SV_DispatchThreadID)
 				gParticles[particleIndex].scale = float32_t3(0.5f, 0.5f, 1.0f);
 
 				gParticles[particleIndex].translate = generator.Generate3d() * gEmitter.radius * 2.0f - gEmitter.radius + gEmitter.translate;
-				gParticles[particleIndex].color.rgb = float32_t3(0.93f, 0.47f, 0.0f);
+				gParticles[particleIndex].color.rgb = float32_t3(1.0f, 1.0f, 1.0f);
 				gParticles[particleIndex].color.a = 1.0f;
-				gParticles[particleIndex].lifeTime = 1.0f;
+				gParticles[particleIndex].lifeTime = 0.3f;
 
-				float32_t sideVelocityMax = 0.01f;
-				float32_t upSpeed = 0.05f;
+				float32_t sideVelocityMax = 0.1f;
+				float32_t upSpeed = 0.1f;
 
 				gParticles[particleIndex].velocity =
 					float32_t3(
