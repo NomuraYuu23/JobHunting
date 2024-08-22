@@ -1,6 +1,7 @@
 #include "Pillar.h"
 #include "../../Character/Enemy/BaseEnemyAttack.h"
 #include "../../Character/Player/PlayerAttack/PlayerAttack.h"
+#include "../../../../Engine/Math/DeltaTime.h"
 
 void Pillar::Initialize(LevelData::MeshData* data)
 {
@@ -13,6 +14,29 @@ void Pillar::Initialize(LevelData::MeshData* data)
 	durable_ = kInitDurable_;
 
 	coefficientOfRestitution = 0.1f;
+
+	// パーティクル
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+
+	pillarSmokeParticle_ = std::make_unique<PillarSmokeParticle>();
+
+	pillarSmokeParticle_->Initialize(
+		dxCommon->GetDevice(),
+		dxCommon->GetCommadListLoad(),
+		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticleDissolve].Get(),
+		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticleDissolve].Get());
+
+	EmitterCS emitter;
+	emitter.count = 10;
+	emitter.frequency = 0.1f;
+	emitter.frequencyTime = 0.0f;
+	emitter.translate = worldTransform_.GetWorldPosition();
+	emitter.radius = 1.0f;
+	emitter.emit = 0;
+
+	pillarSmokeParticle_->SetEmitter(emitter);
+
+	particleTime_ = particleTimeMax_;
 
 }
 
@@ -42,6 +66,9 @@ void Pillar::Update()
 
 	// 速度保存
 	SaveVelocityUpdate();
+
+	// パーティクル
+	ParticleUpdate();
 
 }
 
@@ -83,6 +110,38 @@ void Pillar::OnCollision(ColliderParentObject colliderPartner, const CollisionDa
 		Damage(1, colliderPartner);
 
 	}
+
+}
+
+void Pillar::ParticleUpdate()
+{
+
+	particleTime_ += kDeltaTime_;
+
+	if (particleTimeMax_ <= particleTime_) {
+		particleTime_ = particleTimeMax_;
+		EmitterCS emitter;
+		emitter.count = 10;
+		emitter.frequency = 0.1f;
+		emitter.frequencyTime = 0.0f;
+		emitter.translate = worldTransform_.GetWorldPosition();
+		emitter.radius = 1.0f;
+		emitter.emit = 0;
+
+		pillarSmokeParticle_->SetEmitter(emitter);
+
+	}
+	else {
+		pillarSmokeParticle_->Update();
+	}
+
+
+}
+
+void Pillar::ParticleDraw(BaseCamera& camera)
+{
+
+	pillarSmokeParticle_->Draw(commandList_, camera);
 
 }
 
@@ -139,6 +198,18 @@ void Pillar::Damage(uint32_t damage, ColliderParentObject colliderPartner)
 		rigidBody_.ApplyForce(obb.center_, obb.center_ + colliderAddPos, dir);
 
 	}
+
+	// パーティクル
+	EmitterCS emitter;
+	emitter.count = 10;
+	emitter.frequency = 0.1f;
+	emitter.frequencyTime = 0.0f;
+	emitter.translate = worldTransform_.GetWorldPosition();
+	emitter.radius = 1.0f;
+	emitter.emit = 0;
+
+	pillarSmokeParticle_->SetEmitter(emitter);
+	particleTime_ = 0.0f;
 
 }
 

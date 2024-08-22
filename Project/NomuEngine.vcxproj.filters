@@ -451,6 +451,15 @@
     <Filter Include="shaders\GPUParticle\FieldSparksParticle\CS">
       <UniqueIdentifier>{0a5136f7-afef-4201-8083-9b99789eadce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\GPUParticle\PillarSmokeParticle">
+      <UniqueIdentifier>{538b787f-36ae-4619-b3f7-3332eac2743b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\GPUParticle\PillarSmokeParticle">
+      <UniqueIdentifier>{1457ec65-2545-4635-b9de-e0155fbc62e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\GPUParticle\PillarSmokeParticle\CS">
+      <UniqueIdentifier>{afe45777-70ea-4ac6-9a41-16b3d960fbd9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1032,6 +1041,9 @@
     </ClCompile>
     <ClCompile Include="Application\GPUParticle\FieldSparksParticle.cpp">
       <Filter>Application\GPUParticle\FieldSparksParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GPUParticle\PillarSmokeParticle.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1770,6 +1782,9 @@
     <ClInclude Include="Application\GPUParticle\FieldSparksParticle.h">
       <Filter>Application\GPUParticle\FieldSparksParticle</Filter>
     </ClInclude>
+    <ClInclude Include="Application\GPUParticle\PillarSmokeParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -1829,6 +1844,9 @@
     </None>
     <None Include="Resources\shaders\FieldSparksParticle\FieldSparks.CS.hlsli">
       <Filter>shaders\GPUParticle\FieldSparksParticle\CS</Filter>
+    </None>
+    <None Include="Resources\shaders\PillarSmokeParticle\PillarSmoke.CS.hlsli">
+      <Filter>shaders\GPUParticle\PillarSmokeParticle\CS</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -2019,6 +2037,15 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\FieldSparksParticle\FieldSparksUpdate.CS.hlsl">
       <Filter>shaders\GPUParticle\FieldSparksParticle\CS</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PillarSmokeParticle\PillarSmokeEmit.CS.hlsl">
+      <Filter>shaders\GPUParticle\PillarSmokeParticle\CS</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PillarSmokeParticle\PillarSmokeInitialize.CS.hlsl">
+      <Filter>shaders\GPUParticle\PillarSmokeParticle\CS</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PillarSmokeParticle\PillarSmokeUpdate.CS.hlsl">
+      <Filter>shaders\GPUParticle\PillarSmokeParticle\CS</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

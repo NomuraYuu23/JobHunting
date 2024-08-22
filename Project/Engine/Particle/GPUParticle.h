@@ -23,9 +23,9 @@ public:
 	/// CSのパイプラインステート
 	/// </summary>
 	enum PipelineStateCSIndex {
-		kPiprlineStateCSIndexInitialize, // 初期化
-		kPiprlineStateCSIndexEmit, // エミット
-		kPiprlineStateCSIndexUpdate, // 更新
+		kPipelineStateCSIndexInitialize, // 初期化
+		kPipelineStateCSIndexEmit, // エミット
+		kPipelineStateCSIndexUpdate, // 更新
 		kPipelineStateCSIndexOfCount // 数える用
 	};
 

@@ -71,8 +71,8 @@ void Player::Initialize(LevelData::MeshData* data)
 	fieldSparksParticle_->Initialize(
 		dxCommon->GetDevice(),
 		dxCommon->GetCommadListLoad(),
-		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticleDissolve].Get(),
-		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticleDissolve].Get());
+		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
+		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get());
 
 	fieldSparksEmitter_.count = 5;
 	fieldSparksEmitter_.frequency = 0.5f;

@@ -1,6 +1,7 @@
 #pragma once
 #include "../BaseRigidBodyObject.h"
 #include "../../Obstacle/Pillar/PillarFoundation.h"
+#include "../../../GPUParticle/PillarSmokeParticle.h"
 class Pillar :
     public BaseRigidBodyObject
 {
@@ -23,6 +24,18 @@ public: // ベースのメンバ関数
 	/// <param name="colliderPartner"></param>
 	/// <param name="collisionData"></param>
 	void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData) override;
+
+
+	/// <summary>
+	/// パーティクル更新
+	/// </summary>
+	void ParticleUpdate();
+
+	/// <summary>
+	/// パーティクル描画
+	/// </summary>
+	/// <param name="camera">カメラ</param>
+	void ParticleDraw(BaseCamera& camera) override;
 
 public:
 
@@ -55,6 +68,13 @@ private:
 
 	// コライダーの位置
 	Vector3 colliderAddPos = { 0.0f,3.0f,0.0f };
+
+	// パーティクル
+	std::unique_ptr<PillarSmokeParticle> pillarSmokeParticle_;
+
+	//パーティクルタイム
+	float particleTime_ = 0.0f;
+	const float particleTimeMax_ = 10.3f;
 
 };
 

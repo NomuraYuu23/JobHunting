@@ -35,6 +35,12 @@ public: // ベースのメンバ関数
 	/// <param name="collisionData"></param>
 	virtual void OnCollision(ColliderParentObject colliderPartner, const CollisionData& collisionData);
 
+	/// <summary>
+	/// パーティクル描画
+	/// </summary>
+	/// <param name="camera">カメラ</param>
+	virtual void ParticleDraw(BaseCamera& camera) override {}
+
 private:
 
 	/// <summary>

@@ -321,8 +321,8 @@ void GPUParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
 	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
 	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
-	commandList->SetPipelineState(pipelineStatesCS_[kPiprlineStateCSIndexInitialize].Get());//PS0を設定
-	commandList->SetComputeRootSignature(rootSignaturesCS_[kPiprlineStateCSIndexInitialize].Get());
+	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexInitialize].Get());//PS0を設定
+	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexInitialize].Get());
 
 	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
 
@@ -341,8 +341,8 @@ void GPUParticle::Emit(ID3D12GraphicsCommandList* commandList)
 	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
 	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
-	commandList->SetPipelineState(pipelineStatesCS_[kPiprlineStateCSIndexEmit].Get());//PS0を設定
-	commandList->SetComputeRootSignature(rootSignaturesCS_[kPiprlineStateCSIndexEmit].Get());
+	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexEmit].Get());//PS0を設定
+	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexEmit].Get());
 
 	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
 
@@ -365,8 +365,8 @@ void GPUParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
 	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
-	commandList->SetPipelineState(pipelineStatesCS_[kPiprlineStateCSIndexUpdate].Get());//PS0を設定
-	commandList->SetComputeRootSignature(rootSignaturesCS_[kPiprlineStateCSIndexUpdate].Get());
+	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexUpdate].Get());//PS0を設定
+	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexUpdate].Get());
 
 	commandList->SetComputeRootDescriptorTable(0, uavHandleGPU_);
 
@@ -492,7 +492,7 @@ void GPUParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 	}
 
 	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
-		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPiprlineStateCSIndexInitialize]));
+		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexInitialize]));
 	assert(SUCCEEDED(hr));
 
 	// シェーダコンパイル
@@ -507,9 +507,9 @@ void GPUParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 	desc.CS.BytecodeLength = shader->GetBufferSize();
 	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
 	desc.NodeMask = 0;
-	desc.pRootSignature = rootSignaturesCS_[kPiprlineStateCSIndexInitialize].Get();
+	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexInitialize].Get();
 
-	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPiprlineStateCSIndexInitialize]));
+	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexInitialize]));
 	assert(SUCCEEDED(hr));
 
 }
@@ -596,7 +596,7 @@ void GPUParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	}
 
 	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
-		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPiprlineStateCSIndexEmit]));
+		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexEmit]));
 	assert(SUCCEEDED(hr));
 
 	// シェーダコンパイル
@@ -611,9 +611,9 @@ void GPUParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 	desc.CS.BytecodeLength = shader->GetBufferSize();
 	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
 	desc.NodeMask = 0;
-	desc.pRootSignature = rootSignaturesCS_[kPiprlineStateCSIndexEmit].Get();
+	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexEmit].Get();
 
-	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPiprlineStateCSIndexEmit]));
+	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexEmit]));
 	assert(SUCCEEDED(hr));
 
 }
@@ -696,7 +696,7 @@ void GPUParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 	}
 
 	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
-		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPiprlineStateCSIndexUpdate]));
+		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexUpdate]));
 	assert(SUCCEEDED(hr));
 
 	// シェーダコンパイル
@@ -711,9 +711,9 @@ void GPUParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 	desc.CS.BytecodeLength = shader->GetBufferSize();
 	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
 	desc.NodeMask = 0;
-	desc.pRootSignature = rootSignaturesCS_[kPiprlineStateCSIndexUpdate].Get();
+	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexUpdate].Get();
 
-	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPiprlineStateCSIndexUpdate]));
+	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexUpdate]));
 	assert(SUCCEEDED(hr));
 
 }

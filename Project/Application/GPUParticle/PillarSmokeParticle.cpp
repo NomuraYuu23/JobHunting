@@ -1,4 +1,4 @@
-#include "BonfireParticle.h"
+#include "PillarSmokeParticle.h"
 #include "../../Engine/base/BufferResource.h"
 #include "../../Engine/Particle/ParticleCS.h"
 #include "../../Engine/base/SRVDescriptorHerpManager.h"
@@ -8,11 +8,10 @@
 #include "../../Engine/Particle/BillBoardMatrix.h"
 #include "../../Engine/Math/DeltaTime.h"
 
-
-void BonfireParticle::Initialize(
-	ID3D12Device* device, 
-	ID3D12GraphicsCommandList* commandList, 
-	ID3D12RootSignature* rootSignature, 
+void PillarSmokeParticle::Initialize(
+	ID3D12Device* device,
+	ID3D12GraphicsCommandList* commandList,
+	ID3D12RootSignature* rootSignature,
 	ID3D12PipelineState* pipelineState)
 {
 
@@ -33,7 +32,7 @@ void BonfireParticle::Initialize(
 
 }
 
-void BonfireParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
+void PillarSmokeParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
 {
 
 	assert(commandList);
@@ -89,7 +88,7 @@ void BonfireParticle::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera& c
 
 }
 
-void BonfireParticle::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList)
+void PillarSmokeParticle::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList)
 {
 
 	// バッファ
@@ -140,7 +139,7 @@ void BonfireParticle::UAVBufferInitialize(ID3D12Device* device, ID3D12GraphicsCo
 
 }
 
-void BonfireParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
+void PillarSmokeParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -162,7 +161,7 @@ void BonfireParticle::InitialzieCS(ID3D12GraphicsCommandList* commandList)
 
 }
 
-void BonfireParticle::Emit(ID3D12GraphicsCommandList* commandList)
+void PillarSmokeParticle::Emit(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -188,7 +187,7 @@ void BonfireParticle::Emit(ID3D12GraphicsCommandList* commandList)
 
 }
 
-void BonfireParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
+void PillarSmokeParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 {
 
 	// SRV
@@ -212,7 +211,7 @@ void BonfireParticle::UpdateCS(ID3D12GraphicsCommandList* commandList)
 
 }
 
-void BonfireParticle::ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList)
+void PillarSmokeParticle::ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList)
 {
 
 
@@ -228,7 +227,7 @@ void BonfireParticle::ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* 
 
 }
 
-void BonfireParticle::ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList)
+void PillarSmokeParticle::ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList)
 {
 
 	GPUParticle::ResouseBarrierToUnorderedAccess(commandList);
@@ -243,7 +242,7 @@ void BonfireParticle::ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList*
 
 }
 
-void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
+void PillarSmokeParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
@@ -333,7 +332,7 @@ void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* devic
 
 	// シェーダコンパイル
 	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/BonfireParticle/BonfireInitialize.CS.hlsl",
+		L"Resources/shaders/PillarSmokeParticle/PillarSmokeInitialize.CS.hlsl",
 		L"cs_6_0",
 		L"main");
 
@@ -350,7 +349,7 @@ void BonfireParticle::PipelineStateCSInitializeForInitialize(ID3D12Device* devic
 
 }
 
-void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
+void PillarSmokeParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
@@ -448,7 +447,7 @@ void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 
 	// シェーダコンパイル
 	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/BonfireParticle/BonfireEmit.CS.hlsl",
+		L"Resources/shaders/PillarSmokeParticle/PillarSmokeEmit.CS.hlsl",
 		L"cs_6_0",
 		L"main");
 
@@ -465,7 +464,7 @@ void BonfireParticle::PipelineStateCSInitializeForEmit(ID3D12Device* device)
 
 }
 
-void BonfireParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
+void PillarSmokeParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 {
 
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
@@ -559,7 +558,7 @@ void BonfireParticle::PipelineStateCSInitializeForUpdate(ID3D12Device* device)
 
 	// シェーダコンパイル
 	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/BonfireParticle/BonfireUpdate.CS.hlsl",
+		L"Resources/shaders/PillarSmokeParticle/PillarSmokeUpdate.CS.hlsl",
 		L"cs_6_0",
 		L"main");
 
