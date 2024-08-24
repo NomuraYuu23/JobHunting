@@ -1045,6 +1045,9 @@
     <ClCompile Include="Application\GPUParticle\PillarSmokeParticle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\StringObject\BaseStringObject.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1783,6 +1786,9 @@
       <Filter>Application\GPUParticle\FieldSparksParticle</Filter>
     </ClInclude>
     <ClInclude Include="Application\GPUParticle\PillarSmokeParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\StringObject\BaseStringObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
