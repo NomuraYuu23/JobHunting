@@ -62,23 +62,23 @@ void BaseStringObject::Update()
 
 	// 変数
 	std::vector<StructuralSpring> spring = structuralSpring_; // バネ
-	Vector3 gravity = Gravity::Execute(); // 重力
-	Vector3 wind = {0.0f,0.0f,0.0f}; // 風
+	//Vector3 gravity = Gravity::Execute(); // 重力
+	//Vector3 wind = {0.0f,0.0f,0.0f}; // 風
 
 	//0番目更新
 	structuralSpring_[0].SetPoint1(spring[1].GetPoint0());
-	structuralSpring_[0].Update(wind, gravity);
+	structuralSpring_[0].Update();
 
 	// それ以外を更新
 	for (uint32_t i = 1; i < structuralSpring_.size() - 1; ++i) {
 		structuralSpring_[i].SetPoint0(spring[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(i) - 1].GetPoint1());
 		structuralSpring_[i].SetPoint1(spring[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(i) + 1].GetPoint0());
-		structuralSpring_[i].Update(wind, gravity);
+		structuralSpring_[i].Update();
 	}
 
 	//最後を更新
 	structuralSpring_[structuralSpring_.size() - 1].SetPoint0(spring[spring.size() - 2].GetPoint1());
-	structuralSpring_[structuralSpring_.size() - 1].Update(wind, gravity);
+	structuralSpring_[structuralSpring_.size() - 1].Update();
 
 	// ずれを直す
 	MassPoint massPointTmp;
@@ -135,6 +135,8 @@ void BaseStringObject::Draw(BaseCamera& camera)
 	desc.model = model_;
 	desc.worldTransform = &worldTransform_;
 	ModelDraw::AnimObjectDraw(desc);
+
+	DebugDrawMap(DrawLine::GetInstance());
 
 }
 
