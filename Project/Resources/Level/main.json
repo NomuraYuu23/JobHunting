@@ -3051,6 +3051,44 @@
                     20.0
                 ]
             }
+        },
+        {
+            "type": "MESH",
+            "name": "PlayerMuffler",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -336.0377197265625,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "PlayerMuffler.gltf",
+            "directoryPath": "Resources/Model/Player",
+            "className": "PlayerMuffler",
+            "parentName": "000_Player",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            }
         }
     ]
 }

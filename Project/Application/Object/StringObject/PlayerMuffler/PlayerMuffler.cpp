@@ -20,9 +20,9 @@ void PlayerMuffler::Initialize(LevelData::MeshData* data)
 	mass_ = 0.5f;
 
 	// プレイヤーからのローカル位置
-	localPosition_ = { 0.0f,0.0f,0.0f };
+	//localPosition_ = { 0.0f,0.0f,0.0f };
 
-	worldTransform_.transform_.translate = localPosition_;
+	//worldTransform_.transform_.translate = localPosition_;
 
 	BaseStringObject::Initialize(data);
 
@@ -31,6 +31,8 @@ void PlayerMuffler::Initialize(LevelData::MeshData* data)
 void PlayerMuffler::Update()
 {
 
+	SetPosition(0, player_->GetWorldTransformAdress()->GetWorldPosition());
+	SetAnchor(0, true);
 	BaseStringObject::Update();
 
 }
@@ -42,11 +44,10 @@ void PlayerMuffler::SetParent(Player* player)
 
 	player_ = player;
 
-	worldTransform_.parent_ = player_->GetWorldTransformAdress();
-	worldTransform_.UpdateMatrix();
-
-	for (uint32_t i = 0; i < structuralSpring_.size(); ++i) {
-		SetPosition(i, worldTransform_.GetWorldPosition());
+	for (uint32_t i = 0; i < structuralSpring_.size() + 1; ++i) {
+		SetPosition(i, player_->GetWorldTransformAdress()->GetWorldPosition());
 	}
+
+	SetAnchor(0,true);
 
 }
