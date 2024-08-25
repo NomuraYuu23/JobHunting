@@ -16,38 +16,38 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="data">メッシュデータ</param>
-	virtual void Initialize(LevelData::MeshData* data);
+	virtual void Initialize(LevelData::MeshData* data) override;
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update() override;
+	virtual void Update() override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="camera">カメラ</param>
-	void Draw(BaseCamera& camera) override;
+	virtual void Draw(BaseCamera& camera) override;
 
 	/// <summary>
 	/// デバッグ描画用マッピング
 	/// </summary>
 	/// <param name="drawLine">線描画ポインタ</param>
-	void DebugDrawMap(DrawLine* drawLine);
+	virtual void DebugDrawMap(DrawLine* drawLine);
 
 	/// <summary>
 	/// アンカー設定
 	/// </summary>
 	/// <param name="pointIndex">インデックス</param>
 	/// <param name="fixPoint">固定するか</param>
-	void SetAnchor(uint32_t pointIndex, bool fixPoint);
+	virtual void SetAnchor(uint32_t pointIndex, bool fixPoint);
 
 	/// <summary>
 	/// 位置設定
 	/// </summary>
 	/// <param name="pointIndex">インデックス</param>
 	/// <param name="position">位置</param>
-	void SetPosition(uint32_t pointIndex, const Vector3& position);
+	virtual void SetPosition(uint32_t pointIndex, const Vector3& position);
 
 	/// <summary>
 	/// コライダー登録
@@ -66,7 +66,7 @@ public: // アクセッサ
 
 	std::vector<StructuralSpring> GetSpring() { return structuralSpring_; }
 
-private:
+protected:
 
     //バネ
     std::vector<StructuralSpring> structuralSpring_;
@@ -75,19 +75,19 @@ private:
     std::unique_ptr<LocalMatrixManager> localMatrixManager_ = nullptr;
 
 	// アンカーの初期ポジション
-	Vector3 anchorInitPosition = {};
+	Vector3 anchorInitPosition_ = {};
 
 	// 自然長
-	float naturalLength = 0.1f;
+	float naturalLength_ = 0.1f;
 	
 	// 剛性。バネ定数k
-	float stiffness = 750.0f;
+	float stiffness_ = 750.0f;
 	
 	// 減衰係数
-	float dampingCoefficient = 2.0f;
+	float dampingCoefficient_ = 2.0f;
 	
 	// 質量(質点)
-	float mass = 0.5f;
+	float mass_ = 0.5f;
 
 };
 

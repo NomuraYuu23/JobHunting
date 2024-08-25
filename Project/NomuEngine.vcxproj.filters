@@ -460,6 +460,9 @@
     <Filter Include="shaders\GPUParticle\PillarSmokeParticle\CS">
       <UniqueIdentifier>{afe45777-70ea-4ac6-9a41-16b3d960fbd9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\String">
+      <UniqueIdentifier>{852c053a-ada1-4e32-ae99-48e5bb028de1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1043,9 +1046,12 @@
       <Filter>Application\GPUParticle\FieldSparksParticle</Filter>
     </ClCompile>
     <ClCompile Include="Application\GPUParticle\PillarSmokeParticle.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\GPUParticle\PillarSmokeParticle</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\StringObject\BaseStringObject.cpp">
+      <Filter>Application\Object\String</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\StringObject\PlayerMuffler\PlayerMuffler.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1786,9 +1792,12 @@
       <Filter>Application\GPUParticle\FieldSparksParticle</Filter>
     </ClInclude>
     <ClInclude Include="Application\GPUParticle\PillarSmokeParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\GPUParticle\PillarSmokeParticle</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\StringObject\BaseStringObject.h">
+      <Filter>Application\Object\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\StringObject\PlayerMuffler\PlayerMuffler.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

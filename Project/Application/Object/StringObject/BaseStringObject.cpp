@@ -15,22 +15,22 @@ void BaseStringObject::Initialize(LevelData::MeshData* data)
 	assert(localMatrixManager_->GetNum() > kExtraMatrixNum + 1);
 
 	// アンカーの初期ポジション
-	anchorInitPosition = worldTransform_.GetWorldPosition();
+	anchorInitPosition_ = worldTransform_.GetWorldPosition();
 
 	// バネの初期化
 	structuralSpring_.resize(localMatrixManager_->GetNum() - kExtraMatrixNum);
 
-	Vector3 distance = { 0.0f,-naturalLength,0.0f };
+	Vector3 distance = { 0.0f,-naturalLength_,0.0f };
 
 	MassPoint initMassPoint;
-	initMassPoint.position = anchorInitPosition;
-	initMassPoint.mass = mass;
+	initMassPoint.position = anchorInitPosition_;
+	initMassPoint.mass = mass_;
 	initMassPoint.acceleration = { 0.0f,0.0f,0.0f };
 	initMassPoint.velocity = { 0.0f,0.0f,0.0f };
 	initMassPoint.force = { 0.0f,0.0f,0.0f };
 	MassPoint initMassPoint1;
-	initMassPoint1.position = Vector3::Add(anchorInitPosition, distance);
-	initMassPoint1.mass = mass;
+	initMassPoint1.position = Vector3::Add(anchorInitPosition_, distance);
+	initMassPoint1.mass = mass_;
 	initMassPoint1.acceleration = { 0.0f,0.0f,0.0f };
 	initMassPoint1.velocity = { 0.0f,0.0f,0.0f };
 	initMassPoint1.force = { 0.0f,0.0f,0.0f };
@@ -38,9 +38,9 @@ void BaseStringObject::Initialize(LevelData::MeshData* data)
 	structuralSpring_[0].Initialize(
 		initMassPoint,
 		initMassPoint1,
-		naturalLength,
-		stiffness,
-		dampingCoefficient);
+		naturalLength_,
+		stiffness_,
+		dampingCoefficient_);
 
 	for (uint32_t i = 1; i < structuralSpring_.size(); ++i) {
 		initMassPoint.position = structuralSpring_[0].GetPoint1().position;
@@ -48,9 +48,9 @@ void BaseStringObject::Initialize(LevelData::MeshData* data)
 		structuralSpring_[i].Initialize(
 			initMassPoint,
 			initMassPoint1,
-			naturalLength,
-			stiffness,
-			dampingCoefficient);
+			naturalLength_,
+			stiffness_,
+			dampingCoefficient_);
 	}
 
 }
