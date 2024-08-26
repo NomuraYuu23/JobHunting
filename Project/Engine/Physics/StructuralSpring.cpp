@@ -26,6 +26,9 @@ void StructuralSpring::Initialize(
 	// 質点1を固定するか
 	fixPoint1_ = false;
 
+	// 最大距離
+	lengthMax_ = Vector3::Length(Vector3::Subtract(point0.position, point1.position));
+
 }
 
 void StructuralSpring::Update(
@@ -79,7 +82,7 @@ void StructuralSpring::Update(
 	}
 
 	// 速度制限
-	const float velocityRestrictions = 256.0f;
+	const float velocityRestrictions = 64.0f;
 
 	point0_.velocity.x = std::clamp(point0_.velocity.x, -velocityRestrictions, velocityRestrictions);
 	point0_.velocity.y = std::clamp(point0_.velocity.y, -velocityRestrictions, velocityRestrictions);
@@ -92,5 +95,25 @@ void StructuralSpring::Update(
 	// 位置変動
 	point0_.position = point0_.position + point0_.velocity * kDeltaTime_;
 	point1_.position = point1_.position + point1_.velocity * kDeltaTime_;
+
+}
+
+void StructuralSpring::PositionLimit()
+{
+
+
+	float length = Vector3::Length(Vector3::Subtract(point1_.position, point0_.position));
+
+	if (length <= lengthMax_) {
+		return;
+	}
+
+	float ratio = lengthMax_ / length;
+
+	length = ratio * length;
+
+	Vector3 addPos = Vector3::Normalize(Vector3::Subtract(point1_.position, point0_.position)) * length;
+
+	point1_.position = point0_.position + addPos;
 
 }

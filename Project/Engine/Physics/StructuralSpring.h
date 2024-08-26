@@ -29,6 +29,12 @@ public:
 	void Update(const Vector3& wind = Vector3{ 0.0f,0.0f,0.0f },
 		const Vector3& gravity = Vector3{ 0.0f,-9.8f,0.0f });
 
+	/// <summary>
+	/// 位置制限
+	/// </summary>
+	void  PositionLimit();
+
+
 public: // アクセッサ
 
 	void SetPoint0(const MassPoint& point0) { point0_ = point0; }
@@ -64,6 +70,9 @@ private: // 変数
 	bool fixPoint0_;
 	// 質点1を固定するか
 	bool fixPoint1_;
+
+	// 最大距離
+	float lengthMax_;
 
 };
 

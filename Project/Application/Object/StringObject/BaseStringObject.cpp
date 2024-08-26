@@ -62,8 +62,6 @@ void BaseStringObject::Update()
 
 	// 変数
 	std::vector<StructuralSpring> spring = structuralSpring_; // バネ
-	//Vector3 gravity = Gravity::Execute(); // 重力
-	//Vector3 wind = {0.0f,0.0f,0.0f}; // 風
 
 	//0番目更新
 	structuralSpring_[0].SetPoint1(spring[1].GetPoint0());
@@ -85,6 +83,9 @@ void BaseStringObject::Update()
 	MassPoint massPoint1Tmp;
 	MassPoint massPoint0Tmp;
 	for (uint32_t i = 0; i < structuralSpring_.size() - 1; ++i) {
+
+		structuralSpring_[i].PositionLimit();
+
 		massPoint1Tmp = structuralSpring_[i].GetPoint1();
 		massPoint0Tmp = structuralSpring_[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(i) + 1].GetPoint0();
 
