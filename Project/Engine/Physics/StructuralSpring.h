@@ -59,6 +59,10 @@ public: // アクセッサ
 	std::string GetName() { return name_; }
 	StructuralSpring* GetParent() { return parent_; }
 
+	uint32_t GetY() { return y_; }
+	uint32_t GetX() { return x_; }
+	std::string GetAxis() { return axis_; }
+
 private: // 変数
 
 	// 質点0
@@ -88,7 +92,11 @@ private: // 変数
 
 	// Y
 	uint32_t y_ = 0;
+	// X
 	uint32_t x_ = 0;
+
+	// axis
+	std::string axis_ = "";
 
 };
 

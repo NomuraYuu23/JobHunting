@@ -165,4 +165,6 @@ void StructuralSpring::SetName(const std::string& name)
 	y_ = atoi(y.c_str());
 	x_ = atoi(x.c_str());
 
+	axis_ = axis;
+
 }

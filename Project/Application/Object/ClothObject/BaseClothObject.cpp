@@ -270,59 +270,67 @@ void BaseClothObject::DebugDrawMap(DrawLine* drawLine)
 void BaseClothObject::SetAnchor(uint32_t y, uint32_t x, bool fixPoint)
 {
 
-	// 存在しない点が選択された
-	assert(pointIndex < structuralSpring_.size() + 1);
-
 	// アンカー状態を変更する
+	for (uint32_t i = 0; i < structuralSpring_.size(); ++i) {
+	
+		if (structuralSpring_[i].GetY() == y &&
+			structuralSpring_[i].GetX() == x) {
 
-	// 始点
-	if (pointIndex == 0) {
-		structuralSpring_[pointIndex].SetFixPoint0(fixPoint);
-	}
-	// 終点
-	else if (pointIndex == structuralSpring_.size()) {
-		structuralSpring_[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(pointIndex) - 1].SetFixPoint1(fixPoint);
-	}
-	// それ以外
-	else {
-		structuralSpring_[pointIndex].SetFixPoint0(fixPoint);
-		structuralSpring_[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(pointIndex) - 1].SetFixPoint1(fixPoint);
+			structuralSpring_[i].SetFixPoint0(fixPoint);
+
+		}
+		else if (
+			structuralSpring_[i].GetY() == y - 1 &&
+			structuralSpring_[i].GetX() == x &&
+			structuralSpring_[i].GetAxis() == "Y") {
+			structuralSpring_[i].SetFixPoint1(fixPoint);
+		}
+		else if (
+			structuralSpring_[i].GetY() == y &&
+			structuralSpring_[i].GetX() == x - 1&&
+			structuralSpring_[i].GetAxis() == "X") {
+			structuralSpring_[i].SetFixPoint1(fixPoint);
+		}
 	}
 
 }
 
 void BaseClothObject::SetPosition(uint32_t y, uint32_t x, const Vector3& position)
 {
-
-	// 存在しない点が選択された
-	assert(pointIndex < structuralSpring_.size() + 1);
-
 	// 変数
 	MassPoint massPoint;
 
-	// 始点
-	if (pointIndex == 0) {
-		// 質点の位置を変更する
-		massPoint = structuralSpring_[pointIndex].GetPoint0();
-		massPoint.position = position;
-		structuralSpring_[pointIndex].SetPoint0(massPoint);
-	}
-	// 終点
-	else if (pointIndex == structuralSpring_.size()) {
-		// 質点の位置を変更する
-		size_t index = static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(pointIndex) - 1;
-		massPoint = structuralSpring_[index].GetPoint1();
-		massPoint.position = position;
-		structuralSpring_[index].SetPoint1(massPoint);
-	}
-	// それ以外
-	else {
-		// 質点の位置を変更する
-		massPoint = structuralSpring_[pointIndex].GetPoint0();
-		massPoint.position = position;
-		structuralSpring_[pointIndex].SetPoint0(massPoint);
-		// ひとつ前のボーンの位置変更
-		structuralSpring_[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(pointIndex) - 1].SetPoint1(massPoint);
+	// アンカー状態を変更する
+	for (uint32_t i = 0; i < structuralSpring_.size(); ++i) {
+
+		if (structuralSpring_[i].GetY() == y &&
+			structuralSpring_[i].GetX() == x) {
+
+			massPoint = structuralSpring_[i].GetPoint0();
+			massPoint.position = position;
+			structuralSpring_[i].SetPoint0(massPoint);
+
+		}
+		else if (
+			structuralSpring_[i].GetY() == y - 1 &&
+			structuralSpring_[i].GetX() == x &&
+			structuralSpring_[i].GetAxis() == "Y") {
+
+			massPoint = structuralSpring_[i].GetPoint1();
+			massPoint.position = position;
+			structuralSpring_[i].SetPoint1(massPoint);
+		
+		}
+		else if (
+			structuralSpring_[i].GetY() == y &&
+			structuralSpring_[i].GetX() == x - 1 &&
+			structuralSpring_[i].GetAxis() == "X") {
+
+			massPoint = structuralSpring_[i].GetPoint1();
+			massPoint.position = position;
+			structuralSpring_[i].SetPoint1(massPoint);
+		
+		}
 	}
 
 }
