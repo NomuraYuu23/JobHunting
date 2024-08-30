@@ -1,4 +1,5 @@
 #include "BaseClothObject.h"
+#include "../../../Engine/3D/ModelDraw.h"
 
 void BaseClothObject::Initialize(LevelData::MeshData* data)
 {
@@ -227,5 +228,115 @@ void BaseClothObject::Update()
 	localMatrixManager_->Map();
 	worldTransform_.transform_.translate = structuralSpring_[0].GetPoint0().position;
 	worldTransform_.UpdateMatrix();
+
+}
+
+void BaseClothObject::Draw(BaseCamera& camera)
+{
+
+	ModelDraw::AnimObjectDesc desc;
+	desc.camera = &camera;
+	desc.localMatrixManager = localMatrixManager_.get();
+	desc.material = material_.get();
+	desc.model = model_;
+	desc.worldTransform = &worldTransform_;
+	ModelDraw::AnimObjectDraw(desc);
+
+	DebugDrawMap(DrawLine::GetInstance());
+
+}
+
+void BaseClothObject::DebugDrawMap(DrawLine* drawLine)
+{
+
+	// 変数
+	LineForGPU lineForGPU{};
+
+	for (uint32_t i = 0; i < structuralSpring_.size(); ++i) {
+
+		// 位置と色(赤)を設定
+		lineForGPU.position[0] = structuralSpring_[i].GetPoint0().position;
+		lineForGPU.position[1] = structuralSpring_[i].GetPoint1().position;
+		lineForGPU.color[0] = Vector4{ 0.8f,0.0f,0.0f,1.0f };
+		lineForGPU.color[1] = Vector4{ 0.8f,0.0f,0.0f,1.0f };
+
+		// マッピング
+		drawLine->Map(lineForGPU);
+
+	}
+
+}
+
+void BaseClothObject::SetAnchor(uint32_t y, uint32_t x, bool fixPoint)
+{
+
+	// 存在しない点が選択された
+	assert(pointIndex < structuralSpring_.size() + 1);
+
+	// アンカー状態を変更する
+
+	// 始点
+	if (pointIndex == 0) {
+		structuralSpring_[pointIndex].SetFixPoint0(fixPoint);
+	}
+	// 終点
+	else if (pointIndex == structuralSpring_.size()) {
+		structuralSpring_[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(pointIndex) - 1].SetFixPoint1(fixPoint);
+	}
+	// それ以外
+	else {
+		structuralSpring_[pointIndex].SetFixPoint0(fixPoint);
+		structuralSpring_[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(pointIndex) - 1].SetFixPoint1(fixPoint);
+	}
+
+}
+
+void BaseClothObject::SetPosition(uint32_t y, uint32_t x, const Vector3& position)
+{
+
+	// 存在しない点が選択された
+	assert(pointIndex < structuralSpring_.size() + 1);
+
+	// 変数
+	MassPoint massPoint;
+
+	// 始点
+	if (pointIndex == 0) {
+		// 質点の位置を変更する
+		massPoint = structuralSpring_[pointIndex].GetPoint0();
+		massPoint.position = position;
+		structuralSpring_[pointIndex].SetPoint0(massPoint);
+	}
+	// 終点
+	else if (pointIndex == structuralSpring_.size()) {
+		// 質点の位置を変更する
+		size_t index = static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(pointIndex) - 1;
+		massPoint = structuralSpring_[index].GetPoint1();
+		massPoint.position = position;
+		structuralSpring_[index].SetPoint1(massPoint);
+	}
+	// それ以外
+	else {
+		// 質点の位置を変更する
+		massPoint = structuralSpring_[pointIndex].GetPoint0();
+		massPoint.position = position;
+		structuralSpring_[pointIndex].SetPoint0(massPoint);
+		// ひとつ前のボーンの位置変更
+		structuralSpring_[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(pointIndex) - 1].SetPoint1(massPoint);
+	}
+
+}
+
+void BaseClothObject::CollisionListRegister(CollisionManager* collisionManager)
+{
+
+	return;
+
+}
+
+void BaseClothObject::CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw)
+{
+
+	return;
 
 }

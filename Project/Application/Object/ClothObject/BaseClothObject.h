@@ -40,14 +40,14 @@ public:
 	/// </summary>
 	/// <param name="pointIndex">インデックス</param>
 	/// <param name="fixPoint">固定するか</param>
-	virtual void SetAnchor(uint32_t pointIndex, bool fixPoint);
+	virtual void SetAnchor(uint32_t y, uint32_t x, bool fixPoint);
 
 	/// <summary>
 	/// 位置設定
 	/// </summary>
 	/// <param name="pointIndex">インデックス</param>
 	/// <param name="position">位置</param>
-	virtual void SetPosition(uint32_t pointIndex, const Vector3& position);
+	virtual void SetPosition(uint32_t y, uint32_t x, const Vector3& position);
 
 	/// <summary>
 	/// コライダー登録

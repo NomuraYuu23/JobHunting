@@ -101,7 +101,6 @@ void StructuralSpring::Update(
 void StructuralSpring::PositionLimit()
 {
 
-
 	float length = Vector3::Length(Vector3::Subtract(point1_.position, point0_.position));
 
 	if (length <= lengthMax_) {
@@ -115,5 +114,55 @@ void StructuralSpring::PositionLimit()
 	Vector3 addPos = Vector3::Normalize(Vector3::Subtract(point1_.position, point0_.position)) * length;
 
 	point1_.position = point0_.position + addPos;
+
+}
+
+void StructuralSpring::SetName(const std::string& name)
+{
+
+	name_ = name;
+
+	std::string kinds = "";
+	std::string axis = "";
+	std::string y = "";
+	std::string x = "";
+	size_t tmpIndex = 0;
+
+	// 名前取得
+	std::string nameTmp = name_;
+
+	// 名前分割
+
+	// "_"の位置を取得
+	tmpIndex = nameTmp.find_first_of("_", 0);
+	// "_"のひとつ前までを代入
+	kinds = nameTmp.substr(0, tmpIndex - 1);
+	// 名前を"_"の一つ先からに変更する
+	nameTmp = nameTmp.substr(tmpIndex + 1);
+
+	// "_"の位置を取得
+	tmpIndex = nameTmp.find_first_of("_", 0);
+	// "_"のひとつ前までを代入
+	axis = nameTmp.substr(0, tmpIndex - 1);
+	// 名前を"_"の一つ先からに変更する
+	nameTmp = nameTmp.substr(tmpIndex + 1);
+
+	// "_"の位置を取得
+	tmpIndex = nameTmp.find_first_of("_", 0);
+	// "_"のひとつ前までを代入
+	y = nameTmp.substr(0, tmpIndex - 1);
+	// 名前を"_"の一つ先からに変更する
+	nameTmp = nameTmp.substr(tmpIndex + 1);
+
+	// "_"の位置を取得
+	tmpIndex = nameTmp.find_first_of("_", 0);
+	// "_"のひとつ前までを代入
+	x = nameTmp.substr(0, tmpIndex - 1);
+	// 名前を"_"の一つ先からに変更する
+	nameTmp = nameTmp.substr(tmpIndex + 1);
+
+
+	y_ = atoi(y.c_str());
+	x_ = atoi(x.c_str());
 
 }
