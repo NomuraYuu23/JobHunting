@@ -55,6 +55,7 @@ public: // アクセッサ
 	bool GetFixPoint0() { return fixPoint0_; }
 	bool GetFixPoint1() { return fixPoint1_; }
 	std::string GetName() { return name_; }
+	StructuralSpring* GetParent() { return parent_; }
 
 private: // 変数
 

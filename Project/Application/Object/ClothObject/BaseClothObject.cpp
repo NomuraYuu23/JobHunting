@@ -163,3 +163,69 @@ void BaseClothObject::Initialize(LevelData::MeshData* data)
 	}
 
 }
+
+void BaseClothObject::Update()
+{
+
+	MeshObject::Update();
+
+	// 変数
+	std::vector<StructuralSpring> spring = structuralSpring_; // バネ
+
+	// それ以外を更新
+	for (uint32_t i = 0; i < structuralSpring_.size(); ++i) {
+
+		StructuralSpring* parent = structuralSpring_[i].GetParent();
+
+		if (parent) {
+			structuralSpring_[i].SetPoint0(parent->GetPoint1());
+		}
+		structuralSpring_[i].Update();
+	}
+
+	// ずれを直す
+	MassPoint massPointTmp;
+	MassPoint massPoint1Tmp;
+	MassPoint massPoint0Tmp;
+	for (uint32_t i = 0; i < structuralSpring_.size() - 1; ++i) {
+
+		structuralSpring_[i].PositionLimit();
+
+		massPoint1Tmp = structuralSpring_[i].GetPoint1();
+		massPoint0Tmp = structuralSpring_[i].GetParent()->GetPoint0();
+
+		massPointTmp.position = (massPoint1Tmp.position + massPoint0Tmp.position) * 0.5f;
+		massPointTmp.acceleration = (massPoint1Tmp.acceleration + massPoint0Tmp.acceleration) * 0.5f;
+		massPointTmp.velocity = (massPoint1Tmp.velocity + massPoint0Tmp.velocity) * 0.5f;
+		massPointTmp.force = (massPoint1Tmp.force + massPoint0Tmp.force) * 0.5f;
+		massPointTmp.mass = (massPoint1Tmp.mass + massPoint0Tmp.mass) * 0.5f;
+
+		structuralSpring_[i].SetPoint1(massPointTmp);
+		structuralSpring_[i].GetParent()->SetPoint0(massPointTmp);
+
+	}
+
+	// 行列計算
+	std::vector<Matrix4x4> matrixes;
+	matrixes.resize(localMatrixManager_->GetNum());
+
+	// 余分な部分
+	for (uint32_t i = 0; i < kExtraMatrixNum; ++i) {
+		matrixes[i] = Matrix4x4::MakeIdentity4x4();
+	}
+	// 基礎位置
+	Vector3 basePosition = structuralSpring_[0].GetPoint0().position;
+
+	for (uint32_t i = kExtraMatrixNum; i < matrixes.size(); ++i) {
+		matrixes[i] = Matrix4x4::MakeTranslateMatrix(structuralSpring_[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(i) - kExtraMatrixNum].GetPoint0().position - basePosition);
+		basePosition = structuralSpring_[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(i) - kExtraMatrixNum].GetPoint0().position;
+	}
+
+	// ワールドトランスフォーム
+	localMatrixManager_->SetNodeLocalMatrix(matrixes);
+
+	localMatrixManager_->Map();
+	worldTransform_.transform_.translate = structuralSpring_[0].GetPoint0().position;
+	worldTransform_.UpdateMatrix();
+
+}
