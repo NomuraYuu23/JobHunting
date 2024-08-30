@@ -463,6 +463,9 @@
     <Filter Include="Application\Object\String">
       <UniqueIdentifier>{852c053a-ada1-4e32-ae99-48e5bb028de1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Cloth">
+      <UniqueIdentifier>{84135c1b-2d35-4373-8a67-dfe3bb5821dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1052,6 +1055,9 @@
       <Filter>Application\Object\String</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\StringObject\PlayerMuffler\PlayerMuffler.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\ClothObject\BaseClothObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1798,6 +1804,9 @@
       <Filter>Application\Object\String</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\StringObject\PlayerMuffler\PlayerMuffler.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\ClothObject\BaseClothObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

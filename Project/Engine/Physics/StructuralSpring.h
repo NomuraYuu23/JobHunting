@@ -44,6 +44,8 @@ public: // アクセッサ
 	void SetDampingCoefficient(float dampingCoefficient) { dampingCoefficient_ = dampingCoefficient; }
 	void SetFixPoint0(bool fixPoint0) { fixPoint0_ = fixPoint0; }
 	void SetFixPoint1(bool fixPoint1) { fixPoint1_ = fixPoint1; }
+	void SetName(const std::string& name) { name_ = name; }
+	void SetParent(StructuralSpring* parent) { parent_ = parent; }
 
 	MassPoint GetPoint0() { return point0_; }
 	MassPoint GetPoint1() { return point1_; }
@@ -52,6 +54,7 @@ public: // アクセッサ
 	float GetDampingCoefficient() { return dampingCoefficient_; }
 	bool GetFixPoint0() { return fixPoint0_; }
 	bool GetFixPoint1() { return fixPoint1_; }
+	std::string GetName() { return name_; }
 
 private: // 変数
 
@@ -73,6 +76,12 @@ private: // 変数
 
 	// 最大距離
 	float lengthMax_;
+
+	// 名前
+	std::string name_;
+
+	// 親
+	StructuralSpring* parent_;
 
 };
 

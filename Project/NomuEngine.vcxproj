@@ -166,6 +166,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\GPUParticle\FieldSparksParticle.cpp" />
     <ClCompile Include="Application\GPUParticle\PillarSmokeParticle.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitingForBattle.cpp" />
+    <ClCompile Include="Application\Object\ClothObject\BaseClothObject.cpp" />
     <ClCompile Include="Application\Object\Obstacle\Block\Block.cpp" />
     <ClCompile Include="Application\Object\Bonfire\Bonfire.cpp" />
     <ClCompile Include="Application\Camera\FollowCamera.cpp" />
@@ -364,6 +365,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\GPUParticle\FieldSparksParticle.h" />
     <ClInclude Include="Application\GPUParticle\PillarSmokeParticle.h" />
     <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitingForBattle.h" />
+    <ClInclude Include="Application\Object\ClothObject\BaseClothObject.h" />
     <ClInclude Include="Application\Object\Obstacle\Block\Block.h" />
     <ClInclude Include="Application\Object\Bonfire\Bonfire.h" />
     <ClInclude Include="Application\Camera\FollowCamera.h" />
