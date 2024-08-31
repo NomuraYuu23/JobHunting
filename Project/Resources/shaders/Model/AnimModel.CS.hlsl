@@ -54,6 +54,15 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 		float32_t4x4 comb = (float32_t4x4)0;
 		float32_t4x4 combInverseTranspose = (float32_t4x4)0;
 
+		float32_t wWegit = w[0] + w[1] + w[2] + w[3];
+
+		if (wWegit != 0.0f) {
+			w[0] *= rcp(wWegit);
+			w[1] *= rcp(wWegit);
+			w[2] *= rcp(wWegit);
+			w[3] *= rcp(wWegit);
+		}
+
 		for (uint32_t i = 0; i < 4; ++i) {
 			comb += gLocalMatrixes[id[i]].Matrix * w[i];
 			combInverseTranspose += gLocalMatrixes[id[i]].MatrixInverseTranspose * w[i];

@@ -731,13 +731,14 @@
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":0,
-						"TEXCOORD_0":1,
-						"NORMAL":2,
-						"JOINTS_0":3,
-						"WEIGHTS_0":4
+						"COLOR_0":0,
+						"POSITION":1,
+						"TEXCOORD_0":2,
+						"NORMAL":3,
+						"JOINTS_0":4,
+						"WEIGHTS_0":5
 					},
-					"indices":5,
+					"indices":6,
 					"material":0
 				}
 			]
@@ -758,7 +759,7 @@
 	],
 	"skins":[
 		{
-			"inverseBindMatrices":6,
+			"inverseBindMatrices":7,
 			"joints":[
 				24,
 				18,
@@ -817,6 +818,13 @@
 	"accessors":[
 		{
 			"bufferView":0,
+			"componentType":5123,
+			"count":150,
+			"normalized":true,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":1,
 			"componentType":5126,
 			"count":150,
 			"max":[
@@ -832,37 +840,37 @@
 			"type":"VEC3"
 		},
 		{
-			"bufferView":1,
+			"bufferView":2,
 			"componentType":5126,
 			"count":150,
 			"type":"VEC2"
 		},
 		{
-			"bufferView":2,
+			"bufferView":3,
 			"componentType":5126,
 			"count":150,
 			"type":"VEC3"
 		},
 		{
-			"bufferView":3,
+			"bufferView":4,
 			"componentType":5121,
 			"count":150,
 			"type":"VEC4"
 		},
 		{
-			"bufferView":4,
+			"bufferView":5,
 			"componentType":5126,
 			"count":150,
 			"type":"VEC4"
 		},
 		{
-			"bufferView":5,
+			"bufferView":6,
 			"componentType":5123,
 			"count":576,
 			"type":"SCALAR"
 		},
 		{
-			"bufferView":6,
+			"bufferView":7,
 			"componentType":5126,
 			"count":50,
 			"type":"MAT4"
@@ -871,44 +879,50 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":1800,
+			"byteLength":1200,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1200,
-			"byteOffset":1800,
+			"byteLength":1800,
+			"byteOffset":1200,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1800,
+			"byteLength":1200,
 			"byteOffset":3000,
 			"target":34962
 		},
 		{
 			"buffer":0,
+			"byteLength":1800,
+			"byteOffset":4200,
+			"target":34962
+		},
+		{
+			"buffer":0,
 			"byteLength":600,
-			"byteOffset":4800,
+			"byteOffset":6000,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":2400,
-			"byteOffset":5400,
+			"byteOffset":6600,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":1152,
-			"byteOffset":7800,
+			"byteOffset":9000,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":3200,
-			"byteOffset":8952
+			"byteOffset":10152
 		}
 	],
 	"samplers":[
@@ -919,7 +933,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":12152,
+			"byteLength":13352,
 			"uri":"Flag.bin"
 		}
 	]

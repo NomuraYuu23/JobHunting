@@ -90,5 +90,11 @@ protected:
 	// 質量(質点)
 	float mass_ = 0.5f;
 
+	// サイズY
+	uint32_t sizeY_ = 2;
+	// サイズX
+	uint32_t sizeX_ = 2;
+
+
 };
 

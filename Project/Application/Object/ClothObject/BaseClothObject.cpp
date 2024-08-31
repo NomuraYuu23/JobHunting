@@ -50,6 +50,9 @@ void BaseClothObject::Initialize(LevelData::MeshData* data)
 		structuralSpring_[0].SetNaturalLength(naturalLengthX_);
 	}
 
+	sizeY_ = structuralSpring_[0].GetY();
+	sizeX_ = structuralSpring_[0].GetX();
+
 	for (uint32_t i = 1; i < structuralSpring_.size(); ++i) {
 		structuralSpring_[i].Initialize(
 			initMassPoint,
@@ -61,6 +64,14 @@ void BaseClothObject::Initialize(LevelData::MeshData* data)
 		
 		if (structuralSpring_[i].GetAxis() == "X") {
 			structuralSpring_[i].SetNaturalLength(naturalLengthX_);
+		}
+
+		if (sizeY_ < structuralSpring_[i].GetY()) {
+			sizeY_ = structuralSpring_[i].GetY();
+		}
+
+		if (sizeX_ < structuralSpring_[i].GetX()) {
+			sizeX_ = structuralSpring_[i].GetX();
 		}
 	
 	}
@@ -159,38 +170,144 @@ void BaseClothObject::Update()
 		if (parent) {
 			structuralSpring_[i].SetPoint0(parent->GetPoint1());
 		}
-		structuralSpring_[i].Update(/*Vector3{100.0f,0.0f,0.0f}*/);
+		structuralSpring_[i].Update(Vector3{100.0f,0.0f,0.0f});
 	}
 
-
-	// 紐とは逆で考える
 	// ずれを直す
-	//MassPoint massPointTmp;
-	//MassPoint massPoint1Tmp;
-	//MassPoint massPoint0Tmp;
-	//for (uint32_t i = 0; i < structuralSpring_.size(); ++i) {
 
-	//	StructuralSpring* parent = structuralSpring_[i].GetParent();
+	for (uint32_t y = 0; y <= sizeY_; ++y) {
+		for (uint32_t x = 0; x <= sizeX_; ++x) {
+	
 
-	//	if (!parent) {
-	//		continue;
-	//	}
+			MassPoint massPointTmp{};
 
-	//	structuralSpring_[i].PositionLimit();
+			StructuralSpring* downStructuralSpring = nullptr;
+			MassPoint downMassPointTmp{};
+			StructuralSpring* rightStructuralSpring = nullptr;
+			MassPoint rightMassPointTmp{};
+			StructuralSpring* upStructuralSpring = nullptr;
+			MassPoint upMassPointTmp{};
+			StructuralSpring* leftStructuralSpring = nullptr;
+			MassPoint leftMassPointTmp{};
 
-	//	massPoint1Tmp = parent->GetPoint1();
-	//	massPoint0Tmp = structuralSpring_[i].GetPoint0();
+			// ポインタを埋める
+			for (uint32_t i = 0; i < structuralSpring_.size(); ++i) {
 
-	//	massPointTmp.position = (massPoint1Tmp.position + massPoint0Tmp.position) * 0.5f;
-	//	massPointTmp.acceleration = (massPoint1Tmp.acceleration + massPoint0Tmp.acceleration) * 0.5f;
-	//	massPointTmp.velocity = (massPoint1Tmp.velocity + massPoint0Tmp.velocity) * 0.5f;
-	//	massPointTmp.force = (massPoint1Tmp.force + massPoint0Tmp.force) * 0.5f;
-	//	massPointTmp.mass = (massPoint1Tmp.mass + massPoint0Tmp.mass) * 0.5f;
+				if (structuralSpring_[i].GetY() == y &&
+					structuralSpring_[i].GetX() == x &&
+					structuralSpring_[i].GetAxis() == "Y") {
 
-	//	parent->SetPoint1(massPointTmp);
-	//	structuralSpring_[i].SetPoint0(massPointTmp);
+					downStructuralSpring = &structuralSpring_[i];
+					downMassPointTmp = structuralSpring_[i].GetPoint0();
 
-	//}
+				}
+				else if (
+					structuralSpring_[i].GetY() == y &&
+					structuralSpring_[i].GetX() == x &&
+					structuralSpring_[i].GetAxis() == "X") {
+				
+					rightStructuralSpring = &structuralSpring_[i];
+					rightMassPointTmp = structuralSpring_[i].GetPoint0();
+				
+				}
+				else if (
+					structuralSpring_[i].GetY() == y - 1 &&
+					structuralSpring_[i].GetX() == x &&
+					structuralSpring_[i].GetAxis() == "Y") {
+
+					upStructuralSpring = &structuralSpring_[i];
+					upMassPointTmp = structuralSpring_[i].GetPoint1();
+
+				}
+				else if (
+					structuralSpring_[i].GetY() == y &&
+					structuralSpring_[i].GetX() == x - 1 &&
+					structuralSpring_[i].GetAxis() == "X") {
+					
+					leftStructuralSpring = &structuralSpring_[i];
+					leftMassPointTmp = structuralSpring_[i].GetPoint1();
+
+				}
+			}
+
+			// ずれ修正
+			float weight = 1.0f;
+			float structuralSpringNum = 0;
+			if (downStructuralSpring) {
+				//downStructuralSpring->PositionLimit();
+
+				massPointTmp.position += downMassPointTmp.position;
+				massPointTmp.acceleration += downMassPointTmp.acceleration;
+				massPointTmp.velocity += downMassPointTmp.velocity;
+				massPointTmp.force += downMassPointTmp.force;
+				massPointTmp.mass += downMassPointTmp.mass;
+
+				structuralSpringNum += 1.0f;
+
+			}
+
+			if (rightStructuralSpring) {
+				//rightStructuralSpring->PositionLimit();
+
+				massPointTmp.position += rightMassPointTmp.position;
+				massPointTmp.acceleration += rightMassPointTmp.acceleration;
+				massPointTmp.velocity += rightMassPointTmp.velocity;
+				massPointTmp.force += rightMassPointTmp.force;
+				massPointTmp.mass += rightMassPointTmp.mass;
+
+				structuralSpringNum += 1.0f;
+
+			}
+
+			if (upStructuralSpring) {
+				//upStructuralSpring->PositionLimit();
+
+				massPointTmp.position += upMassPointTmp.position;
+				massPointTmp.acceleration += upMassPointTmp.acceleration;
+				massPointTmp.velocity += upMassPointTmp.velocity;
+				massPointTmp.force += upMassPointTmp.force;
+				massPointTmp.mass += upMassPointTmp.mass;
+
+				structuralSpringNum += 1.0f;
+
+			}
+
+			if (leftStructuralSpring) {
+				//leftStructuralSpring->PositionLimit();
+
+				massPointTmp.position += leftMassPointTmp.position;
+				massPointTmp.acceleration += leftMassPointTmp.acceleration;
+				massPointTmp.velocity += leftMassPointTmp.velocity;
+				massPointTmp.force += leftMassPointTmp.force;
+				massPointTmp.mass += leftMassPointTmp.mass;
+
+				structuralSpringNum += 1.0f;
+
+			}
+
+			weight /= structuralSpringNum;
+
+			massPointTmp.position *= weight;
+			massPointTmp.acceleration *= weight;
+			massPointTmp.velocity *= weight;
+			massPointTmp.force *= weight;
+			massPointTmp.mass *= weight;
+
+			if (downStructuralSpring) {
+				downStructuralSpring->SetPoint0(massPointTmp);
+			}
+			if (rightStructuralSpring) {
+				rightStructuralSpring->SetPoint0(massPointTmp);
+			}
+			if (upStructuralSpring) {
+				upStructuralSpring->SetPoint1(massPointTmp);
+			}
+			if (leftStructuralSpring) {
+				leftStructuralSpring->SetPoint1(massPointTmp);
+			}
+
+		}
+	}
 
 	// 行列計算
 	std::vector<Matrix4x4> matrixes;
