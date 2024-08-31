@@ -78,7 +78,8 @@ protected:
 	Vector3 anchorInitPosition_ = {};
 
 	// 自然長
-	float naturalLength_ = 0.1f;
+	float naturalLengthY_ = 0.1f;
+	float naturalLengthX_ = 0.1f;
 
 	// 剛性。バネ定数k
 	float stiffness_ = 750.0f;
