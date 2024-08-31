@@ -62,6 +62,7 @@ public: // アクセッサ
 	uint32_t GetY() { return y_; }
 	uint32_t GetX() { return x_; }
 	std::string GetAxis() { return axis_; }
+	std::string GetKinds() { return kinds_; }
 
 private: // 変数
 
@@ -97,6 +98,9 @@ private: // 変数
 
 	// axis
 	std::string axis_ = "";
+
+	// kinds 
+	std::string kinds_ = "";
 
 };
 

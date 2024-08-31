@@ -3089,6 +3089,43 @@
                     2.0
                 ]
             }
+        },
+        {
+            "type": "MESH",
+            "name": "Flag",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -312.99853515625,
+                    8.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "Flag.gltf",
+            "directoryPath": "Resources/Model/Flag",
+            "className": "Flag",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            }
         }
     ]
 }

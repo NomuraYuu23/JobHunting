@@ -53,66 +53,35 @@ void BaseClothObject::Initialize(LevelData::MeshData* data)
 			naturalLength_,
 			stiffness_,
 			dampingCoefficient_);
-		structuralSpring_[0].SetName(localMatrixNames[kExtraMatrixNum + static_cast<std::vector<std::string, std::allocator<std::string>>::size_type>(i)]);
+		structuralSpring_[i].SetName(localMatrixNames[kExtraMatrixNum + static_cast<std::vector<std::string, std::allocator<std::string>>::size_type>(i)]);
 	}
 
 	// 位置と親を設定
-	std::string kinds = "";
-	std::string axis = "";
-	std::string y = "";
-	std::string x = "";
-	size_t tmpIndex = 0;
-
 	for (uint32_t i = 0; i < structuralSpring_.size(); ++i) {
 
 		// 名前取得
 		std::string name = structuralSpring_[i].GetName();
-
-		// 名前分割
-
-		// "_"の位置を取得
-		tmpIndex = name.find_first_of("_", 0);
-		// "_"のひとつ前までを代入
-		kinds =	name.substr(0, tmpIndex - 1);
-		// 名前を"_"の一つ先からに変更する
-		name = name.substr(tmpIndex + 1);
-
-		// "_"の位置を取得
-		tmpIndex = name.find_first_of("_", 0);
-		// "_"のひとつ前までを代入
-		axis = name.substr(0, tmpIndex - 1);
-		// 名前を"_"の一つ先からに変更する
-		name = name.substr(tmpIndex + 1);
-
-		// "_"の位置を取得
-		tmpIndex = name.find_first_of("_", 0);
-		// "_"のひとつ前までを代入
-		y = name.substr(0, tmpIndex - 1);
-		// 名前を"_"の一つ先からに変更する
-		name = name.substr(tmpIndex + 1);
-
-		// "_"の位置を取得
-		tmpIndex = name.find_first_of("_", 0);
-		// "_"のひとつ前までを代入
-		x = name.substr(0, tmpIndex - 1);
-		// 名前を"_"の一つ先からに変更する
-		name = name.substr(tmpIndex + 1);
+		
+		std::string kinds = structuralSpring_[i].GetKinds();
+		std::string axis = structuralSpring_[i].GetAxis();
+		uint32_t y = structuralSpring_[i].GetY();
+		uint32_t x = structuralSpring_[i].GetX();
 
 		// 位置
 		initMassPoint.position = anchorInitPosition_;
 		initMassPoint1.position = anchorInitPosition_;
 
-		if (axis.c_str() == "X") {
-			initMassPoint.position.y += -naturalLength_ * static_cast<float>(atoi(y.c_str()));
-			initMassPoint.position.x += naturalLength_ * static_cast<float>(atoi(x.c_str()));
-			initMassPoint1.position.y += -naturalLength_ * static_cast<float>(atoi(y.c_str()));
-			initMassPoint1.position.x += naturalLength_ * static_cast<float>((atoi(x.c_str()) + 1));
+		if (axis == "X") {
+			initMassPoint.position.y += -naturalLength_ * static_cast<float>(y);
+			initMassPoint.position.x += naturalLength_ * static_cast<float>(x);
+			initMassPoint1.position.y += -naturalLength_ * static_cast<float>(y);
+			initMassPoint1.position.x += naturalLength_ * static_cast<float>(x + 1);
 		}
 		else {
-			initMassPoint.position.y += -naturalLength_ * static_cast<float>(atoi(y.c_str()));
-			initMassPoint.position.x += naturalLength_ * static_cast<float>(atoi(x.c_str()));
-			initMassPoint1.position.y += -naturalLength_ * static_cast<float>((atoi(y.c_str()) + 1));
-			initMassPoint1.position.x += naturalLength_ * static_cast<float>(atoi(x.c_str()));
+			initMassPoint.position.y += -naturalLength_ * static_cast<float>(y);
+			initMassPoint.position.x += naturalLength_ * static_cast<float>(x);
+			initMassPoint1.position.y += -naturalLength_ * static_cast<float>(y + 1);
+			initMassPoint1.position.x += naturalLength_ * static_cast<float>(x);
 		}
 
 		structuralSpring_[i].SetPoint0(initMassPoint);
@@ -120,32 +89,32 @@ void BaseClothObject::Initialize(LevelData::MeshData* data)
 
 		// 親
 		// 親がいる
-		if (!(y.c_str() == "0" && x.c_str() == "0")) {
+		if (!(y == 0 && x == 0)) {
 
 			// 親の名前設定
 			std::string parentName = "";
 
 			// axis == Y && y == 0
-			if (axis.c_str() == "Y" && y.c_str() == "0") {
-				x = std::to_string(atoi(x.c_str()) - 1);
+			if (axis.c_str() == "Y" && y == 0) {
+				x--;
 				axis = "X";
 			}
 			// axis == X && x == 0
-			else if (axis.c_str() == "X" && x.c_str() == "0") {
-				y = std::to_string(atoi(y.c_str()) - 1);
+			else if (axis.c_str() == "X" && x == 0) {
+				y--;
 				axis = "Y";
 			}
 			else {
 				if (axis == "X") {
-					x = std::to_string(atoi(x.c_str()) - 1);
+					x--;
 				}
 				else {
-					y = std::to_string(atoi(y.c_str()) - 1);
+					y--;
 				}
 			}
 			
 			// 親の名前設定
-			parentName = kinds + "_" + axis + "_" + y + "_" + x;
+			parentName = kinds + "_" + axis + "_" + std::to_string(y) + "_" + std::to_string(x);
 
 			// 親設定
 			size_t parentNum = 0;
@@ -184,16 +153,24 @@ void BaseClothObject::Update()
 		structuralSpring_[i].Update();
 	}
 
+
+	// 紐とは逆で考える
 	// ずれを直す
 	MassPoint massPointTmp;
 	MassPoint massPoint1Tmp;
 	MassPoint massPoint0Tmp;
-	for (uint32_t i = 0; i < structuralSpring_.size() - 1; ++i) {
+	for (uint32_t i = 0; i < structuralSpring_.size(); ++i) {
+
+		StructuralSpring* parent = structuralSpring_[i].GetParent();
+
+		if (!parent) {
+			continue;
+		}
 
 		structuralSpring_[i].PositionLimit();
 
-		massPoint1Tmp = structuralSpring_[i].GetPoint1();
-		massPoint0Tmp = structuralSpring_[i].GetParent()->GetPoint0();
+		massPoint1Tmp = parent->GetPoint1();
+		massPoint0Tmp = structuralSpring_[i].GetPoint0();
 
 		massPointTmp.position = (massPoint1Tmp.position + massPoint0Tmp.position) * 0.5f;
 		massPointTmp.acceleration = (massPoint1Tmp.acceleration + massPoint0Tmp.acceleration) * 0.5f;
@@ -201,8 +178,8 @@ void BaseClothObject::Update()
 		massPointTmp.force = (massPoint1Tmp.force + massPoint0Tmp.force) * 0.5f;
 		massPointTmp.mass = (massPoint1Tmp.mass + massPoint0Tmp.mass) * 0.5f;
 
-		structuralSpring_[i].SetPoint1(massPointTmp);
-		structuralSpring_[i].GetParent()->SetPoint0(massPointTmp);
+		parent->SetPoint1(massPointTmp);
+		structuralSpring_[i].SetPoint0(massPointTmp);
 
 	}
 

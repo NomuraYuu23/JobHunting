@@ -122,8 +122,6 @@ void StructuralSpring::SetName(const std::string& name)
 
 	name_ = name;
 
-	std::string kinds = "";
-	std::string axis = "";
 	std::string y = "";
 	std::string x = "";
 	size_t tmpIndex = 0;
@@ -136,35 +134,33 @@ void StructuralSpring::SetName(const std::string& name)
 	// "_"の位置を取得
 	tmpIndex = nameTmp.find_first_of("_", 0);
 	// "_"のひとつ前までを代入
-	kinds = nameTmp.substr(0, tmpIndex - 1);
+	kinds_ = nameTmp.substr(0, tmpIndex);
 	// 名前を"_"の一つ先からに変更する
 	nameTmp = nameTmp.substr(tmpIndex + 1);
 
 	// "_"の位置を取得
 	tmpIndex = nameTmp.find_first_of("_", 0);
 	// "_"のひとつ前までを代入
-	axis = nameTmp.substr(0, tmpIndex - 1);
+	axis_ = nameTmp.substr(0, tmpIndex );
 	// 名前を"_"の一つ先からに変更する
 	nameTmp = nameTmp.substr(tmpIndex + 1);
 
 	// "_"の位置を取得
 	tmpIndex = nameTmp.find_first_of("_", 0);
 	// "_"のひとつ前までを代入
-	y = nameTmp.substr(0, tmpIndex - 1);
+	y = nameTmp.substr(0, tmpIndex);
 	// 名前を"_"の一つ先からに変更する
 	nameTmp = nameTmp.substr(tmpIndex + 1);
 
 	// "_"の位置を取得
 	tmpIndex = nameTmp.find_first_of("_", 0);
 	// "_"のひとつ前までを代入
-	x = nameTmp.substr(0, tmpIndex - 1);
+	x = nameTmp.substr(0, tmpIndex);
 	// 名前を"_"の一つ先からに変更する
 	nameTmp = nameTmp.substr(tmpIndex + 1);
 
 
 	y_ = atoi(y.c_str());
 	x_ = atoi(x.c_str());
-
-	axis_ = axis;
 
 }
