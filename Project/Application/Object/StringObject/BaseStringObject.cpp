@@ -129,15 +129,19 @@ void BaseStringObject::Update()
 void BaseStringObject::Draw(BaseCamera& camera)
 {
 
-	ModelDraw::AnimObjectDesc desc;
-	desc.camera = &camera;
-	desc.localMatrixManager = localMatrixManager_.get();
-	desc.material = material_.get();
-	desc.model = model_;
-	desc.worldTransform = &worldTransform_;
-	ModelDraw::AnimObjectDraw(desc);
-
-	DebugDrawMap(DrawLine::GetInstance());
+//	ModelDraw::AnimObjectDesc desc;
+//	desc.camera = &camera;
+//	desc.localMatrixManager = localMatrixManager_.get();
+//	desc.material = material_.get();
+//	desc.model = model_;
+//	desc.worldTransform = &worldTransform_;
+//	ModelDraw::AnimObjectDraw(desc);
+//
+//#ifdef _DEMO
+//
+//	DebugDrawMap(DrawLine::GetInstance());
+//
+//#endif // _DEMO
 
 }
 

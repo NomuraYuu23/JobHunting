@@ -350,7 +350,11 @@ void BaseClothObject::Draw(BaseCamera& camera)
 	desc.worldTransform = &worldTransform_;
 	ModelDraw::AnimObjectDraw(desc);
 
+#ifdef _DEMO
+
 	DebugDrawMap(DrawLine::GetInstance());
+
+#endif // _DEMO
 
 }
 
