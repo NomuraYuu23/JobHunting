@@ -466,6 +466,9 @@
     <Filter Include="Application\Object\Cloth">
       <UniqueIdentifier>{84135c1b-2d35-4373-8a67-dfe3bb5821dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Object\Obstacle\FlagPole">
+      <UniqueIdentifier>{7a94fe2e-dfbb-4d5d-910b-0e0003fbaf08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1061,6 +1064,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\ClothObject\Flag\Flag.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1813,6 +1819,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\ClothObject\Flag\Flag.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -25,6 +25,7 @@ public: // サブクラス,定数
 		kCreateObjectIndexBossFog, // ボス霧
 		kCreateObjectIndexPlayerMuffler, // プレイヤーマフラー
 		kCreateObjectIndexFlag, // 旗
+		kCreateObjectIndexFlagPole, // 旗棒
 		kCreateObjectIndexOfCount, // 数数える用
 
 	};
@@ -165,6 +166,13 @@ private: // メンバ関数
 	/// <param name="objectData">オブジェクトデータ</param>
 	/// <returns>オブジェクト</returns>
 	static IObject* CreateObjectFlag(LevelData::ObjectData& objectData);
+
+	/// <summary>
+	/// 旗棒
+	/// </summary>
+	/// <param name="objectData">オブジェクトデータ</param>
+	/// <returns>オブジェクト</returns>
+	static IObject* CreateObjectFlagPole(LevelData::ObjectData& objectData);
 
 private:
 

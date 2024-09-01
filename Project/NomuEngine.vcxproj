@@ -196,6 +196,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Character\Enemy\Ghost\IGhostState.cpp" />
     <ClCompile Include="Application\GPUParticle\BonfireParticle.cpp" />
     <ClCompile Include="Application\Object\Obstacle\BossFog\BossFog.cpp" />
+    <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole.cpp" />
     <ClCompile Include="Application\Object\Obstacle\Ground\Ground.cpp" />
     <ClCompile Include="Application\Object\Manager\GameSceneObjectManager.cpp" />
     <ClCompile Include="Application\Object\ObjectFactory.cpp" />
@@ -400,6 +401,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Character\Enemy\Ghost\IGhostState.h" />
     <ClInclude Include="Application\GPUParticle\BonfireParticle.h" />
     <ClInclude Include="Application\Object\Obstacle\BossFog\BossFog.h" />
+    <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole.h" />
     <ClInclude Include="Application\Object\Obstacle\Ground\Ground.h" />
     <ClInclude Include="Application\Object\Manager\GameSceneObjectManager.h" />
     <ClInclude Include="Application\Object\ObjectFactory.h" />

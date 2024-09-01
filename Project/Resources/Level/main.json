@@ -3113,6 +3113,7 @@
             "fileName": "Flag.gltf",
             "directoryPath": "Resources/Model/Flag",
             "className": "Flag",
+            "parentName": "FlagPole",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3124,6 +3125,43 @@
                     2.0,
                     2.0,
                     2.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "FlagPole",
+            "transform": {
+                "translation": [
+                    17.160810470581055,
+                    -292.18182373046875,
+                    1.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "FlagPole.obj",
+            "directoryPath": "Resources/Model/FlagPole",
+            "className": "FlagPole",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    4.5
+                ],
+                "size": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    9.0
                 ]
             }
         }
