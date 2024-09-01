@@ -1,5 +1,6 @@
 #include "Flag.h"
 #include <random>
+#include "../../Obstacle/FlagPole/FlagPole.h"
 
 void Flag::Initialize(LevelData::MeshData* data)
 {
@@ -28,9 +29,9 @@ void Flag::Update()
 {
 
 	// アンカー処理
-	SetPosition(0, 0, worldTransform_.GetWorldPosition());
+	SetPosition(0, 0, parent_->GetUpperPart());
 	SetAnchor(0, 0, true);
-	SetPosition(4, 0, worldTransform_.GetWorldPosition() + Vector3{0.0f, -naturalLengthY_ * 4.0f, 0.0f });
+	SetPosition(4, 0, parent_->GetLowerPart());
 	SetAnchor(4, 0, true);
 
 	std::random_device seedGenerator;

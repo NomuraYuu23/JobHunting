@@ -269,6 +269,10 @@ IObject* ObjectFactory::CreateObjectFlag(LevelData::ObjectData& objectData)
 	IObject* object = new Flag();
 	// 初期化
 	static_cast<Flag*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	// 親セット
+	static_cast<Flag*>(object)->SetParent(
+		static_cast<FlagPole*>(objectManager_->GetObjectPointer(
+			static_cast<Flag*>(object)->GetParentName())));
 	return object;
 }
 

@@ -1,6 +1,8 @@
 #pragma once
 #include "../BaseClothObject.h"
 
+class FlagPole;
+
 class Flag :
     public BaseClothObject
 {
@@ -18,10 +20,16 @@ public:
 	/// </summary>
 	void Update() override;
 
+	/// <summary>
+	/// 親設定
+	/// </summary>
+	/// <param name="parent">親</param>
+	void SetParent(FlagPole* parent) { parent_ = parent; }
+
 private:
 
-	// プレイヤーからのローカル位置
-	Vector3 localPosition_ = { 0.0f,0.0f,0.0f };
+	// 親
+	FlagPole* parent_;
 
 };
 
