@@ -95,6 +95,9 @@ protected:
 	// サイズX
 	uint32_t sizeX_ = 2;
 
+	// 風
+	Vector3 wind_ = { 0.0f,0.0f,0.0f };
+
 
 };
 

@@ -170,7 +170,7 @@ void BaseClothObject::Update()
 		if (parent) {
 			structuralSpring_[i].SetPoint0(parent->GetPoint1());
 		}
-		structuralSpring_[i].Update(/*Vector3{100.0f,0.0f,0.0f}*/);
+		structuralSpring_[i].Update(wind_);
 	}
 
 	// ずれを直す
