@@ -170,7 +170,7 @@ void BaseClothObject::Update()
 		if (parent) {
 			structuralSpring_[i].SetPoint0(parent->GetPoint1());
 		}
-		structuralSpring_[i].Update(Vector3{100.0f,0.0f,0.0f});
+		structuralSpring_[i].Update(/*Vector3{100.0f,0.0f,0.0f}*/);
 	}
 
 	// ずれを直す
@@ -234,7 +234,6 @@ void BaseClothObject::Update()
 			float weight = 1.0f;
 			float structuralSpringNum = 0;
 			if (downStructuralSpring) {
-				//downStructuralSpring->PositionLimit();
 
 				massPointTmp.position += downMassPointTmp.position;
 				massPointTmp.acceleration += downMassPointTmp.acceleration;
@@ -247,7 +246,6 @@ void BaseClothObject::Update()
 			}
 
 			if (rightStructuralSpring) {
-				//rightStructuralSpring->PositionLimit();
 
 				massPointTmp.position += rightMassPointTmp.position;
 				massPointTmp.acceleration += rightMassPointTmp.acceleration;
@@ -260,7 +258,6 @@ void BaseClothObject::Update()
 			}
 
 			if (upStructuralSpring) {
-				//upStructuralSpring->PositionLimit();
 
 				massPointTmp.position += upMassPointTmp.position;
 				massPointTmp.acceleration += upMassPointTmp.acceleration;
@@ -273,7 +270,6 @@ void BaseClothObject::Update()
 			}
 
 			if (leftStructuralSpring) {
-				//leftStructuralSpring->PositionLimit();
 
 				massPointTmp.position += leftMassPointTmp.position;
 				massPointTmp.acceleration += leftMassPointTmp.acceleration;
@@ -318,11 +314,20 @@ void BaseClothObject::Update()
 		matrixes[i] = Matrix4x4::MakeIdentity4x4();
 	}
 	// 基礎位置
-	Vector3 basePosition = structuralSpring_[0].GetPoint0().position;
+	Vector3 basePosition{};
 
 	for (uint32_t i = kExtraMatrixNum; i < matrixes.size(); ++i) {
-		matrixes[i] = Matrix4x4::MakeTranslateMatrix(structuralSpring_[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(i) - kExtraMatrixNum].GetPoint0().position - basePosition);
-		basePosition = structuralSpring_[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(i) - kExtraMatrixNum].GetPoint0().position;
+
+		StructuralSpring* parent = structuralSpring_[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(i) - kExtraMatrixNum].GetParent();
+
+		if (parent) {
+			basePosition = parent->GetPoint0().position;
+			matrixes[i] = Matrix4x4::MakeTranslateMatrix(structuralSpring_[static_cast<std::vector<StructuralSpring, std::allocator<StructuralSpring>>::size_type>(i) - kExtraMatrixNum].GetPoint0().position - basePosition);
+		}
+		else {
+			matrixes[i] = Matrix4x4::MakeIdentity4x4();
+		}
+
 	}
 
 	// ワールドトランスフォーム

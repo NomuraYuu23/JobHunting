@@ -33,11 +33,7 @@ void Flag::Update()
 	SetAnchor(0, 0, true);
 	SetPosition(4, 0, worldTransform_.GetWorldPosition() + Vector3{0.0f, -naturalLengthY_ * 4.0f, 0.0f });
 	SetAnchor(4, 0, true);
-	//
-	SetPosition(0, 4, worldTransform_.GetWorldPosition() + Vector3{ naturalLengthX_ * 4.0f, 0.0f, 0.0f });
-	SetAnchor(0, 4, true);
-	SetPosition(4, 4, worldTransform_.GetWorldPosition() + Vector3{ naturalLengthX_ * 4.0f, -naturalLengthY_ * 4.0f, 0.0f });
-	SetAnchor(4, 4, true);
-	//BaseClothObject::Update();
+
+	BaseClothObject::Update();
 
 }
