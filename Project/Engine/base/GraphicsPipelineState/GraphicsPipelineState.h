@@ -32,6 +32,7 @@ public: // サブクラス
 		kPipelineStateIndexParticle, // パーティクル
 		kPipelineStateIndexGPUParticle, // GPUパーティクル
 		kPipelineStateIndexGPUParticleDissolve, // GPUパーティクルDissolveあり
+		kPipelineStateIndexGPUParticleBlendNormal, //GPUパーティクルブレンドノーマル
 
 		kPipelineStateIndexCollision2DDebugDraw, // コライダーデバッグ2D
 		kPipelineStateIndexSkyBox, // スカイボックス

@@ -6,7 +6,7 @@
 #include "BufferResource.h"
 #include "WindowSprite.h"
 
-const Vector4 RenderTargetTexture::kClearColor_ = { 0.0f,1.0f,0.0,1.0f };
+const Vector4 RenderTargetTexture::kClearColor_ = { 235.0f / 255.0f, 234.0f / 255.0f, 177.0f / 255.0f,1.0f };
 
 void RenderTargetTexture::Initialize(
 	ID3D12Device* device,

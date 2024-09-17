@@ -78,6 +78,24 @@ void WinApp::CreateGameWindow(const wchar_t* title, UINT windowStyle, int32_t cl
 	//ウィンドウを表示する
 	ShowWindow(hwnd_, SW_SHOW);
 
+#ifdef _RELEASE
+
+	//フルスクリーン
+	SetWindowLong(hwnd_, GWL_STYLE, WS_POPUP);
+	SetWindowPos(hwnd_, HWND_TOP, 0, 0,
+		GetSystemMetrics(SM_CXSCREEN),
+		GetSystemMetrics(SM_CYSCREEN),
+		SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+
+	//マウスカーソル非表示
+	int mouseCounter=0;
+	do
+	{
+		mouseCounter = ShowCursor(false);
+	} while(mouseCounter>0);
+
+#endif // _RELEASE
+
 	// システムタイマーの分解度を上げる
 	timeBeginPeriod(1);
 

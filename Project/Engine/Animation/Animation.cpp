@@ -176,6 +176,13 @@ std::vector<bool> Animation::GetRunningAnimations()
 
 }
 
+void Animation::AnimationTimerFix(uint32_t animationNum, double time)
+{
+
+	animationDatas_[animationNum].timer = time - animationSpeed_;
+
+}
+
 void Animation::NodeAnimationUpdate(uint32_t index, double timer)
 {
 

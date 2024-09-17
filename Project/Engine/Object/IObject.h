@@ -45,6 +45,11 @@ public: // 関数
 	virtual void Update() = 0;
 
 	/// <summary>
+	/// ImGui描画
+	/// </summary>
+	virtual void ImGuiDraw() {};
+
+	/// <summary>
 	/// 名前取得
 	/// </summary>
 	/// <returns></returns>

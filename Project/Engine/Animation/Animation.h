@@ -77,6 +77,13 @@ public:
 	/// <returns></returns>
 	std::vector<AnimationCalcData>* GetAnimationDatas() { return &animationDatas_; }
 
+	/// <summary>
+	/// アニメーションタイマーを固定する
+	/// </summary>
+	/// <param name="animationNum">アニメーション番号</param>
+	/// <param name="time">タイム</param>
+	void AnimationTimerFix(uint32_t animationNum, double time);
+
 private:
 
 	/// <summary>

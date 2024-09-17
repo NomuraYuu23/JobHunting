@@ -58,11 +58,14 @@ float Vector2::Length(const Vector2& v)
 Vector2 Vector2::Normalize(const Vector2& v)
 {
 
-	Vector2 result;
+	Vector2 result = {0.0f,0.0f};
 
 	float num = Length(v);
-	result.x = v.x / num;
-	result.y = v.y / num;
+
+	if (num != 0.0f) {
+		result.x = v.x / num;
+		result.y = v.y / num;
+	}
 
 	return result;
 

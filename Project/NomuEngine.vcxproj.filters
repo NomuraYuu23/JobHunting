@@ -2086,5 +2086,8 @@
     <FxCompile Include="Resources\shaders\PillarSmokeParticle\PillarSmokeUpdate.CS.hlsl">
       <Filter>shaders\GPUParticle\PillarSmokeParticle\CS</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\GPUParticle\GPUParticleBlendNormal.VS.hlsl">
+      <Filter>shaders\GPUParticle</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -79,7 +79,17 @@ void BaseObjectManager::ParticleDraw(BaseCamera& camera)
 void BaseObjectManager::ImGuiDraw()
 {
 
+#ifdef _DEMO
+
 	colliderDebugDraw_->ImGuiDraw();
+
+	for (std::list<ObjectPair>::iterator it = objects_.begin();
+		it != objects_.end(); ++it) {
+		it->second->ImGuiDraw();
+	}
+
+#endif // _DEMO
+
 
 }
 
@@ -149,6 +159,23 @@ void BaseObjectManager::Reset(LevelIndex levelIndex)
 		}
 
 	}
+
+}
+
+IObject* BaseObjectManager::AddObject(LevelData::ObjectData& data)
+{
+
+	// 型にあわせてInitialize
+	std::unique_ptr<IObject> object;
+	object.reset(objectFactory_->CreateObject(data));
+
+	if (object) {
+
+		// listへ
+		objects_.emplace_back(object->GetName(), std::move(object));
+	}
+
+	return objects_.back().second.get();
 
 }
 
