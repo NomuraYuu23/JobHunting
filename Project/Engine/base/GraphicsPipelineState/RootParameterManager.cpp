@@ -176,8 +176,16 @@ void RootParameterManager::Initialize()
 #pragma region スカイボックス
 	data.push_back(kCBV_PSIndexMaterial); // マテリアル
 	data.push_back(kSRV_PSIndexTexture0); // テクスチャ
-	data.push_back(kCBV_VSIndexSkyboxForGPU); // スカイボックス
+	data.push_back(kCBV_VSIndexWVP); // スカイボックス
 	Analyze(kRootParameterIndexSkyBox, data); // 解析
+	data.clear(); // クリア
+#pragma endregion
+
+#pragma region 布
+	data.push_back(kCBV_PSIndexMaterial); // マテリアル
+	data.push_back(kSRV_PSIndexTexture0); // テクスチャ
+	data.push_back(kCBV_VSIndexWVP); // スカイボックス
+	Analyze(kRootParameterIndexCloth, data); // 解析
 	data.clear(); // クリア
 #pragma endregion
 

@@ -472,6 +472,9 @@
     <Filter Include="Engine\Physics\Cloth">
       <UniqueIdentifier>{7050e05e-6ae1-451a-aad3-bac8052e41e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\Cloth">
+      <UniqueIdentifier>{e8129b10-d7bf-45d9-86ed-42bc0a3ac3e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1908,6 +1911,9 @@
     <None Include="Resources\shaders\PillarSmokeParticle\PillarSmoke.CS.hlsli">
       <Filter>shaders\GPUParticle\PillarSmokeParticle\CS</Filter>
     </None>
+    <None Include="Resources\shaders\Cloth\Cloth.hlsli">
+      <Filter>shaders\Cloth</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NomuEngine.rc">
@@ -2109,6 +2115,12 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\GPUParticle\GPUParticleBlendNormal.VS.hlsl">
       <Filter>shaders\GPUParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\Cloth\Cloth.PS.hlsl">
+      <Filter>shaders\Cloth</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\Cloth\Cloth.VS.hlsl">
+      <Filter>shaders\Cloth</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

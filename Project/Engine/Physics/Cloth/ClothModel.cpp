@@ -68,6 +68,13 @@ void ClothModel::Update(const std::vector<Vector3>& positions)
 
 }
 
+void ClothModel::Draw(BaseCamera& camera)
+{
+
+
+
+}
+
 void ClothModel::IndexMapping()
 {
 

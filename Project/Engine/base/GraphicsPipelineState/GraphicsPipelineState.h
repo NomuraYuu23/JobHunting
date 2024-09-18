@@ -36,6 +36,7 @@ public: // サブクラス
 
 		kPipelineStateIndexCollision2DDebugDraw, // コライダーデバッグ2D
 		kPipelineStateIndexSkyBox, // スカイボックス
+		kPipelineStateIndexCloth, // 布
 
 
 		kPipelineStateIndexAnimModelRT2, // アニメーションモデルRT2
