@@ -31,6 +31,14 @@ public: // メンバ関数
 	/// </summary>
 	void ImguiDraw();
 
+
+public: //メンバ関数
+
+	/// <summary>
+	/// デバッグカメラ更新
+	/// </summary>
+	void DebugCameraUpdate();
+
 private: // メンバ変数
 
 	// スカイドーム

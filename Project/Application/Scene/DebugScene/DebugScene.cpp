@@ -28,6 +28,8 @@ void DebugScene::Update()
 
 	cloth_->Update();
 
+	DebugCameraUpdate();
+
 	ImguiDraw();
 
 }
@@ -63,5 +65,31 @@ void DebugScene::ImguiDraw()
 {
 
 	cloth_->ImGuiDraw();
+
+	debugCamera_->ImGuiDraw();
+
+}
+
+void DebugScene::DebugCameraUpdate()
+{
+
+	if (input_->TriggerKey(DIK_RSHIFT)) {
+		if (isDebugCameraActive_) {
+			isDebugCameraActive_ = false;
+		}
+		else {
+			isDebugCameraActive_ = true;
+		}
+	}
+
+	// カメラの処理
+	if (isDebugCameraActive_) {
+		// デバッグカメラの更新
+		debugCamera_->Update();
+		// デバッグカメラのビュー行列をコピー
+		camera_ = static_cast<BaseCamera>(*debugCamera_.get());
+		// ビュー行列の転送
+		camera_.Update();
+	}
 
 }

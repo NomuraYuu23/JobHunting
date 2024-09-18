@@ -1,6 +1,7 @@
 #include "Cloth.h"
 #include "../Gravity.h"
 #include "../../2D/ImguiManager.h"
+#include "../../Math/RandomEngine.h"
 
 void Cloth::Initialize(const Vector2& scale, const Vector2& div)
 {
@@ -147,7 +148,7 @@ void Cloth::MassPointsInitialize()
 	for(uint32_t y = 0; y < static_cast<uint32_t>(div_.y) + 1; ++y){
 		for (uint32_t x = 0; x < static_cast<uint32_t>(div_.x) + 1; ++x) {
 			// 位置
-			masspoint.position_.x = static_cast<float>(x) / div_.x * 2.0f;
+			masspoint.position_.x = static_cast<float>(x) / div_.x;
 			masspoint.position_.y = static_cast<float>(y) / div_.y * - 1.0f;
 			masspoint.position_.z = 0.0f;
 			// 大きさ分
@@ -203,8 +204,8 @@ void Cloth::IntegralPhase()
 	// 重力
 	force = Gravity::Execute();
 	// 風力
-	//force += {0.0f, 0.0f, 0.0f};
-
+	Vector3 wind = { 0.0f, 0.0f, 0.0f };
+	force += wind;
 	// 変位に変換
 	force = force * (step_ * step_ * 0.5f / mass);
 
@@ -220,7 +221,7 @@ void Cloth::IntegralPhase()
 		// 前フレーム位置更新
 		point->prePosition_ = point->position_;
 		// 力の変位を足しこむ
-		dx += force;
+		dx = dx + force + wind;
 		// 抵抗
 		dx *= resistance;
 
@@ -288,7 +289,7 @@ void Cloth::SpringPhase()
 			spring->point0_->position_ += dx0;
 			Vector3 dx1 = {};
 			dx1 = dx * (spring->point1_->weight_ / (spring->point0_->weight_ + spring->point1_->weight_));
-			spring->point0_->position_ -= dx0;
+			spring->point1_->position_ -= dx1;
 
 		}
 
