@@ -54,7 +54,7 @@ void DebugScene::Draw()
 #pragma region 線描画
 
 
-	cloth_->Draw(camera_);
+	cloth_->Draw(dxCommon_->GetCommadList(), &camera_);
 	drawLine_->Draw(dxCommon_->GetCommadList(), camera_);
 
 #pragma endregion

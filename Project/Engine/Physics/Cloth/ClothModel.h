@@ -23,6 +23,15 @@ class ClothModel
 	/// </summary>
 	struct VertexData {
 		Vector4 position_; // 位置
+		Vector2 texcoord_; // テクスチャ座標
+		Vector3 normal_; // 法線
+	};
+
+	/// <summary>
+	/// WVP
+	/// </summary>
+	struct WVP {
+		Matrix4x4 matrix_; // 行列
 	};
 
 public:
@@ -30,8 +39,13 @@ public:
 	void Initialize(const Vector2& div);
 
 	void Update(const std::vector<Vector3>& positions);
-	
-	void Draw(BaseCamera& camera);
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	/// <param name="camera">カメラ</param>
+	void Draw(ID3D12GraphicsCommandList* commandList, BaseCamera* camera);
 
 private: 
 
@@ -66,10 +80,15 @@ public:
 	uint32_t textureHandle_;
 
 	// マテリアル
-	std::unique_ptr<Material> matesial_;
+	std::unique_ptr<Material> material_;
 
 	// 分割数
 	Vector2 div_;
+
+	// WVPバッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> wvpBuff_;
+	//WVPマップ
+	ClothModel::WVP* wvpMap_ = nullptr;
 
 };
 

@@ -37,6 +37,9 @@ void Cloth::Initialize(const Vector2& scale, const Vector2& div)
 	// バネ初期化
 	SpringInitialize();
 
+	// モデル
+	model_.Initialize(div_);
+
 }
 
 void Cloth::Update()
@@ -48,10 +51,18 @@ void Cloth::Update()
 	// バネフェーズ
 	SpringPhase();
 
+	std::vector<Vector3> positions;
+	for (uint32_t i = 0; i < massPoints_.size(); ++i) {
+		positions.push_back(massPoints_[i].position_);
+	}
+	model_.Update(positions);
+
 }
 
-void Cloth::Draw(BaseCamera& camera)
+void Cloth::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera* camera)
 {
+
+	model_.Draw(commandList, camera);
 
 #ifdef _DEMO
 
@@ -176,8 +187,8 @@ void Cloth::SpringInitialize()
 	springs_.clear();
 
 	// 登録
-	for (uint32_t y = 0; y < static_cast<uint32_t>(div_.y); ++y) {
-		for (uint32_t x = 0; x < static_cast<uint32_t>(div_.x); ++x) {
+	for (uint32_t y = 0; y < static_cast<uint32_t>(div_.y) + 1; ++y) {
+		for (uint32_t x = 0; x < static_cast<uint32_t>(div_.x) + 1; ++x) {
 			
 			// 構成バネ
 			SpringGeneration(x, y, -1, 0, StructuralSpring);
