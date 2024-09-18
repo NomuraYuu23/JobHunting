@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Math/Vector3.h"
 #include "../../Math/Vector2.h"
+#include "../../3D/DrawLine.h"
 class Cloth
 {
 
@@ -49,6 +50,23 @@ public: // メンバ関数
 	/// 更新
 	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="camera">カメラ</param>
+	void Draw(BaseCamera& camera);
+
+	/// <summary>
+	/// デバッグ描画用マッピング
+	/// </summary>
+	/// <param name="drawLine">線描画ポインタ</param>
+	void DebugDrawMap(DrawLine* drawLine);
+
+	/// <summary>
+	/// ImGui
+	/// </summary>
+	void ImGuiDraw();
 
 private: // 初期化関数
 
@@ -103,7 +121,7 @@ private: // メンバ変数
 
 	float speedResistance_; // 速度抵抗
 
-	uint32_t relaxation_; // バネフェーズの反復回数
+	int32_t relaxation_; // バネフェーズの反復回数
 	
 	float structuralShrink_; // 構成バネ伸び抵抗
 	float structuralStretch_; // 構成バネ縮み抵抗
@@ -113,6 +131,10 @@ private: // メンバ変数
 	float bendingStretch_; // 曲げバネ縮み抵抗
 
 	float step_; // 1フレーム
+
+	bool structuralDebugDraw_; // 構成バネデバッグ描画
+	bool shearDebugDraw_; // せん断バネデバッグ描画
+	bool bendingDebugDraw_; // 曲げバネデバッグ描画
 
 };
 

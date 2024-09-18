@@ -1,5 +1,6 @@
 #include "Cloth.h"
 #include "../Gravity.h"
+#include "../../2D/ImguiManager.h"
 
 void Cloth::Initialize(const Vector2& scale, const Vector2& div)
 {
@@ -25,6 +26,10 @@ void Cloth::Initialize(const Vector2& scale, const Vector2& div)
 
 	step_ = kDeltaTime_; // 1フレーム
 
+	structuralDebugDraw_ = true; // 構成バネデバッグ描画
+	shearDebugDraw_ = true; // せん断バネデバッグ描画
+	bendingDebugDraw_ = true; // 曲げバネデバッグ描画
+
 	// 質点初期化
 	MassPointsInitialize();
 
@@ -40,6 +45,94 @@ void Cloth::Update()
 	IntegralPhase();
 
 	// バネフェーズ
+	IntegralPhase();
+
+}
+
+void Cloth::Draw(BaseCamera& camera)
+{
+
+#ifdef _DEMO
+
+	DebugDrawMap(DrawLine::GetInstance());
+
+#endif // _DEMO
+
+}
+
+void Cloth::DebugDrawMap(DrawLine* drawLine)
+{
+
+	// 変数
+	LineForGPU lineForGPU{};
+
+	Vector4 color = {0.0f,0.0f,0.0f,1.0f};
+
+	for (uint32_t i = 0; i < springs_.size(); ++i) {
+
+		ClothSpring* spring = &springs_[i];
+
+		if (spring->type_ == StructuralSpring) {
+			if (structuralDebugDraw_) {
+				color = { 0.8f, 0.0f,0.0f,1.0f };
+			}
+			else {
+				continue;
+			}
+		}
+		else if (spring->type_ == ShearSpring) {
+			if (shearDebugDraw_) {
+				color = { 0.0f, 0.0f,0.8f,1.0f };
+			}
+			else {
+				continue;
+			}
+		}
+		else {
+			if (bendingDebugDraw_) {
+				color = { 0.0f, 0.8f,0.0f,1.0f };
+			}
+			else {
+				continue;
+			}
+		}
+
+		// 位置と色(赤)を設定
+		lineForGPU.position[0] = spring->point0_->position_;
+		lineForGPU.position[1] = spring->point1_->position_;
+		lineForGPU.color[0] = color;
+		lineForGPU.color[1] = color;
+
+		// マッピング
+		drawLine->Map(lineForGPU);
+
+	}
+
+}
+
+void Cloth::ImGuiDraw()
+{
+
+	ImGui::Begin("");
+
+	ImGui::DragInt("バネの更新の反復の回数", &relaxation_, 0.2f, 1, 6);
+
+	ImGui::DragFloat("抵抗", &speedResistance_, 0.01f, 0.0f);
+
+	ImGui::DragFloat("バネの強度", &stiffness_, 0.1f, 1.0f);
+
+	ImGui::DragFloat("構成バネ伸び抵抗", &structuralShrink_, 0.01f, 0.0f);
+	ImGui::DragFloat("構成バネ縮み抵抗", &structuralStretch_, 0.01f, 0.0f);
+	ImGui::DragFloat("せん断バネ伸び抵抗", &shearShrink_, 0.01f, 0.0f);
+	ImGui::DragFloat("せん断バネ縮み抵抗", &shearStretch_, 0.01f, 0.0f);
+	ImGui::DragFloat("曲げバネ伸び抵抗", &bendingShrink_, 0.01f, 0.0f);
+	ImGui::DragFloat("曲げバネ縮み抵抗", &bendingStretch_, 0.01f, 0.0f);
+
+	ImGui::Checkbox("構成バネデバッグ描画", &structuralDebugDraw_);
+	ImGui::Checkbox("せん断バネデバッグ描画", &shearDebugDraw_);
+	ImGui::Checkbox("曲げバネデバッグ描画", &bendingDebugDraw_);
+
+	ImGui::End();
 
 }
 
