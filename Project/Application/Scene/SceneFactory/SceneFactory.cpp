@@ -4,6 +4,7 @@
 #include "../GameScene/GameScene.h"
 #include "../ClearScene/ClearScene.h"
 #include "../TutorialScene/TutorialScene.h"
+#include "../DebugScene/DebugScene.h"
 SceneFactory* SceneFactory::GetInstance()
 {
 	static SceneFactory instance;
@@ -32,6 +33,9 @@ IScene* SceneFactory::CreateScene(int sceneName)
 		break;
 	case kTutorial:  // チュートリアル
 		newScene = new TutorialScene();
+		break;
+	case kDebug:  // デバッグ
+		newScene = new DebugScene();
 		break;
 	case kCountOfSceneName: // 使用不可
 		break;

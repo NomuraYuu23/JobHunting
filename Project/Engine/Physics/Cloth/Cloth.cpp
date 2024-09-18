@@ -15,14 +15,14 @@ void Cloth::Initialize(const Vector2& scale, const Vector2& div)
 
 	speedResistance_ = 0.2f; // 速度抵抗
 
-	relaxation_ = 2; // バネフェーズの反復回数
+	relaxation_ = 4; // バネフェーズの反復回数
 
-	structuralShrink_ = 1.0f; // 構成バネ伸び抵抗
-	structuralStretch_ = 1.0f; // 構成バネ縮み抵抗
-	shearShrink_ = 1.0f; // せん断バネ伸び抵抗
-	shearStretch_ = 1.0f; // せん断バネ縮み抵抗
-	bendingShrink_ = 1.0f; // 曲げバネ伸び抵抗
-	bendingStretch_ = 0.5f; // 曲げバネ縮み抵抗
+	structuralShrink_ = 10.0f; // 構成バネ伸び抵抗
+	structuralStretch_ = 10.0f; // 構成バネ縮み抵抗
+	shearShrink_ = 10.0f; // せん断バネ伸び抵抗
+	shearStretch_ = 10.0f; // せん断バネ縮み抵抗
+	bendingShrink_ = 10.0f; // 曲げバネ伸び抵抗
+	bendingStretch_ = 5.0f; // 曲げバネ縮み抵抗
 
 	step_ = kDeltaTime_; // 1フレーム
 
@@ -45,7 +45,7 @@ void Cloth::Update()
 	IntegralPhase();
 
 	// バネフェーズ
-	IntegralPhase();
+	SpringPhase();
 
 }
 
@@ -113,7 +113,7 @@ void Cloth::DebugDrawMap(DrawLine* drawLine)
 void Cloth::ImGuiDraw()
 {
 
-	ImGui::Begin("");
+	ImGui::Begin("布");
 
 	ImGui::DragInt("バネの更新の反復の回数", &relaxation_, 0.2f, 1, 6);
 
@@ -150,6 +150,9 @@ void Cloth::MassPointsInitialize()
 			masspoint.position_.x = static_cast<float>(x) / div_.x * 2.0f;
 			masspoint.position_.y = static_cast<float>(y) / div_.y * - 1.0f;
 			masspoint.position_.z = 0.0f;
+			// 大きさ分
+			masspoint.position_.x *= scale_.x;
+			masspoint.position_.y *= scale_.y;
 			masspoint.prePosition_ = masspoint.position_;
 			// 重み 落ちないよう上の部分を固定
 			if (y == 0) {
@@ -198,7 +201,7 @@ void Cloth::IntegralPhase()
 	Vector3 force{}; // 力
 
 	// 重力
-	force = {0.0f,- 9.8f, 0.0f};
+	force = Gravity::Execute();
 	// 風力
 	//force += {0.0f, 0.0f, 0.0f};
 
@@ -232,7 +235,7 @@ void Cloth::IntegralPhase()
 void Cloth::SpringPhase()
 {
 
-	for (uint32_t i = 0; i < relaxation_; ++i) {
+	for (uint32_t i = 0; i < static_cast<uint32_t>(relaxation_); ++i) {
 
 		for (uint32_t j = 0; j < springs_.size(); ++j) {
 

@@ -1075,6 +1075,9 @@
     <ClCompile Include="Engine\Physics\Cloth\Cloth.cpp">
       <Filter>Engine\Physics\Cloth</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Scene\DebugScene\DebugScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1832,6 +1835,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Physics\Cloth\Cloth.h">
       <Filter>Engine\Physics\Cloth</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\DebugScene\DebugScene.h">
+      <Filter>Application\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
