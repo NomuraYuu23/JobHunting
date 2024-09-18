@@ -50,6 +50,11 @@ public:
 private: 
 
 	/// <summary>
+	/// 頂点マッピング
+	/// </summary>
+	void VertexMapping();
+
+	/// <summary>
 	/// インデックスマッピング
 	/// </summary>
 	void IndexMapping();

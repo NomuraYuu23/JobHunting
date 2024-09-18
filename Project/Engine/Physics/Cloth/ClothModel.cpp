@@ -30,9 +30,7 @@ void ClothModel::Initialize(const Vector2& div)
 	//書き込むためのアドレスを取得
 	vertBuff_->Map(0, nullptr, reinterpret_cast<void**>(&vertMap_));
 	// 一度0でマッピング
-	for (uint32_t i = 0; i < vertexNum_; ++i) {
-		vertMap_[i].position_ = { 0.0f,0.0f,0.0f,1.0f };
-	}
+	VertexMapping();
 
 	//インデックスリソースを作る
 	indexBuff_ = BufferResource::CreateBufferResource(
@@ -50,7 +48,7 @@ void ClothModel::Initialize(const Vector2& div)
 	IndexMapping();
 
 	// テクスチャハンドル
-	textureHandle_ = 0;
+	textureHandle_ = TextureManager::Load("Resources/default/clothDemo.png", DirectXCommon::GetInstance());
 
 	// マテリアル
 	material_.reset(Material::Create());
@@ -117,6 +115,24 @@ void ClothModel::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera* camera
 	//描画
 	commandList->DrawIndexedInstanced(indexNum_, 1, 0, 0, 0);
 
+}
+
+void ClothModel::VertexMapping()
+{
+
+	for (uint32_t i = 0; i < vertexNum_; ++i) {
+		vertMap_[i].position_ = { 0.0f,0.0f,0.0f,1.0f };
+	}
+
+
+	for (uint32_t y = 0; y < static_cast<uint32_t>(div_.y) + 1; ++y) {
+		for (uint32_t x = 0; x < static_cast<uint32_t>(div_.x) + 1; ++x) {
+			uint32_t index = y * (static_cast<uint32_t>(div_.x) + 1) + x;
+			vertMap_[index].position_ = { 0.0f,0.0f,0.0f,1.0f };
+			vertMap_[index].texcoord_ = { static_cast<float>(x) / (div_.x + 1.0f), static_cast<float>(y) / (div_.y + 1.0f) };
+			vertMap_[index].normal_ = { 0.0f, 0.0f, -1.0f };
+		}
+	}
 }
 
 void ClothModel::IndexMapping()
