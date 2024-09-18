@@ -9,6 +9,22 @@ void Cloth::Initialize(const Vector2& scale, const Vector2& div)
 	// 分割
 	div_ = div;
 
+	mass = 1.0f; // 質点の質量
+	stiffness_ = 100.0f; // 剛性。バネ定数k
+
+	speedResistance_ = 0.2f; // 速度抵抗
+
+	relaxation_ = 2; // バネフェーズの反復回数
+
+	structuralShrink_ = 1.0f; // 構成バネ伸び抵抗
+	structuralStretch_ = 1.0f; // 構成バネ縮み抵抗
+	shearShrink_ = 1.0f; // せん断バネ伸び抵抗
+	shearStretch_ = 1.0f; // せん断バネ縮み抵抗
+	bendingShrink_ = 1.0f; // 曲げバネ伸び抵抗
+	bendingStretch_ = 0.5f; // 曲げバネ縮み抵抗
+
+	step_ = kDeltaTime_; // 1フレーム
+
 	// 質点初期化
 	MassPointsInitialize();
 
@@ -92,14 +108,12 @@ void Cloth::IntegralPhase()
 	force = {0.0f,- 9.8f, 0.0f};
 	// 風力
 	//force += {0.0f, 0.0f, 0.0f};
-	// 1フレーム分
-	float step = kDeltaTime_;
 
 	// 変位に変換
-	force = force * (step * step * 0.5f / mass);
+	force = force * (step_ * step_ * 0.5f / mass);
 
 	// 抵抗
-	float resistance = 1.0f - speedResistance_ * step;
+	float resistance = 1.0f - speedResistance_ * step_;
 
 	for (uint32_t i = 0; i < massPoints_.size(); ++i) {
 		ClothMassPoint* point = &massPoints_[i];
@@ -119,6 +133,70 @@ void Cloth::IntegralPhase()
 		point->position_ += dx;
 	}
 
+
+}
+
+void Cloth::SpringPhase()
+{
+
+	for (uint32_t i = 0; i < relaxation_; ++i) {
+
+		for (uint32_t j = 0; j < springs_.size(); ++j) {
+
+			ClothSpring* spring = &springs_[j];
+
+			// 二点が固定点
+			if (spring->point0_->weight_ + spring->point1_->weight_ == 0.0f) {
+				continue;
+			}
+
+			// 抵抗
+			float shrink = 0.0f;
+			float stretch = 0.0f;
+			if (spring->type_ == StructuralSpring) {
+				shrink = structuralShrink_;
+				stretch = structuralStretch_;
+			}
+			else if (spring->type_ == ShearSpring) {
+				shrink = shearShrink_;
+				stretch = shearStretch_;
+			}
+			else {
+				shrink = bendingShrink_;
+				stretch = bendingStretch_;
+			}
+
+			// バネの力
+			// 質点間の距離
+			float distance = Vector3::Length(spring->point1_->position_ - spring->point0_->position_);
+			// 力
+			float force = (distance - spring->naturalLength_) * stiffness_;
+			// 抵抗
+			if (force >= 0.0f) {
+				force *= shrink;
+			}
+			else {
+				force *= stretch;
+			}
+
+			// 変位
+			Vector3 dx = {};
+			dx = spring->point1_->position_ - spring->point0_->position_;
+			dx = Vector3::Normalize(dx);
+			dx *= force;
+			dx *= step_ * step_ * 0.5f / mass;
+
+			// 位置更新
+			Vector3 dx0 = {};
+			dx0 = dx * (spring->point0_->weight_ / (spring->point0_->weight_ + spring->point1_->weight_));
+			spring->point0_->position_ += dx0;
+			Vector3 dx1 = {};
+			dx1 = dx * (spring->point1_->weight_ / (spring->point0_->weight_ + spring->point1_->weight_));
+			spring->point0_->position_ -= dx0;
+
+		}
+
+	}
 
 }
 

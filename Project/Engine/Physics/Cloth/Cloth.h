@@ -100,9 +100,19 @@ private: // メンバ変数
 
 	float mass = 1.0f; // 質点の質量
 	float stiffness_; // 剛性。バネ定数k
-	float dampingCoefficient_; // 減衰係数
 
 	float speedResistance_; // 速度抵抗
+
+	uint32_t relaxation_; // バネフェーズの反復回数
+	
+	float structuralShrink_; // 構成バネ伸び抵抗
+	float structuralStretch_; // 構成バネ縮み抵抗
+	float shearShrink_; // せん断バネ伸び抵抗
+	float shearStretch_; // せん断バネ縮み抵抗
+	float bendingShrink_; // 曲げバネ伸び抵抗
+	float bendingStretch_; // 曲げバネ縮み抵抗
+
+	float step_; // 1フレーム
 
 };
 
