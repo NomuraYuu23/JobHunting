@@ -308,6 +308,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Math\Ease.cpp" />
     <ClCompile Include="Engine\Math\Math.cpp" />
     <ClCompile Include="Engine\Physics\Cloth\Cloth.cpp" />
+    <ClCompile Include="Engine\Physics\Cloth\ClothModel.cpp" />
     <ClCompile Include="Engine\Physics\Gravity.cpp" />
     <ClCompile Include="Engine\Physics\InertiaTensor.cpp" />
     <ClCompile Include="Engine\Physics\MassPoint.cpp" />
@@ -547,6 +548,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Math\Math.h" />
     <ClInclude Include="Application\SceneTransition\SceneTransitionBlackOut\SceneTransitionBlackOut.h" />
     <ClInclude Include="Engine\Physics\Cloth\Cloth.h" />
+    <ClInclude Include="Engine\Physics\Cloth\ClothModel.h" />
     <ClInclude Include="Engine\Physics\Gravity.h" />
     <ClInclude Include="Engine\Physics\InertiaTensor.h" />
     <ClInclude Include="Engine\Physics\MassPoint.h" />
