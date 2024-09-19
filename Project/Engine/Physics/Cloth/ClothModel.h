@@ -34,6 +34,14 @@ class ClothModel
 		Matrix4x4 matrix_; // 行列
 	};
 
+	/// <summary>
+	/// 面情報
+	/// </summary>
+	struct Surface {
+		Vector3 normal_; // 法線
+		std::array<int32_t, 4> indexes_; // 頂点
+	};
+
 public:
 
 	/// <summary>

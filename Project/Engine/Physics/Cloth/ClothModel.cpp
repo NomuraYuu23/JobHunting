@@ -67,11 +67,75 @@ void ClothModel::Initialize(const Vector2& div)
 void ClothModel::Update(const std::vector<Vector3>& positions)
 {
 
+	std::vector<ClothModel::Surface> surfaces;
+	// 面情報
+	for (uint32_t y = 0; y < static_cast<uint32_t>(div_.y); ++y) {
+		for (uint32_t x = 0; x < static_cast<uint32_t>(div_.x); ++x) {
+
+			Surface surface{};
+
+			// 左上
+			surface.indexes_[0] = y * (static_cast<uint32_t>(div_.x) + 1) + x;
+			Vector3 leftTop = positions[surface.indexes_[0]];
+			// 右上
+			surface.indexes_[1] = y * (static_cast<uint32_t>(div_.x) + 1) + x + 1;
+			Vector3 rightTop = positions[surface.indexes_[1]];
+			// 左下
+			surface.indexes_[2] = (y + 1) * (static_cast<uint32_t>(div_.x) + 1) + x;
+			Vector3 leftBottom = positions[surface.indexes_[2]];
+			// 右下
+			surface.indexes_[3] = (y + 1) * (static_cast<uint32_t>(div_.x) + 1) + x + 1;
+			Vector3 rightBottom = positions[surface.indexes_[3]];
+
+			// 法線作成
+
+			// 1つ目の三角形のクロス積を計算する
+			Vector3	cross0 = Vector3::Cross(leftTop - rightTop, leftBottom - rightTop);
+			// 2つ目の三角形
+			Vector3	cross1 = Vector3::Cross(leftBottom - rightTop, rightBottom - rightTop);
+			// 2つのクロス積の結果を合わせる
+			Vector3	normal = cross0 + cross1;
+			// 単位ベクトルへ正則化
+			normal = Vector3::Normalize(normal);
+			surface.normal_ = normal;
+
+			surfaces.push_back(surface);
+
+		}
+	}
+
 	for (uint32_t i = 0; i < vertexNum_; ++i) {
+		// 頂点マッピング
 		vertMap_[i].position_.x = positions[i].x;
 		vertMap_[i].position_.y = positions[i].y;
 		vertMap_[i].position_.z = positions[i].z;
 		vertMap_[i].position_.w = 1.0f;
+		// 法線マッピング
+		std::array<Vector3, 4> normals{};
+		uint32_t normalNum = 0;
+
+		for (uint32_t j = 0; j < surfaces.size(); ++j) {
+			for (uint32_t k = 0; k < 4; ++k) {
+				if (surfaces[j].indexes_[k] == i) {
+					normals[normalNum] = surfaces[j].normal_;
+					normalNum++;
+					break;
+				}
+			}
+
+			if (normalNum >= 4) {
+				break;
+			}
+
+		}
+
+		Vector3 normal = {0.0f,0.0f,0.0f};
+		for (uint32_t j = 0; j < normalNum; ++j) {
+			normal = normals[j];
+		}
+
+		vertMap_[i].normal_ = Vector3::Normalize(normal);
+
 	}
 
 }
@@ -79,51 +143,46 @@ void ClothModel::Update(const std::vector<Vector3>& positions)
 void ClothModel::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera* camera)
 {
 
-	// nullptrチェック
-	assert(commandList);
+	//// nullptrチェック
+	//assert(commandList);
 
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	//// SRV
+	//ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	//commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
-	commandList->IASetVertexBuffers(0, 1, &vbView_);
+	//commandList->IASetVertexBuffers(0, 1, &vbView_);
 
-	//形状を設定。PS0に設定しているものとは別。
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	////形状を設定。PS0に設定しているものとは別。
+	//commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	// マップ
-	wvpMap_->matrix_ = camera->GetViewProjectionMatrix();
+	//// マップ
+	//wvpMap_->matrix_ = camera->GetViewProjectionMatrix();
 
-	// パイプライン設定
-	commandList->SetPipelineState(GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexCloth].Get());//PS0を設定
-	commandList->SetGraphicsRootSignature(GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexCloth].Get());
+	//// パイプライン設定
+	//commandList->SetPipelineState(GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexCloth].Get());//PS0を設定
+	//commandList->SetGraphicsRootSignature(GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexCloth].Get());
 
-	// 頂点バッファの設定
-	commandList->IASetVertexBuffers(0, 1, &vbView_);
-	//IBVを設定
-	commandList->IASetIndexBuffer(&ibView_);
+	//// 頂点バッファの設定
+	//commandList->IASetVertexBuffers(0, 1, &vbView_);
+	////IBVを設定
+	//commandList->IASetIndexBuffer(&ibView_);
 
-	//マテリアルCBufferの場所を設定
-	commandList->SetGraphicsRootConstantBufferView(0, material_->GetMaterialBuff()->GetGPUVirtualAddress());
+	////マテリアルCBufferの場所を設定
+	//commandList->SetGraphicsRootConstantBufferView(0, material_->GetMaterialBuff()->GetGPUVirtualAddress());
 
-	//テクスチャ 
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, 1, textureHandle_);
+	////テクスチャ 
+	//TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, 1, textureHandle_);
 
-	// ワールドトランスフォーム
-	commandList->SetGraphicsRootConstantBufferView(2, wvpBuff_->GetGPUVirtualAddress());
+	//// ワールドトランスフォーム
+	//commandList->SetGraphicsRootConstantBufferView(2, wvpBuff_->GetGPUVirtualAddress());
 
-	//描画
-	commandList->DrawIndexedInstanced(indexNum_, 1, 0, 0, 0);
+	////描画
+	//commandList->DrawIndexedInstanced(indexNum_, 1, 0, 0, 0);
 
 }
 
 void ClothModel::VertexMapping()
 {
-
-	for (uint32_t i = 0; i < vertexNum_; ++i) {
-		vertMap_[i].position_ = { 0.0f,0.0f,0.0f,1.0f };
-	}
-
 
 	for (uint32_t y = 0; y < static_cast<uint32_t>(div_.y) + 1; ++y) {
 		for (uint32_t x = 0; x < static_cast<uint32_t>(div_.x) + 1; ++x) {

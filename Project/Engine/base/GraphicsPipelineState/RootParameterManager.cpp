@@ -176,15 +176,20 @@ void RootParameterManager::Initialize()
 #pragma region スカイボックス
 	data.push_back(kCBV_PSIndexMaterial); // マテリアル
 	data.push_back(kSRV_PSIndexTexture0); // テクスチャ
-	data.push_back(kCBV_VSIndexWVP); // スカイボックス
+	data.push_back(kCBV_VSIndexWVP); // WVP
 	Analyze(kRootParameterIndexSkyBox, data); // 解析
 	data.clear(); // クリア
 #pragma endregion
 
 #pragma region 布
-	data.push_back(kCBV_PSIndexMaterial); // マテリアル
+	data.push_back(kCBV_PSIndexMaterial); // マテリアル 
+	data.push_back(kCBV_PSIndexDirectionalLight); // 平行光源
+	data.push_back(kCBV_PSIndexCamera); // カメラ
+	data.push_back(kCBV_VSIndexWVP); // WVP
 	data.push_back(kSRV_PSIndexTexture0); // テクスチャ
-	data.push_back(kCBV_VSIndexWVP); // スカイボックス
+	data.push_back(kSRV_PSIndexPointLight); // ポイントライト
+	data.push_back(kSRV_PSIndexSpotLight); // スポットライト
+	data.push_back(kCBV_PSIndexFog); // 霧
 	Analyze(kRootParameterIndexCloth, data); // 解析
 	data.clear(); // クリア
 #pragma endregion
