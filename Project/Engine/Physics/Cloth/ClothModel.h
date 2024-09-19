@@ -14,9 +14,15 @@
 #include "../../Math/Vector4.h"
 #include "../../3D/Material.h"
 #include "../../Camera/BaseCamera.h"
+#include "../../Light/DirectionalLight/DirectionalLight.h"
+#include "../../Light/PointLight/PointLightManager.h"
+#include "../../Light/SpotLight/SpotLightManager.h"
+#include "../../3D/FogManager.h"
 
 class ClothModel
 {
+
+public:
 
 	/// <summary>
 	/// 頂点
@@ -42,7 +48,31 @@ class ClothModel
 		std::array<int32_t, 4> indexes_; // 頂点
 	};
 
+private:
+
+	//	平行光源
+	static DirectionalLight* sDirectionalLight_;
+	// ポイントライトマネージャ
+	static PointLightManager* sPointLightManager_;
+	//	スポットライトマネージャ
+	static SpotLightManager* sSpotLightManager_;
+	// 霧マネージャー
+	static FogManager* sFogManager_;
+
 public:
+
+	/// <summary>
+	/// 静的初期化
+	/// </summary>
+	/// <param name="sDirectionalLight"></param>
+	/// <param name="sPointLightManager"></param>
+	/// <param name="sSpotLightManager"></param>
+	/// <param name="sFogManager"></param>
+	static void StaticInitialize(
+		DirectionalLight* sDirectionalLight,
+		PointLightManager* sPointLightManager,
+		SpotLightManager* sSpotLightManager,
+		FogManager* sFogManager);
 
 	/// <summary>
 	/// 初期化

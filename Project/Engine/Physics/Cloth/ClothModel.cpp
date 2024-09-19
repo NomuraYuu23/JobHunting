@@ -4,6 +4,33 @@
 #include "../../base/SRVDescriptorHerpManager.h"
 #include "../../base/TextureManager.h"
 
+//	平行光源
+DirectionalLight* ClothModel::sDirectionalLight_ = nullptr;
+// ポイントライトマネージャ
+PointLightManager* ClothModel::sPointLightManager_ = nullptr;
+//	スポットライトマネージャ
+SpotLightManager* ClothModel::sSpotLightManager_ = nullptr;
+// 霧マネージャー
+FogManager* ClothModel::sFogManager_ = nullptr;
+
+void ClothModel::StaticInitialize(
+	DirectionalLight* sDirectionalLight, 
+	PointLightManager* sPointLightManager, 
+	SpotLightManager* sSpotLightManager, 
+	FogManager* sFogManager)
+{
+
+	//	平行光源
+	sDirectionalLight_ = sDirectionalLight;
+	// ポイントライトマネージャ
+	sPointLightManager_ = sPointLightManager;
+	//	スポットライトマネージャ
+	sSpotLightManager_ = sSpotLightManager;
+	// 霧マネージャー
+	sFogManager_ = sFogManager;
+
+}
+
 void ClothModel::Initialize(const Vector2& div)
 {
 
@@ -143,41 +170,59 @@ void ClothModel::Update(const std::vector<Vector3>& positions)
 void ClothModel::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera* camera)
 {
 
-	//// nullptrチェック
-	//assert(commandList);
+	// nullptrチェック
+	assert(commandList);
+	assert(sDirectionalLight_);
+	assert(sPointLightManager_);
+	assert(sSpotLightManager_);
+	assert(sFogManager_);
 
-	//// SRV
-	//ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	//commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	// SRV
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
-	//commandList->IASetVertexBuffers(0, 1, &vbView_);
+	commandList->IASetVertexBuffers(0, 1, &vbView_);
 
-	////形状を設定。PS0に設定しているものとは別。
-	//commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//形状を設定。PS0に設定しているものとは別。
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	//// マップ
-	//wvpMap_->matrix_ = camera->GetViewProjectionMatrix();
+	// マップ
+	wvpMap_->matrix_ = camera->GetViewProjectionMatrix();
 
-	//// パイプライン設定
-	//commandList->SetPipelineState(GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexCloth].Get());//PS0を設定
-	//commandList->SetGraphicsRootSignature(GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexCloth].Get());
+	// パイプライン設定
+	commandList->SetPipelineState(GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexCloth].Get());//PS0を設定
+	commandList->SetGraphicsRootSignature(GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexCloth].Get());
 
-	//// 頂点バッファの設定
-	//commandList->IASetVertexBuffers(0, 1, &vbView_);
-	////IBVを設定
-	//commandList->IASetIndexBuffer(&ibView_);
+	// 頂点バッファの設定
+	commandList->IASetVertexBuffers(0, 1, &vbView_);
+	//IBVを設定
+	commandList->IASetIndexBuffer(&ibView_);
 
-	////マテリアルCBufferの場所を設定
-	//commandList->SetGraphicsRootConstantBufferView(0, material_->GetMaterialBuff()->GetGPUVirtualAddress());
+	//マテリアルCBufferの場所を設定
+	commandList->SetGraphicsRootConstantBufferView(0, material_->GetMaterialBuff()->GetGPUVirtualAddress());
 
-	////テクスチャ 
-	//TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, 1, textureHandle_);
+	// 平行光源
+	sDirectionalLight_->Draw(commandList, 1);
 
-	//// ワールドトランスフォーム
-	//commandList->SetGraphicsRootConstantBufferView(2, wvpBuff_->GetGPUVirtualAddress());
+	// カメラCBufferの場所を設定
+	commandList->SetGraphicsRootConstantBufferView(2, camera->GetWorldPositionBuff()->GetGPUVirtualAddress());
 
-	////描画
-	//commandList->DrawIndexedInstanced(indexNum_, 1, 0, 0, 0);
+	// ワールドトランスフォーム
+	commandList->SetGraphicsRootConstantBufferView(3, wvpBuff_->GetGPUVirtualAddress());
+
+	//テクスチャ 
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, 4, textureHandle_);
+
+	// ポイントライト
+	sPointLightManager_->Draw(commandList, 5);
+	// スポットライト
+	sSpotLightManager_->Draw(commandList, 6);
+
+	// 霧
+	commandList->SetGraphicsRootConstantBufferView(7, sFogManager_->GetFogDataBuff()->GetGPUVirtualAddress());
+
+	//描画
+	commandList->DrawIndexedInstanced(indexNum_, 1, 0, 0, 0);
 
 }
 
