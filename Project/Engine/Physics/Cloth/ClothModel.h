@@ -36,8 +36,16 @@ class ClothModel
 
 public:
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="div">分割数</param>
 	void Initialize(const Vector2& div);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="positions">位置</param>
 	void Update(const std::vector<Vector3>& positions);
 
 	/// <summary>

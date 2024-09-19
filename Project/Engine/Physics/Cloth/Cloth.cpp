@@ -148,6 +148,22 @@ void Cloth::ImGuiDraw()
 
 }
 
+void Cloth::SetWeight(uint32_t y, uint32_t x, bool isWight)
+{
+
+	if (y < static_cast<uint32_t>(div_.y) + 1 &&
+		x < static_cast<uint32_t>(div_.x) + 1) {
+
+		uint32_t index = y * (static_cast<uint32_t>(div_.x) + 1) + x;
+		float value = 0.0f;
+		if (isWight) {
+			value = 1.0f;
+		}
+		massPoints_[index].weight_ = value;
+	}
+		
+}
+
 void Cloth::MassPointsInitialize()
 {
 
@@ -173,6 +189,10 @@ void Cloth::MassPointsInitialize()
 			else {
 				masspoint.weight_ = 1.0f;
 			}
+			// 検索用値
+			masspoint.y_ = y;
+			masspoint.x_ = x;
+
 			// 登録
 			massPoints_.push_back(masspoint);
 		}
@@ -215,7 +235,7 @@ void Cloth::IntegralPhase()
 	// 重力
 	force = Gravity::Execute();
 	// 風力
-	Vector3 wind = { 0.0f, 0.0f, 0.0f };
+	Vector3 wind = { 0.0f, 0.0f, 1.0f };
 	force += wind;
 	// 変位に変換
 	force = force * (step_ * step_ * 0.5f / mass);

@@ -18,6 +18,7 @@ void DebugScene::Initialize()
 
 	cloth_ = std::make_unique<Cloth>();
 	cloth_->Initialize(Vector2{ 2.0f, 2.0f }, Vector2{15.0f, 15.0f});
+	cloth_->SetWeight(10, 10, false);
 
 	IScene::InitilaizeCheck();
 
