@@ -30,7 +30,7 @@ void DebugScene::Update()
 	cloth_->Update();
 
 	if (input_->TriggerKey(DIK_P)) {
-		cloth_->SetPosition(10, 10, Vector3{ 1.0f,1.0f,1.0f });
+		cloth_->SetPosition(10, 10, Vector3{ 1.0f,1.0f,-1.0f });
 	}
 
 	DebugCameraUpdate();

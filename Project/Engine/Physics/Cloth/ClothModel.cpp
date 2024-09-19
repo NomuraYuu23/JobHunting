@@ -79,6 +79,7 @@ void ClothModel::Initialize(const Vector2& div)
 
 	// マテリアル
 	material_.reset(Material::Create());
+	material_->SetEnableLighting(HalfLambert);
 
 	// トランスフォームバッファ
 	wvpBuff_ = BufferResource::CreateBufferResource(
@@ -117,9 +118,9 @@ void ClothModel::Update(const std::vector<Vector3>& positions)
 			// 法線作成
 
 			// 1つ目の三角形のクロス積を計算する
-			Vector3	cross0 = Vector3::Cross(leftTop - rightTop, leftBottom - rightTop);
+			Vector3	cross0 = Vector3::Cross(rightBottom - rightTop, leftBottom - rightTop);
 			// 2つ目の三角形
-			Vector3	cross1 = Vector3::Cross(leftBottom - rightTop, rightBottom - rightTop);
+			Vector3	cross1 = Vector3::Cross(leftBottom - rightTop, leftTop - rightTop);
 			// 2つのクロス積の結果を合わせる
 			Vector3	normal = cross0 + cross1;
 			// 単位ベクトルへ正則化
