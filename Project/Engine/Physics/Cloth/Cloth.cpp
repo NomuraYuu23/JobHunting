@@ -164,6 +164,19 @@ void Cloth::SetWeight(uint32_t y, uint32_t x, bool isWight)
 		
 }
 
+void Cloth::SetPosition(uint32_t y, uint32_t x, const Vector3& position)
+{
+
+	if (y < static_cast<uint32_t>(div_.y) + 1 &&
+		x < static_cast<uint32_t>(div_.x) + 1) {
+
+		uint32_t index = y * (static_cast<uint32_t>(div_.x) + 1) + x;
+
+		massPoints_[index].position_ = position;
+	}
+
+}
+
 void Cloth::MassPointsInitialize()
 {
 
@@ -233,9 +246,9 @@ void Cloth::IntegralPhase()
 	Vector3 force{}; // 力
 
 	// 重力
-	force = Gravity::Execute();
+	force = { 0.0f, -9.8f, 0.0f };
 	// 風力
-	Vector3 wind = { 0.0f, 0.0f, 1.0f };
+	Vector3 wind = { 0.0f, 0.0f, 0.0f };
 	force += wind;
 	// 変位に変換
 	force = force * (step_ * step_ * 0.5f / mass);

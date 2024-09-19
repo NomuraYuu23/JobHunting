@@ -18,7 +18,6 @@ void DebugScene::Initialize()
 
 	cloth_ = std::make_unique<Cloth>();
 	cloth_->Initialize(Vector2{ 2.0f, 2.0f }, Vector2{15.0f, 15.0f});
-	cloth_->SetWeight(10, 10, false);
 
 	IScene::InitilaizeCheck();
 
@@ -28,6 +27,10 @@ void DebugScene::Update()
 {
 
 	cloth_->Update();
+
+	if (input_->TriggerKey(DIK_P)) {
+		cloth_->SetPosition(10, 10, Vector3{ 1.0f,1.0f,1.0f });
+	}
 
 	DebugCameraUpdate();
 

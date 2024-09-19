@@ -74,7 +74,21 @@ public: // メンバ関数
 
 public: // 外部操作関数
 
+	/// <summary>
+	/// 重み設定
+	/// </summary>
+	/// <param name="y">y</param>
+	/// <param name="x">x</param>
+	/// <param name="isWight">重みをつけるか</param>
 	void SetWeight(uint32_t y, uint32_t x, bool isWight);
+
+	/// <summary>
+	/// 位置設定
+	/// </summary>
+	/// <param name="y">y</param>
+	/// <param name="x">x</param>
+	/// <param name="position">位置</param>
+	void SetPosition(uint32_t y, uint32_t x, const Vector3& position);
 
 private: // 初期化関数
 
