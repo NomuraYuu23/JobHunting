@@ -16,6 +16,12 @@
 
 #pragma comment(lib, "dxcompiler.lib")
 
+#include "../../Camera/BaseCamera.h"
+#include "../../Light/DirectionalLight/DirectionalLight.h"
+#include "../../Light/PointLight/PointLightManager.h"
+#include "../../Light/SpotLight/SpotLightManager.h"
+#include "../../3D/FogManager.h"
+
 class ClothGPU
 {
 
@@ -64,7 +70,6 @@ public: // サブクラス
 
 		float speedResistance_; // 速度抵抗
 
-		int32_t relaxation_; // バネフェーズの反復回数
 
 		float structuralShrink_; // 構成バネ伸び抵抗
 		float structuralStretch_; // 構成バネ縮み抵抗
@@ -110,27 +115,180 @@ public: // サブクラス
 	/// CSのパイプラインステート
 	/// </summary>
 	enum PipelineStateCSIndex {
-		kPipelineStateCSIndexInitialize, // 初期化
-		kPipelineStateCSIndexUpdate, // 更新
+		kPipelineStateCSIndexInitVertex,// 初期化 頂点
+		kPipelineStateCSIndexInitMassPoint,// 初期化 質点
+		kPipelineStateCSIndexInitSpring,// 初期化 バネ
+		kPipelineStateCSIndexInitSurface,// 初期化 面
+
+		kPipelineStateCSIndexUpdateExternalOperation,// 更新 外部操作フェーズ
+		kPipelineStateCSIndexUpdateIntegral,// 更新 積分フェーズ
+		kPipelineStateCSIndexUpdateSpring,// 更新 バネフェーズ
+		kPipelineStateCSIndexUpdateVertex,// 更新 頂点フェーズ
+
 		kPipelineStateCSIndexOfCount // 数える用
 	};
 
+private: // 静的メンバ変数
+
+	//	平行光源
+	static DirectionalLight* sDirectionalLight_;
+	// ポイントライトマネージャ
+	static PointLightManager* sPointLightManager_;
+	//	スポットライトマネージャ
+	static SpotLightManager* sSpotLightManager_;
+	// 霧マネージャー
+	static FogManager* sFogManager_;
+
+	// ルートシグネチャCS
+	static std::array<Microsoft::WRL::ComPtr<ID3D12RootSignature>, kPipelineStateCSIndexOfCount> rootSignaturesCS_;
+	// パイプラインステートオブジェクトCS
+	static std::array<Microsoft::WRL::ComPtr<ID3D12PipelineState>, kPipelineStateCSIndexOfCount> pipelineStatesCS_;
+
+public: // 静的メンバ関数
+
+	/// <summary>
+	/// 静的初期化
+	/// </summary>
+	/// <param name="device"></param>
+	/// <param name="sDirectionalLight"></param>
+	/// <param name="sPointLightManager"></param>
+	/// <param name="sSpotLightManager"></param>
+	/// <param name="sFogManager"></param>
+	static void StaticInitialize(
+		ID3D12Device* device,
+		DirectionalLight* sDirectionalLight,
+		PointLightManager* sPointLightManager,
+		SpotLightManager* sSpotLightManager,
+		FogManager* sFogManager);
+
+private: // CSの初期化、設定
+
+	/// <summary>
+	/// パイプラインステートの初期化CS
+	/// </summary>
+	/// <param name="device"></param>
+	static void PipelineStateCSInitialize(ID3D12Device* device);
+
+	/// <summary>
+	/// 初期化 頂点
+	/// </summary>
+	/// <param name="device"></param>
+	static void PipelineStateCSInitializeForInitVertex(ID3D12Device* device);
+
+	/// <summary>
+	/// 初期化 質点
+	/// </summary>
+	/// <param name="device"></param>
+	static void PipelineStateCSInitializeForInitMassPoint(ID3D12Device* device);
+
+	/// <summary>
+	/// 初期化 バネ
+	/// </summary>
+	/// <param name="device"></param>
+	static void PipelineStateCSInitializeForInitSpring(ID3D12Device* device);
+
+	/// <summary>
+	/// 初期化 面
+	/// </summary>
+	/// <param name="device"></param>
+	static void PipelineStateCSInitializeForInitSurface(ID3D12Device* device);
+
+	/// <summary>
+	/// 更新 外部操作フェーズ
+	/// </summary>
+	/// <param name="device"></param>
+	static void PipelineStateCSInitializeForUpdateExternalOperation(ID3D12Device* device);
+
+	/// <summary>
+	/// 更新 積分フェーズ
+	/// </summary>
+	/// <param name="device"></param>
+	static void PipelineStateCSInitializeForUpdateIntegral(ID3D12Device* device);
+
+	/// <summary>
+	/// 更新 バネフェーズ
+	/// </summary>
+	/// <param name="device"></param>
+	static void PipelineStateCSInitializeForUpdateSpring(ID3D12Device* device);
+
+	/// <summary>
+	/// 更新 頂点フェーズ
+	/// </summary>
+	/// <param name="device"></param>
+	static void PipelineStateCSInitializeForUpdateVertex(ID3D12Device* device);
+
 public:
-
-
-private:
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	/// <param name="device"></param>
-	virtual void PipelineStateCSInitializeForInitialize(ID3D12Device* device);
+	/// <param name="device">デバイス</param>
+	/// <param name="commandList">コマンドリスト</param>
+	/// <param name="scale">大きさ</param>
+	/// <param name="div">分割数</param>
+	void Initialize(
+		ID3D12Device* device,
+		ID3D12GraphicsCommandList* commandList, 
+		const Vector2& scale, 
+		const Vector2& div);
+
+private: // 変数の初期化
 
 	/// <summary>
-	/// 更新
+	/// 数の初期化
+	/// </summary>
+	/// <param name="div_">分割数</param>
+	void NumInitialize(const Vector2& div);
+
+	/// <summary>
+	/// マテリアル初期化
+	/// </summary>
+	void MaterialInitialize();
+
+private: // バッファの初期化、設定
+
+	/// <summary>
+	/// バッファの初期化
 	/// </summary>
 	/// <param name="device"></param>
-	virtual void PipelineStateCSInitializeForUpdate(ID3D12Device* device);
+	/// <param name="commandList"></param>
+	/// <param name="scale"></param>
+	/// <param name="div"></param>
+	void BufferInitialize(ID3D12Device* device,
+		ID3D12GraphicsCommandList* commandList, 
+		const Vector2& scale, 
+		const Vector2& div);
+
+	/// <summary>
+	///	頂点バッファの初期化
+	/// </summary>
+	/// <param name="device"></param>
+	void VertexBufferInitialize(ID3D12Device* device,
+		ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// UAVの初期化
+	/// </summary>
+	/// <param name="device"></param>
+	void UAVInitialize(ID3D12Device* device,
+		ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// SRVの初期化
+	/// </summary>
+	/// <param name="device"></param>
+	void SRVInitialize(ID3D12Device* device);
+
+	/// <summary>
+	/// CBVの初期化
+	/// </summary>
+	/// <param name="device"></param>
+	/// <param name="scale">大きさ</param>
+	/// <param name="div">分割数</param>
+	void CBVInitialize(
+		ID3D12Device* device,
+		const Vector2& scale,
+		const Vector2& div);
 
 private: // UAV & SRV
 
@@ -155,12 +313,25 @@ private: // SRV
 
 	// 外部操作 (質点の数)
 	Microsoft::WRL::ComPtr<ID3D12Resource> externalBuff_;
+	// 外部操作マップ
+	ExternalOperationData* externalMap_ = nullptr;
 	// CPUハンドル
 	D3D12_CPU_DESCRIPTOR_HANDLE externalSrvHandleCPU_{};
 	// GPUハンドル
 	D3D12_GPU_DESCRIPTOR_HANDLE externalSrvHandleGPU_{};
 	// ディスクリプタヒープの位置
 	uint32_t externalSrvIndexDescriptorHeap_ = 0;
+
+	// 頂点 がどこの質点か (頂点の数)
+	Microsoft::WRL::ComPtr<ID3D12Resource> massPointIndexBuff_;
+	// 頂点 がどこの質点かマップ
+	uint32_t* massPointIndexMap_ = nullptr;
+	// CPUハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE massPointIndexSrvHandleCPU_{};
+	// GPUハンドル
+	D3D12_GPU_DESCRIPTOR_HANDLE massPointIndexSrvHandleGPU_{};
+	// ディスクリプタヒープの位置
+	uint32_t massPointIndexSrvIndexDescriptorHeap_ = 0;
 
 private: // CBV
 
@@ -227,12 +398,8 @@ private: // 変数
 	// マテリアル
 	std::unique_ptr<Material> material_;
 
-private: // CS
-
-	// ルートシグネチャCS
-	std::array<Microsoft::WRL::ComPtr<ID3D12RootSignature>, kPipelineStateCSIndexOfCount> rootSignaturesCS_;
-	// パイプラインステートオブジェクトCS
-	std::array<Microsoft::WRL::ComPtr<ID3D12PipelineState>, kPipelineStateCSIndexOfCount> pipelineStatesCS_;
+	// バネフェーズの反復回数
+	int32_t relaxation_;
 
 };
 
