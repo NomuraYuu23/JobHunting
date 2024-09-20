@@ -74,7 +74,7 @@ void ClothGPU::PipelineStateCSInitializeForInitVertex(ID3D12Device* device)
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
 	D3D12_DESCRIPTOR_RANGE massPointDescriptorRange[1] = {};
-	massPointDescriptorRange[0].BaseShaderRegister = 0;//iから始まる
+	massPointDescriptorRange[0].BaseShaderRegister = 1;//iから始まる
 	massPointDescriptorRange[0].NumDescriptors = 1;//数は一つ
 	massPointDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//UAVを使う
 	massPointDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
@@ -418,7 +418,7 @@ void ClothGPU::SRVInitialize(ID3D12Device* device)
 		case 5:
 			massPointIndexMap_[i] = (y + 1) * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + x + 1;
 			x++;
-			if (x >= (createDataMap_->div_.x + 1)) {
+			if (x >= (createDataMap_->div_.x)) {
 				x = 0;
 				y++;
 			}

@@ -6,7 +6,7 @@ ConstantBuffer<Nums> gNums : register(b0);
 
 ConstantBuffer<CreateData> gCreateData : register(b1);
 
-StructuredBuffer<uint32_t> gMassPointIndexes : register(t0);
+StructuredBuffer<uint32_t> gMassPointIndexes : register(t1);
 
 [numthreads(1024, 1, 1)]
 void main( uint32_t3 dispatchId : SV_DispatchThreadID )
