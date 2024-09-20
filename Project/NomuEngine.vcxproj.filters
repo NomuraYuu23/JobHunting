@@ -475,6 +475,9 @@
     <Filter Include="shaders\Cloth">
       <UniqueIdentifier>{e8129b10-d7bf-45d9-86ed-42bc0a3ac3e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\ClothGPU">
+      <UniqueIdentifier>{e0b56a92-92ec-4f60-8064-0aa01d141a6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1920,6 +1923,9 @@
     <None Include="Resources\shaders\Cloth\Cloth.hlsli">
       <Filter>shaders\Cloth</Filter>
     </None>
+    <None Include="Resources\shaders\ClothGPU\ClothGPU.CS.hlsli">
+      <Filter>shaders\ClothGPU</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NomuEngine.rc">
@@ -2127,6 +2133,30 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\Cloth\Cloth.VS.hlsl">
       <Filter>shaders\Cloth</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothInitVertex.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothInitMassPoint.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothInitSpring.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothInitSurface.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothUpdateExternalOperation.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothUpdateIntegral.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothUpdateSpring.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothUpdateVertex.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

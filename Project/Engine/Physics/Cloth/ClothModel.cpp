@@ -234,7 +234,7 @@ void ClothModel::VertexMapping()
 		for (uint32_t x = 0; x < static_cast<uint32_t>(div_.x) + 1; ++x) {
 			uint32_t index = y * (static_cast<uint32_t>(div_.x) + 1) + x;
 			vertMap_[index].position_ = { 0.0f,0.0f,0.0f,1.0f };
-			vertMap_[index].texcoord_ = { static_cast<float>(x) / (div_.x + 1.0f), static_cast<float>(y) / (div_.y + 1.0f) };
+			vertMap_[index].texcoord_ = { static_cast<float>(x) / (div_.x), static_cast<float>(y) / (div_.y) };
 			vertMap_[index].normal_ = { 0.0f, 0.0f, -1.0f };
 		}
 	}

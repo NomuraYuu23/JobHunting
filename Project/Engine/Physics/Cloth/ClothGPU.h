@@ -65,7 +65,7 @@ public: // サブクラス
 	/// </summary>
 	struct ClothCalcData
 	{
-		float mass = 1.0f; // 質点の質量
+		float mass_; // 質点の質量
 		float stiffness_; // 剛性。バネ定数k
 
 		float speedResistance_; // 速度抵抗
@@ -109,7 +109,18 @@ public: // サブクラス
 		uint32_t pointIndex1_; // 質点1
 		float naturalLength_; // 自然長
 		uint32_t type_; // バネの種類
-	}; 
+	};
+
+	/// <summary>
+	/// 数
+	/// </summary>
+	struct Nums
+	{
+		uint32_t vertexNum_;
+		uint32_t massPointNum_;
+		uint32_t springNum_;
+		uint32_t surfaceNum_;
+	};
 
 	/// <summary>
 	/// CSのパイプラインステート
@@ -232,13 +243,21 @@ public:
 		const Vector2& scale, 
 		const Vector2& div);
 
+	///// <summary>
+	///// 更新
+	///// </summary>
+	void Update(ID3D12GraphicsCommandList* commandList);
+
+	//void Draw();
+
 private: // 変数の初期化
 
 	/// <summary>
 	/// 数の初期化
 	/// </summary>
-	/// <param name="div_">分割数</param>
-	void NumInitialize(const Vector2& div);
+	/// <param name="device"></param>
+	/// <param name="div"></param>
+	void NumInitialize(ID3D12Device* device, const Vector2& div);
 
 	/// <summary>
 	/// マテリアル初期化
@@ -289,6 +308,20 @@ private: // バッファの初期化、設定
 		ID3D12Device* device,
 		const Vector2& scale,
 		const Vector2& div);
+
+private: // CS
+
+
+	void InitVertexCS(ID3D12GraphicsCommandList* commandList);
+	void InitMassPointCS(ID3D12GraphicsCommandList* commandList);
+	void InitSpringCS(ID3D12GraphicsCommandList* commandList);
+	void InitSurfaceCS(ID3D12GraphicsCommandList* commandList);
+
+
+	void UpdateExternalOperationCS(ID3D12GraphicsCommandList* commandList);
+	void UpdateIntegralCS(ID3D12GraphicsCommandList* commandList);
+	void UpdateSpringCS(ID3D12GraphicsCommandList* commandList);
+	void UpdateVertexCS(ID3D12GraphicsCommandList* commandList);
 
 private: // UAV & SRV
 
@@ -355,6 +388,11 @@ private: // CBV
 	// 時間マップ
 	PerFrame* perFrameMap_ = nullptr;
 
+	// 数バッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> NumsBuff_;
+	// 数マップ
+	Nums* NumsMap_ = nullptr;
+
 private: // UAV
 
 	// 面情報 (面の数)
@@ -385,12 +423,6 @@ private: // UAV
 	uint32_t springUavIndexDescriptorHeap_ = 0;
 
 private: // 変数
-
-	// 数
-	uint32_t vertexNum_;
-	uint32_t massPointNum_;
-	uint32_t springNum_;
-	uint32_t surfaceNum_;
 
 	// テクスチャハンドル
 	uint32_t textureHandle_;

@@ -3,6 +3,7 @@
 #include "../../../Engine/Scene/IScene/IScene.h"
 #include "../../Skydome/Skydome.h"
 #include "../../../Engine/Physics/Cloth/Cloth.h"
+#include "../../../Engine/Physics/Cloth/ClothGPU.h"
 
 class DebugScene : public IScene
 {
@@ -50,6 +51,9 @@ private: // メンバ変数
 
 	// 布
 	std::unique_ptr<Cloth> cloth_;
+
+	// 
+	std::unique_ptr<ClothGPU> clothGPU_;
 
 };
 

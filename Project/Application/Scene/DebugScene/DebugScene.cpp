@@ -20,6 +20,15 @@ void DebugScene::Initialize()
 	cloth_->Initialize(Vector2{ 2.0f, 2.0f }, Vector2{15.0f, 15.0f});
 	ClothModel::StaticInitialize(directionalLight_.get(),pointLightManager_.get(), spotLightManager_.get(), FogManager::GetInstance());
 
+	ClothGPU::StaticInitialize(
+		dxCommon_->GetDevice(),
+		directionalLight_.get(),
+		pointLightManager_.get(),
+		spotLightManager_.get(),
+		FogManager::GetInstance());
+	clothGPU_ = std::make_unique<ClothGPU>();
+	clothGPU_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), Vector2{ 2.0f, 2.0f }, Vector2{ 15.0f, 15.0f });
+
 	IScene::InitilaizeCheck();
 
 }
@@ -32,6 +41,8 @@ void DebugScene::Update()
 	if (input_->TriggerKey(DIK_P)) {
 		cloth_->SetPosition(10, 10, Vector3{ 1.0f,1.0f,-1.0f });
 	}
+
+	clothGPU_->Update(dxCommon_->GetCommadList());
 
 	DebugCameraUpdate();
 
