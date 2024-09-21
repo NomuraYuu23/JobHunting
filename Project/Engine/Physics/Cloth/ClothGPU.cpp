@@ -480,13 +480,78 @@ void ClothGPU::NumInitialize(ID3D12Device* device, const Vector2& div)
 void ClothGPU::Update(ID3D12GraphicsCommandList* commandList)
 {
 
-	InitVertexCS(commandList);
+	//InitVertexCS(commandList);
 
-	InitSurfaceCS(commandList);
+	//InitSurfaceCS(commandList);
 
-	InitMassPointCS(commandList);
+	//InitMassPointCS(commandList);
 
-	InitSpringCS(commandList);
+	//InitSpringCS(commandList);
+
+}
+
+void ClothGPU::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera* camera)
+{
+
+	// nullptrチェック
+	assert(commandList);
+	assert(sDirectionalLight_);
+	assert(sPointLightManager_);
+	assert(sSpotLightManager_);
+	assert(sFogManager_);
+
+	// SRV
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	//形状を設定。PS0に設定しているものとは別。
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	// マップ
+	wvpMap_->matrix_ = camera->GetViewProjectionMatrix();
+
+	// ここでバネの更新
+	//
+	//
+
+	// リソースバリア
+	ResouseBarrierToNonPixelShader(commandList);
+
+	// パイプライン設定
+	commandList->SetPipelineState(GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexClothGPU].Get());//PS0を設定
+	commandList->SetGraphicsRootSignature(GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexClothGPU].Get());
+
+	//マテリアルCBufferの場所を設定
+	commandList->SetGraphicsRootConstantBufferView(0, material_->GetMaterialBuff()->GetGPUVirtualAddress());
+
+	// 平行光源
+	sDirectionalLight_->Draw(commandList, 1);
+
+	// カメラCBufferの場所を設定
+	commandList->SetGraphicsRootConstantBufferView(2, camera->GetWorldPositionBuff()->GetGPUVirtualAddress());
+
+	// ワールドトランスフォーム
+	commandList->SetGraphicsRootConstantBufferView(3, wvpBuff_->GetGPUVirtualAddress());
+
+	//テクスチャ 
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, 4, textureHandle_);
+
+	// ポイントライト
+	sPointLightManager_->Draw(commandList, 5);
+	// スポットライト
+	sSpotLightManager_->Draw(commandList, 6);
+
+	// 霧
+	commandList->SetGraphicsRootConstantBufferView(7, sFogManager_->GetFogDataBuff()->GetGPUVirtualAddress());
+
+	// 頂点
+	commandList->SetGraphicsRootDescriptorTable(8, vertSrvHandleGPU_);
+
+	//描画
+	commandList->DrawInstanced(NumsMap_->vertexNum_, 1, 0, 0);
+
+	// リソースバリア
+	ResouseBarrierToUnorderedAccess(commandList);
 
 }
 
@@ -559,6 +624,8 @@ void ClothGPU::VertexBufferInitialize(ID3D12Device* device, ID3D12GraphicsComman
 
 	InitVertexCS(commandList);
 
+	UAVBarrier(commandList);
+
 }
 
 void ClothGPU::UAVInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList)
@@ -585,6 +652,8 @@ void ClothGPU::UAVInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 	device->CreateUnorderedAccessView(surfaceDataBuff_.Get(), nullptr, &surfaceDataUavDesc, surfaceDataUavHandleCPU_);
 
 	InitSurfaceCS(commandList);
+
+	UAVBarrier(commandList);
 
 	// 質点情報
 	massPointBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(ClothMassPoint) + 0xff) & ~0xff) * NumsMap_->massPointNum_);
@@ -628,6 +697,8 @@ void ClothGPU::UAVInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 
 	InitMassPointCS(commandList);
 
+	UAVBarrier(commandList);
+
 	// バネ情報
 	springBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(ClothSpring) + 0xff) & ~0xff) * NumsMap_->springNum_);
 
@@ -649,6 +720,8 @@ void ClothGPU::UAVInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 	device->CreateUnorderedAccessView(springBuff_.Get(), nullptr, &springUavDesc, springUavHandleCPU_);
 	
 	InitSpringCS(commandList);
+
+	UAVBarrier(commandList);
 
 }
 
@@ -749,7 +822,7 @@ void ClothGPU::CBVInitialize(
 	// 作成時データバッファ
 	createDataBuff_ = BufferResource::CreateBufferResource(device, (sizeof(CreateData) + 0xff) & ~0xff);
 	createDataBuff_->Map(0, nullptr, reinterpret_cast<void**>(&createDataMap_));
-	//WVPマップ
+	//マップ
 	createDataMap_->scale_ = scale;
 	createDataMap_->div_ = div;
 
@@ -762,7 +835,7 @@ void ClothGPU::CBVInitialize(
 	// 布計算バッファ
 	clothCalcDataBuff_ = BufferResource::CreateBufferResource(device, (sizeof(ClothCalcData) + 0xff) & ~0xff);
 	clothCalcDataBuff_->Map(0, nullptr, reinterpret_cast<void**>(&clothCalcDataMap_));
-	//WVPマップ
+	//マップ
 	clothCalcDataMap_->mass_ = 1.0f;// 質点の質量
 	clothCalcDataMap_->stiffness_ = 100.0f; // 剛性。バネ定数k
 	clothCalcDataMap_->speedResistance_ = 0.2f; // 速度抵抗
@@ -865,5 +938,43 @@ void ClothGPU::InitSurfaceCS(ID3D12GraphicsCommandList* commandList)
 	commandList->SetComputeRootDescriptorTable(2, massPointIndexSrvHandleGPU_);
 
 	commandList->Dispatch((NumsMap_->surfaceNum_ + 1023) / 1024, 1, 1);
+
+}
+
+void ClothGPU::UAVBarrier(ID3D12GraphicsCommandList* commandList)
+{
+
+	D3D12_RESOURCE_BARRIER barrier{};
+
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.UAV.pResource = vertBuff_.Get();
+	commandList->ResourceBarrier(1, &barrier);
+
+}
+
+void ClothGPU::ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList)
+{
+
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = vertBuff_.Get();
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+	commandList->ResourceBarrier(1, &barrier);
+
+}
+
+void ClothGPU::ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList)
+{
+
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = vertBuff_.Get();
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
+	commandList->ResourceBarrier(1, &barrier);
 
 }

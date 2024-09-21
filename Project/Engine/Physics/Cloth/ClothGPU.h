@@ -246,9 +246,15 @@ public:
 	///// <summary>
 	///// 更新
 	///// </summary>
+	/// <param name="commandList">コマンドリスト</param>
 	void Update(ID3D12GraphicsCommandList* commandList);
 
-	//void Draw();
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	/// <param name="camera">カメラ</param>
+	void Draw(ID3D12GraphicsCommandList* commandList, BaseCamera* camera);
 
 private: // 変数の初期化
 
@@ -359,6 +365,26 @@ private: // CS
 	/// </summary>
 	/// <param name="commandList"></param>
 	void UpdateVertexCS(ID3D12GraphicsCommandList* commandList);
+
+private:
+
+	/// <summary>
+	/// UAVバリア―
+	/// </summary>
+	/// <param name="commandList"></param>
+	void UAVBarrier(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// リソースバリア
+	/// </summary>
+	/// <param name="commandList"></param>
+	void ResouseBarrierToNonPixelShader(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// リソースバリア
+	/// </summary>
+	/// <param name="commandList"></param>
+	void ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList);
 
 private: // UAV & SRV
 

@@ -107,6 +107,7 @@ enum RootParameterIndex {
 	
 	kRootParameterIndexSkyBox, // スカイボックス
 	kRootParameterIndexCloth, // 布
+	kRootParameterIndexClothGPU, // 布GPU
 
 	kRootParameterIndexOfCount,
 };
