@@ -465,6 +465,12 @@ void ClothGPU::NumInitialize(ID3D12Device* device, const Vector2& div)
 	// バネ数
 	NumsMap_->springNum_ = NumsMap_->massPointNum_ * 6;
 
+	NumsMap_->springNum_ -= (static_cast<uint32_t>(div.y) + 1) * 3;
+	NumsMap_->springNum_ -= (static_cast<uint32_t>(div.x) + 1) * 3;
+	NumsMap_->springNum_ -= (static_cast<uint32_t>(div.y) + static_cast<uint32_t>(div.x) + 1) * 2;
+
+
+
 	// 面数
 	NumsMap_->surfaceNum_ = NumsMap_->vertexNum_ / 6;
 
@@ -603,7 +609,7 @@ void ClothGPU::UAVInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 	device->CreateUnorderedAccessView(massPointBuff_.Get(), nullptr, &massPointUavDesc, massPointUavHandleCPU_);
 
 	// バネ情報
-	springIndexBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(uint32_t) + 0xff) & ~0xff));
+	springIndexBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(int32_t) + 0xff) & ~0xff));
 
 	D3D12_UNORDERED_ACCESS_VIEW_DESC springIndexUavDesc{};
 
@@ -613,7 +619,7 @@ void ClothGPU::UAVInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 	springIndexUavDesc.Buffer.NumElements = 1;
 	springIndexUavDesc.Buffer.CounterOffsetInBytes = 0;
 	springIndexUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
-	springIndexUavDesc.Buffer.StructureByteStride = sizeof(uint32_t);
+	springIndexUavDesc.Buffer.StructureByteStride = sizeof(int32_t);
 
 	springIndexUavHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
 	springIndexUavHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();

@@ -225,7 +225,7 @@ void Cloth::SpringInitialize()
 		for (uint32_t x = 0; x < static_cast<uint32_t>(div_.x) + 1; ++x) {
 			
 			// 構成バネ
-			SpringGeneration(x, y, -1, 0, StructuralSpring);  // xが0
+			SpringGeneration(x, y, -1, 0, StructuralSpring); // xが0
 			SpringGeneration(x, y, 0, -1, StructuralSpring); // yが0
 
 			// せん断バネ
