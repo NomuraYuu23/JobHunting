@@ -6,11 +6,17 @@ ConstantBuffer<Nums> gNums : register(b0);
 
 ConstantBuffer<CreateData> gCreateData : register(b1);
 
+RWStructuredBuffer<uint32_t> gNextSpringIndex : register(u1);
+
 [numthreads(1024, 1, 1)]
 void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 {
 
 	uint32_t index = dispatchId.x;
+
+	if (index == 0) {
+		gNextSpringIndex[0] = gNums.springNum_ - 1;
+	}
 
 	if (gNums.massPointNum_ > index) {
 

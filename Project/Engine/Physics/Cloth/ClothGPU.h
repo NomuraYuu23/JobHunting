@@ -325,7 +325,7 @@ private: // CS
 	void InitMassPointCS(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
-	/// 
+	/// バネバッファ初期化
 	/// </summary>
 	/// <param name="commandList"></param>
 	void InitSpringCS(ID3D12GraphicsCommandList* commandList);
@@ -458,6 +458,15 @@ private: // UAV
 	D3D12_GPU_DESCRIPTOR_HANDLE springUavHandleGPU_{};
 	// ディスクリプタヒープの位置
 	uint32_t springUavIndexDescriptorHeap_ = 0;
+
+	// バネの数
+	Microsoft::WRL::ComPtr<ID3D12Resource> springIndexBuff_;
+	// CPUハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE springIndexUavHandleCPU_{};
+	// GPUハンドル
+	D3D12_GPU_DESCRIPTOR_HANDLE springIndexUavHandleGPU_{};
+	// ディスクリプタヒープの位置
+	uint32_t springIndexUavIndexDescriptorHeap_ = 0;
 
 private: // 変数
 
