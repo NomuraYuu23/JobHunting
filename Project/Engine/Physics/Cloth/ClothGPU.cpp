@@ -464,11 +464,9 @@ void ClothGPU::NumInitialize(ID3D12Device* device, const Vector2& div)
 
 	// バネ数
 	NumsMap_->springNum_ = NumsMap_->massPointNum_ * 6;
-
 	NumsMap_->springNum_ -= (static_cast<uint32_t>(div.y) + 1) * 3;
 	NumsMap_->springNum_ -= (static_cast<uint32_t>(div.x) + 1) * 3;
 	NumsMap_->springNum_ -= (static_cast<uint32_t>(div.y) + static_cast<uint32_t>(div.x) + 1) * 2;
-
 
 
 	// 面数

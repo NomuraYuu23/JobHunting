@@ -343,22 +343,22 @@ void Cloth::SpringPhase()
 }
 
 void Cloth::SpringGeneration(
-	uint32_t x, 
-	uint32_t y, 
-	uint32_t offsetX, 
-	uint32_t offsetY, 
+	uint32_t x,
+	uint32_t y,
+	int32_t offsetX,
+	int32_t offsetY,
 	TypeOfSpring type)
 {
 
 	// 終点位置
-	uint32_t targetX = x + offsetX;
-	uint32_t targetY = y + offsetY;
+	int32_t targetX = x + offsetX;
+	int32_t targetY = y + offsetY;
 
 	// 範囲内か確認
 	if (targetX >= 0 &&
-		targetX < static_cast<uint32_t>(div_.x) + 1 &&
+		targetX < static_cast<int32_t>(div_.x) + 1 &&
 		targetY >= 0 &&
-		targetY < static_cast<uint32_t>(div_.y) + 1) {
+		targetY < static_cast<int32_t>(div_.y) + 1) {
 
 		// バネ
 		ClothSpring spring;

@@ -127,8 +127,8 @@ private: // その他関数
 	void SpringGeneration(
 		uint32_t x, 
 		uint32_t y, 
-		uint32_t offsetX, 
-		uint32_t offsetY, 
+		int32_t offsetX, 
+		int32_t offsetY, 
 		TypeOfSpring type);
 
 private: // メンバ変数

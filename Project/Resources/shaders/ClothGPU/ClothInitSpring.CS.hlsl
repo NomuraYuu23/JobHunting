@@ -11,8 +11,8 @@ RWStructuredBuffer<int32_t> gNextSpringIndex : register(u1);
 void SpringGeneration(
 	uint32_t x,
 	uint32_t y,
-	uint32_t offsetX,
-	uint32_t offsetY,
+	int32_t offsetX,
+	int32_t offsetY,
 	uint32_t type)
 {
 
@@ -31,8 +31,13 @@ void SpringGeneration(
 
 			gClothSprings[index].pointIndex0_ = y * (int32_t(gCreateData.div_.x) + 1) + x;
 			gClothSprings[index].pointIndex1_ = targetY * (int32_t(gCreateData.div_.x) + 1) + targetX;
+			
+			float32_t2 distance = 
+				float32_t2( 
+					float32_t(offsetX) * gCreateData.scale_.x * rcp(gCreateData.div_.x),
+					float32_t(offsetY) * gCreateData.scale_.y * rcp(gCreateData.div_.y));
 
-			gClothSprings[index].naturalLength_ = 1.0f;
+			gClothSprings[index].naturalLength_ = length(distance);
 			gClothSprings[index].type_ = type;
 		
 		}else{
@@ -65,6 +70,5 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 		SpringGeneration(x, y, 0, -2, 2);
 
 	}
-
 
 }
