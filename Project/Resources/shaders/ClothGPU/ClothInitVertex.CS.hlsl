@@ -23,7 +23,16 @@ void main( uint32_t3 dispatchId : SV_DispatchThreadID )
 		uint32_t y = massPointIndex / xMax;
 		uint32_t x = massPointIndex % xMax;
 
-		gVertexDatas[index].position_ = float32_t4( 0.0f,0.0f,0.0f,1.0f );
+		gVertexDatas[index].position_ = 
+			float32_t4(
+				x / gCreateData.div_.x,
+				y / gCreateData.div_.y,
+				0.0f,
+				1.0f);
+
+		gVertexDatas[index].position_.x *= gCreateData.scale_.x;
+		gVertexDatas[index].position_.y *= gCreateData.scale_.y;
+
 		gVertexDatas[index].texcoord_ = float32_t2(float32_t(x) * rcp(gCreateData.div_.x), float32_t(y) * rcp(gCreateData.div_.y));
 		gVertexDatas[index].normal_ = float32_t3(0.0f, 0.0f, -1.0f);
 	
