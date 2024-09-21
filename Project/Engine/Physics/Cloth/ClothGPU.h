@@ -312,15 +312,52 @@ private: // バッファの初期化、設定
 private: // CS
 
 
+	/// <summary>
+	/// 頂点バッファ初期化
+	/// </summary>
+	/// <param name="commandList"></param>
 	void InitVertexCS(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// 質点バッファ初期化
+	/// </summary>
+	/// <param name="commandList"></param>
 	void InitMassPointCS(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="commandList"></param>
 	void InitSpringCS(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="commandList"></param>
 	void InitSurfaceCS(ID3D12GraphicsCommandList* commandList);
 
-
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="commandList"></param>
 	void UpdateExternalOperationCS(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="commandList"></param>
 	void UpdateIntegralCS(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="commandList"></param>
 	void UpdateSpringCS(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="commandList"></param>
 	void UpdateVertexCS(ID3D12GraphicsCommandList* commandList);
 
 private: // UAV & SRV
