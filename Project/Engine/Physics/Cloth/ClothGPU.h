@@ -331,7 +331,7 @@ private: // CS
 	void InitSpringCS(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
-	/// 
+	/// 面情報バッファ
 	/// </summary>
 	/// <param name="commandList"></param>
 	void InitSurfaceCS(ID3D12GraphicsCommandList* commandList);

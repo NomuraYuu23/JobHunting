@@ -4,8 +4,6 @@ RWStructuredBuffer<SurfaceData> gSurfaceDatas : register(u0);
 
 ConstantBuffer<Nums> gNums : register(b0);
 
-ConstantBuffer<CreateData> gCreateData : register(b1);
-
 StructuredBuffer<uint32_t> gMassPointIndexes : register(t1);
 
 [numthreads(1024, 1, 1)]
@@ -17,7 +15,6 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 	if (gNums.surfaceNum_ > index) {
 
 		uint32_t vertexIndexOffset = index * 6;
-		uint32_t xMax = uint32_t(gCreateData.div_.x + 1.0f);
 
 		gSurfaceDatas[index].indexes_.x = gMassPointIndexes[vertexIndexOffset];
 		gSurfaceDatas[index].indexes_.y = gMassPointIndexes[vertexIndexOffset + 1];
