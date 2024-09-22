@@ -482,11 +482,19 @@ void ClothGPU::Update(ID3D12GraphicsCommandList* commandList)
 
 	InitVertexCS(commandList);
 
+	UAVBarrier(commandList);
+
 	InitSurfaceCS(commandList);
 
+	UAVBarrier(commandList);
+	
 	InitMassPointCS(commandList);
 
+	UAVBarrier(commandList);
+
 	InitSpringCS(commandList);
+
+	UAVBarrier(commandList);
 
 }
 
