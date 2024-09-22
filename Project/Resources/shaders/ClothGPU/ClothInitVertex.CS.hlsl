@@ -26,7 +26,7 @@ void main( uint32_t3 dispatchId : SV_DispatchThreadID )
 		gVertexDatas[index].position_ = 
 			float32_t4(
 				x / gCreateData.div_.x,
-				y / gCreateData.div_.y,
+				y / gCreateData.div_.y * -1.0f,
 				0.0f,
 				1.0f);
 

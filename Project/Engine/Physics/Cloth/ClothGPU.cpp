@@ -480,13 +480,13 @@ void ClothGPU::NumInitialize(ID3D12Device* device, const Vector2& div)
 void ClothGPU::Update(ID3D12GraphicsCommandList* commandList)
 {
 
-	//InitVertexCS(commandList);
+	InitVertexCS(commandList);
 
-	//InitSurfaceCS(commandList);
+	InitSurfaceCS(commandList);
 
-	//InitMassPointCS(commandList);
+	InitMassPointCS(commandList);
 
-	//InitSpringCS(commandList);
+	InitSpringCS(commandList);
 
 }
 
