@@ -317,6 +317,11 @@ private: // バッファの初期化、設定
 
 private: // CS
 
+	/// <summary>
+	/// CS初期化
+	/// </summary>
+	/// <param name="commandList"></param>
+	void InitializeCS(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// 頂点バッファ初期化
