@@ -52,15 +52,20 @@ struct ClothMassPoint
 struct ClothSpring
 {
 	uint32_t pointIndex0_; 
-	uint32_t pointIndex1_; 
-	float32_t naturalLength_; 
-	uint32_t type_; 
+	uint32_t pointIndex1_;
+	float32_t naturalLength_;
+	uint32_t type_;
 };
 
 struct Nums
 {
+
+	uint32_t4 structuralSpringNums_;
+	uint32_t4 shearSpringNums_;
+	uint32_t4 bendingSpringNums_;
+
 	uint32_t vertexNum_;
 	uint32_t massPointNum_;
-	uint32_t springNum_;
 	uint32_t surfaceNum_;
+
 };

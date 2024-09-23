@@ -2140,9 +2140,6 @@
     <FxCompile Include="Resources\shaders\ClothGPU\ClothInitMassPoint.CS.hlsl">
       <Filter>shaders\ClothGPU</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\ClothGPU\ClothInitSpring.CS.hlsl">
-      <Filter>shaders\ClothGPU</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\shaders\ClothGPU\ClothInitSurface.CS.hlsl">
       <Filter>shaders\ClothGPU</Filter>
     </FxCompile>

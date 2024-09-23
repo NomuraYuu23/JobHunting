@@ -48,11 +48,11 @@ void ClothGPU::PipelineStateCSInitialize(ID3D12Device* device)
 
 	PipelineStateCSInitializeForInitVertex(device);
 	PipelineStateCSInitializeForInitMassPoint(device);
-	PipelineStateCSInitializeForInitSpring(device);
 	PipelineStateCSInitializeForInitSurface(device);
 	PipelineStateCSInitializeForUpdateExternalOperation(device);
 	PipelineStateCSInitializeForUpdateIntegral(device);
 	PipelineStateCSInitializeForUpdateSpring(device);
+	PipelineStateCSInitializeForUpdateSurface(device);
 	PipelineStateCSInitializeForUpdateVertex(device);
 
 }
@@ -157,7 +157,7 @@ void ClothGPU::PipelineStateCSInitializeForInitMassPoint(ID3D12Device* device)
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[4] = {};
+	D3D12_ROOT_PARAMETER rootParameters[3] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -165,12 +165,6 @@ void ClothGPU::PipelineStateCSInitializeForInitMassPoint(ID3D12Device* device)
 	descriptorRange[0].NumDescriptors = 1;//数は一つ
 	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
-
-	D3D12_DESCRIPTOR_RANGE indexDescriptorRange[1] = {};
-	indexDescriptorRange[0].BaseShaderRegister = 1;//iから始まる
-	indexDescriptorRange[0].NumDescriptors = 1;//数は一つ
-	indexDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
-	indexDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
@@ -184,11 +178,6 @@ void ClothGPU::PipelineStateCSInitializeForInitMassPoint(ID3D12Device* device)
 	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
 	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
 	rootParameters[2].Descriptor.ShaderRegister = 1;//レジスタ番号indexとバインド
-
-	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
-	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
-	rootParameters[3].DescriptorTable.pDescriptorRanges = indexDescriptorRange;//Tableの中身の配列を指定
-	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(indexDescriptorRange);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
@@ -239,98 +228,6 @@ void ClothGPU::PipelineStateCSInitializeForInitMassPoint(ID3D12Device* device)
 	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexInitMassPoint].Get();
 
 	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexInitMassPoint]));
-	assert(SUCCEEDED(hr));
-
-}
-
-void ClothGPU::PipelineStateCSInitializeForInitSpring(ID3D12Device* device)
-{
-	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
-	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-
-	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[4] = {};
-
-	// UAV * 1
-	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
-	descriptorRange[0].BaseShaderRegister = 0;//iから始まる
-	descriptorRange[0].NumDescriptors = 1;//数は一つ
-	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
-	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
-
-	D3D12_DESCRIPTOR_RANGE indexDescriptorRange[1] = {};
-	indexDescriptorRange[0].BaseShaderRegister = 1;//iから始まる
-	indexDescriptorRange[0].NumDescriptors = 1;//数は一つ
-	indexDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
-	indexDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
-
-	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
-	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
-	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableの中身の配列を指定
-	rootParameters[0].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);//Tableで利用する数
-
-	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
-	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
-	rootParameters[1].Descriptor.ShaderRegister = 0;//レジスタ番号indexとバインド
-
-	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
-	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
-	rootParameters[2].Descriptor.ShaderRegister = 1;//レジスタ番号indexとバインド
-
-	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
-	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
-	rootParameters[3].DescriptorTable.pDescriptorRanges = indexDescriptorRange;//Tableの中身の配列を指定
-	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(indexDescriptorRange);//Tableで利用する数
-
-	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
-	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
-
-	// サンプラー
-	D3D12_STATIC_SAMPLER_DESC samplerDesc[1] = {};
-	samplerDesc[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-	samplerDesc[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].MipLODBias = 0.0f;
-	samplerDesc[0].MaxAnisotropy = 0;
-	samplerDesc[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	samplerDesc[0].BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
-	samplerDesc[0].MinLOD = 0.0f;
-	samplerDesc[0].MaxLOD = 3.402823466e+38f;
-	samplerDesc[0].RegisterSpace = 0;
-	samplerDesc[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-	descriptionRootsignature.pStaticSamplers = samplerDesc;
-	descriptionRootsignature.NumStaticSamplers = _countof(samplerDesc);
-
-	//シリアライズしてバイナリにする
-	ID3DBlob* signatureBlob = nullptr;
-	ID3DBlob* errorBlob = nullptr;
-	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootsignature,
-		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
-	if (FAILED(hr)) {
-		Log::Message(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
-		assert(false);
-	}
-
-	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
-		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexInitSpring]));
-	assert(SUCCEEDED(hr));
-
-	// シェーダコンパイル
-	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/ClothGPU/ClothInitSpring.CS.hlsl",
-		L"cs_6_0",
-		L"main");
-
-	// パイプライン
-	D3D12_COMPUTE_PIPELINE_STATE_DESC desc{};
-	desc.CS.pShaderBytecode = shader->GetBufferPointer();
-	desc.CS.BytecodeLength = shader->GetBufferSize();
-	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-	desc.NodeMask = 0;
-	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexInitSpring].Get();
-
-	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexInitSpring]));
 	assert(SUCCEEDED(hr));
 
 }
@@ -601,6 +498,99 @@ void ClothGPU::PipelineStateCSInitializeForUpdateIntegral(ID3D12Device* device)
 
 void ClothGPU::PipelineStateCSInitializeForUpdateSpring(ID3D12Device* device)
 {
+
+	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
+	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+	// ルートパラメータ
+	D3D12_ROOT_PARAMETER rootParameters[5] = {};
+
+	// UAV * 1
+	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
+	descriptorRange[0].BaseShaderRegister = 0;//iから始まる
+	descriptorRange[0].NumDescriptors = 1;//数は一つ
+	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	D3D12_DESCRIPTOR_RANGE descriptorRange1[1] = {};
+	descriptorRange1[0].BaseShaderRegister = 1;//iから始まる
+	descriptorRange1[0].NumDescriptors = 1;//数は一つ
+	descriptorRange1[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	descriptorRange1[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
+	rootParameters[0].Descriptor.ShaderRegister = 0;//レジスタ番号indexとバインド
+
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
+	rootParameters[1].Descriptor.ShaderRegister = 1;//レジスタ番号indexとバインド
+
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
+	rootParameters[2].Descriptor.ShaderRegister = 2;//レジスタ番号indexとバインド
+
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[3].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableの中身の配列を指定
+	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);//Tableで利用する数
+
+	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[4].DescriptorTable.pDescriptorRanges = descriptorRange1;//Tableの中身の配列を指定
+	rootParameters[4].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange1);//Tableで利用する数
+
+	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
+	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
+
+	// サンプラー
+	D3D12_STATIC_SAMPLER_DESC samplerDesc[1] = {};
+	samplerDesc[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDesc[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc[0].MipLODBias = 0.0f;
+	samplerDesc[0].MaxAnisotropy = 0;
+	samplerDesc[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	samplerDesc[0].BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
+	samplerDesc[0].MinLOD = 0.0f;
+	samplerDesc[0].MaxLOD = 3.402823466e+38f;
+	samplerDesc[0].RegisterSpace = 0;
+	samplerDesc[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	descriptionRootsignature.pStaticSamplers = samplerDesc;
+	descriptionRootsignature.NumStaticSamplers = _countof(samplerDesc);
+
+	//シリアライズしてバイナリにする
+	ID3DBlob* signatureBlob = nullptr;
+	ID3DBlob* errorBlob = nullptr;
+	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootsignature,
+		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
+	if (FAILED(hr)) {
+		Log::Message(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
+		assert(false);
+	}
+
+	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
+		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexUpdateSpring]));
+	assert(SUCCEEDED(hr));
+
+	// シェーダコンパイル
+	IDxcBlob* shader = CompileShader::Compile(
+		L"Resources/shaders/ClothGPU/ClothUpdateSpring.CS.hlsl",
+		L"cs_6_0",
+		L"main");
+
+	// パイプライン
+	D3D12_COMPUTE_PIPELINE_STATE_DESC desc{};
+	desc.CS.pShaderBytecode = shader->GetBufferPointer();
+	desc.CS.BytecodeLength = shader->GetBufferSize();
+	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+	desc.NodeMask = 0;
+	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexUpdateSpring].Get();
+
+	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexUpdateSpring]));
+	assert(SUCCEEDED(hr));
+
 }
 
 void ClothGPU::PipelineStateCSInitializeForUpdateSurface(ID3D12Device* device)
@@ -743,11 +733,77 @@ void ClothGPU::NumInitialize(ID3D12Device* device, const Vector2& div)
 	NumsMap_->massPointNum_ = (static_cast<uint32_t>(div.y) + 1) * (static_cast<uint32_t>(div.x) + 1);
 
 	// バネ数
-	NumsMap_->springNum_ = NumsMap_->massPointNum_ * 6;
-	NumsMap_->springNum_ -= (static_cast<uint32_t>(div.y) + 1) * 3;
-	NumsMap_->springNum_ -= (static_cast<uint32_t>(div.x) + 1) * 3;
-	NumsMap_->springNum_ -= (static_cast<uint32_t>(div.y) + static_cast<uint32_t>(div.x) + 1) * 2;
+	NumsMap_->structuralSpringNums_[0] = (static_cast<uint32_t>(div.y) + 1) * (static_cast<uint32_t>(div.x) / 2);
+	NumsMap_->structuralSpringNums_[1] = (static_cast<uint32_t>(div.y) + 1) * (static_cast<uint32_t>(div.x) / 2);	
+	NumsMap_->structuralSpringNums_[2] = (static_cast<uint32_t>(div.y) / 2) * (static_cast<uint32_t>(div.x) + 1);
+	NumsMap_->structuralSpringNums_[3] = (static_cast<uint32_t>(div.y) / 2) * (static_cast<uint32_t>(div.x) + 1);
 
+	if (static_cast<uint32_t>(div.x) % 2 == 0) {
+		NumsMap_->structuralSpringNums_[0] += static_cast<uint32_t>(div.y) + 1;
+	}
+	if (static_cast<uint32_t>(div.y) % 2 == 0) {
+		NumsMap_->structuralSpringNums_[2] += static_cast<uint32_t>(div.x) + 1;
+	}
+
+	NumsMap_->shearSpringNums_[0] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
+	NumsMap_->shearSpringNums_[1] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
+	NumsMap_->shearSpringNums_[2] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
+	NumsMap_->shearSpringNums_[3] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
+
+	if (static_cast<uint32_t>(div.x) % 2 == 1) {
+		NumsMap_->shearSpringNums_[0] += static_cast<uint32_t>(div.y);
+		NumsMap_->shearSpringNums_[2] += static_cast<uint32_t>(div.y);
+	}
+
+
+	uint32_t bendingX = static_cast<uint32_t>(div.x) - 1;
+	uint32_t base = bendingX / 4;
+	uint32_t add = bendingX % 4;
+
+	NumsMap_->bendingSpringNums_[0] = (static_cast<uint32_t>(div.y) + 1) * 2 * base;
+	NumsMap_->bendingSpringNums_[1] = (static_cast<uint32_t>(div.y) + 1) * 2 * base;
+
+	if (add == 1 || add == 2) {
+		NumsMap_->bendingSpringNums_[0] += (static_cast<uint32_t>(div.y) + 1) * add;
+	}
+	else if (add == 3) {
+		NumsMap_->bendingSpringNums_[0] += (static_cast<uint32_t>(div.y) + 1) * 2;
+		NumsMap_->bendingSpringNums_[1] += (static_cast<uint32_t>(div.y) + 1);
+	}
+
+
+	uint32_t bendingY = static_cast<uint32_t>(div.y) - 1;
+	base = bendingY / 4;
+	add = bendingY % 4;
+
+	NumsMap_->bendingSpringNums_[2] = (static_cast<uint32_t>(div.x) + 1) * 2 * base;
+	NumsMap_->bendingSpringNums_[3] = (static_cast<uint32_t>(div.x) + 1) * 2 * base;
+
+	if (add == 1 || add == 2) {
+		NumsMap_->bendingSpringNums_[2] += (static_cast<uint32_t>(div.x) + 1) * add;
+	}
+	else if (add == 3) {
+		NumsMap_->bendingSpringNums_[2] += (static_cast<uint32_t>(div.x) + 1) * 2;
+		NumsMap_->bendingSpringNums_[3] += (static_cast<uint32_t>(div.x) + 1);
+	}
+
+	uint32_t cheak_ = 0;
+	cheak_ = NumsMap_->massPointNum_ * 6;
+	cheak_ -= (static_cast<uint32_t>(div.y) + 1) * 3;
+	cheak_ -= (static_cast<uint32_t>(div.x) + 1) * 3;
+	cheak_ -= (static_cast<uint32_t>(div.y) + static_cast<uint32_t>(div.x) + 1) * 2;
+
+	uint32_t cheak2_ = 
+		NumsMap_->structuralSpringNums_[0] + NumsMap_->structuralSpringNums_[1] + 
+		NumsMap_->structuralSpringNums_[2] + NumsMap_->structuralSpringNums_[3] +
+		NumsMap_->shearSpringNums_[0] + NumsMap_->shearSpringNums_[1] +
+		NumsMap_->shearSpringNums_[2] + NumsMap_->shearSpringNums_[3] +
+		NumsMap_->bendingSpringNums_[0] + NumsMap_->bendingSpringNums_[1] +
+		NumsMap_->bendingSpringNums_[2] + NumsMap_->bendingSpringNums_[3];
+
+	if (cheak_ != cheak2_) {
+		assert(1);
+	}
 
 	// 面数
 	NumsMap_->surfaceNum_ = NumsMap_->vertexNum_ / 6;
@@ -856,9 +912,34 @@ void ClothGPU::BufferInitialize(ID3D12Device* device,
 
 	SRVInitialize(device);
 
+	SpringBufferInitialize(device);
+
 	VertexBufferInitialize(device, commandList);
 
 	UAVInitialize(device, commandList);
+
+}
+
+void ClothGPU::SpringBufferInitialize(ID3D12Device* device)
+{
+
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructural0].Initialize(device, NumsMap_->structuralSpringNums_[0]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructural1].Initialize(device, NumsMap_->structuralSpringNums_[1]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructural2].Initialize(device, NumsMap_->structuralSpringNums_[2]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructural3].Initialize(device, NumsMap_->structuralSpringNums_[3]);
+
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexShear0].Initialize(device, NumsMap_->shearSpringNums_[0]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexShear1].Initialize(device, NumsMap_->shearSpringNums_[1]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexShear2].Initialize(device, NumsMap_->shearSpringNums_[2]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexShear3].Initialize(device, NumsMap_->shearSpringNums_[3]);
+
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexBending0].Initialize(device, NumsMap_->bendingSpringNums_[0]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexBending1].Initialize(device, NumsMap_->bendingSpringNums_[1]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexBending2].Initialize(device, NumsMap_->bendingSpringNums_[2]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexBending3].Initialize(device, NumsMap_->bendingSpringNums_[3]);
+
+	// マッピング
+
 
 }
 
@@ -946,46 +1027,6 @@ void ClothGPU::UAVInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 
 	device->CreateUnorderedAccessView(massPointBuff_.Get(), nullptr, &massPointUavDesc, massPointUavHandleCPU_);
 
-	// バネ情報
-	springIndexBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(int32_t) + 0xff) & ~0xff));
-
-	D3D12_UNORDERED_ACCESS_VIEW_DESC springIndexUavDesc{};
-
-	springIndexUavDesc.Format = DXGI_FORMAT_UNKNOWN;
-	springIndexUavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-	springIndexUavDesc.Buffer.FirstElement = 0;
-	springIndexUavDesc.Buffer.NumElements = 1;
-	springIndexUavDesc.Buffer.CounterOffsetInBytes = 0;
-	springIndexUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
-	springIndexUavDesc.Buffer.StructureByteStride = sizeof(int32_t);
-
-	springIndexUavHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
-	springIndexUavHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
-	springIndexUavIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
-	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
-
-	device->CreateUnorderedAccessView(springIndexBuff_.Get(), nullptr, &springIndexUavDesc, springIndexUavHandleCPU_);
-
-	// バネ情報
-	springBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(ClothSpring) + 0xff) & ~0xff) * NumsMap_->springNum_);
-
-	D3D12_UNORDERED_ACCESS_VIEW_DESC springUavDesc{};
-
-	springUavDesc.Format = DXGI_FORMAT_UNKNOWN;
-	springUavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-	springUavDesc.Buffer.FirstElement = 0;
-	springUavDesc.Buffer.NumElements = NumsMap_->springNum_;
-	springUavDesc.Buffer.CounterOffsetInBytes = 0;
-	springUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
-	springUavDesc.Buffer.StructureByteStride = sizeof(ClothSpring);
-
-	springUavHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
-	springUavHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
-	springUavIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
-	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
-
-	device->CreateUnorderedAccessView(springBuff_.Get(), nullptr, &springUavDesc, springUavHandleCPU_);
-
 }
 
 void ClothGPU::SRVInitialize(ID3D12Device* device)
@@ -999,7 +1040,12 @@ void ClothGPU::SRVInitialize(ID3D12Device* device)
 	for (uint32_t i = 0; i < NumsMap_->massPointNum_; ++i) {
 		externalMap_[i].position_ = {0.0f,0.0f,0.0f};
 		externalMap_[i].isMove_ = 0;
-		externalMap_[i].weight_ = 1.0f;
+		if (i < (createDataMap_->div_.x + 1.0f)) {
+			externalMap_[i].weight_ = 0.0f;
+		}
+		else {
+			externalMap_[i].weight_ = 1.0f;
+		}
 	}
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC externalSrvDesc{};
@@ -1134,10 +1180,6 @@ void ClothGPU::InitializeCS(ID3D12GraphicsCommandList* commandList)
 
 	UAVBarrier(commandList);
 
-	InitSpringCS(commandList);
-
-	UAVBarrier(commandList);
-
 	//コマンドリストをクローズ、キック
 
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
@@ -1212,30 +1254,6 @@ void ClothGPU::InitMassPointCS(ID3D12GraphicsCommandList* commandList)
 
 	commandList->SetComputeRootConstantBufferView(2, createDataBuff_->GetGPUVirtualAddress());
 
-	commandList->SetComputeRootDescriptorTable(3, springIndexUavHandleGPU_);
-
-	commandList->Dispatch((NumsMap_->massPointNum_ + 1023) / 1024, 1, 1);
-
-}
-
-void ClothGPU::InitSpringCS(ID3D12GraphicsCommandList* commandList)
-{
-
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-
-	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexInitSpring].Get());//PS0を設定
-	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexInitSpring].Get());
-
-	commandList->SetComputeRootDescriptorTable(0, springUavHandleGPU_);
-
-	commandList->SetComputeRootConstantBufferView(1, NumsBuff_->GetGPUVirtualAddress());
-
-	commandList->SetComputeRootConstantBufferView(2, createDataBuff_->GetGPUVirtualAddress());
-
-	commandList->SetComputeRootDescriptorTable(3, springIndexUavHandleGPU_);
-
 	commandList->Dispatch((NumsMap_->massPointNum_ + 1023) / 1024, 1, 1);
 
 }
@@ -1265,15 +1283,11 @@ void ClothGPU::UpdateCS(ID3D12GraphicsCommandList* commandList)
 
 	UpdateExternalOperationCS(commandList);
 
-	UAVBarrier(commandList);
-
 	UpdateIntegralCS(commandList);
 
-	UAVBarrier(commandList);
+	UpdateSpringCS(commandList);
 
 	UpdateVertexCS(commandList);
-
-	UAVBarrier(commandList);
 
 }
 
@@ -1294,6 +1308,8 @@ void ClothGPU::UpdateExternalOperationCS(ID3D12GraphicsCommandList* commandList)
 	commandList->SetComputeRootDescriptorTable(2, externalSrvHandleGPU_);
 
 	commandList->Dispatch((NumsMap_->massPointNum_ + 1023) / 1024, 1, 1);
+
+	UAVBarrier(commandList);
 
 }
 
@@ -1317,10 +1333,35 @@ void ClothGPU::UpdateIntegralCS(ID3D12GraphicsCommandList* commandList)
 
 	commandList->Dispatch((NumsMap_->massPointNum_ + 1023) / 1024, 1, 1);
 
+	UAVBarrier(commandList);
+
 }
 
 void ClothGPU::UpdateSpringCS(ID3D12GraphicsCommandList* commandList)
 {
+
+	//// SRV
+	//ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	//commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	//commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexUpdateSpring].Get());//PS0を設定
+	//commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexUpdateSpring].Get());
+
+	//commandList->SetComputeRootConstantBufferView(0, NumsBuff_->GetGPUVirtualAddress());
+
+	//commandList->SetComputeRootConstantBufferView(1, perFrameBuff_->GetGPUVirtualAddress());
+
+	//commandList->SetComputeRootConstantBufferView(2, clothCalcDataBuff_->GetGPUVirtualAddress());
+
+	//commandList->SetComputeRootDescriptorTable(3, massPointUavHandleGPU_);
+	//
+	//commandList->SetComputeRootDescriptorTable(4, springUavHandleGPU_);
+
+	//for (int32_t i = 0; i < relaxation_; ++i) {
+	//	commandList->Dispatch((NumsMap_->springNum_ + 1023) / 1024, 1, 1);
+
+	//	UAVBarrier(commandList);
+	//}
 
 }
 
@@ -1350,6 +1391,8 @@ void ClothGPU::UpdateVertexCS(ID3D12GraphicsCommandList* commandList)
 	commandList->SetComputeRootDescriptorTable(4, surfaceDataUavHandleGPU_);
 
 	commandList->Dispatch((NumsMap_->vertexNum_ + 1023) / 1024, 1, 1);
+
+	UAVBarrier(commandList);
 
 }
 
@@ -1424,5 +1467,31 @@ void ClothGPU::SetPosition(
 		externalMap_[index].position_ = position;
 		externalMap_[index].isMove_ = 1;
 	}
+
+}
+
+void ClothGPU::ClothSpringBufferStruct::Initialize(ID3D12Device* device, uint32_t num)
+{
+
+	// 外部操作
+	buff_ = BufferResource::CreateBufferResource(device, ((sizeof(ClothSpring) + 0xff) & ~0xff) * num);
+	//書き込むためのアドレスを取得
+	buff_->Map(0, nullptr, reinterpret_cast<void**>(&map_));
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC externalSrvDesc{};
+	externalSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	externalSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	externalSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	externalSrvDesc.Buffer.FirstElement = 0;
+	externalSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	externalSrvDesc.Buffer.NumElements = num;
+	externalSrvDesc.Buffer.StructureByteStride = sizeof(ClothSpring);
+
+	srvHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	srvHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	srvIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
+
+	device->CreateShaderResourceView(buff_.Get(), &externalSrvDesc, srvHandleCPU_);
 
 }

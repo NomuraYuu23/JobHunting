@@ -117,10 +117,48 @@ public: // サブクラス
 	/// </summary>
 	struct Nums
 	{
+		std::array<uint32_t,4> structuralSpringNums_;
+		std::array<uint32_t, 4> shearSpringNums_;
+		std::array<uint32_t, 4> bendingSpringNums_;
+
 		uint32_t vertexNum_;
 		uint32_t massPointNum_;
-		uint32_t springNum_;
 		uint32_t surfaceNum_;
+	};
+
+	struct ClothSpringBufferStruct
+	{
+		// バネ情報 (バネの数)
+		Microsoft::WRL::ComPtr<ID3D12Resource> buff_;
+		// 頂点 がどこの質点かマップ
+		ClothSpring* map_ = nullptr;
+		// CPUハンドル
+		D3D12_CPU_DESCRIPTOR_HANDLE srvHandleCPU_{};
+		// GPUハンドル
+		D3D12_GPU_DESCRIPTOR_HANDLE srvHandleGPU_{};
+		// ディスクリプタヒープの位置
+		uint32_t srvIndexDescriptorHeap_ = 0;
+
+		void Initialize(ID3D12Device* device, uint32_t num);
+	};
+
+	enum ClothSpringBufferStructIndex {
+		kClothSpringBufferStructIndexStructural0,
+		kClothSpringBufferStructIndexStructural1,
+		kClothSpringBufferStructIndexStructural2,
+		kClothSpringBufferStructIndexStructural3,
+
+		kClothSpringBufferStructIndexShear0,
+		kClothSpringBufferStructIndexShear1,
+		kClothSpringBufferStructIndexShear2,
+		kClothSpringBufferStructIndexShear3,
+
+		kClothSpringBufferStructIndexBending0,
+		kClothSpringBufferStructIndexBending1,
+		kClothSpringBufferStructIndexBending2,
+		kClothSpringBufferStructIndexBending3,
+
+		kClothSpringBufferStructIndexOfCount // 数える用
 	};
 
 	/// <summary>
@@ -129,7 +167,6 @@ public: // サブクラス
 	enum PipelineStateCSIndex {
 		kPipelineStateCSIndexInitVertex,// 初期化 頂点
 		kPipelineStateCSIndexInitMassPoint,// 初期化 質点
-		kPipelineStateCSIndexInitSpring,// 初期化 バネ
 		kPipelineStateCSIndexInitSurface,// 初期化 面
 
 		kPipelineStateCSIndexUpdateExternalOperation,// 更新 外部操作フェーズ
@@ -194,12 +231,6 @@ private: // CSの初期化、設定
 	/// </summary>
 	/// <param name="device"></param>
 	static void PipelineStateCSInitializeForInitMassPoint(ID3D12Device* device);
-
-	/// <summary>
-	/// 初期化 バネ
-	/// </summary>
-	/// <param name="device"></param>
-	static void PipelineStateCSInitializeForInitSpring(ID3D12Device* device);
 
 	/// <summary>
 	/// 初期化 面
@@ -294,6 +325,12 @@ private: // バッファの初期化、設定
 		const Vector2& div);
 
 	/// <summary>
+	///	バネバッファの初期化
+	/// </summary>
+	/// <param name="device"></param>
+	void SpringBufferInitialize(ID3D12Device* device);
+
+	/// <summary>
 	///	頂点バッファの初期化
 	/// </summary>
 	/// <param name="device"></param>
@@ -343,12 +380,6 @@ private: // CS
 	/// </summary>
 	/// <param name="commandList"></param>
 	void InitMassPointCS(ID3D12GraphicsCommandList* commandList);
-
-	/// <summary>
-	/// バネバッファ初期化
-	/// </summary>
-	/// <param name="commandList"></param>
-	void InitSpringCS(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// 面情報バッファ
@@ -473,6 +504,11 @@ private: // SRV
 	// ディスクリプタヒープの位置
 	uint32_t massPointIndexSrvIndexDescriptorHeap_ = 0;
 
+private:
+
+	// バネバッファ
+	std::array<ClothSpringBufferStruct, kClothSpringBufferStructIndexOfCount> clothSpringBufferStructs_;
+
 private: // CBV
 
 	// 作成時データバッファ
@@ -519,24 +555,6 @@ private: // UAV
 	D3D12_GPU_DESCRIPTOR_HANDLE massPointUavHandleGPU_{};
 	// ディスクリプタヒープの位置
 	uint32_t massPointUavIndexDescriptorHeap_ = 0;
-
-	// バネ情報 (バネの数)
-	Microsoft::WRL::ComPtr<ID3D12Resource> springBuff_;
-	// CPUハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE springUavHandleCPU_{};
-	// GPUハンドル
-	D3D12_GPU_DESCRIPTOR_HANDLE springUavHandleGPU_{};
-	// ディスクリプタヒープの位置
-	uint32_t springUavIndexDescriptorHeap_ = 0;
-
-	// バネの数
-	Microsoft::WRL::ComPtr<ID3D12Resource> springIndexBuff_;
-	// CPUハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE springIndexUavHandleCPU_{};
-	// GPUハンドル
-	D3D12_GPU_DESCRIPTOR_HANDLE springIndexUavHandleGPU_{};
-	// ディスクリプタヒープの位置
-	uint32_t springIndexUavIndexDescriptorHeap_ = 0;
 
 private: // 変数
 
