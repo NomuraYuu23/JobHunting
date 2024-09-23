@@ -20,11 +20,6 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 
 		uint32_t massPointIndex = gMassPointIndexes[index];
 
-		//uint32_t xMax = uint32_t(gCreateData.div_.x + 1.0f);
-
-		//uint32_t y = massPointIndex / xMax;
-		//uint32_t x = massPointIndex % xMax;
-
 		float32_t3 position = gClothMassPoints[massPointIndex].position_;
 
 		gVertexDatas[index].position_ =
@@ -33,8 +28,6 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 				position.y,
 				position.z,
 				1.0f);
-
-		//gVertexDatas[index].texcoord_ = float32_t2(float32_t(x) * rcp(gCreateData.div_.x), float32_t(y) * rcp(gCreateData.div_.y));
 
 		// 法線マッピング
 		float32_t3 normals[4];

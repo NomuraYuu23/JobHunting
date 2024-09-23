@@ -36,7 +36,8 @@ struct ClothCalcData
 struct ExternalOperationData
 {
 	float32_t3 position_;
-	float32_t wight_;
+	uint32_t isMove_;
+	float32_t weight_;
 };
 
 struct ClothMassPoint

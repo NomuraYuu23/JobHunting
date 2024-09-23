@@ -38,11 +38,10 @@ void DebugScene::Update()
 
 	cloth_->Update();
 
-	if (input_->TriggerKey(DIK_P)) {
-		cloth_->SetPosition(10, 10, Vector3{ 1.0f,1.0f,-1.0f });
-	}
-
 	clothGPU_->Update(dxCommon_->GetCommadList());
+	if (input_->TriggerKey(DIK_P)) {
+		clothGPU_->SetPosition(10, 10, Vector3{ 1.0f,1.0f,-1.0f });
+	}
 
 	DebugCameraUpdate();
 

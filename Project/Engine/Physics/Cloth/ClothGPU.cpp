@@ -426,6 +426,91 @@ void ClothGPU::PipelineStateCSInitializeForInitSurface(ID3D12Device* device)
 
 void ClothGPU::PipelineStateCSInitializeForUpdateExternalOperation(ID3D12Device* device)
 {
+
+	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
+	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+	// ルートパラメータ
+	D3D12_ROOT_PARAMETER rootParameters[3] = {};
+
+	// UAV * 1
+	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
+	descriptorRange[0].BaseShaderRegister = 0;//iから始まる
+	descriptorRange[0].NumDescriptors = 1;//数は一つ
+	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	D3D12_DESCRIPTOR_RANGE descriptorRange1[1] = {};
+	descriptorRange1[0].BaseShaderRegister = 1;//iから始まる
+	descriptorRange1[0].NumDescriptors = 1;//数は一つ
+	descriptorRange1[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//UAVを使う
+	descriptorRange1[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
+	rootParameters[0].Descriptor.ShaderRegister = 0;//レジスタ番号indexとバインド
+
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[1].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableの中身の配列を指定
+	rootParameters[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);//Tableで利用する数
+
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[2].DescriptorTable.pDescriptorRanges = descriptorRange1;//Tableの中身の配列を指定
+	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange1);//Tableで利用する数
+
+	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
+	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
+
+	// サンプラー
+	D3D12_STATIC_SAMPLER_DESC samplerDesc[1] = {};
+	samplerDesc[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDesc[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc[0].MipLODBias = 0.0f;
+	samplerDesc[0].MaxAnisotropy = 0;
+	samplerDesc[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	samplerDesc[0].BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
+	samplerDesc[0].MinLOD = 0.0f;
+	samplerDesc[0].MaxLOD = 3.402823466e+38f;
+	samplerDesc[0].RegisterSpace = 0;
+	samplerDesc[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	descriptionRootsignature.pStaticSamplers = samplerDesc;
+	descriptionRootsignature.NumStaticSamplers = _countof(samplerDesc);
+
+	//シリアライズしてバイナリにする
+	ID3DBlob* signatureBlob = nullptr;
+	ID3DBlob* errorBlob = nullptr;
+	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootsignature,
+		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
+	if (FAILED(hr)) {
+		Log::Message(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
+		assert(false);
+	}
+
+	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
+		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexUpdateExternalOperation]));
+	assert(SUCCEEDED(hr));
+
+	// シェーダコンパイル
+	IDxcBlob* shader = CompileShader::Compile(
+		L"Resources/shaders/ClothGPU/ClothUpdateExternalOperation.CS.hlsl",
+		L"cs_6_0",
+		L"main");
+
+	// パイプライン
+	D3D12_COMPUTE_PIPELINE_STATE_DESC desc{};
+	desc.CS.pShaderBytecode = shader->GetBufferPointer();
+	desc.CS.BytecodeLength = shader->GetBufferSize();
+	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+	desc.NodeMask = 0;
+	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexUpdateExternalOperation].Get();
+
+	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexUpdateExternalOperation]));
+	assert(SUCCEEDED(hr));
+
 }
 
 void ClothGPU::PipelineStateCSInitializeForUpdateIntegral(ID3D12Device* device)
@@ -433,6 +518,10 @@ void ClothGPU::PipelineStateCSInitializeForUpdateIntegral(ID3D12Device* device)
 }
 
 void ClothGPU::PipelineStateCSInitializeForUpdateSpring(ID3D12Device* device)
+{
+}
+
+void ClothGPU::PipelineStateCSInitializeForUpdateSurface(ID3D12Device* device)
 {
 }
 
@@ -589,9 +678,13 @@ void ClothGPU::NumInitialize(ID3D12Device* device, const Vector2& div)
 void ClothGPU::Update(ID3D12GraphicsCommandList* commandList)
 {
 
-	UpdateVertexCS(commandList);
+	// 外部操作リセット
+	for (uint32_t i = 0; i < NumsMap_->massPointNum_; ++i) {
+		externalMap_[i].isMove_ = 0;
+	}
 
-	UAVBarrier(commandList);
+	// 時間経過
+	perFrameMap_->time_ += perFrameMap_->deltaTime_;
 
 }
 
@@ -616,8 +709,7 @@ void ClothGPU::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera* camera)
 	wvpMap_->matrix_ = camera->GetViewProjectionMatrix();
 
 	// ここでバネの更新
-	//
-	//
+	UpdateCS(commandList);
 
 	// リソースバリア
 	ResouseBarrierToNonPixelShader(commandList);
@@ -727,10 +819,6 @@ void ClothGPU::VertexBufferInitialize(ID3D12Device* device, ID3D12GraphicsComman
 
 	device->CreateShaderResourceView(vertBuff_.Get(), &srvDesc, vertSrvHandleCPU_);
 
-	//InitVertexCS(commandList);
-
-	//UAVBarrier(commandList);
-
 }
 
 void ClothGPU::UAVInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList)
@@ -755,10 +843,6 @@ void ClothGPU::UAVInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
 
 	device->CreateUnorderedAccessView(surfaceDataBuff_.Get(), nullptr, &surfaceDataUavDesc, surfaceDataUavHandleCPU_);
-
-	//InitSurfaceCS(commandList);
-
-	//UAVBarrier(commandList);
 
 	// 質点情報
 	massPointBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(ClothMassPoint) + 0xff) & ~0xff) * NumsMap_->massPointNum_);
@@ -800,10 +884,6 @@ void ClothGPU::UAVInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 
 	device->CreateUnorderedAccessView(springIndexBuff_.Get(), nullptr, &springIndexUavDesc, springIndexUavHandleCPU_);
 
-	//InitMassPointCS(commandList);
-
-	//UAVBarrier(commandList);
-
 	// バネ情報
 	springBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(ClothSpring) + 0xff) & ~0xff) * NumsMap_->springNum_);
 
@@ -823,10 +903,6 @@ void ClothGPU::UAVInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
 
 	device->CreateUnorderedAccessView(springBuff_.Get(), nullptr, &springUavDesc, springUavHandleCPU_);
-	//
-	//InitSpringCS(commandList);
-
-	//UAVBarrier(commandList);
 
 }
 
@@ -840,7 +916,8 @@ void ClothGPU::SRVInitialize(ID3D12Device* device)
 
 	for (uint32_t i = 0; i < NumsMap_->massPointNum_; ++i) {
 		externalMap_[i].position_ = {0.0f,0.0f,0.0f};
-		externalMap_[i].wight_ = 1.0f;
+		externalMap_[i].isMove_ = 0;
+		externalMap_[i].weight_ = 1.0f;
 	}
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC externalSrvDesc{};
@@ -1101,6 +1178,54 @@ void ClothGPU::InitSurfaceCS(ID3D12GraphicsCommandList* commandList)
 
 }
 
+void ClothGPU::UpdateCS(ID3D12GraphicsCommandList* commandList)
+{
+
+	UpdateExternalOperationCS(commandList);
+
+	UAVBarrier(commandList);
+
+	UpdateVertexCS(commandList);
+
+	UAVBarrier(commandList);
+
+}
+
+void ClothGPU::UpdateExternalOperationCS(ID3D12GraphicsCommandList* commandList)
+{
+
+	// SRV
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexUpdateExternalOperation].Get());//PS0を設定
+	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexUpdateExternalOperation].Get());
+
+	commandList->SetComputeRootConstantBufferView(0, NumsBuff_->GetGPUVirtualAddress());
+
+	commandList->SetComputeRootDescriptorTable(1, massPointUavHandleGPU_);
+
+	commandList->SetComputeRootDescriptorTable(2, externalSrvHandleGPU_);
+
+	commandList->Dispatch((NumsMap_->massPointNum_ + 1023) / 1024, 1, 1);
+
+}
+
+void ClothGPU::UpdateIntegralCS(ID3D12GraphicsCommandList* commandList)
+{
+
+}
+
+void ClothGPU::UpdateSpringCS(ID3D12GraphicsCommandList* commandList)
+{
+
+}
+
+void ClothGPU::UpdateSurfaceCS(ID3D12GraphicsCommandList* commandList)
+{
+
+}
+
 void ClothGPU::UpdateVertexCS(ID3D12GraphicsCommandList* commandList)
 {
 
@@ -1160,5 +1285,41 @@ void ClothGPU::ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* comman
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
 	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
 	commandList->ResourceBarrier(1, &barrier);
+
+}
+
+void ClothGPU::SetWeight(
+	uint32_t y, 
+	uint32_t x, 
+	bool isWight)
+{
+
+	if (y < static_cast<uint32_t>(createDataMap_->div_.y) + 1 &&
+		x < static_cast<uint32_t>(createDataMap_->div_.x) + 1) {
+
+		uint32_t index = y * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + x;
+		float value = 0.0f;
+		if (isWight) {
+			value = 1.0f;
+		}
+		externalMap_[index].weight_ = value;
+	}
+
+}
+
+void ClothGPU::SetPosition(
+	uint32_t y, 
+	uint32_t x, 
+	const Vector3& position)
+{
+
+	if (y < static_cast<uint32_t>(createDataMap_->div_.y) + 1 &&
+		x < static_cast<uint32_t>(createDataMap_->div_.x) + 1) {
+
+		uint32_t index = y * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + x;
+
+		externalMap_[index].position_ = position;
+		externalMap_[index].isMove_ = 1;
+	}
 
 }

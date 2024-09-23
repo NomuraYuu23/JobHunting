@@ -85,7 +85,8 @@ public: // サブクラス
 	struct ExternalOperationData
 	{	
 		Vector3 position_; // 位置
-		float wight_; // 重み
+		uint32_t isMove_; // 位置動かすか
+		float weight_; // 重み
 	};
 
 	/// <summary>
@@ -134,6 +135,8 @@ public: // サブクラス
 		kPipelineStateCSIndexUpdateExternalOperation,// 更新 外部操作フェーズ
 		kPipelineStateCSIndexUpdateIntegral,// 更新 積分フェーズ
 		kPipelineStateCSIndexUpdateSpring,// 更新 バネフェーズ
+		kPipelineStateCSIndexUpdateSurface,// 更新 面
+
 		kPipelineStateCSIndexUpdateVertex,// 更新 頂点フェーズ
 
 		kPipelineStateCSIndexOfCount // 数える用
@@ -221,6 +224,12 @@ private: // CSの初期化、設定
 	/// </summary>
 	/// <param name="device"></param>
 	static void PipelineStateCSInitializeForUpdateSpring(ID3D12Device* device);
+
+	/// <summary>
+	/// 更新 面
+	/// </summary>
+	/// <param name="device"></param>
+	static void PipelineStateCSInitializeForUpdateSurface(ID3D12Device* device);
 
 	/// <summary>
 	/// 更新 頂点フェーズ
@@ -348,7 +357,13 @@ private: // CS
 	void InitSurfaceCS(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
-	/// 
+	/// CS更新
+	/// </summary>
+	/// <param name="commandList"></param>
+	void UpdateCS(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// 更新 外部操作フェーズ
 	/// </summary>
 	/// <param name="commandList"></param>
 	void UpdateExternalOperationCS(ID3D12GraphicsCommandList* commandList);
@@ -369,9 +384,15 @@ private: // CS
 	/// 
 	/// </summary>
 	/// <param name="commandList"></param>
+	void UpdateSurfaceCS(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="commandList"></param>
 	void UpdateVertexCS(ID3D12GraphicsCommandList* commandList);
 
-private:
+private: // バリア―
 
 	/// <summary>
 	/// UAVバリア―
@@ -390,6 +411,24 @@ private:
 	/// </summary>
 	/// <param name="commandList"></param>
 	void ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* commandList);
+
+public: // 外部操作関数
+
+	/// <summary>
+	/// 重み設定
+	/// </summary>
+	/// <param name="y">y</param>
+	/// <param name="x">x</param>
+	/// <param name="isWight">重みをつけるか</param>
+	void SetWeight(uint32_t y, uint32_t x, bool isWight);
+
+	/// <summary>
+	/// 位置設定
+	/// </summary>
+	/// <param name="y">y</param>
+	/// <param name="x">x</param>
+	/// <param name="position">位置</param>
+	void SetPosition(uint32_t y, uint32_t x, const Vector3& position);
 
 private: // UAV & SRV
 
