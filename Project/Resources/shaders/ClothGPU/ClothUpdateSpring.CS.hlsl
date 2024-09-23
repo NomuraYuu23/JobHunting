@@ -11,13 +11,37 @@ RWStructuredBuffer<ClothMassPoint> gClothMassPoints : register(u0);
 
 StructuredBuffer<ClothSpring> gClothSprings : register(t1);
 
+RWStructuredBuffer<uint32_t> gSpringIndex :  register(u2);
+
 [numthreads(1024, 1, 1)]
 void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 {
 
 	uint32_t index = dispatchId.x;
 
-	if (gNums. > index) {
+	if (index == 0) {
+		gSpringIndex[0]++;
+		if (gSpringIndex[0] >= 12) {
+			gSpringIndex[0] = 0;
+		}
+	}
+
+	// ここでたいき
+	AllMemoryBarrierWithGroupSync();
+
+	uint32_t num = 0;
+
+	if (gSpringIndex[0] < 4) {
+		num = gNums.structuralSpringNums_[gSpringIndex[0] % 4];
+	}
+	else if (gSpringIndex[0] < 8) {
+		num = gNums.shearSpringNums_[gSpringIndex[0] % 4];
+	}
+	else {
+		num = gNums.bendingSpringNums_[gSpringIndex[0] % 4];
+	}
+
+	if (num > index) {
 
 		ClothSpring spring = gClothSprings[index];
 
@@ -63,15 +87,15 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 		dx = point1.position_ - point0.position_;
 		dx = normalize(dx);
 		dx *= force;
-		dx *= gPerFrame.deltaTime * gPerFrame.deltaTime * 0.5f * rcp(gClothCalcData.mass);
+		dx *= gPerFrame.deltaTime * gPerFrame.deltaTime * 0.5f * rcp(gClothCalcData.mass_);
 
 		// 位置更新
 		float32_t3 dx0 = (float32_t3)0;
 		dx0 = dx * (point0.weight_ / (point0.weight_ + point1.weight_));
-		gClothMassPoints[spring.pointIndex0_] += dx0;
+		gClothMassPoints[spring.pointIndex0_].position_ += dx0;
 		float32_t3 dx1 = (float32_t3)0;
 		dx1 = dx * (point1.weight_ / (point0.weight_ + point1.weight_));
-		gClothMassPoints[spring.pointIndex1_] -= dx1;
+		gClothMassPoints[spring.pointIndex1_].position_ -= dx1;
 	
 	}
 

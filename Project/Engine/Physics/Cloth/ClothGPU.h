@@ -461,6 +461,23 @@ public: // 外部操作関数
 	/// <param name="position">位置</param>
 	void SetPosition(uint32_t y, uint32_t x, const Vector3& position);
 
+private: // その他関数
+
+		/// <summary>
+		/// バネ作成
+		/// </summary>
+		/// <param name="x">始点X</param>
+		/// <param name="y">始点Y</param>
+		/// <param name="offsetX">始点から終点への距離X</param>
+		/// <param name="offsetY">始点から終点への距離Y</param>
+		/// <param name="type">タイプ</param>
+		void SpringGeneration(
+			uint32_t x,
+			uint32_t y,
+			int32_t offsetX,
+			int32_t offsetY,
+			uint32_t type);
+
 private: // UAV & SRV
 
 	// 頂点 (頂点の数)
@@ -509,6 +526,8 @@ private:
 	// バネバッファ
 	std::array<ClothSpringBufferStruct, kClothSpringBufferStructIndexOfCount> clothSpringBufferStructs_;
 
+	std::array<uint32_t, kClothSpringBufferStructIndexOfCount> springInitNextIndexes_;
+
 private: // CBV
 
 	// 作成時データバッファ
@@ -555,6 +574,15 @@ private: // UAV
 	D3D12_GPU_DESCRIPTOR_HANDLE massPointUavHandleGPU_{};
 	// ディスクリプタヒープの位置
 	uint32_t massPointUavIndexDescriptorHeap_ = 0;
+
+	// バネのindex
+	Microsoft::WRL::ComPtr<ID3D12Resource> springIndexBuff_;
+	// CPUハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE springIndexUavHandleCPU_{};
+	// GPUハンドル
+	D3D12_GPU_DESCRIPTOR_HANDLE springIndexUavHandleGPU_{};
+	// ディスクリプタヒープの位置
+	uint32_t springIndexUavIndexDescriptorHeap_ = 0;
 
 private: // 変数
 

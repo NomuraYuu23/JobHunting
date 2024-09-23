@@ -157,7 +157,7 @@ void ClothGPU::PipelineStateCSInitializeForInitMassPoint(ID3D12Device* device)
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[3] = {};
+	D3D12_ROOT_PARAMETER rootParameters[4] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -165,6 +165,12 @@ void ClothGPU::PipelineStateCSInitializeForInitMassPoint(ID3D12Device* device)
 	descriptorRange[0].NumDescriptors = 1;//数は一つ
 	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	D3D12_DESCRIPTOR_RANGE descriptorRange1[1] = {};
+	descriptorRange1[0].BaseShaderRegister = 1;//iから始まる
+	descriptorRange1[0].NumDescriptors = 1;//数は一つ
+	descriptorRange1[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	descriptorRange1[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
@@ -178,6 +184,11 @@ void ClothGPU::PipelineStateCSInitializeForInitMassPoint(ID3D12Device* device)
 	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
 	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
 	rootParameters[2].Descriptor.ShaderRegister = 1;//レジスタ番号indexとバインド
+
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[3].DescriptorTable.pDescriptorRanges = descriptorRange1;//Tableの中身の配列を指定
+	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange1);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
@@ -503,7 +514,7 @@ void ClothGPU::PipelineStateCSInitializeForUpdateSpring(ID3D12Device* device)
 	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
-	D3D12_ROOT_PARAMETER rootParameters[5] = {};
+	D3D12_ROOT_PARAMETER rootParameters[6] = {};
 
 	// UAV * 1
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
@@ -515,8 +526,14 @@ void ClothGPU::PipelineStateCSInitializeForUpdateSpring(ID3D12Device* device)
 	D3D12_DESCRIPTOR_RANGE descriptorRange1[1] = {};
 	descriptorRange1[0].BaseShaderRegister = 1;//iから始まる
 	descriptorRange1[0].NumDescriptors = 1;//数は一つ
-	descriptorRange1[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	descriptorRange1[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//UAVを使う
 	descriptorRange1[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+
+	D3D12_DESCRIPTOR_RANGE descriptorRange2[1] = {};
+	descriptorRange2[0].BaseShaderRegister = 2;//iから始まる
+	descriptorRange2[0].NumDescriptors = 1;//数は一つ
+	descriptorRange2[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;//UAVを使う
+	descriptorRange2[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
 
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;   //CBVを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL; //全てで使う
@@ -539,6 +556,11 @@ void ClothGPU::PipelineStateCSInitializeForUpdateSpring(ID3D12Device* device)
 	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
 	rootParameters[4].DescriptorTable.pDescriptorRanges = descriptorRange1;//Tableの中身の配列を指定
 	rootParameters[4].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange1);//Tableで利用する数
+
+	rootParameters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てで使う
+	rootParameters[5].DescriptorTable.pDescriptorRanges = descriptorRange2;//Tableの中身の配列を指定
+	rootParameters[5].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange2);//Tableで利用する数
 
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
 	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
@@ -939,7 +961,27 @@ void ClothGPU::SpringBufferInitialize(ID3D12Device* device)
 	clothSpringBufferStructs_[kClothSpringBufferStructIndexBending3].Initialize(device, NumsMap_->bendingSpringNums_[3]);
 
 	// マッピング
+	for (uint32_t i = 0; i < kClothSpringBufferStructIndexOfCount; ++i) {
+		springInitNextIndexes_[i] = 0;
+	}
 
+	for (uint32_t y = 0; y < static_cast<uint32_t>(createDataMap_->div_.y) + 1; ++y) {
+		for (uint32_t x = 0; x < static_cast<uint32_t>(createDataMap_->div_.x) + 1; ++x) {
+
+			// 構成バネ
+			SpringGeneration(x, y, -1, 0, 0); // xが0
+			SpringGeneration(x, y, 0, -1, 0); // yが0
+
+			// せん断バネ
+			SpringGeneration(x, y, -1, -1, 1); // xまたはyが0
+			SpringGeneration(x, y, 1, -1, 1); // xがstatic_cast<uint32_t>(div_.x) または yが0
+
+			// 曲げバネ
+			SpringGeneration(x, y, -2, 0, 2); // xが0,1
+			SpringGeneration(x, y, 0, -2, 2); // yが0,1
+
+		}
+	}
 
 }
 
@@ -1026,6 +1068,26 @@ void ClothGPU::UAVInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* co
 	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
 
 	device->CreateUnorderedAccessView(massPointBuff_.Get(), nullptr, &massPointUavDesc, massPointUavHandleCPU_);
+
+	// バネindex
+	springIndexBuff_ = BufferResource::CreateBufferResourceUAV(device, ((sizeof(uint32_t) + 0xff) & ~0xff));
+
+	D3D12_UNORDERED_ACCESS_VIEW_DESC springIndexUavDesc{};
+
+	springIndexUavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	springIndexUavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	springIndexUavDesc.Buffer.FirstElement = 0;
+	springIndexUavDesc.Buffer.NumElements = 1;
+	springIndexUavDesc.Buffer.CounterOffsetInBytes = 0;
+	springIndexUavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+	springIndexUavDesc.Buffer.StructureByteStride = sizeof(uint32_t);
+
+	springIndexUavHandleCPU_ = SRVDescriptorHerpManager::GetCPUDescriptorHandle();
+	springIndexUavHandleGPU_ = SRVDescriptorHerpManager::GetGPUDescriptorHandle();
+	springIndexUavIndexDescriptorHeap_ = SRVDescriptorHerpManager::GetNextIndexDescriptorHeap();
+	SRVDescriptorHerpManager::NextIndexDescriptorHeapChange();
+
+	device->CreateUnorderedAccessView(springIndexBuff_.Get(), nullptr, &springIndexUavDesc, springIndexUavHandleCPU_);
 
 }
 
@@ -1254,6 +1316,8 @@ void ClothGPU::InitMassPointCS(ID3D12GraphicsCommandList* commandList)
 
 	commandList->SetComputeRootConstantBufferView(2, createDataBuff_->GetGPUVirtualAddress());
 
+	commandList->SetComputeRootDescriptorTable(3, springIndexUavHandleGPU_);
+
 	commandList->Dispatch((NumsMap_->massPointNum_ + 1023) / 1024, 1, 1);
 
 }
@@ -1340,28 +1404,47 @@ void ClothGPU::UpdateIntegralCS(ID3D12GraphicsCommandList* commandList)
 void ClothGPU::UpdateSpringCS(ID3D12GraphicsCommandList* commandList)
 {
 
-	//// SRV
-	//ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	//commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	// SRV
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
-	//commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexUpdateSpring].Get());//PS0を設定
-	//commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexUpdateSpring].Get());
+	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexUpdateSpring].Get());//PS0を設定
+	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexUpdateSpring].Get());
 
-	//commandList->SetComputeRootConstantBufferView(0, NumsBuff_->GetGPUVirtualAddress());
+	commandList->SetComputeRootConstantBufferView(0, NumsBuff_->GetGPUVirtualAddress());
 
-	//commandList->SetComputeRootConstantBufferView(1, perFrameBuff_->GetGPUVirtualAddress());
+	commandList->SetComputeRootConstantBufferView(1, perFrameBuff_->GetGPUVirtualAddress());
 
-	//commandList->SetComputeRootConstantBufferView(2, clothCalcDataBuff_->GetGPUVirtualAddress());
+	commandList->SetComputeRootConstantBufferView(2, clothCalcDataBuff_->GetGPUVirtualAddress());
 
-	//commandList->SetComputeRootDescriptorTable(3, massPointUavHandleGPU_);
-	//
-	//commandList->SetComputeRootDescriptorTable(4, springUavHandleGPU_);
+	commandList->SetComputeRootDescriptorTable(3, massPointUavHandleGPU_);
 
-	//for (int32_t i = 0; i < relaxation_; ++i) {
-	//	commandList->Dispatch((NumsMap_->springNum_ + 1023) / 1024, 1, 1);
+	commandList->SetComputeRootDescriptorTable(5, springIndexUavHandleGPU_);
 
-	//	UAVBarrier(commandList);
-	//}
+	for (int32_t i = 0; i < relaxation_; ++i) {
+
+		for (int32_t j = 0; j < kClothSpringBufferStructIndexOfCount; ++j) {
+
+			commandList->SetComputeRootDescriptorTable(4, clothSpringBufferStructs_[j].srvHandleGPU_);
+
+			uint32_t num = 0;
+
+			if (j < 4) {
+				num = NumsMap_->structuralSpringNums_[j % 4];
+			}
+			else if (j < 8) {
+				num = NumsMap_->shearSpringNums_[j % 4];
+			}
+			else {
+				num = NumsMap_->bendingSpringNums_[j % 4];
+			}
+
+			commandList->Dispatch((num + 1023) / 1024, 1, 1);
+
+			UAVBarrier(commandList);
+		}
+
+	}
 
 }
 
@@ -1467,6 +1550,124 @@ void ClothGPU::SetPosition(
 		externalMap_[index].position_ = position;
 		externalMap_[index].isMove_ = 1;
 	}
+
+}
+
+void ClothGPU::SpringGeneration(uint32_t x, uint32_t y, int32_t offsetX, int32_t offsetY, uint32_t type)
+{
+
+
+	// 終点位置
+	int32_t targetX = x + offsetX;
+	int32_t targetY = y + offsetY;
+
+	// 範囲内か確認
+	if (targetX >= 0 &&
+		targetX < static_cast<int32_t>(createDataMap_->div_.x) + 1 &&
+		targetY >= 0 &&
+		targetY < static_cast<int32_t>(createDataMap_->div_.y) + 1) {
+
+		// バネ
+		ClothSpring spring;
+		// 質点
+		uint32_t index = y * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + x;
+		spring.pointIndex0_ = index;
+		index = targetY * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + targetX;
+		spring.pointIndex1_ = index;
+		// 自然長
+
+		Vector2 distance =
+			Vector2(
+				static_cast<float>(offsetX) * createDataMap_->scale_.x / createDataMap_->div_.x,
+				static_cast<float>(offsetY) * createDataMap_->scale_.y / createDataMap_->div_.y);
+
+		spring.naturalLength_ = Vector2::Length(distance);
+		// バネの種類
+		spring.type_ = type;
+		
+		// 登録
+		if (spring.type_ == 0) {
+			if (offsetX == -1) {
+				// 0
+				if (targetX % 2 == 0) {
+					clothSpringBufferStructs_[0].map_[springInitNextIndexes_[0]] = spring;
+					springInitNextIndexes_[0]++;
+				}
+				// 1
+				else {
+					clothSpringBufferStructs_[1].map_[springInitNextIndexes_[1]] = spring;
+					springInitNextIndexes_[1]++;
+				}
+			}
+			else {
+				// 2
+				if (targetY % 2 == 0) {
+					clothSpringBufferStructs_[2].map_[springInitNextIndexes_[2]] = spring;
+					springInitNextIndexes_[2]++;
+				}
+				// 3
+				else {
+					clothSpringBufferStructs_[3].map_[springInitNextIndexes_[3]] = spring;
+					springInitNextIndexes_[3]++;
+				}
+			}
+		}
+		else if (spring.type_ == 1) {
+			if (offsetX == -1) {
+				// 4
+				if (targetX % 2 == 0) {
+					clothSpringBufferStructs_[4].map_[springInitNextIndexes_[4]] = spring;
+					springInitNextIndexes_[4]++;
+				}
+				// 5
+				else {
+					clothSpringBufferStructs_[5].map_[springInitNextIndexes_[5]] = spring;
+					springInitNextIndexes_[5]++;
+				}
+			}
+			else {
+				// 6
+				if (targetX % 2 == 0) {
+					clothSpringBufferStructs_[6].map_[springInitNextIndexes_[6]] = spring;
+					springInitNextIndexes_[6]++;
+				}
+				// 7
+				else {
+					clothSpringBufferStructs_[7].map_[springInitNextIndexes_[7]] = spring;
+					springInitNextIndexes_[7]++;
+				}
+			}
+		}
+		else {
+			if (offsetX == -2) {
+				// 8
+				if (targetX % 4 <= 1) {
+					clothSpringBufferStructs_[8].map_[springInitNextIndexes_[8]] = spring;
+					springInitNextIndexes_[8]++;
+				}
+				// 9
+				else {
+					clothSpringBufferStructs_[9].map_[springInitNextIndexes_[9]] = spring;
+					springInitNextIndexes_[9]++;
+				}
+			}
+			else {
+				// 10
+				if (targetY % 4 <= 1) {
+					clothSpringBufferStructs_[10].map_[springInitNextIndexes_[10]] = spring;
+					springInitNextIndexes_[10]++;
+				}
+				// 11
+				else {
+					clothSpringBufferStructs_[11].map_[springInitNextIndexes_[11]] = spring;
+					springInitNextIndexes_[11]++;
+				}
+			}
+
+		}
+
+	}
+
 
 }
 
