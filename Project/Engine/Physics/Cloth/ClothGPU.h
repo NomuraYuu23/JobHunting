@@ -139,6 +139,9 @@ public: // サブクラス
 		// ディスクリプタヒープの位置
 		uint32_t srvIndexDescriptorHeap_ = 0;
 
+		/// <summary>
+		/// 初期化
+		/// </summary>
 		void Initialize(ID3D12Device* device, uint32_t num);
 	};
 
@@ -521,11 +524,12 @@ private: // SRV
 	// ディスクリプタヒープの位置
 	uint32_t massPointIndexSrvIndexDescriptorHeap_ = 0;
 
-private:
+private: // バネ(SRV)
 
 	// バネバッファ
 	std::array<ClothSpringBufferStruct, kClothSpringBufferStructIndexOfCount> clothSpringBufferStructs_;
 
+	// バネの初期化時のindex情報
 	std::array<uint32_t, kClothSpringBufferStructIndexOfCount> springInitNextIndexes_;
 
 private: // CBV

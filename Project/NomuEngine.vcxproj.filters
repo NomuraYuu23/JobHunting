@@ -2158,5 +2158,8 @@
     <FxCompile Include="Resources\shaders\ClothGPU\ClothGPU.VS.hlsl">
       <Filter>shaders\ClothGPU</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothUpdateSurface.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
