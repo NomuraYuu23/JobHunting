@@ -81,11 +81,6 @@ private:
 	std::unique_ptr<Model> particleUvcheckerModel_ = nullptr;
 	std::unique_ptr<Model> particleCircleModel_ = nullptr;
 
-	// ライト
-	std::unique_ptr<DirectionalLight> directionalLight_;
-	Vector3 direction = { 1.0f, -1.0f, 0.0f};
-	float intencity = 1.0f;
-
 	std::unique_ptr<CollisionManager> collisionManager_;
 
 	// UIマネージャー
@@ -99,14 +94,6 @@ private:
 	// スカイドーム
 	std::unique_ptr<Skydome> skydome_;
 	std::unique_ptr<Model> skydomeModel_;
-
-	// 点光源
-	std::unique_ptr<PointLightManager> pointLightManager_;
-	std::array<PointLightData, PointLightManager::kNumInstanceMax_> pointLightDatas_;
-
-	// スポットライト
-	std::unique_ptr<SpotLightManager> spotLightManager_;
-	std::array<SpotLightData, SpotLightManager::kNumInstanceMax_> spotLightDatas_;
 
 	// 追加カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
