@@ -19,15 +19,15 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 
 		ClothMassPoint massPoint = gClothMassPoints[index];
 		// 重力
-		float32_t3 force = float32_t3( 0.0f, -9.8f, 0.0f );
+		float32_t3 force = gClothCalcData.gravity_;
 		// 風力
-		float32_t3 wind = (float32_t3)0;
+		float32_t3 wind = gClothCalcData.wind_;
 		force += wind;
 		// 変位に変換
 		force = force * (gPerFrame.deltaTime * gPerFrame.deltaTime * 0.5f * rcp(gClothCalcData.mass_));
 
 		// 抵抗
-		float resistance = 1.0f - gClothCalcData.speedResistance_ * gPerFrame.deltaTime;
+		float32_t resistance = 1.0f - gClothCalcData.speedResistance_ * gPerFrame.deltaTime;
 
 		// 変位
 		float32_t3 dx = (float32_t3)0;
@@ -36,7 +36,7 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 		// 前フレーム位置更新
 		gClothMassPoints[index].prePosition_ = massPoint.position_;
 		// 力の変位を足しこむ
-		dx = dx + force + wind;
+		dx = dx + force;
 		// 抵抗
 		dx *= resistance;
 

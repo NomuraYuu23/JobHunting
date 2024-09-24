@@ -66,11 +66,10 @@ public: // サブクラス
 	struct ClothCalcData
 	{
 		float mass_; // 質点の質量
+		Vector3 gravity_; // 重力
+		Vector3 wind_; // 風力
 		float stiffness_; // 剛性。バネ定数k
-
 		float speedResistance_; // 速度抵抗
-
-
 		float structuralShrink_; // 構成バネ伸び抵抗
 		float structuralStretch_; // 構成バネ縮み抵抗
 		float shearShrink_; // せん断バネ伸び抵抗
@@ -142,9 +141,14 @@ public: // サブクラス
 		/// <summary>
 		/// 初期化
 		/// </summary>
+		/// <param name="device">デバイス</param>
+		/// <param name="num">数</param>
 		void Initialize(ID3D12Device* device, uint32_t num);
 	};
 
+	/// <summary>
+	/// バネの種類
+	/// </summary>
 	enum ClothSpringBufferStructIndex {
 		kClothSpringBufferStructIndexStructural0,
 		kClothSpringBufferStructIndexStructural1,
@@ -271,7 +275,7 @@ private: // CSの初期化、設定
 	/// <param name="device"></param>
 	static void PipelineStateCSInitializeForUpdateVertex(ID3D12Device* device);
 
-public:
+public: // メンバ関数
 
 	/// <summary>
 	/// 初期化
@@ -280,15 +284,17 @@ public:
 	/// <param name="commandList">コマンドリスト</param>
 	/// <param name="scale">大きさ</param>
 	/// <param name="div">分割数</param>
+	/// <param name="textureName">テクスチャの名前(パスも含めて)</param>
 	void Initialize(
 		ID3D12Device* device,
 		ID3D12GraphicsCommandList* commandList, 
 		const Vector2& scale, 
-		const Vector2& div);
+		const Vector2& div,
+		const std::string textureName);
 
-	///// <summary>
-	///// 更新
-	///// </summary>
+	/// <summary>
+	/// 更新
+	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>
 	void Update(ID3D12GraphicsCommandList* commandList);
 
@@ -298,6 +304,12 @@ public:
 	/// <param name="commandList">コマンドリスト</param>
 	/// <param name="camera">カメラ</param>
 	void Draw(ID3D12GraphicsCommandList* commandList, BaseCamera* camera);
+
+	/// <summary>
+	/// ImGui
+	/// </summary>
+	/// <param name="name">名前</param>
+	void ImGuiDraw(const std::string& name);
 
 private: // 変数の初期化
 
@@ -311,7 +323,8 @@ private: // 変数の初期化
 	/// <summary>
 	/// マテリアル初期化
 	/// </summary>
-	void MaterialInitialize();
+	/// <param name="textureName">テクスチャの名前(パスも含めて)</param>
+	void MaterialInitialize(const std::string textureName);
 
 private: // バッファの初期化、設定
 
@@ -466,20 +479,57 @@ public: // 外部操作関数
 
 private: // その他関数
 
-		/// <summary>
-		/// バネ作成
-		/// </summary>
-		/// <param name="x">始点X</param>
-		/// <param name="y">始点Y</param>
-		/// <param name="offsetX">始点から終点への距離X</param>
-		/// <param name="offsetY">始点から終点への距離Y</param>
-		/// <param name="type">タイプ</param>
-		void SpringGeneration(
-			uint32_t x,
-			uint32_t y,
-			int32_t offsetX,
-			int32_t offsetY,
-			uint32_t type);
+	/// <summary>
+	/// バネ作成
+	/// </summary>
+	/// <param name="x">始点X</param>
+	/// <param name="y">始点Y</param>
+	/// <param name="offsetX">始点から終点への距離X</param>
+	/// <param name="offsetY">始点から終点への距離Y</param>
+	/// <param name="type">タイプ</param>
+	void SpringGeneration(
+		uint32_t x,
+		uint32_t y,
+		int32_t offsetX,
+		int32_t offsetY,
+		uint32_t type);
+
+private: // その他関数
+
+	/// <summary>
+	/// マテリアル更新
+	/// </summary>
+	/// <param name="uvTransform">UVトランスフォーム</param>
+	/// <param name="color">色</param>
+	/// <param name="enableLighting">照明を有効にする</param>
+	/// <param name="shininess">輝き</param>
+	/// <param name="environmentCoefficient">環境係数</param>
+	void MaterialUpdate(
+		const EulerTransform& uvTransform, 
+		const Vector4& color, 
+		int enableLighting, 
+		float shininess, 
+		float environmentCoefficient);
+
+public: // アクセッサ
+
+	// 布計算
+	void SetGravity(const Vector3& gravity) { clothCalcDataMap_->gravity_ = gravity; }
+	void SetWind(const Vector3& wind) { clothCalcDataMap_->wind_ = wind; }
+	void SetStiffness(float stiffness) { clothCalcDataMap_->stiffness_ = stiffness; }
+	void SetSpeedResistance(float speedResistance) { clothCalcDataMap_->speedResistance_ = speedResistance; }
+	void SetStructuralShrink(float structuralShrink) { clothCalcDataMap_->structuralShrink_ = structuralShrink; }
+	void SetStructuralStretch(float structuralStretch) { clothCalcDataMap_->structuralStretch_ = structuralStretch; }
+	void SetShearShrink(float shearShrink) { clothCalcDataMap_->shearShrink_ = shearShrink; }
+	void SetShearStretch(float shearStretch) { clothCalcDataMap_->shearStretch_ = shearStretch; }
+	void SetBendingShrink(float bendingShrink) { clothCalcDataMap_->bendingShrink_ = bendingShrink; }
+	void SetBendingStretch(float bendingStretch) { clothCalcDataMap_->bendingStretch_ = bendingStretch; }
+
+	// バネフェーズの反復回数
+	void SetRelaxation(int32_t relaxation) { relaxation_ = relaxation; }
+
+	// マテリアル
+	Material* GetMaterial() { return material_.get(); }
 
 private: // UAV & SRV
 
@@ -536,17 +586,17 @@ private: // CBV
 
 	// 作成時データバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> createDataBuff_;
-	//WVPマップ
+	// マップ
 	CreateData* createDataMap_ = nullptr;
 
 	// WVPバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> wvpBuff_;
-	//WVPマップ
+	// WVPマップ
 	WVP* wvpMap_ = nullptr;
 
 	// 布計算バッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> clothCalcDataBuff_;
-	//WVPマップ
+	// 布計算マップ
 	ClothCalcData* clothCalcDataMap_ = nullptr;
 
 	// 時間バッファ

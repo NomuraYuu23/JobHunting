@@ -27,7 +27,7 @@ void DebugScene::Initialize()
 		spotLightManager_.get(),
 		FogManager::GetInstance());
 	clothGPU_ = std::make_unique<ClothGPU>();
-	clothGPU_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), Vector2{ 2.0f, 2.0f }, Vector2{ 15.0f, 15.0f });
+	clothGPU_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), Vector2{ 2.0f, 2.0f }, Vector2{ 15.0f, 15.0f }, "Resources/default/clothDemo.png");
 
 	IScene::InitilaizeCheck();
 
@@ -82,6 +82,8 @@ void DebugScene::ImguiDraw()
 {
 
 	cloth_->ImGuiDraw();
+
+	clothGPU_->ImGuiDraw("clothGPU");
 
 	debugCamera_->ImGuiDraw();
 

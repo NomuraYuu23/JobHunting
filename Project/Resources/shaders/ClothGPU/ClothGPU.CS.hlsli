@@ -22,6 +22,8 @@ struct CreateData
 struct ClothCalcData
 {
 	float32_t mass_;
+	float32_t3 gravity_;
+	float32_t3 wind_;
 	float32_t stiffness_;
 	float32_t speedResistance_;
 

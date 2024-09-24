@@ -5,6 +5,7 @@
 #include "../../base/Log.h"
 #include "../../base/TextureManager.h"
 #include "../../Math/DeltaTime.h"
+#include "../../2D/ImguiManager.h"
 
 //	平行光源
 DirectionalLight* ClothGPU::sDirectionalLight_ = nullptr;
@@ -813,108 +814,21 @@ void ClothGPU::PipelineStateCSInitializeForUpdateVertex(ID3D12Device* device)
 
 }
 
-void ClothGPU::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const Vector2& scale, const Vector2& div)
+void ClothGPU::Initialize(
+	ID3D12Device* device, 
+	ID3D12GraphicsCommandList* commandList, 
+	const Vector2& scale, 
+	const Vector2& div,
+	const std::string textureName)
 {
 
 	NumInitialize(device, div);
 
-	MaterialInitialize();
+	MaterialInitialize(textureName);
 
 	BufferInitialize(device, commandList, scale, div);
 
 	InitializeCS(commandList);
-
-}
-
-void ClothGPU::NumInitialize(ID3D12Device* device, const Vector2& div)
-{
-
-	// 頂点数(CPUのIndexと同じ数)
-	NumsBuff_ = BufferResource::CreateBufferResource(device, (sizeof(Nums) + 0xff) & ~0xff);
-	NumsBuff_->Map(0, nullptr, reinterpret_cast<void**>(&NumsMap_));
-	NumsMap_->vertexNum_ = static_cast<uint32_t>(div.y) * static_cast<uint32_t>(div.x) * 6;
-
-	// 質点数
-	NumsMap_->massPointNum_ = (static_cast<uint32_t>(div.y) + 1) * (static_cast<uint32_t>(div.x) + 1);
-
-	// バネ数
-	NumsMap_->structuralSpringNums_[0] = (static_cast<uint32_t>(div.y) + 1) * (static_cast<uint32_t>(div.x) / 2);
-	NumsMap_->structuralSpringNums_[1] = (static_cast<uint32_t>(div.y) + 1) * (static_cast<uint32_t>(div.x) / 2);	
-	NumsMap_->structuralSpringNums_[2] = (static_cast<uint32_t>(div.y) / 2) * (static_cast<uint32_t>(div.x) + 1);
-	NumsMap_->structuralSpringNums_[3] = (static_cast<uint32_t>(div.y) / 2) * (static_cast<uint32_t>(div.x) + 1);
-
-	if (static_cast<uint32_t>(div.x) % 2 == 0) {
-		NumsMap_->structuralSpringNums_[0] += static_cast<uint32_t>(div.y) + 1;
-	}
-	if (static_cast<uint32_t>(div.y) % 2 == 0) {
-		NumsMap_->structuralSpringNums_[2] += static_cast<uint32_t>(div.x) + 1;
-	}
-
-	NumsMap_->shearSpringNums_[0] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
-	NumsMap_->shearSpringNums_[1] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
-	NumsMap_->shearSpringNums_[2] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
-	NumsMap_->shearSpringNums_[3] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
-
-	if (static_cast<uint32_t>(div.x) % 2 == 1) {
-		NumsMap_->shearSpringNums_[0] += static_cast<uint32_t>(div.y);
-		NumsMap_->shearSpringNums_[2] += static_cast<uint32_t>(div.y);
-	}
-
-
-	uint32_t bendingX = static_cast<uint32_t>(div.x) - 1;
-	uint32_t base = bendingX / 4;
-	uint32_t add = bendingX % 4;
-
-	NumsMap_->bendingSpringNums_[0] = (static_cast<uint32_t>(div.y) + 1) * 2 * base;
-	NumsMap_->bendingSpringNums_[1] = (static_cast<uint32_t>(div.y) + 1) * 2 * base;
-
-	if (add == 1 || add == 2) {
-		NumsMap_->bendingSpringNums_[0] += (static_cast<uint32_t>(div.y) + 1) * add;
-	}
-	else if (add == 3) {
-		NumsMap_->bendingSpringNums_[0] += (static_cast<uint32_t>(div.y) + 1) * 2;
-		NumsMap_->bendingSpringNums_[1] += (static_cast<uint32_t>(div.y) + 1);
-	}
-
-
-	uint32_t bendingY = static_cast<uint32_t>(div.y) - 1;
-	base = bendingY / 4;
-	add = bendingY % 4;
-
-	NumsMap_->bendingSpringNums_[2] = (static_cast<uint32_t>(div.x) + 1) * 2 * base;
-	NumsMap_->bendingSpringNums_[3] = (static_cast<uint32_t>(div.x) + 1) * 2 * base;
-
-	if (add == 1 || add == 2) {
-		NumsMap_->bendingSpringNums_[2] += (static_cast<uint32_t>(div.x) + 1) * add;
-	}
-	else if (add == 3) {
-		NumsMap_->bendingSpringNums_[2] += (static_cast<uint32_t>(div.x) + 1) * 2;
-		NumsMap_->bendingSpringNums_[3] += (static_cast<uint32_t>(div.x) + 1);
-	}
-
-	uint32_t cheak_ = 0;
-	cheak_ = NumsMap_->massPointNum_ * 6;
-	cheak_ -= (static_cast<uint32_t>(div.y) + 1) * 3;
-	cheak_ -= (static_cast<uint32_t>(div.x) + 1) * 3;
-	cheak_ -= (static_cast<uint32_t>(div.y) + static_cast<uint32_t>(div.x) + 1) * 2;
-
-	uint32_t cheak2_ = 
-		NumsMap_->structuralSpringNums_[0] + NumsMap_->structuralSpringNums_[1] + 
-		NumsMap_->structuralSpringNums_[2] + NumsMap_->structuralSpringNums_[3] +
-		NumsMap_->shearSpringNums_[0] + NumsMap_->shearSpringNums_[1] +
-		NumsMap_->shearSpringNums_[2] + NumsMap_->shearSpringNums_[3] +
-		NumsMap_->bendingSpringNums_[0] + NumsMap_->bendingSpringNums_[1] +
-		NumsMap_->bendingSpringNums_[2] + NumsMap_->bendingSpringNums_[3];
-
-	if (cheak_ != cheak2_) {
-		assert(1);
-	}
-
-	// 面数
-	NumsMap_->surfaceNum_ = NumsMap_->vertexNum_ / 6;
-
-	// バネフェーズの反復回数
-	relaxation_ = 4;
 
 }
 
@@ -995,12 +909,109 @@ void ClothGPU::Draw(ID3D12GraphicsCommandList* commandList, BaseCamera* camera)
 
 }
 
-void ClothGPU::MaterialInitialize()
+void ClothGPU::ImGuiDraw(const std::string& name)
+{
+
+	ImGui::Begin(name.c_str());
+
+	// relaxation_ 1~6
+	ImGui::DragInt("バネの更新の反復の回数", &relaxation_, 0.2f, 1, 6);
+
+	//clothCalcDataMap_
+	ImGui::DragFloat3("重力", &clothCalcDataMap_->gravity_.x, 0.01f, 0.0f);
+	ImGui::DragFloat3("風力", &clothCalcDataMap_->wind_.x, 0.01f, 0.0f);
+	ImGui::DragFloat("抵抗", &clothCalcDataMap_->speedResistance_, 0.01f, 0.0f);
+	ImGui::DragFloat("バネの強度", &clothCalcDataMap_->stiffness_, 0.1f, 1.0f);
+	ImGui::DragFloat("構成バネ伸び抵抗", &clothCalcDataMap_->structuralShrink_, 0.01f, 0.0f);
+	ImGui::DragFloat("構成バネ縮み抵抗", &clothCalcDataMap_->structuralStretch_, 0.01f, 0.0f);
+	ImGui::DragFloat("せん断バネ伸び抵抗", &clothCalcDataMap_->shearShrink_, 0.01f, 0.0f);
+	ImGui::DragFloat("せん断バネ縮み抵抗", &clothCalcDataMap_->shearStretch_, 0.01f, 0.0f);
+	ImGui::DragFloat("曲げバネ伸び抵抗", &clothCalcDataMap_->bendingShrink_, 0.01f, 0.0f);
+	ImGui::DragFloat("曲げバネ縮み抵抗", &clothCalcDataMap_->bendingStretch_, 0.01f, 0.0f);
+
+	ImGui::End();
+
+}
+
+void ClothGPU::NumInitialize(ID3D12Device* device, const Vector2& div)
+{
+
+	// 頂点数(CPUのIndexと同じ数)
+	NumsBuff_ = BufferResource::CreateBufferResource(device, (sizeof(Nums) + 0xff) & ~0xff);
+	NumsBuff_->Map(0, nullptr, reinterpret_cast<void**>(&NumsMap_));
+	NumsMap_->vertexNum_ = static_cast<uint32_t>(div.y) * static_cast<uint32_t>(div.x) * 6;
+
+	// 質点数
+	NumsMap_->massPointNum_ = (static_cast<uint32_t>(div.y) + 1) * (static_cast<uint32_t>(div.x) + 1);
+
+	// バネ数
+	NumsMap_->structuralSpringNums_[0] = (static_cast<uint32_t>(div.y) + 1) * (static_cast<uint32_t>(div.x) / 2);
+	NumsMap_->structuralSpringNums_[1] = (static_cast<uint32_t>(div.y) + 1) * (static_cast<uint32_t>(div.x) / 2);
+	NumsMap_->structuralSpringNums_[2] = (static_cast<uint32_t>(div.y) / 2) * (static_cast<uint32_t>(div.x) + 1);
+	NumsMap_->structuralSpringNums_[3] = (static_cast<uint32_t>(div.y) / 2) * (static_cast<uint32_t>(div.x) + 1);
+
+	if (static_cast<uint32_t>(div.x) % 2 == 0) {
+		NumsMap_->structuralSpringNums_[0] += static_cast<uint32_t>(div.y) + 1;
+	}
+	if (static_cast<uint32_t>(div.y) % 2 == 0) {
+		NumsMap_->structuralSpringNums_[2] += static_cast<uint32_t>(div.x) + 1;
+	}
+
+	NumsMap_->shearSpringNums_[0] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
+	NumsMap_->shearSpringNums_[1] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
+	NumsMap_->shearSpringNums_[2] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
+	NumsMap_->shearSpringNums_[3] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
+
+	if (static_cast<uint32_t>(div.x) % 2 == 1) {
+		NumsMap_->shearSpringNums_[0] += static_cast<uint32_t>(div.y);
+		NumsMap_->shearSpringNums_[2] += static_cast<uint32_t>(div.y);
+	}
+
+
+	uint32_t bendingX = static_cast<uint32_t>(div.x) - 1;
+	uint32_t base = bendingX / 4;
+	uint32_t add = bendingX % 4;
+
+	NumsMap_->bendingSpringNums_[0] = (static_cast<uint32_t>(div.y) + 1) * 2 * base;
+	NumsMap_->bendingSpringNums_[1] = (static_cast<uint32_t>(div.y) + 1) * 2 * base;
+
+	if (add == 1 || add == 2) {
+		NumsMap_->bendingSpringNums_[0] += (static_cast<uint32_t>(div.y) + 1) * add;
+	}
+	else if (add == 3) {
+		NumsMap_->bendingSpringNums_[0] += (static_cast<uint32_t>(div.y) + 1) * 2;
+		NumsMap_->bendingSpringNums_[1] += (static_cast<uint32_t>(div.y) + 1);
+	}
+
+
+	uint32_t bendingY = static_cast<uint32_t>(div.y) - 1;
+	base = bendingY / 4;
+	add = bendingY % 4;
+
+	NumsMap_->bendingSpringNums_[2] = (static_cast<uint32_t>(div.x) + 1) * 2 * base;
+	NumsMap_->bendingSpringNums_[3] = (static_cast<uint32_t>(div.x) + 1) * 2 * base;
+
+	if (add == 1 || add == 2) {
+		NumsMap_->bendingSpringNums_[2] += (static_cast<uint32_t>(div.x) + 1) * add;
+	}
+	else if (add == 3) {
+		NumsMap_->bendingSpringNums_[2] += (static_cast<uint32_t>(div.x) + 1) * 2;
+		NumsMap_->bendingSpringNums_[3] += (static_cast<uint32_t>(div.x) + 1);
+	}
+
+	// 面数
+	NumsMap_->surfaceNum_ = NumsMap_->vertexNum_ / 6;
+
+	// バネフェーズの反復回数
+	relaxation_ = 4;
+
+}
+
+void ClothGPU::MaterialInitialize(const std::string textureName)
 {
 
 	// テクスチャハンドル
-	textureHandle_ = TextureManager::Load("Resources/default/clothDemo.png", DirectXCommon::GetInstance());
-
+	textureHandle_ = TextureManager::Load(textureName, DirectXCommon::GetInstance());
 	// マテリアル
 	material_.reset(Material::Create());
 	material_->SetEnableLighting(HalfLambert);
@@ -1292,6 +1303,8 @@ void ClothGPU::CBVInitialize(
 	clothCalcDataBuff_->Map(0, nullptr, reinterpret_cast<void**>(&clothCalcDataMap_));
 	//マップ
 	clothCalcDataMap_->mass_ = 1.0f;// 質点の質量
+	clothCalcDataMap_->gravity_ = { 0.0f, -9.8f, 0.0f};// 重力
+	clothCalcDataMap_->wind_ = { 0.0f, 0.0f, 0.0f };// 風力
 	clothCalcDataMap_->stiffness_ = 100.0f; // 剛性。バネ定数k
 	clothCalcDataMap_->speedResistance_ = 0.2f; // 速度抵抗
 	clothCalcDataMap_->structuralShrink_ = 10.0f; // 構成バネ伸び抵抗
@@ -1768,6 +1781,23 @@ void ClothGPU::SpringGeneration(uint32_t x, uint32_t y, int32_t offsetX, int32_t
 
 	}
 
+
+}
+
+void ClothGPU::MaterialUpdate(
+	const EulerTransform& uvTransform, 
+	const Vector4& color, 
+	int enableLighting, 
+	float shininess, 
+	float environmentCoefficient)
+{
+
+	material_->Update(
+		uvTransform,
+		color,
+		enableLighting,
+		shininess,
+		environmentCoefficient);
 
 }
 
