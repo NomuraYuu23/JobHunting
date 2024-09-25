@@ -18,6 +18,7 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 
 		if (gExternalOperationDatas[index].isMove_ == 1) {
 			gClothMassPoints[index].position_ = gExternalOperationDatas[index].position_;
+			gClothMassPoints[index].prePosition_ = gExternalOperationDatas[index].position_;
 		}
 	
 	}

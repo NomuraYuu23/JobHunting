@@ -85,9 +85,13 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 		// 変位
 		float32_t3 dx = (float32_t3)0;
 		dx = point1.position_ - point0.position_;
-		dx = normalize(dx);
-		dx *= force;
-		dx *= gPerFrame.deltaTime * gPerFrame.deltaTime * 0.5f * rcp(gClothCalcData.mass_);
+		if (!(dx.x == 0.0f &&
+			dx.y == 0.0f &&
+			dx.z == 0.0f)) {
+			dx = normalize(dx);
+			dx *= force;
+			dx *= gPerFrame.deltaTime * gPerFrame.deltaTime * 0.5f * rcp(gClothCalcData.mass_);
+		}
 
 		// 位置更新
 		float32_t3 dx0 = (float32_t3)0;
