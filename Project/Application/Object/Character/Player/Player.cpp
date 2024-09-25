@@ -362,6 +362,7 @@ void Player::CloakNodeFollowing()
 	parentRightNodeData_->matrix.m[3][1],
 	parentRightNodeData_->matrix.m[3][2] };
 
+	pos += cloakRightLocalPos_;
 	pos = Matrix4x4::Transform(pos, worldTransform_.parentMatrix_);
 
 	// 回転行列
@@ -391,6 +392,7 @@ void Player::CloakNodeFollowing()
 	parentLeftNodeData_->matrix.m[3][1],
 	parentLeftNodeData_->matrix.m[3][2] };
 
+	pos += cloakLeftLocalPos_;
 	pos = Matrix4x4::Transform(pos, worldTransform_.parentMatrix_);
 
 	// 回転行列
@@ -421,7 +423,7 @@ void Player::CloakInitialize()
 
 	cloakDiv_ = Vector2{ 15.0f, 15.0f };
 
-	cloakScale_ = Vector2{ 8.0f, 4.0f };
+	cloakScale_ = Vector2{ 2.0f, 0.6f };
 
 	cloak_ = std::make_unique<ClothGPU>();
 	cloak_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), cloakScale_, cloakDiv_, "Resources/default/clothDemo.png");
@@ -430,8 +432,8 @@ void Player::CloakInitialize()
 
 	std::vector<std::string> names = localMatrixManager_->GetNodeNames();
 
-	const std::string& parentRightName = "mixamorig:RightShoulder";
-	const std::string& parentLeftName = "mixamorig:LeftShoulder";
+	const std::string& parentRightName = "mixamorig:RightArm";
+	const std::string& parentLeftName = "mixamorig:LeftArm";
 
 	for (uint32_t i = 0; i < names.size(); ++i) {
 		if (parentRightName == names[i]) {
@@ -441,6 +443,19 @@ void Player::CloakInitialize()
 			parentLeftNodeData_ = &localMatrixManager_->GetNodeDatasAddress()->at(i);
 		}
 	}
+
+	cloak_->SetStiffness(200.0f);
+	cloak_->SetSpeedResistance(0.9f);
+	cloak_->SetStructuralShrink(50.0f);
+	cloak_->SetStructuralStretch(50.0f);
+	cloak_->SetShearShrink(50.0f);
+	cloak_->SetShearStretch(50.0f);
+	cloak_->SetBendingShrink(50.0f);
+	cloak_->SetBendingStretch(50.0f);
+
+
+	cloakRightLocalPos_ = {0.0f, 0.3f, 0.0f};
+	cloakLeftLocalPos_ = { 0.0f, 0.3f, 0.0f };
 
 }
 

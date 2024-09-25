@@ -233,6 +233,9 @@ private:
 	Vector3 cloakRightPos_;
 	Vector3 cloakLeftPos_;
 
+	Vector3 cloakRightLocalPos_;
+	Vector3 cloakLeftLocalPos_;
+
 private:
 
 	/// <summary>
