@@ -478,6 +478,9 @@
     <Filter Include="shaders\ClothGPU">
       <UniqueIdentifier>{e0b56a92-92ec-4f60-8064-0aa01d141a6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Physics\ClothGPU">
+      <UniqueIdentifier>{57a7911f-5060-432b-918f-f0ac710f5114}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1084,11 +1087,11 @@
     <ClCompile Include="Application\Scene\DebugScene\DebugScene.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\Cloth\ClothModel.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Physics\Cloth\ClothGPU.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\Cloth\ClothModel.cpp">
+      <Filter>Engine\Physics\Cloth</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1851,11 +1854,11 @@
     <ClInclude Include="Application\Scene\DebugScene\DebugScene.h">
       <Filter>Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\Cloth\ClothModel.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Physics\Cloth\ClothGPU.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\Cloth\ClothModel.h">
+      <Filter>Engine\Physics\Cloth</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

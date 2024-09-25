@@ -13,6 +13,7 @@
 
 #include "../../Object/Character/Player/Player.h"
 #include "../../Object/Character/Enemy/BaseEnemy.h"
+#include "../../../Engine/Physics/Cloth/ClothGPU.h"
 
 GameScene::~GameScene()
 {
@@ -55,6 +56,13 @@ void GameScene::Initialize() {
 
 	collisionManager_.reset(new CollisionManager);
 	collisionManager_->Initialize();
+
+	ClothGPU::StaticInitialize(
+		dxCommon_->GetDevice(),
+		directionalLight_.get(),
+		pointLightManager_.get(),
+		spotLightManager_.get(),
+		FogManager::GetInstance());
 
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<GameSceneObjectManager>();
