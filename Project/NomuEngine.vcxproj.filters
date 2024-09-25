@@ -463,9 +463,6 @@
     <Filter Include="Application\Object\String">
       <UniqueIdentifier>{852c053a-ada1-4e32-ae99-48e5bb028de1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Object\Cloth">
-      <UniqueIdentifier>{84135c1b-2d35-4373-8a67-dfe3bb5821dc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Object\Obstacle\FlagPole">
       <UniqueIdentifier>{7a94fe2e-dfbb-4d5d-910b-0e0003fbaf08}</UniqueIdentifier>
     </Filter>
@@ -480,6 +477,9 @@
     </Filter>
     <Filter Include="Engine\Physics\ClothGPU">
       <UniqueIdentifier>{57a7911f-5060-432b-918f-f0ac710f5114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Flag">
+      <UniqueIdentifier>{84135c1b-2d35-4373-8a67-dfe3bb5821dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1075,12 +1075,6 @@
     <ClCompile Include="Application\Object\ClothObject\BaseClothObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\ClothObject\Flag\Flag.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Physics\Cloth\Cloth.cpp">
       <Filter>Engine\Physics\Cloth</Filter>
     </ClCompile>
@@ -1092,6 +1086,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Physics\Cloth\ClothModel.cpp">
       <Filter>Engine\Physics\Cloth</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole.cpp">
+      <Filter>Application\Object\Flag</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\ClothObject\Flag\Flag.cpp">
+      <Filter>Application\Object\Flag</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1842,12 +1842,6 @@
     <ClInclude Include="Application\Object\ClothObject\BaseClothObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\ClothObject\Flag\Flag.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Physics\Cloth\Cloth.h">
       <Filter>Engine\Physics\Cloth</Filter>
     </ClInclude>
@@ -1859,6 +1853,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Physics\Cloth\ClothModel.h">
       <Filter>Engine\Physics\Cloth</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\ClothObject\Flag\Flag.h">
+      <Filter>Application\Object\Flag</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole.h">
+      <Filter>Application\Object\Flag</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

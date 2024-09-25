@@ -13,6 +13,7 @@
 #include "../../../Engine/Level/LevelData.h"
 #include "../../../Engine/Object/MeshObject.h"
 #include "../../../GPUParticle/FieldSparksParticle.h"
+#include "../../../../Engine/Physics/Cloth/ClothGPU.h"
 
 /// <summary>
 /// プレイヤーのモーション一覧
@@ -209,6 +210,50 @@ private: // プレイヤーデータ
 	// フィールドパーティクル
 	std::unique_ptr<FieldSparksParticle> fieldSparksParticle_;
 	EmitterCS fieldSparksEmitter_;
+
+	DirectXCommon* dxCommon_;
+
+private:
+
+	// マント
+	std::unique_ptr<ClothGPU> cloak_;
+
+	// 分割数
+	Vector2 cloakDiv_;
+
+	// 大きさ
+	Vector2 cloakScale_;
+
+	// 位置を設定する
+	bool cloakIsPosSet_;
+
+	NodeData* parentRightNodeData_;
+	NodeData* parentLeftNodeData_;
+
+	Vector3 cloakRightPos_;
+	Vector3 cloakLeftPos_;
+
+private:
+
+	/// <summary>
+	/// 位置を設定
+	/// </summary>
+	void SetCloakPosition();
+
+	/// <summary>
+	/// ノード追従
+	/// </summary>
+	void CloakNodeFollowing();
+
+	/// <summary>
+	/// マント
+	/// </summary>
+	void CloakInitialize();
+
+	/// <summary>
+	/// マント更新
+	/// </summary>
+	void CloakUpdate();
 
 public:
 
