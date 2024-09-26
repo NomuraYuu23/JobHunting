@@ -93,7 +93,9 @@ void LocalMatrixManager::SetNodeDatas(const ModelNode& modelNode, int32_t parent
 	int32_t newParentIndex = static_cast<int32_t>(nodeDatas_.size()) - 1;
 
 	for (uint32_t childIndex = 0; childIndex < modelNode.children.size(); ++childIndex) {
+		nodeDatas_[newParentIndex].childrenIndexes.push_back(static_cast<int32_t>(nodeDatas_.size()));
 		SetNodeDatas(modelNode.children[childIndex], newParentIndex);
+
 	}
 
 }
