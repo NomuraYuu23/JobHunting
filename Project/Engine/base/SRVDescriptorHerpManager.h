@@ -17,7 +17,7 @@ class SRVDescriptorHerpManager
 public: // 静的変数
 
 	//ディスクリプタの数
-	static const size_t kNumDescriptors = 256;
+	static const size_t kNumDescriptors = 512;
 	// ディスクリプタヒープ
 	static Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap_;
 

@@ -70,8 +70,8 @@ void LocalMatrixManager::Map2()
 
 		nodeDatas_[i].matrix = nodeDatas_[i].localMatrix;
 
-		//localMatrixesMap_[i].matrix = nodeDatas_[i].matrix;
-		localMatrixesMap_[i].matrix = Matrix4x4::Multiply(nodeDatas_[i].offsetMatrix, nodeDatas_[i].matrix);
+		localMatrixesMap_[i].matrix = nodeDatas_[i].matrix;
+		//localMatrixesMap_[i].matrix = Matrix4x4::Multiply(nodeDatas_[i].offsetMatrix, nodeDatas_[i].matrix);
 		localMatrixesMap_[i].matrixInverseTranspose = Matrix4x4::Transpose(Matrix4x4::Inverse(localMatrixesMap_[i].matrix));
 
 	}

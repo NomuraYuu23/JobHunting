@@ -7,18 +7,19 @@ void FlagPole::Initialize(LevelData::MeshData* data)
 	BaseObstacle::Initialize(data);
 
 	// 旗の上部分
-	upperPart_ = worldTransform_.GetWorldPosition();
-	upperPart_.y = 10.0f;
+	upperPart_ = {0.0f,9.0f,0.0f};
+
+	upperPart_ = Matrix4x4::Transform(upperPart_, worldTransform_.parentMatrix_);
 
 	// 旗の下部分
-	lowerPart_ = worldTransform_.GetWorldPosition();
-	lowerPart_.y = 6.0f;
+	lowerPart_ = { 0.0f,6.0f,0.0f };
+	lowerPart_ = Matrix4x4::Transform(lowerPart_, worldTransform_.parentMatrix_);
 
 	dxCommon_ = DirectXCommon::GetInstance();
 
 	div_ = Vector2{ 15.0f, 15.0f };
 
-	scale_ = Vector2{ 8.0f, 4.0f };
+	scale_ = Vector2{ 4.5f, 3.0f };
 
 	cloth_ = std::make_unique<ClothGPU>();
 	cloth_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), scale_, div_, "Resources/default/clothDemo.png");
@@ -43,8 +44,9 @@ void FlagPole::Update()
 	std::mt19937 randomEngine(seedGenerator());
 
 	std::uniform_real_distribution<float> distributionX(0.0f, 100.0f);
+	std::uniform_real_distribution<float> distributionZ(0.0f, 50.0f);
 
-	Vector3 wind = { distributionX(randomEngine), 0.0f,0.0f };
+	Vector3 wind = { distributionX(randomEngine), 0.0f, distributionZ(randomEngine) };
 
 	cloth_->SetWind(wind);
 
