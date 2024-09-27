@@ -44,7 +44,7 @@ void FlagPole::Update()
 	std::mt19937 randomEngine(seedGenerator());
 
 	std::uniform_real_distribution<float> distributionX(0.0f, 100.0f);
-	std::uniform_real_distribution<float> distributionZ(0.0f, 50.0f);
+	std::uniform_real_distribution<float> distributionZ(-20.0f, 0.0f);
 
 	Vector3 wind = { distributionX(randomEngine), 0.0f, distributionZ(randomEngine) };
 

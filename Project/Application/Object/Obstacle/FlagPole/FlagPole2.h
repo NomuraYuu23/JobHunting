@@ -1,7 +1,7 @@
 #pragma once
 #include "../BaseObstacle.h"
 #include "../../../../Engine/Physics/Cloth/ClothGPU.h"
-class FlagPole :
+class FlagPole2 :
     public BaseObstacle
 {
 
@@ -23,10 +23,10 @@ public: // ベースのメンバ関数
 	/// <param name="viewProjection">ビュープロジェクション(参照渡し)</param>
 	void Draw(BaseCamera& camera) override;
 
-	Vector3 GetUpperPart() { return upperPart_; }
-	Vector3 GetLowerPart() { return lowerPart_; }
+	Vector3 GetRightPart() { return rightPart_; }
+	Vector3 GetLeftPart() { return leftPart_; }
 
-private: 
+private:
 
 	/// <summary>
 	/// 旗の位置を設定
@@ -35,11 +35,11 @@ private:
 
 private:
 
-	// 旗の上部分
-	Vector3 upperPart_{};
-	
-	// 旗の下部分
-	Vector3 lowerPart_{};
+	// 旗の右部分
+	Vector3 rightPart_{};
+
+	// 旗の左部分
+	Vector3 leftPart_{};
 
 	// 布
 	std::unique_ptr<ClothGPU> cloth_;

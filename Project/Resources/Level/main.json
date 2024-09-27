@@ -3303,6 +3303,43 @@
                 "center": [
                     0.0,
                     0.0,
+                    0.30000001192092896
+                ],
+                "size": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    9.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "FlagPole2",
+            "transform": {
+                "translation": [
+                    -26.77139663696289,
+                    -316.8643493652344,
+                    1.0
+                ],
+                "rotation": [
+                    -0.0,
+                    0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "FlagPole2.obj",
+            "directoryPath": "Resources/Model/FlagPole",
+            "className": "FlagPole2",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
                     4.5
                 ],
                 "size": [
