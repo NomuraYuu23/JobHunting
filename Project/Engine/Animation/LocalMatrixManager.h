@@ -30,6 +30,11 @@ public:
 	/// マップ
 	/// </summary>
 	void Map();
+
+	/// <summary>
+	/// マップ
+	/// </summary>
+	void Map2();
 	
 	/// <summary>
 	/// GPUに送る
