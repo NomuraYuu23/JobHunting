@@ -3303,7 +3303,7 @@
                 "center": [
                     0.0,
                     0.0,
-                    0.30000001192092896
+                    4.5
                 ],
                 "size": [
                     0.30000001192092896,
@@ -3325,6 +3325,265 @@
                     -0.0,
                     0.0,
                     0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "FlagPole2.obj",
+            "directoryPath": "Resources/Model/FlagPole",
+            "className": "FlagPole2",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    4.5
+                ],
+                "size": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    9.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "FlagPole2.001",
+            "transform": {
+                "translation": [
+                    -23.65079689025879,
+                    -320.3360290527344,
+                    1.0
+                ],
+                "rotation": [
+                    -0.0,
+                    0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "FlagPole2.obj",
+            "directoryPath": "Resources/Model/FlagPole",
+            "className": "FlagPole2",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    4.5
+                ],
+                "size": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    9.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "FlagPole2.002",
+            "transform": {
+                "translation": [
+                    -26.94947052001953,
+                    -324.329833984375,
+                    1.0
+                ],
+                "rotation": [
+                    -0.0,
+                    0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "FlagPole2.obj",
+            "directoryPath": "Resources/Model/FlagPole",
+            "className": "FlagPole2",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    4.5
+                ],
+                "size": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    9.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "FlagPole2.003",
+            "transform": {
+                "translation": [
+                    16.27215576171875,
+                    -326.947998046875,
+                    1.0
+                ],
+                "rotation": [
+                    -0.0,
+                    0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "FlagPole2.obj",
+            "directoryPath": "Resources/Model/FlagPole",
+            "className": "FlagPole2",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    4.5
+                ],
+                "size": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    9.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "FlagPole2.004",
+            "transform": {
+                "translation": [
+                    21.761516571044922,
+                    -324.329833984375,
+                    1.0
+                ],
+                "rotation": [
+                    -0.0,
+                    0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "FlagPole2.obj",
+            "directoryPath": "Resources/Model/FlagPole",
+            "className": "FlagPole2",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    4.5
+                ],
+                "size": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    9.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "FlagPole2.005",
+            "transform": {
+                "translation": [
+                    19.556201934814453,
+                    -318.95135498046875,
+                    1.0
+                ],
+                "rotation": [
+                    -0.0,
+                    0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "FlagPole2.obj",
+            "directoryPath": "Resources/Model/FlagPole",
+            "className": "FlagPole2",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    4.5
+                ],
+                "size": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    9.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "FlagPole2.006",
+            "transform": {
+                "translation": [
+                    -15.880044937133789,
+                    -315.029296875,
+                    -1.2913691997528076
+                ],
+                "rotation": [
+                    0.6807658076286316,
+                    0.7265080809593201,
+                    0.4935881793498993
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "fileName": "FlagPole2.obj",
+            "directoryPath": "Resources/Model/FlagPole",
+            "className": "FlagPole2",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    4.5
+                ],
+                "size": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    9.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "FlagPole2.007",
+            "transform": {
+                "translation": [
+                    17.900049209594727,
+                    -315.029296875,
+                    -1.2913691997528076
+                ],
+                "rotation": [
+                    0.7178781032562256,
+                    -0.770658552646637,
+                    0.014097901992499828
                 ],
                 "scaling": [
                     1.0,
