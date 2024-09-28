@@ -9,6 +9,7 @@
 
 #include "../../Obstacle/BaseObstacle.h"
 #include "../Enemy/BaseEnemy.h"
+#include <random>
 
 void Player::Initialize(LevelData::MeshData* data)
 {
@@ -426,7 +427,7 @@ void Player::CloakInitialize()
 	cloakScale_ = Vector2{ 2.0f, 0.6f };
 
 	cloak_ = std::make_unique<ClothGPU>();
-	cloak_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), cloakScale_, cloakDiv_, "Resources/default/clothDemo.png");
+	cloak_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), cloakScale_, cloakDiv_, "Resources/Sprite/Cloth/PlayerCloth.png");
 
 	cloakIsPosSet_ = true;
 
@@ -454,13 +455,24 @@ void Player::CloakInitialize()
 	cloak_->SetBendingStretch(50.0f);
 
 
-	cloakRightLocalPos_ = {0.0f, 0.3f, 0.0f};
-	cloakLeftLocalPos_ = { 0.0f, 0.3f, 0.0f };
+	cloakRightLocalPos_ = {0.15f, 0.3f, 0.0f};
+	cloakLeftLocalPos_ = { -0.15f, 0.3f, 0.0f };
 
 }
 
 void Player::CloakUpdate()
 {
+
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
+
+	std::uniform_real_distribution<float> distribution(0.0f, 50.0f);
+
+	Vector3 dir = worldTransform_.direction_ * -1.0f;
+
+	Vector3 wind = { 0.0f, 0.0f, dir.z * distribution(randomEngine) };
+
+	cloak_->SetWind(wind);
 
 	cloak_->Update(dxCommon_->GetCommadList());
 
