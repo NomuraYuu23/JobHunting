@@ -21,7 +21,7 @@ void FlagPole2::Initialize(LevelData::MeshData* data)
 	scale_ = Vector2{ 2.0f, 6.0f };
 
 	cloth_ = std::make_unique<ClothGPU>();
-	cloth_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), scale_, div_, "Resources/default/clothDemo.png");
+	cloth_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), scale_, div_, "Resources/Sprite/Cloth/BlueCloth.png");
 
 	isPosSet_ = true;
 
