@@ -458,6 +458,25 @@ void Player::CloakInitialize()
 	cloakRightLocalPos_ = {0.15f, 0.3f, 0.0f};
 	cloakLeftLocalPos_ = { -0.15f, 0.3f, 0.0f };
 
+	SetCloakPosition();
+
+	CloakNodeFollowing();
+
+	// 固定する
+	cloak_->SetWeight(0, 0, false);
+	cloak_->SetPosition(0, 0, cloakRightPos_);
+	cloak_->SetWeight(1, 0, false);
+	cloak_->SetPosition(1, 0, cloakRightPos_);
+	cloak_->SetWeight(2, 0, false);
+	cloak_->SetPosition(2, 0, cloakRightPos_);
+
+	cloak_->SetWeight(static_cast<uint32_t>(cloakDiv_.y), 0, false);
+	cloak_->SetPosition(static_cast<uint32_t>(cloakDiv_.y), 0, cloakLeftPos_);
+	cloak_->SetWeight(static_cast<uint32_t>(cloakDiv_.y) - 1, 0, false);
+	cloak_->SetPosition(static_cast<uint32_t>(cloakDiv_.y) - 1, 0, cloakLeftPos_);
+	cloak_->SetWeight(static_cast<uint32_t>(cloakDiv_.y) - 2, 0, false);
+	cloak_->SetPosition(static_cast<uint32_t>(cloakDiv_.y) - 2, 0, cloakLeftPos_);
+
 }
 
 void Player::CloakUpdate()
