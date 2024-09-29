@@ -44,6 +44,8 @@ void Ghost::Update()
 		worldTransform_.UpdateMatrix();
 	}
 
+
+
 	// コライダー
 	ColliderUpdate();
 

@@ -463,11 +463,20 @@
     <Filter Include="Application\Object\String">
       <UniqueIdentifier>{852c053a-ada1-4e32-ae99-48e5bb028de1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Object\Cloth">
-      <UniqueIdentifier>{84135c1b-2d35-4373-8a67-dfe3bb5821dc}</UniqueIdentifier>
+    <Filter Include="Engine\Physics\Cloth">
+      <UniqueIdentifier>{7050e05e-6ae1-451a-aad3-bac8052e41e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Object\Obstacle\FlagPole">
-      <UniqueIdentifier>{7a94fe2e-dfbb-4d5d-910b-0e0003fbaf08}</UniqueIdentifier>
+    <Filter Include="shaders\Cloth">
+      <UniqueIdentifier>{e8129b10-d7bf-45d9-86ed-42bc0a3ac3e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\ClothGPU">
+      <UniqueIdentifier>{e0b56a92-92ec-4f60-8064-0aa01d141a6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Physics\ClothGPU">
+      <UniqueIdentifier>{57a7911f-5060-432b-918f-f0ac710f5114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Flag">
+      <UniqueIdentifier>{84135c1b-2d35-4373-8a67-dfe3bb5821dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1063,10 +1072,25 @@
     <ClCompile Include="Application\Object\ClothObject\BaseClothObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\ClothObject\Flag\Flag.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\Physics\Cloth\Cloth.cpp">
+      <Filter>Engine\Physics\Cloth</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Scene\DebugScene\DebugScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\Cloth\ClothGPU.cpp">
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\Cloth\ClothModel.cpp">
+      <Filter>Engine\Physics\Cloth</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole.cpp">
+      <Filter>Application\Object\Flag</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\ClothObject\Flag\Flag.cpp">
+      <Filter>Application\Object\Flag</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole2.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1818,10 +1842,25 @@
     <ClInclude Include="Application\Object\ClothObject\BaseClothObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Physics\Cloth\Cloth.h">
+      <Filter>Engine\Physics\Cloth</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\DebugScene\DebugScene.h">
+      <Filter>Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\Cloth\ClothGPU.h">
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\Cloth\ClothModel.h">
+      <Filter>Engine\Physics\Cloth</Filter>
+    </ClInclude>
     <ClInclude Include="Application\Object\ClothObject\Flag\Flag.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\Object\Flag</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole.h">
+      <Filter>Application\Object\Flag</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole2.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1886,6 +1925,12 @@
     </None>
     <None Include="Resources\shaders\PillarSmokeParticle\PillarSmoke.CS.hlsli">
       <Filter>shaders\GPUParticle\PillarSmokeParticle\CS</Filter>
+    </None>
+    <None Include="Resources\shaders\Cloth\Cloth.hlsli">
+      <Filter>shaders\Cloth</Filter>
+    </None>
+    <None Include="Resources\shaders\ClothGPU\ClothGPU.CS.hlsli">
+      <Filter>shaders\ClothGPU</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -2088,6 +2133,39 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\GPUParticle\GPUParticleBlendNormal.VS.hlsl">
       <Filter>shaders\GPUParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\Cloth\Cloth.PS.hlsl">
+      <Filter>shaders\Cloth</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\Cloth\Cloth.VS.hlsl">
+      <Filter>shaders\Cloth</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothInitVertex.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothInitMassPoint.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothInitSurface.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothUpdateExternalOperation.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothUpdateIntegral.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothUpdateSpring.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothUpdateVertex.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothGPU.VS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\ClothUpdateSurface.CS.hlsl">
+      <Filter>shaders\ClothGPU</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

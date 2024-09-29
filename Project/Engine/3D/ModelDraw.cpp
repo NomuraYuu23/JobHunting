@@ -297,11 +297,9 @@ void ModelDraw::NormalObjectDraw(NormalObjectDesc& desc)
 	desc.worldTransform->Map(desc.camera->GetViewProjectionMatrix());
 
 	// パイプライン設定
-	if (currentPipelineStateIndex_ != kPipelineStateIndexModel) {
-		sCommandList->SetPipelineState(sPipelineState[kPipelineStateIndexModel]);//PS0を設定
-		sCommandList->SetGraphicsRootSignature(sRootSignature[kPipelineStateIndexModel]);
-		currentPipelineStateIndex_ = kPipelineStateIndexModel;
-	}
+	sCommandList->SetPipelineState(sPipelineState[kPipelineStateIndexModel]);//PS0を設定
+	sCommandList->SetGraphicsRootSignature(sRootSignature[kPipelineStateIndexModel]);
+	currentPipelineStateIndex_ = kPipelineStateIndexModel;
 
 	sCommandList->IASetVertexBuffers(0, 1, desc.model->GetMesh()->GetVbView());
 
@@ -528,11 +526,9 @@ void ModelDraw::ManyNormalObjectsDraw(ManyNormalObjectsDesc& desc) {
 	assert(sCommandList);
 
 	// パイプライン設定
-	if (currentPipelineStateIndex_ != kPipelineStateIndexManyObjects) {
-		sCommandList->SetPipelineState(sPipelineState[kPipelineStateIndexManyObjects]);//PS0を設定
-		sCommandList->SetGraphicsRootSignature(sRootSignature[kPipelineStateIndexManyObjects]);
-		currentPipelineStateIndex_ = kPipelineStateIndexManyObjects;
-	}
+	sCommandList->SetPipelineState(sPipelineState[kPipelineStateIndexManyObjects]);//PS0を設定
+	sCommandList->SetGraphicsRootSignature(sRootSignature[kPipelineStateIndexManyObjects]);
+	currentPipelineStateIndex_ = kPipelineStateIndexManyObjects;
 
 	//VBVを設定 (インフルエンスと合体)
 	sCommandList->IASetVertexBuffers(0, 1, desc.model->GetMesh()->GetVbView());
@@ -595,11 +591,9 @@ void ModelDraw::NormalOutlineDraw(NormalOutlineDesc& desc)
 	assert(sCommandList);
 
 	// パイプライン設定
-	if (currentPipelineStateIndex_ != kPipelineStateIndexNormalOutline) {
-		sCommandList->SetPipelineState(sPipelineState[kPipelineStateIndexNormalOutline]);//PS0を設定
-		sCommandList->SetGraphicsRootSignature(sRootSignature[kPipelineStateIndexNormalOutline]);
-		currentPipelineStateIndex_ = kPipelineStateIndexNormalOutline;
-	}
+	sCommandList->SetPipelineState(sPipelineState[kPipelineStateIndexNormalOutline]);//PS0を設定
+	sCommandList->SetGraphicsRootSignature(sRootSignature[kPipelineStateIndexNormalOutline]);
+	currentPipelineStateIndex_ = kPipelineStateIndexNormalOutline;
 
 	sCommandList->IASetVertexBuffers(0, 1, desc.model->GetMesh()->GetVbView());
 

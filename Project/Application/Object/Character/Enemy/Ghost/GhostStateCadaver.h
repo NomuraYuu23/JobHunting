@@ -1,7 +1,7 @@
 #pragma once
 #include "IGhostState.h"
 class GhostStateCadaver :
-    public IGhostState
+	public IGhostState
 {
 
 public: // メンバ関数

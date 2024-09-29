@@ -16,6 +16,7 @@
 #include "../Object/StringObject/PlayerMuffler/PlayerMuffler.h"
 #include "../Object/ClothObject/Flag/Flag.h"
 #include "../Object/Obstacle/FlagPole/FlagPole.h"
+#include "../Object/Obstacle/FlagPole/FlagPole2.h"
 
 // 親取得用
 Player* ObjectFactory::player_ = nullptr;
@@ -89,6 +90,9 @@ void ObjectFactory::Initialize(BaseObjectManager* objectManager, BossSystem* bos
 
 	createObjectFunctions_[kCreateObjectIndexFlagPole].first = "FlagPole";
 	createObjectFunctions_[kCreateObjectIndexFlagPole].second = ObjectFactory::CreateObjectFlagPole;
+
+	createObjectFunctions_[kCreateObjectIndexFlagPole2].first = "FlagPole2";
+	createObjectFunctions_[kCreateObjectIndexFlagPole2].second = ObjectFactory::CreateObjectFlagPole2;
 
 }
 
@@ -282,5 +286,14 @@ IObject* ObjectFactory::CreateObjectFlagPole(LevelData::ObjectData& objectData)
 	IObject* object = new FlagPole();
 	// 初期化
 	static_cast<FlagPole*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
+	return object;
+}
+
+IObject* ObjectFactory::CreateObjectFlagPole2(LevelData::ObjectData& objectData)
+{
+	// インスタンス生成
+	IObject* object = new FlagPole2();
+	// 初期化
+	static_cast<FlagPole2*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 	return object;
 }

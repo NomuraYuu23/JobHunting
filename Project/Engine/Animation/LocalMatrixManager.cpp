@@ -63,6 +63,21 @@ void LocalMatrixManager::Map()
 
 }
 
+void LocalMatrixManager::Map2()
+{
+
+	for (uint32_t i = 0; i < num_; ++i) {
+
+		nodeDatas_[i].matrix = nodeDatas_[i].localMatrix;
+
+		localMatrixesMap_[i].matrix = nodeDatas_[i].matrix;
+		//localMatrixesMap_[i].matrix = Matrix4x4::Multiply(nodeDatas_[i].offsetMatrix, nodeDatas_[i].matrix);
+		localMatrixesMap_[i].matrixInverseTranspose = Matrix4x4::Transpose(Matrix4x4::Inverse(localMatrixesMap_[i].matrix));
+
+	}
+
+}
+
 void LocalMatrixManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* cmdList, uint32_t rootParameterIndex)
 {
 
@@ -93,7 +108,9 @@ void LocalMatrixManager::SetNodeDatas(const ModelNode& modelNode, int32_t parent
 	int32_t newParentIndex = static_cast<int32_t>(nodeDatas_.size()) - 1;
 
 	for (uint32_t childIndex = 0; childIndex < modelNode.children.size(); ++childIndex) {
+		nodeDatas_[newParentIndex].childrenIndexes.push_back(static_cast<int32_t>(nodeDatas_.size()));
 		SetNodeDatas(modelNode.children[childIndex], newParentIndex);
+
 	}
 
 }

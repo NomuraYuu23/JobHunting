@@ -283,6 +283,42 @@ void GraphicsPipelineState::Initialize(ID3D12Device* sDevice)
 	Create(desc);
 #pragma endregion
 
+#pragma region 布
+	desc.pipelineStateIndex = kPipelineStateIndexCloth;
+	desc.rootParameterIndex = kRootParameterIndexCloth;
+	desc.samplerIndex = kSamplerIndexNormal;
+	desc.depthEnable = true;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	desc.inputLayoutIndex = kInputLayoutIndexNormal;
+	desc.blendStateIndex = kBlendStateIndexNormal;
+	desc.cullMode = D3D12_CULL_MODE_NONE;
+	desc.fillMode = D3D12_FILL_MODE_SOLID;
+	desc.filePathVS = L"Resources/shaders/Cloth/Cloth.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/Cloth/Cloth.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.numRenderTargets = 1;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	Create(desc);
+#pragma endregion
+
+#pragma region 布GPU
+	desc.pipelineStateIndex = kPipelineStateIndexClothGPU;
+	desc.rootParameterIndex = kRootParameterIndexClothGPU;
+	desc.samplerIndex = kSamplerIndexNormal;
+	desc.depthEnable = true;
+	desc.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	desc.inputLayoutIndex = kInputLayoutIndexNone;
+	desc.blendStateIndex = kBlendStateIndexNormal;
+	desc.cullMode = D3D12_CULL_MODE_NONE;
+	desc.fillMode = D3D12_FILL_MODE_SOLID;
+	desc.filePathVS = L"Resources/shaders/ClothGPU/ClothGPU.VS.hlsl";
+	desc.filePathPS = L"Resources/shaders/Cloth/Cloth.PS.hlsl";
+	desc.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.numRenderTargets = 1;
+	desc.RTVFormats = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	Create(desc);
+#pragma endregion
+
 #pragma region アニメーションモデルRT2
 	desc.pipelineStateIndex = kPipelineStateIndexAnimModelRT2;
 	desc.rootParameterIndex = kRootParameterIndexAnimModel;

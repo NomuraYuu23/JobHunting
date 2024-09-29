@@ -13,6 +13,7 @@
 
 #include "../../Object/Character/Player/Player.h"
 #include "../../Object/Character/Enemy/BaseEnemy.h"
+#include "../../../Engine/Physics/Cloth/ClothGPU.h"
 
 GameScene::~GameScene()
 {
@@ -51,11 +52,17 @@ void GameScene::Initialize() {
 	particleModel[ParticleModelIndex::kCircle] = particleCircleModel_.get();
 	particleManager_->ModelCreate(particleModel);
 
-
 	isDebugCameraActive_ = false;
 
 	collisionManager_.reset(new CollisionManager);
 	collisionManager_->Initialize();
+
+	ClothGPU::StaticInitialize(
+		dxCommon_->GetDevice(),
+		directionalLight_.get(),
+		pointLightManager_.get(),
+		spotLightManager_.get(),
+		FogManager::GetInstance());
 
 	// オブジェクトマネージャー
 	objectManager_ = std::make_unique<GameSceneObjectManager>();
@@ -85,36 +92,6 @@ void GameScene::Initialize() {
 	// スカイドーム
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(skydomeModel_.get());
-
-	// 平行光源
-	directionalLight_ = std::make_unique<DirectionalLight>();
-	directionalLight_->Initialize();
-
-	// 点光源
-	pointLightManager_ = std::make_unique<PointLightManager>();
-	pointLightManager_->Initialize();
-	for (size_t i = 0; i < pointLightDatas_.size(); ++i) {
-		pointLightDatas_[i].color = { 1.0f,1.0f,1.0f,1.0f };
-		pointLightDatas_[i].position = { 0.0f, -1.0f, 0.0f };
-		pointLightDatas_[i].intencity = 1.0f;
-		pointLightDatas_[i].radius = 10.0f;
-		pointLightDatas_[i].decay = 10.0f;
-		pointLightDatas_[i].used = false;
-	}
-
-	spotLightManager_ = std::make_unique<SpotLightManager>();
-	spotLightManager_->Initialize();
-	for (size_t i = 0; i < spotLightDatas_.size(); ++i) {
-		spotLightDatas_[i].color = { 1.0f,1.0f,1.0f,1.0f };
-		spotLightDatas_[i].position = { 0.0f, -1.0f, 0.0f };
-		spotLightDatas_[i].intencity = 1.0f;
-		spotLightDatas_[i].direction = { 0.0f, -1.0f, 0.0f }; // ライトの方向
-		spotLightDatas_[i].distance = 10.0f; // ライトの届く距離
-		spotLightDatas_[i].decay = 2.0f; // 減衰率
-		spotLightDatas_[i].cosAngle = 2.0f; // スポットライトの余弦
-		spotLightDatas_[i].cosFalloffStart = 1.0f; // フォールオフ開始位置
-		spotLightDatas_[i].used = false; // 使用している
-	}
 
 	// 追従カメラ
 	followCamera_ = std::make_unique<FollowCamera>();
@@ -166,12 +143,7 @@ void GameScene::Update() {
 	}
 
 	//光源
-	DirectionalLightData directionalLightData;
-	directionalLightData.color = { 1.0f,1.0f,1.0f,1.0f };
-	directionalLightData.direction = Vector3::Normalize(direction);
-	directionalLightData.intencity = intencity;
-	directionalLight_->Update(directionalLightData);
-
+	directionalLight_->Update(directionalLightData_);
 	pointLightManager_->Update(pointLightDatas_);
 	spotLightManager_->Update(spotLightDatas_);
 

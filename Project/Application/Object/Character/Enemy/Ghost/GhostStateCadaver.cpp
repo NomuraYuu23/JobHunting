@@ -29,7 +29,7 @@ void GhostStateCadaver::Initialize()
 	//テンソルを作り直す
 	rigidBody->Initialize(0.01f, obb.size_);
 
-	rigidBody->ApplyForce(obb.center_, rigidBody->centerOfGravity + Vector3{ 1.0f, 0.0f, 0.0f}, Vector3{ 0.0f, 50.0f, 0.0f });
+	rigidBody->ApplyForce(obb.center_, rigidBody->centerOfGravity + Vector3{ 1.0f, 0.0f, 0.0f }, Vector3{ 0.0f, 50.0f, 0.0f });
 	rigidBody->centerOfGravityVelocity.y = 10.0f;
 
 	ghost_->SetUsedRigidBody(true);
@@ -65,7 +65,7 @@ void GhostStateCadaver::RigidBodyUpdate()
 {
 
 	RigidBody* rigidBody = ghost_->GetRigidBody();
-	
+
 	WorldTransform* worldTransform = ghost_->GetWorldTransformAdress();
 
 	// 重力

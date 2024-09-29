@@ -1,25 +1,24 @@
-#include "FlagPole.h"
+#include "FlagPole2.h"
 #include <random>
 
-void FlagPole::Initialize(LevelData::MeshData* data)
+void FlagPole2::Initialize(LevelData::MeshData* data)
 {
 
 	BaseObstacle::Initialize(data);
 
 	// 旗の上部分
-	upperPart_ = {0.0f,9.0f,0.0f};
-
-	upperPart_ = Matrix4x4::Transform(upperPart_, worldTransform_.parentMatrix_);
+	leftPart_ = { -1.0f,9.0f, 0.0f };
+	leftPart_ = Matrix4x4::Transform(leftPart_, worldTransform_.parentMatrix_);
 
 	// 旗の下部分
-	lowerPart_ = { 0.0f,6.0f,0.0f };
-	lowerPart_ = Matrix4x4::Transform(lowerPart_, worldTransform_.parentMatrix_);
+	rightPart_ = { 1.0f,9.0f, 0.0f };
+	rightPart_ = Matrix4x4::Transform(rightPart_, worldTransform_.parentMatrix_);
 
 	dxCommon_ = DirectXCommon::GetInstance();
 
 	div_ = Vector2{ 15.0f, 15.0f };
 
-	scale_ = Vector2{ 4.5f, 3.0f };
+	scale_ = Vector2{ 2.0f, 6.0f };
 
 	cloth_ = std::make_unique<ClothGPU>();
 	cloth_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), scale_, div_, "Resources/Sprite/Cloth/BlueCloth.png");
@@ -42,7 +41,7 @@ void FlagPole::Initialize(LevelData::MeshData* data)
 
 }
 
-void FlagPole::Update()
+void FlagPole2::Update()
 {
 
 	BaseObstacle::Update();
@@ -57,7 +56,7 @@ void FlagPole::Update()
 	std::random_device seedGenerator;
 	std::mt19937 randomEngine(seedGenerator());
 
-	std::uniform_real_distribution<float> distributionX(0.0f, 100.0f);
+	std::uniform_real_distribution<float> distributionX(0.0f, 10.0f);
 	std::uniform_real_distribution<float> distributionZ(-20.0f, 0.0f);
 
 	Vector3 wind = { distributionX(randomEngine), 0.0f, distributionZ(randomEngine) };
@@ -66,7 +65,7 @@ void FlagPole::Update()
 
 }
 
-void FlagPole::Draw(BaseCamera& camera)
+void FlagPole2::Draw(BaseCamera& camera)
 {
 
 	BaseObstacle::Draw(camera);
@@ -75,30 +74,30 @@ void FlagPole::Draw(BaseCamera& camera)
 
 }
 
-void FlagPole::FlagPosition()
+void FlagPole2::FlagPosition()
 {
 
 	// 
 	for (uint32_t y = 0; y <= static_cast<uint32_t>(div_.y); ++y) {
 		for (uint32_t x = 0; x <= static_cast<uint32_t>(div_.x); ++x) {
 			cloth_->SetWeight(y, x, true);
-			cloth_->SetPosition(y, x, upperPart_);
+			cloth_->SetPosition(y, x, rightPart_);
 		}
 	}
 
 	// 固定する
 	cloth_->SetWeight(0, 0, false);
-	cloth_->SetPosition(0, 0, upperPart_);
-	cloth_->SetWeight(1, 0, false);
-	cloth_->SetPosition(1, 0, upperPart_);
-	cloth_->SetWeight(2, 0, false);
-	cloth_->SetPosition(2, 0, upperPart_);
+	cloth_->SetPosition(0, 0, leftPart_);
+	cloth_->SetWeight(0, 1, false);
+	cloth_->SetPosition(0, 1, leftPart_);
+	cloth_->SetWeight(0, 2, false);
+	cloth_->SetPosition(0, 2, leftPart_);
 
-	cloth_->SetWeight(static_cast<uint32_t>(div_.y), 0, false);
-	cloth_->SetPosition(static_cast<uint32_t>(div_.y), 0, lowerPart_);
-	cloth_->SetWeight(static_cast<uint32_t>(div_.y) - 1, 0, false);
-	cloth_->SetPosition(static_cast<uint32_t>(div_.y) - 1, 0, lowerPart_);
-	cloth_->SetWeight(static_cast<uint32_t>(div_.y) - 2, 0, false);
-	cloth_->SetPosition(static_cast<uint32_t>(div_.y) - 2, 0, lowerPart_);
+	cloth_->SetWeight(0, static_cast<uint32_t>(div_.x), false);
+	cloth_->SetPosition(0, static_cast<uint32_t>(div_.x), rightPart_);
+	cloth_->SetWeight(0, static_cast<uint32_t>(div_.x) - 1, false);
+	cloth_->SetPosition(0, static_cast<uint32_t>(div_.x) - 1, rightPart_);
+	cloth_->SetWeight(0, static_cast<uint32_t>(div_.x) - 2, false);
+	cloth_->SetPosition(0, static_cast<uint32_t>(div_.x) - 2, rightPart_);
 
 }
