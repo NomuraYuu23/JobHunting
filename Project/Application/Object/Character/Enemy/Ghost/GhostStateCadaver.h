@@ -1,8 +1,7 @@
 #pragma once
 #include "IGhostState.h"
-#include "../../../../../Engine/Physics/StructuralSpring.h"
 class GhostStateCadaver :
-    public IGhostState
+	public IGhostState
 {
 
 public: // メンバ関数
@@ -19,16 +18,24 @@ public: // メンバ関数
 
 private: // メンバ変数
 
-	//バネ
-	std::vector<StructuralSpring> structuralSpring_;
+	/// <summary>
+	/// 剛体更新
+	/// </summary>
+	void RigidBodyUpdate();
 
-	// 剛性。バネ定数k
-	float stiffness_ = 750.0f;
+private:
 
-	// 減衰係数
-	float dampingCoefficient_ = 2.0f;
+	// 透明度
+	float alpha = 1.0f;
 
-	// 質量(質点)
-	float mass_ = 0.5f;
+	// 透明度変更速度
+	float alphaSpeed = 0.01f;
+
+	// 透明度変更が始まる時間
+	float alphaChangeStartTime = 10.0f;
+
+	// 透明度変更が始まる時間カウント
+	float alphaChangeStartTimeCount = 0.0f;
+
 };
 
