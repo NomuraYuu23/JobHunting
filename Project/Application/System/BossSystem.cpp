@@ -12,12 +12,24 @@ void BossSystem::Initialize(BaseObjectManager* objectManager)
 
 	isBossBattle_ = false;
 
+	// 確認までのフレーム
+	checkFrame_ = 0;
+	checkFrameMax_ = 10;
+
 }
 
 void BossSystem::Update()
 {
 
 	if (isBossBattle_) {
+		return;
+	}
+
+	checkFrame_++;
+	if (checkFrame_ >= checkFrameMax_) {
+		checkFrame_ = checkFrameMax_;
+	}
+	else {
 		return;
 	}
 

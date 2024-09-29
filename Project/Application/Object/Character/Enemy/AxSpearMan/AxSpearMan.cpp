@@ -118,13 +118,13 @@ void AxSpearMan::StateInitialize()
 {
 
 	// ステート
-	state_.reset(AxSpearManStateFactory::CreateAxSpearManState(AxSpearManState::kAxSpearManStateRoot)); // 最初のステート
+	state_.reset(AxSpearManStateFactory::CreateAxSpearManState(AxSpearManState::kAxSpearManStateWaitingForBattle)); // 最初のステート
 	state_->Initialize();
 
 	// ステート番号
-	currentStateNo_ = AxSpearManState::kAxSpearManStateRoot; // 最初のステート
-	prevStateNo_ = AxSpearManState::kAxSpearManStateRoot; // 最初のステート
-	nextStateNo_ = AxSpearManState::kAxSpearManStateRoot; // 最初のステート
+	currentStateNo_ = AxSpearManState::kAxSpearManStateWaitingForBattle; // 最初のステート
+	prevStateNo_ = AxSpearManState::kAxSpearManStateWaitingForBattle; // 最初のステート
+	nextStateNo_ = AxSpearManState::kAxSpearManStateWaitingForBattle; // 最初のステート
 	state_->SetAxSpearMan(this);
 
 }
