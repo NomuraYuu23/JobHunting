@@ -25,6 +25,20 @@ void FlagPole2::Initialize(LevelData::MeshData* data)
 
 	isPosSet_ = true;
 
+	colliderAdd_ = { 0.0f,4.5f, 0.0f };
+
+	OBB obb = std::get<OBB>(*collider_.get());
+
+	obb.center_ = worldTransform_.GetWorldPosition();
+	obb.center_ += Matrix4x4::TransformNormal(colliderAdd_, worldTransform_.rotateMatrix_);
+	obb.SetOtientatuons(worldTransform_.rotateMatrix_);
+
+	ColliderShape* colliderShape = new ColliderShape();
+
+	*colliderShape = obb;
+
+	collider_.reset(colliderShape);
+
 }
 
 void FlagPole2::Update()

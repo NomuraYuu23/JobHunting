@@ -55,5 +55,8 @@ private:
 	// 位置を設定する
 	bool isPosSet_;
 
+	// コライダー追加分
+	Vector3 colliderAdd_;
+
 };
 
