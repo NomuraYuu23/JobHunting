@@ -101,6 +101,7 @@ void GameScene::Initialize() {
 
 	gameOverSystem_ = std::make_unique<GameOverSystem>();
 	gameOverSystem_->Initialize(gameOverStringTextureHandle_, gameOverButtonTextureHandle_);
+	gameOverSystem_->SetIsOperation(false);
 
 	IScene::InitilaizeCheck();
 

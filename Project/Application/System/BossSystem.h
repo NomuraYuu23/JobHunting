@@ -29,5 +29,10 @@ private:
 	// ボス
 	BaseEnemy* boss_;
 
+	// 確認までのフレーム
+	uint32_t checkFrame_ = 0;
+	uint32_t checkFrameMax_ = 10;
+	
+
 };
 
