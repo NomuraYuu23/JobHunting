@@ -1090,8 +1090,11 @@
     <ClCompile Include="Application\Object\ClothObject\Flag\Flag.cpp">
       <Filter>Application\Object\Flag</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole2.cpp">
+    <ClCompile Include="Engine\Physics\Cloth\ClothGPUCollision.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole2.cpp">
+      <Filter>Application\Object\Flag</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1860,8 +1863,11 @@
     <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole.h">
       <Filter>Application\Object\Flag</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole2.h">
+    <ClInclude Include="Engine\Physics\Cloth\ClothGPUCollision.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole2.h">
+      <Filter>Application\Object\Flag</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
