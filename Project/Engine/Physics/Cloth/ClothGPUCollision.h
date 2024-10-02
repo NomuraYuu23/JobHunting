@@ -45,20 +45,59 @@ public: // サブクラス
 
 public: // 静的メンバ関数
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	static void Initialize();
+
 	// CSの初期化
 
-	// CSの実行
+private: // バッファ作成関数
+
+	/// <summary>
+	/// 平面
+	/// </summary>
+	/// <param name="myData">自分</param>
+	static void CreateBufferPlane(ClothGPUCollision* myData);
+
+private: // CSの初期化関数
+
+	/// <summary>
+	/// 平面
+	/// </summary>
+	static void CSInitializePlane();
 
 private: // 静的メンバ変数
 
+	// デバイス
+	static ID3D12Device* device_;
+
+	// バッファ作成関数群
+	static std::array<std::function<void(ClothGPUCollision*)>, CollisionTypeIndex::kCollisionTypeIndexOfIndex> crateBufferFunctions_;
+
+	// 衝突確認関数群
+	//static std::array<std::function<void(ClothGPUCollision*)>, CollisionTypeIndex::kCollisionTypeIndexOfIndex> crateBufferFunctions_;
 
 public: // 動的メンバ関数
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="collisionType">衝突タイプ</param>
 	void Initialize(CollisionTypeIndex collisionType);
 
-	void Update();
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="collisionDataMap"></param>
+	void Update(CollisionDataMap* collisionDataMap);
 
-	void SetData(); // 衝突タイプでデータがあってるか確認する
+	/// <summary>
+	/// CSの実行
+	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	/// <param name="massPointIndexSrvHandleGPU">質点のGPUハンドル</param>
+	void ExecutionCS(ID3D12GraphicsCommandList* commandList, D3D12_GPU_DESCRIPTOR_HANDLE* massPointIndexSrvHandleGPU);
 
 private: // 動的メンバ変数
 
@@ -67,7 +106,7 @@ private: // 動的メンバ変数
 	// 衝突するデータマップ
 	CollisionDataMap* collisionDataMap_ = nullptr;
 	// 衝突タイプ
-	CollisionTypeIndex collisionType;
+	CollisionTypeIndex collisionType_;
 
 };
 
