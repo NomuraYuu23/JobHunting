@@ -10,9 +10,9 @@ ID3D12Device* ClothGPUCollision::device_ = nullptr;
 // バッファ作成関数群
 std::array<std::function<void(ClothGPUCollision*)>, ClothGPUCollision::CollisionTypeIndex::kCollisionTypeIndexOfIndex> ClothGPUCollision::crateBufferFunctions_{};
 // 衝突確認関数群
-static std::array<
+std::array<
 	std::function<void(ID3D12GraphicsCommandList*, ClothGPUCollision*, D3D12_GPU_DESCRIPTOR_HANDLE*, ID3D12Resource*, uint32_t)>,
-	ClothGPUCollision::kCollisionTypeIndexOfIndex> collisionFunctions_{};
+	ClothGPUCollision::kCollisionTypeIndexOfIndex> ClothGPUCollision::collisionFunctions_{};
 // ルートシグネチャCS
 std::array<Microsoft::WRL::ComPtr<ID3D12RootSignature>, ClothGPUCollision::CollisionTypeIndex::kCollisionTypeIndexOfIndex> ClothGPUCollision::rootSignaturesCS_{};
 // パイプラインステートオブジェクトCS
@@ -43,7 +43,7 @@ void ClothGPUCollision::CreateBufferPlane(ClothGPUCollision* myData)
 	myData->collisionDataBuff_->Map(0, nullptr, reinterpret_cast<void**>(&myData->collisionDataMap_));
 	// 衝突するデータマップ
 	ClothGPUCollision::Plane* map = std::get_if<ClothGPUCollision::Plane>(myData->collisionDataMap_);
-	map->distance_ = 1.0f;
+	map->distance_ = 0.0f;
 	map->normal_ = { 0.0f,0.0f, 1.0f };
 
 }
@@ -163,5 +163,31 @@ void ClothGPUCollision::Initialize(CollisionTypeIndex collisionType)
 
 	// バッファ作成
 	crateBufferFunctions_[collisionType_](this);
+
+}
+
+void ClothGPUCollision::Update(CollisionDataMap* collisionDataMap)
+{
+
+	// 型が同じなら更新
+	if (collisionDataMap->index() == collisionDataMap_->index()) {
+		collisionDataMap_->swap(*collisionDataMap);
+	}
+
+}
+
+void ClothGPUCollision::ExecutionCS(
+	ID3D12GraphicsCommandList* commandList,
+	D3D12_GPU_DESCRIPTOR_HANDLE* massPointIndexSrvHandleGPU,
+	ID3D12Resource* numsBuffer,
+	uint32_t dispatchNum)
+{
+
+	collisionFunctions_[collisionType_](
+		commandList,
+		this,
+		massPointIndexSrvHandleGPU,
+		numsBuffer,
+		dispatchNum);
 
 }

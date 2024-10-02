@@ -76,6 +76,7 @@ private: // 衝突確認関数
 	/// <param name="myData">自分</param>
 	/// <param name="massPointIndexSrvHandleGPU">質点のGPUハンドル</param>
 	/// <param name="numBuffer">数バッファ</param>
+	/// <param name="dispatchNum">ディスパッチ回数</param>
 	static void PlaneExecution(
 		ID3D12GraphicsCommandList* commandList, 
 		ClothGPUCollision* myData, 
@@ -120,7 +121,13 @@ public: // 動的メンバ関数
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>
 	/// <param name="massPointIndexSrvHandleGPU">質点のGPUハンドル</param>
-	void ExecutionCS(ID3D12GraphicsCommandList* commandList, D3D12_GPU_DESCRIPTOR_HANDLE* massPointIndexSrvHandleGPU);
+	/// <param name="numsBuffer">数バッファ</param>
+	/// <param name="dispatchNum">ディスパッチ回数</param>
+	void ExecutionCS(
+		ID3D12GraphicsCommandList* commandList, 
+		D3D12_GPU_DESCRIPTOR_HANDLE* massPointIndexSrvHandleGPU,
+		ID3D12Resource* numsBuffer,
+		uint32_t dispatchNum);
 
 private: // 動的メンバ変数
 
