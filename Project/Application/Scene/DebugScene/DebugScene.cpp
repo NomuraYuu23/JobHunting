@@ -24,7 +24,7 @@ void DebugScene::Initialize()
 		FogManager::GetInstance());
 
 	clothScale_ = { 2.0f, 2.0f };
-	clothDiv_ = { 18.0f, 18.0f };
+	clothDiv_ = { 15.0f, 15.0f };
 	clothGPU_ = std::make_unique<ClothGPU>();
 	clothGPU_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), clothScale_, clothDiv_, "Resources/default/clothDemo.png");
 	clothGPU_->CollisionDataRegistration("plane", ClothGPUCollision::kCollisionTypeIndexPlane);

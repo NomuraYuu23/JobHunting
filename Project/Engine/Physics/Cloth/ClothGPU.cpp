@@ -955,10 +955,10 @@ void ClothGPU::NumInitialize(ID3D12Device* device, const Vector2& div)
 	NumsMap_->structuralSpringNums_[2] = (static_cast<uint32_t>(div.y) / 2) * (static_cast<uint32_t>(div.x) + 1);
 	NumsMap_->structuralSpringNums_[3] = (static_cast<uint32_t>(div.y) / 2) * (static_cast<uint32_t>(div.x) + 1);
 
-	if (static_cast<uint32_t>(div.x) % 2 == 0) {
+	if (static_cast<uint32_t>(div.x) % 2 == 1) {
 		NumsMap_->structuralSpringNums_[0] += static_cast<uint32_t>(div.y) + 1;
 	}
-	if (static_cast<uint32_t>(div.y) % 2 == 0) {
+	if (static_cast<uint32_t>(div.y) % 2 == 1) {
 		NumsMap_->structuralSpringNums_[2] += static_cast<uint32_t>(div.x) + 1;
 	}
 
