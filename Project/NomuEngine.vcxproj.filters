@@ -478,6 +478,9 @@
     <Filter Include="Application\Object\Flag">
       <UniqueIdentifier>{84135c1b-2d35-4373-8a67-dfe3bb5821dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\ClothGPU\Collision">
+      <UniqueIdentifier>{b54cd42f-9449-415a-bd9c-9de1e98c42c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -2172,6 +2175,9 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\ClothGPU\ClothUpdateSurface.CS.hlsl">
       <Filter>shaders\ClothGPU</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\Collision\ClothCollisionPlane.CS.hlsl">
+      <Filter>shaders\ClothGPU\Collision</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

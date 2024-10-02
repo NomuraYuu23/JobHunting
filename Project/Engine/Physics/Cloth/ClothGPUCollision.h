@@ -67,6 +67,22 @@ private: // CSの初期化関数
 	/// </summary>
 	static void CSInitializePlane();
 
+private: // 衝突確認関数
+
+	/// <summary>
+	/// 平面
+	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	/// <param name="myData">自分</param>
+	/// <param name="massPointIndexSrvHandleGPU">質点のGPUハンドル</param>
+	/// <param name="numBuffer">数バッファ</param>
+	static void PlaneExecution(
+		ID3D12GraphicsCommandList* commandList, 
+		ClothGPUCollision* myData, 
+		D3D12_GPU_DESCRIPTOR_HANDLE* massPointIndexSrvHandleGPU,
+		ID3D12Resource* numsBuffer,
+		uint32_t dispatchNum);
+
 private: // 静的メンバ変数
 
 	// デバイス
@@ -76,7 +92,14 @@ private: // 静的メンバ変数
 	static std::array<std::function<void(ClothGPUCollision*)>, CollisionTypeIndex::kCollisionTypeIndexOfIndex> crateBufferFunctions_;
 
 	// 衝突確認関数群
-	//static std::array<std::function<void(ClothGPUCollision*)>, CollisionTypeIndex::kCollisionTypeIndexOfIndex> crateBufferFunctions_;
+	static std::array<
+		std::function<void(ID3D12GraphicsCommandList*, ClothGPUCollision*, D3D12_GPU_DESCRIPTOR_HANDLE*, ID3D12Resource*, uint32_t)>,
+		CollisionTypeIndex::kCollisionTypeIndexOfIndex> collisionFunctions_;
+
+	// ルートシグネチャCS
+	static std::array<Microsoft::WRL::ComPtr<ID3D12RootSignature>, CollisionTypeIndex::kCollisionTypeIndexOfIndex> rootSignaturesCS_;
+	// パイプラインステートオブジェクトCS
+	static std::array<Microsoft::WRL::ComPtr<ID3D12PipelineState>, CollisionTypeIndex::kCollisionTypeIndexOfIndex> pipelineStatesCS_;
 
 public: // 動的メンバ関数
 
