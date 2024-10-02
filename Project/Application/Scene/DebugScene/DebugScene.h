@@ -49,11 +49,10 @@ private: // メンバ変数
 	// スカイボックス
 	uint32_t skyboxTextureHandle_ = 0;
 
-	// 布
-	std::unique_ptr<Cloth> cloth_;
-
 	// 
 	std::unique_ptr<ClothGPU> clothGPU_;
+	Vector2 clothScale_;
+	Vector2 clothDiv_;
 
 };
 

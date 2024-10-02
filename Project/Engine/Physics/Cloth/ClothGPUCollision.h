@@ -48,9 +48,7 @@ public: // 静的メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	static void Initialize();
-
-	// CSの初期化
+	static void StaticInitialize();
 
 private: // バッファ作成関数
 
@@ -114,7 +112,7 @@ public: // 動的メンバ関数
 	/// 更新
 	/// </summary>
 	/// <param name="collisionDataMap"></param>
-	void Update(CollisionDataMap* collisionDataMap);
+	void Update(CollisionDataMap& collisionDataMap);
 
 	/// <summary>
 	/// CSの実行

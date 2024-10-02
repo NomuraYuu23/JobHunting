@@ -18,7 +18,7 @@ std::array<Microsoft::WRL::ComPtr<ID3D12RootSignature>, ClothGPUCollision::Colli
 // パイプラインステートオブジェクトCS
 std::array<Microsoft::WRL::ComPtr<ID3D12PipelineState>, ClothGPUCollision::CollisionTypeIndex::kCollisionTypeIndexOfIndex> ClothGPUCollision::pipelineStatesCS_{};
 
-void ClothGPUCollision::Initialize()
+void ClothGPUCollision::StaticInitialize()
 {
 
 	// デバイス
@@ -44,7 +44,7 @@ void ClothGPUCollision::CreateBufferPlane(ClothGPUCollision* myData)
 	// 衝突するデータマップ
 	ClothGPUCollision::Plane* map = std::get_if<ClothGPUCollision::Plane>(myData->collisionDataMap_);
 	map->distance_ = 0.0f;
-	map->normal_ = { 0.0f,0.0f, 1.0f };
+	map->normal_ = { 0.0f, 1.0f, 0.0f };
 
 }
 
@@ -166,12 +166,12 @@ void ClothGPUCollision::Initialize(CollisionTypeIndex collisionType)
 
 }
 
-void ClothGPUCollision::Update(CollisionDataMap* collisionDataMap)
+void ClothGPUCollision::Update(CollisionDataMap& collisionDataMap)
 {
 
 	// 型が同じなら更新
-	if (collisionDataMap->index() == collisionDataMap_->index()) {
-		collisionDataMap_->swap(*collisionDataMap);
+	if (collisionDataMap.index() == collisionDataMap_->index()) {
+		collisionDataMap_->swap(collisionDataMap);
 	}
 
 }

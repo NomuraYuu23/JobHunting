@@ -21,6 +21,7 @@
 #include "../../Light/PointLight/PointLightManager.h"
 #include "../../Light/SpotLight/SpotLightManager.h"
 #include "../../3D/FogManager.h"
+#include "ClothGPUCollision.h"
 
 class ClothGPU
 {
@@ -416,36 +417,48 @@ private: // CS
 	void UpdateExternalOperationCS(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
-	/// 
+	/// 更新 積分フェーズ
 	/// </summary>
 	/// <param name="commandList"></param>
 	void UpdateIntegralCS(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
-	/// 
+	/// 更新 バネフェーズ
 	/// </summary>
 	/// <param name="commandList"></param>
 	void UpdateSpringCS(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
-	/// 
+	/// 更新 衝突フェーズ
+	/// </summary>
+	/// <param name="commandList"></param>
+	void UpdateCollisionCS(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// 更新 面フェーズ
 	/// </summary>
 	/// <param name="commandList"></param>
 	void UpdateSurfaceCS(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
-	/// 
+	/// 更新 頂点フェーズ
 	/// </summary>
 	/// <param name="commandList"></param>
 	void UpdateVertexCS(ID3D12GraphicsCommandList* commandList);
 
-private: // バリア―
+private: // バリア
 
 	/// <summary>
-	/// UAVバリア―
+	/// UAVバリア 頂点
 	/// </summary>
 	/// <param name="commandList"></param>
-	void UAVBarrier(ID3D12GraphicsCommandList* commandList);
+	void UAVBarrierVertex(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// UAVバリア 質点
+	/// </summary>
+	/// <param name="commandList"></param>
+	void UAVBarrierMassPoint(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// リソースバリア
@@ -510,6 +523,26 @@ private: // その他関数
 		int enableLighting, 
 		float shininess, 
 		float environmentCoefficient);
+
+public: // その他関数
+
+	/// <summary>
+	/// 衝突判定登録
+	/// </summary>
+	/// <param name="name">名前</param>
+	/// <param name="collisionType">衝突判定のタイプ</param>
+	void CollisionDataRegistration(
+		const std::string& name,
+		ClothGPUCollision::CollisionTypeIndex collisionType);
+
+	/// <summary>
+	/// 衝突判定更新
+	/// </summary>
+	/// <param name="name">名前</param>
+	/// <param name="collisionDataMap">衝突判定データ</param>
+	void CollisionDataUpdate(
+		const std::string& name,
+		ClothGPUCollision::CollisionDataMap& collisionDataMap);
 
 public: // アクセッサ
 
@@ -648,6 +681,9 @@ private: // 変数
 
 	// バネフェーズの反復回数
 	int32_t relaxation_;
+
+	// 衝突データ
+	std::vector<std::pair<std::string, std::unique_ptr<ClothGPUCollision>>> collisionDatas_;
 
 };
 

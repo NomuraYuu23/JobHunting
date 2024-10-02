@@ -40,6 +40,9 @@ void ClothGPU::StaticInitialize(
 
 	PipelineStateCSInitialize(device);
 
+	// 衝突クラス
+	ClothGPUCollision::StaticInitialize();
+
 }
 
 
@@ -830,6 +833,8 @@ void ClothGPU::Initialize(
 
 	InitializeCS(commandList);
 
+	collisionDatas_.clear();
+
 }
 
 void ClothGPU::Update(ID3D12GraphicsCommandList* commandList)
@@ -1328,15 +1333,9 @@ void ClothGPU::InitializeCS(ID3D12GraphicsCommandList* commandList)
 
 	InitVertexCS(commandList);
 
-	UAVBarrier(commandList);
-
 	InitSurfaceCS(commandList);
 
-	UAVBarrier(commandList);
-
 	InitMassPointCS(commandList);
-
-	UAVBarrier(commandList);
 
 	//コマンドリストをクローズ、キック
 
@@ -1447,6 +1446,8 @@ void ClothGPU::UpdateCS(ID3D12GraphicsCommandList* commandList)
 
 	UpdateSpringCS(commandList);
 
+	UpdateCollisionCS(commandList);
+
 	UpdateSurfaceCS(commandList);
 
 	UpdateVertexCS(commandList);
@@ -1471,7 +1472,7 @@ void ClothGPU::UpdateExternalOperationCS(ID3D12GraphicsCommandList* commandList)
 
 	commandList->Dispatch((NumsMap_->massPointNum_ + 1023) / 1024, 1, 1);
 
-	UAVBarrier(commandList);
+	UAVBarrierMassPoint(commandList);
 
 }
 
@@ -1495,7 +1496,7 @@ void ClothGPU::UpdateIntegralCS(ID3D12GraphicsCommandList* commandList)
 
 	commandList->Dispatch((NumsMap_->massPointNum_ + 1023) / 1024, 1, 1);
 
-	UAVBarrier(commandList);
+	UAVBarrierMassPoint(commandList);
 
 }
 
@@ -1539,8 +1540,30 @@ void ClothGPU::UpdateSpringCS(ID3D12GraphicsCommandList* commandList)
 
 			commandList->Dispatch((num + 1023) / 1024, 1, 1);
 
-			UAVBarrier(commandList);
+			UAVBarrierMassPoint(commandList);
 		}
+
+	}
+
+}
+
+void ClothGPU::UpdateCollisionCS(ID3D12GraphicsCommandList* commandList)
+{
+
+	// SRV
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	for (size_t i = 0; i < collisionDatas_.size(); ++i) {
+
+		collisionDatas_[i].second->ExecutionCS(
+			commandList,
+			&massPointUavHandleGPU_,
+			NumsBuff_.Get(),
+			NumsMap_->massPointNum_
+		);
+
+		UAVBarrierMassPoint(commandList);
 
 	}
 
@@ -1563,7 +1586,7 @@ void ClothGPU::UpdateSurfaceCS(ID3D12GraphicsCommandList* commandList)
 
 	commandList->Dispatch((NumsMap_->surfaceNum_ + 1023) / 1024, 1, 1);
 
-	UAVBarrier(commandList);
+	UAVBarrierMassPoint(commandList);
 }
 
 void ClothGPU::UpdateVertexCS(ID3D12GraphicsCommandList* commandList)
@@ -1588,11 +1611,11 @@ void ClothGPU::UpdateVertexCS(ID3D12GraphicsCommandList* commandList)
 
 	commandList->Dispatch((NumsMap_->vertexNum_ + 1023) / 1024, 1, 1);
 
-	UAVBarrier(commandList);
+	UAVBarrierVertex(commandList);
 
 }
 
-void ClothGPU::UAVBarrier(ID3D12GraphicsCommandList* commandList)
+void ClothGPU::UAVBarrierVertex(ID3D12GraphicsCommandList* commandList)
 {
 
 	D3D12_RESOURCE_BARRIER barrier{};
@@ -1600,6 +1623,18 @@ void ClothGPU::UAVBarrier(ID3D12GraphicsCommandList* commandList)
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
 	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
 	barrier.UAV.pResource = vertBuff_.Get();
+	commandList->ResourceBarrier(1, &barrier);
+
+}
+
+void ClothGPU::UAVBarrierMassPoint(ID3D12GraphicsCommandList* commandList)
+{
+
+	D3D12_RESOURCE_BARRIER barrier{};
+
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.UAV.pResource = massPointBuff_.Get();
 	commandList->ResourceBarrier(1, &barrier);
 
 }
@@ -1798,6 +1833,36 @@ void ClothGPU::MaterialUpdate(
 		enableLighting,
 		shininess,
 		environmentCoefficient);
+
+}
+
+void ClothGPU::CollisionDataRegistration(
+	const std::string& name,
+	ClothGPUCollision::CollisionTypeIndex collisionType)
+{
+
+	ClothGPUCollision* collisionData = new ClothGPUCollision;
+	collisionData->Initialize(collisionType);
+
+	collisionDatas_.emplace_back();
+	collisionDatas_.back().first = name;
+	collisionDatas_.back().second.reset(collisionData);
+
+}
+
+void ClothGPU::CollisionDataUpdate(
+	const std::string& name,
+	ClothGPUCollision::CollisionDataMap& collisionDataMap)
+{
+
+	for (size_t i = 0; i < collisionDatas_.size(); ++i) {
+
+		if (name == collisionDatas_[i].first) {
+			collisionDatas_[i].second->Update(collisionDataMap);
+			break;
+		}
+
+	}
 
 }
 

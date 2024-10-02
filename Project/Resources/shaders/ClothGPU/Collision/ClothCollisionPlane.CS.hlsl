@@ -44,12 +44,13 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 		float32_t t = (gPlane.distance_ - dot(origin, gPlane.normal_)) / pDotL;
 
 		// tが0.0fから1.0f以内でないなら衝突してない
-		if (t < 0.0f || t > 1.0f) {
+		if (t < -50.5f || t > 1.0f) {
 			return;
 		}
 
 		// 押し出し
-		gClothMassPoints[index].position_ = massPoint.prePosition_ + (diff * t);
+		float32_t3 extrusion = massPoint.prePosition_ + (diff * t);
+		gClothMassPoints[index].position_ = extrusion;
 
 	}
 
