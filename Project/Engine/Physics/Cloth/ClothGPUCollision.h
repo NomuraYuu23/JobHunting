@@ -26,6 +26,7 @@ public: // サブクラス
 	/// </summary>
 	enum CollisionTypeIndex {
 		kCollisionTypeIndexPlane, // 平面
+		kCollisionTypeIndexPlane, // 球
 		kCollisionTypeIndexOfIndex // 数
 	};
 
