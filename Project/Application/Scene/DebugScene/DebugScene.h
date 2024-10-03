@@ -4,6 +4,7 @@
 #include "../../Skydome/Skydome.h"
 #include "../../../Engine/Physics/Cloth/Cloth.h"
 #include "../../../Engine/Physics/Cloth/ClothGPU.h"
+#include "../../ClothDemo/ClothDemo.h"
 
 class DebugScene : public IScene
 {
@@ -53,6 +54,8 @@ private: // メンバ変数
 	std::unique_ptr<ClothGPU> clothGPU_;
 	Vector2 clothScale_;
 	Vector2 clothDiv_;
+
+	std::unique_ptr<ClothDemo> clothDemo_;
 
 };
 

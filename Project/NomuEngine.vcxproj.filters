@@ -481,6 +481,9 @@
     <Filter Include="shaders\ClothGPU\Collision">
       <UniqueIdentifier>{b54cd42f-9449-415a-bd9c-9de1e98c42c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\ClothDemo">
+      <UniqueIdentifier>{f090aa4e-2837-4aea-bdc8-9f1862f60153}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1098,6 +1101,9 @@
     </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole2.cpp">
       <Filter>Application\Object\Flag</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\ClothDemo\ClothDemo.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1872,6 +1878,9 @@
     <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole2.h">
       <Filter>Application\Object\Flag</Filter>
     </ClInclude>
+    <ClInclude Include="Application\ClothDemo\ClothDemo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -2177,6 +2186,9 @@
       <Filter>shaders\ClothGPU</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\ClothGPU\Collision\ClothCollisionPlane.CS.hlsl">
+      <Filter>shaders\ClothGPU\Collision</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\Collision\ClothCollisionSphere.CS.hlsl">
       <Filter>shaders\ClothGPU\Collision</Filter>
     </FxCompile>
   </ItemGroup>

@@ -26,7 +26,7 @@ public: // サブクラス
 	/// </summary>
 	enum CollisionTypeIndex {
 		kCollisionTypeIndexPlane, // 平面
-		kCollisionTypeIndexPlane, // 球
+		kCollisionTypeIndexSphere, // 球
 		kCollisionTypeIndexOfIndex // 数
 	};
 
@@ -70,12 +70,23 @@ private: // バッファ作成関数
 	/// <param name="myData">自分</param>
 	static void CreateBufferPlane(ClothGPUCollision* myData);
 
+	/// <summary>
+	/// 球
+	/// </summary>
+	/// <param name="myData">自分</param>
+	static void CreateBufferSphere(ClothGPUCollision* myData);
+
 private: // CSの初期化関数
 
 	/// <summary>
 	/// 平面
 	/// </summary>
 	static void CSInitializePlane();
+
+	/// <summary>
+	/// 球
+	/// </summary>
+	static void CSInitializeSphere();
 
 private: // 衝突確認関数
 
@@ -90,6 +101,21 @@ private: // 衝突確認関数
 	static void PlaneExecution(
 		ID3D12GraphicsCommandList* commandList, 
 		ClothGPUCollision* myData, 
+		D3D12_GPU_DESCRIPTOR_HANDLE* massPointIndexSrvHandleGPU,
+		ID3D12Resource* numsBuffer,
+		uint32_t dispatchNum);
+
+	/// <summary>
+	/// 球
+	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	/// <param name="myData">自分</param>
+	/// <param name="massPointIndexSrvHandleGPU">質点のGPUハンドル</param>
+	/// <param name="numBuffer">数バッファ</param>
+	/// <param name="dispatchNum">ディスパッチ回数</param>
+	static void SphereExecution(
+		ID3D12GraphicsCommandList* commandList,
+		ClothGPUCollision* myData,
 		D3D12_GPU_DESCRIPTOR_HANDLE* massPointIndexSrvHandleGPU,
 		ID3D12Resource* numsBuffer,
 		uint32_t dispatchNum);
