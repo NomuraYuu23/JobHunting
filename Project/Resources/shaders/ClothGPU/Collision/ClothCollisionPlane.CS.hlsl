@@ -35,17 +35,16 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 		// 内積
 		float32_t pDotL = dot(gPlane.normal_, diff);
 
-		// 垂直は衝突しない
-		if (pDotL == 0.0f) {
+		// 垂直または向き合ってないなら衝突しない
+		if (pDotL >= 0.0f) {
 			return;
 		}
 
 		// tを求める
 		float32_t t = (gPlane.distance_ - dot(origin, gPlane.normal_)) / pDotL;
 
-		// tが誤差分から1.0f以内でないなら衝突してない
-		float32_t errorT = -0.1f;
-		if (t < errorT || t > 1.0f) {
+		// tが1.0f以内でないなら衝突してない
+		if (t > 1.0f) {
 			return;
 		}
 

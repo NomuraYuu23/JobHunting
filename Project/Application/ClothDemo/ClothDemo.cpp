@@ -35,7 +35,7 @@ void ClothDemo::Initilalize(
 	
 	// 衝突オブジェクト
 	clothGPU_->CollisionDataRegistration("plane", ClothGPUCollision::kCollisionTypeIndexPlane);
-	clothGPU_->CollisionDataRegistration("sphere", ClothGPUCollision::kCollisionTypeIndexSphere);
+	//clothGPU_->CollisionDataRegistration("sphere", ClothGPUCollision::kCollisionTypeIndexSphere);
 
 	ClothReset(kFixedIndexEnd);
 
