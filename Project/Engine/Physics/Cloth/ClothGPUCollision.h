@@ -40,8 +40,19 @@ public: // サブクラス
 		float distance_;
 	};
 
+	/// <summary>
+	/// 球
+	/// </summary>
+	struct Sphere
+	{
+		// 位置
+		Vector3 position_;
+		// 距離
+		float radius_;
+	};
+
 	// 衝突するデータマップ
-	using CollisionDataMap = std::variant<Plane>;
+	using CollisionDataMap = std::variant<Plane, Sphere>;
 
 public: // 静的メンバ関数
 
