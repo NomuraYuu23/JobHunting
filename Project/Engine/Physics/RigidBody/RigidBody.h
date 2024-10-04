@@ -1,6 +1,6 @@
 #pragma once
 #include "../MassPoint/MassPoint.h"
-#include "../../Math/Matrix4x4.h"
+#include "../../Math/Matrix/Matrix4x4.h"
 #include "../../Math/Quaternion.h"
 #include "../../Collider/OBB/OBB.h"
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "TransformStructure.h"
-#include "../Math/Matrix4x4.h"
+#include "../Math/Matrix/Matrix4x4.h"
 
 #include "TransformationMatrix.h"
 #include <wrl.h>

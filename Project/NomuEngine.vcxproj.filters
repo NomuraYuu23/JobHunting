@@ -679,7 +679,7 @@
     <ClCompile Include="Engine\Math\Vector\Vector3.cpp">
       <Filter>Engine\Math\vector3</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Math\Matrix4x4.cpp">
+    <ClCompile Include="Engine\Math\Matrix\Matrix4x4.cpp">
       <Filter>Engine\Math\Matrix4x4</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Collider2D\Box.cpp">
@@ -718,7 +718,7 @@
     <ClCompile Include="Engine\Animation\AnimationData.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Math\Matrix3x3.cpp">
+    <ClCompile Include="Engine\Math\Matrix\Matrix3x3.cpp">
       <Filter>Engine\Math\Matrix3x3</Filter>
     </ClCompile>
     <ClCompile Include="Engine\base\SRVDescriptorHerpManager.cpp">
@@ -1347,7 +1347,7 @@
     <ClInclude Include="Engine\Math\Vector\Vector3.h">
       <Filter>Engine\Math\vector3</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Math\Matrix4x4.h">
+    <ClInclude Include="Engine\Math\Matrix\Matrix4x4.h">
       <Filter>Engine\Math\Matrix4x4</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
@@ -1404,7 +1404,7 @@
     <ClInclude Include="Engine\Animation\Animation.h">
       <Filter>Engine\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Math\Matrix3x3.h">
+    <ClInclude Include="Engine\Math\Matrix\Matrix3x3.h">
       <Filter>Engine\Math\Matrix3x3</Filter>
     </ClInclude>
     <ClInclude Include="Engine\base\SRVDescriptorHerpManager.h">

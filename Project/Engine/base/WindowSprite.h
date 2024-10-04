@@ -2,7 +2,7 @@
 #include <memory>
 #include "../../externals/DirectXTex/d3dx12.h"
 #include "../2D/SpriteVertex.h"
-#include "../Math/Matrix4x4.h"
+#include "../Math/Matrix/Matrix4x4.h"
 #include "../2D/SpriteForGPU.h"
 #include "../3D/Material.h"
 #include "TextureUAV.h"

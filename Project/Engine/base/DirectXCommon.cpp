@@ -9,7 +9,7 @@
 #include "RTVDescriptorHerpManager.h"
 #include "DSVDescriptorHerpManager.h"
 #include "BufferResource.h"
-#include "../Math/Matrix4x4.h"
+#include "../Math/Matrix/Matrix4x4.h"
 #include "Log.h"
 #include "GraphicsPipelineState/GraphicsPipelineState.h"
 #include "../base/CompileShader.h"

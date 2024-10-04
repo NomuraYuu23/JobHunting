@@ -2,7 +2,7 @@
 #include "DSVDescriptorHerpManager.h"
 #include "RTVDescriptorHerpManager.h"
 #include "SRVDescriptorHerpManager.h"
-#include "../Math/Matrix4x4.h"
+#include "../Math/Matrix/Matrix4x4.h"
 #include "BufferResource.h"
 #include "WindowSprite.h"
 

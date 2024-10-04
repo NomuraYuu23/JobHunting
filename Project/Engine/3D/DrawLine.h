@@ -8,7 +8,7 @@
 #include <list>
 #include <memory>
 #include "../3D/ColorVertexData.h"
-#include "../Math/Matrix4x4.h"
+#include "../Math/Matrix/Matrix4x4.h"
 #include "../Camera/BaseCamera.h"
 #include "LineForGPU.h"
 
