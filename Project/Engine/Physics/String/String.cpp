@@ -1,6 +1,6 @@
 #include "String.h"
 #include <cassert>
-#include "../../3D/ModelDraw.h"
+#include "../../3D/Model/ModelDraw.h"
 
 void String::Initialize(
 	const Vector3& anchor, 

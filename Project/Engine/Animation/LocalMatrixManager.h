@@ -2,8 +2,8 @@
 #include <wrl.h>
 #include <d3d12.h>
 #include "LocalMatrix.h"
-#include "../3D/ModelNodeData.h"
-#include "../3D/ModelNode.h"
+#include "../3D/Model/ModelNodeData.h"
+#include "../3D/Model/ModelNode.h"
 
 class LocalMatrixManager
 {

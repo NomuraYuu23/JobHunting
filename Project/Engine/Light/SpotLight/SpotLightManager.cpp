@@ -1,6 +1,6 @@
 #include "SpotLightManager.h"
 #include "../../base/SRVDescriptorHerpManager.h"
-#include "../../3D/TransformationMatrix.h"
+#include "../../3D/Transform/TransformationMatrix.h"
 #include "../../base/BufferResource.h"
 
 using namespace DirectX;

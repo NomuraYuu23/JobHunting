@@ -7,7 +7,7 @@
 #include <wrl.h>
 #include <dxcapi.h>
 #include <array>
-#include "../3D/Model.h"
+#include "../3D/Model/Model.h"
 #include "GPUPerticleView.h"
 #include "EmitterCS.h"
 #include "../Math/PerFrame.h"

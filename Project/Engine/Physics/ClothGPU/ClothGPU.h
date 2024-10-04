@@ -12,7 +12,7 @@
 #include <dxcapi.h>
 #include <array>
 #include "../../Math/PerFrame.h"
-#include "../../3D/Material.h"
+#include "../../3D/Material/Material.h"
 
 #pragma comment(lib, "dxcompiler.lib")
 
@@ -20,7 +20,7 @@
 #include "../../Light/DirectionalLight/DirectionalLight.h"
 #include "../../Light/PointLight/PointLightManager.h"
 #include "../../Light/SpotLight/SpotLightManager.h"
-#include "../../3D/FogManager.h"
+#include "../../3D/Fog/FogManager.h"
 
 class ClothGPU
 {

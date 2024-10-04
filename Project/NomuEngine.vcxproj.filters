@@ -217,9 +217,6 @@
     <Filter Include="Engine\3D\Material">
       <UniqueIdentifier>{ef334e55-1060-40c1-9a67-32c7b428f998}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\3D\Objects">
-      <UniqueIdentifier>{2d14ea3a-d23c-4ad2-bfb7-1a8307ab367f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\3D\Outline">
       <UniqueIdentifier>{a4eb2646-fb2d-462f-a789-bc5ae8660989}</UniqueIdentifier>
     </Filter>
@@ -475,6 +472,9 @@
     <Filter Include="Application\Object\Flag">
       <UniqueIdentifier>{84135c1b-2d35-4373-8a67-dfe3bb5821dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\3D\ManyObjects">
+      <UniqueIdentifier>{2d14ea3a-d23c-4ad2-bfb7-1a8307ab367f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -661,16 +661,16 @@
     <ClCompile Include="Engine\Light\SpotLight\SpotLightManager.cpp">
       <Filter>Engine\Light\SpotLight</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\Model.cpp">
+    <ClCompile Include="Engine\3D\Model\Model.cpp">
       <Filter>Engine\3D\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\Mesh.cpp">
+    <ClCompile Include="Engine\3D\Model\Mesh.cpp">
       <Filter>Engine\3D\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\ModelLoader.cpp">
+    <ClCompile Include="Engine\3D\Model\ModelLoader.cpp">
       <Filter>Engine\3D\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\ModelNode.cpp">
+    <ClCompile Include="Engine\3D\Model\ModelNode.cpp">
       <Filter>Engine\3D\Model</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Vector\Vector2.cpp">
@@ -763,7 +763,7 @@
     <ClCompile Include="Engine\Animation\LocalMatrixManager.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\ModelDraw.cpp">
+    <ClCompile Include="Engine\3D\Model\ModelDraw.cpp">
       <Filter>Engine\3D\Model</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Physics\Spring\Spring.cpp">
@@ -817,28 +817,28 @@
     <ClCompile Include="Engine\2D\Sprite.cpp">
       <Filter>Engine\2D\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\FogManager.cpp">
+    <ClCompile Include="Engine\3D\Fog\FogManager.cpp">
       <Filter>Engine\3D\Fog</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\DrawLine.cpp">
+    <ClCompile Include="Engine\3D\Line\DrawLine.cpp">
       <Filter>Engine\3D\Line</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\Material.cpp">
+    <ClCompile Include="Engine\3D\Material\Material.cpp">
       <Filter>Engine\3D\Material</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\ModelManager.cpp">
+    <ClCompile Include="Engine\3D\Model\ModelManager.cpp">
       <Filter>Engine\3D\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\LargeNumberOfObjects.cpp">
-      <Filter>Engine\3D\Objects</Filter>
+    <ClCompile Include="Engine\3D\ManyObjects\LargeNumberOfObjects.cpp">
+      <Filter>Engine\3D\ManyObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\OneOfManyObjects.cpp">
-      <Filter>Engine\3D\Objects</Filter>
+    <ClCompile Include="Engine\3D\ManyObjects\OneOfManyObjects.cpp">
+      <Filter>Engine\3D\ManyObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\Outline.cpp">
+    <ClCompile Include="Engine\3D\Outline\Outline.cpp">
       <Filter>Engine\3D\Outline</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\WorldTransform.cpp">
+    <ClCompile Include="Engine\3D\Transform\WorldTransform.cpp">
       <Filter>Engine\3D\Transform</Filter>
     </ClCompile>
     <ClCompile Include="Engine\base\TextureManager.cpp">
@@ -1326,16 +1326,16 @@
     <ClInclude Include="Engine\Light\SpotLight\SpotLightManager.h">
       <Filter>Engine\Light\SpotLight</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\Model.h">
+    <ClInclude Include="Engine\3D\Model\Model.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\Mesh.h">
+    <ClInclude Include="Engine\3D\Model\Mesh.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\ModelLoader.h">
+    <ClInclude Include="Engine\3D\Model\ModelLoader.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\ModelNode.h">
+    <ClInclude Include="Engine\3D\Model\ModelNode.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Vector\Vector2.h">
@@ -1446,10 +1446,10 @@
     <ClInclude Include="Engine\Animation\LocalMatrix.h">
       <Filter>Engine\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\ModelDraw.h">
+    <ClInclude Include="Engine\3D\Model\ModelDraw.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\ModelNodeData.h">
+    <ClInclude Include="Engine\3D\Model\ModelNodeData.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Physics\Spring\StructuralSpring.h">
@@ -1512,55 +1512,55 @@
     <ClInclude Include="Engine\2D\Sprite.h">
       <Filter>Engine\2D\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\FogManager.h">
+    <ClInclude Include="Engine\3D\Fog\FogManager.h">
       <Filter>Engine\3D\Fog</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\FogData.h">
+    <ClInclude Include="Engine\3D\Fog\FogData.h">
       <Filter>Engine\3D\Fog</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\DrawLine.h">
+    <ClInclude Include="Engine\3D\Line\DrawLine.h">
       <Filter>Engine\3D\Line</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\LineForGPU.h">
+    <ClInclude Include="Engine\3D\Line\LineForGPU.h">
       <Filter>Engine\3D\Line</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\MaterialData.h">
+    <ClInclude Include="Engine\3D\Material\MaterialData.h">
       <Filter>Engine\3D\Material</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\Material.h">
+    <ClInclude Include="Engine\3D\Material\Material.h">
       <Filter>Engine\3D\Material</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\ModelManager.h">
+    <ClInclude Include="Engine\3D\Model\ModelManager.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\LargeNumberOfObjects.h">
-      <Filter>Engine\3D\Objects</Filter>
+    <ClInclude Include="Engine\3D\ManyObjects\LargeNumberOfObjects.h">
+      <Filter>Engine\3D\ManyObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\OneOfManyObjects.h">
-      <Filter>Engine\3D\Objects</Filter>
+    <ClInclude Include="Engine\3D\ManyObjects\OneOfManyObjects.h">
+      <Filter>Engine\3D\ManyObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\OutLineData.h">
+    <ClInclude Include="Engine\3D\Outline\OutLineData.h">
       <Filter>Engine\3D\Outline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\Outline.h">
+    <ClInclude Include="Engine\3D\Outline\Outline.h">
       <Filter>Engine\3D\Outline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\TransformationMatrix.h">
+    <ClInclude Include="Engine\3D\Transform\TransformationMatrix.h">
       <Filter>Engine\3D\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\TransformStructure.h">
+    <ClInclude Include="Engine\3D\Transform\TransformStructure.h">
       <Filter>Engine\3D\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\WorldTransform.h">
+    <ClInclude Include="Engine\3D\Transform\WorldTransform.h">
       <Filter>Engine\3D\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\VertexInfluence.h">
+    <ClInclude Include="Engine\3D\Vertex\VertexInfluence.h">
       <Filter>Engine\3D\Vertex</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\VertexData.h">
+    <ClInclude Include="Engine\3D\Vertex\VertexData.h">
       <Filter>Engine\3D\Vertex</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\ColorVertexData.h">
+    <ClInclude Include="Engine\3D\Vertex\ColorVertexData.h">
       <Filter>Engine\3D\Vertex</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Animation\SkinningInformation.h">

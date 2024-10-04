@@ -4,7 +4,7 @@
 #include "../2D/SpriteVertex.h"
 #include "../Math/Matrix/Matrix4x4.h"
 #include "../2D/SpriteForGPU.h"
-#include "../3D/Material.h"
+#include "../3D/Material/Material.h"
 #include "TextureUAV.h"
 
 class WindowSprite

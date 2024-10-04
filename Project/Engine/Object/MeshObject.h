@@ -1,6 +1,6 @@
 #pragma once
 #include "IObject.h"
-#include "../3D/Model.h"
+#include "../3D/Model/Model.h"
 #include "../Level/LevelData.h"
 #include "../Collision/CollisionManager.h"
 #include "../Collider/ColliderDebugDraw/ColliderDebugDraw.h"

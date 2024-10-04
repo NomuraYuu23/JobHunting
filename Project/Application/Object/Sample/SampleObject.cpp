@@ -4,7 +4,7 @@
 #include "../../../Engine/Physics/RigidBody/InertiaTensor.h"
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../../Engine/Input/Input.h"
-#include "../../../Engine/3D/ModelDraw.h"
+#include "../../../Engine/3D/Model/ModelDraw.h"
 
 SampleObject::~SampleObject()
 {

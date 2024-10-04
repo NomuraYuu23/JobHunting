@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include "../Spring/StructuralSpring.h"
-#include "../../3D/DrawLine.h"
-#include "../../3D/Model.h"
+#include "../../3D/Line/DrawLine.h"
+#include "../../3D/Model/Model.h"
 
 class String
 {

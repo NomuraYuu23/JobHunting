@@ -1,6 +1,6 @@
 #include "BaseEnemy.h"
 #include "../../../Engine/Animation/LocalMatrixDraw.h"
-#include "../../../Engine/3D/ModelDraw.h"
+#include "../../../Engine/3D/Model/ModelDraw.h"
 #include "../../../Engine/Physics/RigidBody/InertiaTensor.h"
 #include "../../../Engine/Collision/Extrusion.h"
 

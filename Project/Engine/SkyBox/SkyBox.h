@@ -10,7 +10,7 @@
 
 #include "../Math/Vector/Vector4.h"
 #include "../Math/Matrix/Matrix4x4.h"
-#include "../3D/Material.h"
+#include "../3D/Material/Material.h"
 #include "../Camera/BaseCamera.h"
 
 class Skybox

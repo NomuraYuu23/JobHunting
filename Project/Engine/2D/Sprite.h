@@ -17,10 +17,10 @@
 #include "../Math/Matrix/Matrix4x4.h"
 
 #include "../2D/SpriteVertex.h"
-#include "../3D/TransformationMatrix.h"
-#include "../3D/TransformStructure.h"
+#include "../3D/Transform/TransformationMatrix.h"
+#include "../3D/Transform/TransformStructure.h"
 
-#include "../3D/Material.h"
+#include "../3D/Material/Material.h"
 #include "SpriteForGPU.h"
 
 /// <summary>

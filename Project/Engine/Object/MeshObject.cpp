@@ -1,6 +1,6 @@
 #include "MeshObject.h"
-#include "../3D/ModelManager.h"
-#include "../3D/ModelDraw.h"
+#include "../3D/Model/ModelManager.h"
+#include "../3D/Model/ModelDraw.h"
 
 void MeshObject::Initialize(LevelData::MeshData* data)
 {

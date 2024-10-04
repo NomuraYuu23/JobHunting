@@ -4,10 +4,10 @@
 #include "../Math/Vector/Vector3.h"
 #include "../Math/Vector/Vector4.h"
 #include "../Math/Matrix/Matrix4x4.h"
-#include "../3D/VertexData.h"
-#include "../3D/TransformationMatrix.h"
-#include "../3D/TransformStructure.h"
-#include "../3D/MaterialData.h"
+#include "../3D/Vertex/VertexData.h"
+#include "../3D/Transform/TransformationMatrix.h"
+#include "../3D/Transform/TransformStructure.h"
+#include "../3D/Material/MaterialData.h"
 #include "../base/SafeDelete.h"
 #include "../base/GraphicsPipelineState/GraphicsPipelineState.h"
 //クラス化
@@ -15,13 +15,13 @@
 #include "../base/DirectXCommon.h"
 #include "../base/TextureManager.h"
 #include "../2D/Sprite.h"
-#include "../3D/Model.h"
-#include "../3D/Material.h"
+#include "../3D/Model/Model.h"
+#include "../3D/Material/Material.h"
 #include "../Light/DirectionalLight/DirectionalLight.h"
 #include "../Light/PointLight/PointLightManager.h"
 #include "../Light/SpotLight/SpotLightManager.h"
 #include "../base/D3DResourceLeakChecker.h"
-#include "../3D/DrawLine.h"
+#include "../3D/Line/DrawLine.h"
 
 // サウンド再生
 #include "../Audio/Audio.h"
@@ -52,10 +52,10 @@
 #include "../PostEffect/PostEffect.h"
 
 // FogManager
-#include "../3D/FogManager.h"
+#include "../3D/Fog/FogManager.h"
 
 // モデル描画
-#include "../3D/ModelDraw.h"
+#include "../3D/Model/ModelDraw.h"
 
 // タイムスタンプ
 #include "../base/QueryTimestamp.h"

@@ -1,5 +1,5 @@
 #pragma once
-#include "../3D/TransformStructure.h"
+#include "../3D/Transform/TransformStructure.h"
 #include "IParticle.h"
 #include <list>
 #include "EmitterDesc.h"

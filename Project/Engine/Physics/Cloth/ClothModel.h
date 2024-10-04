@@ -12,12 +12,12 @@
 #include "../../Math/Vector/Vector2.h"
 #include "../../Math/Vector/Vector3.h"
 #include "../../Math/Vector/Vector4.h"
-#include "../../3D/Material.h"
+#include "../../3D/Material/Material.h"
 #include "../../Camera/BaseCamera.h"
 #include "../../Light/DirectionalLight/DirectionalLight.h"
 #include "../../Light/PointLight/PointLightManager.h"
 #include "../../Light/SpotLight/SpotLightManager.h"
-#include "../../3D/FogManager.h"
+#include "../../3D/Fog/FogManager.h"
 
 class ClothModel
 {

@@ -1,7 +1,7 @@
 #pragma once
 #include "LocalMatrixManager.h"
-#include "../3D/WorldTransform.h"
-#include "../3D/DrawLine.h"
+#include "../3D/Transform/WorldTransform.h"
+#include "../3D/Line/DrawLine.h"
 
 class LocalMatrixDraw
 {
