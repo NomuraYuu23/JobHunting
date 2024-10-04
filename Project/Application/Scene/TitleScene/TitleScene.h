@@ -1,8 +1,6 @@
 #pragma once
 #include "../../../Engine/Scene/IScene/IScene.h"
 
-#include "../../AudioManager/TitleAudioManager.h"
-
 #include "../../Skydome/Skydome.h"
 #include "../../../Engine/PostEffect/HSVFilter.h"
 
@@ -50,20 +48,7 @@ private: // メンバ関数
 	/// </summary>
 	void TextureLoad() override;
 
-private:
-
-	/// <summary>
-	/// 音量
-	/// </summary>
-	void LowerVolumeBGM();
-
 private: // メンバ変数
-
-	
-	// オーディオマネージャー
-	std::unique_ptr<TitleAudioManager> audioManager_;
-
-	bool isDecreasingVolume = true;
 
 	// ボタン
 	std::unique_ptr<Sprite> buttonSprite_;

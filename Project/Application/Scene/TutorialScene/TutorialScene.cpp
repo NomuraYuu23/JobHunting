@@ -17,15 +17,7 @@
 
 TutorialScene::~TutorialScene()
 {
-
-	if (stopAudio_) {
-		for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
-			audioManager_->StopWave(i);
-		}
-	}
-
 	particleManager_->Finalize();
-
 }
 
 /// <summary>
@@ -77,10 +69,6 @@ void TutorialScene::Initialize() {
 	uiManager_ = std::make_unique<TutorialUIManager>();
 	uiManager_->Initialize(uiTextureHandles_);
 
-	// オーディオマネージャー
-	audioManager_ = std::make_unique<GameAudioManager>();
-	audioManager_->Initialize();
-
 	// スカイドーム
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(skydomeModel_.get());
@@ -106,10 +94,6 @@ void TutorialScene::Update() {
 
 	if (requestSceneNo_ == kClear || requestSceneNo_ == kTitle || isBeingReset_) {
 		resetScene_ = false;
-		// BGM音量下げる
-		if (isDecreasingVolume) {
-			LowerVolumeBGM();
-		}
 		return;
 	}
 
@@ -334,29 +318,5 @@ void TutorialScene::TextureLoad()
 	};
 
 	skyboxTextureHandle_ = TextureManager::Load("Resources/default/rostock_laage_airport_4k.dds", DirectXCommon::GetInstance());
-
-}
-
-void TutorialScene::LowerVolumeBGM()
-{
-
-
-	const uint32_t startHandleIndex = 3;
-
-	//for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
-	//	if (audioManager_->GetPlayingSoundDatas()[i].handle_ == kGameAudioNameIndexBGM + startHandleIndex) {
-	//		float decreasingVolume = 1.0f / 60.0f;
-	//		float volume = audioManager_->GetPlayingSoundDatas()[i].volume_ - decreasingVolume;
-	//		if (volume < 0.0f) {
-	//			volume = 0.0f;
-	//			audioManager_->StopWave(i);
-	//			isDecreasingVolume = false;
-	//		}
-	//		else {
-	//			audioManager_->SetPlayingSoundDataVolume(i, volume);
-	//			audioManager_->SetVolume(i, audioManager_->GetPlayingSoundDatas()[i].volume_);
-	//		}
-	//	}
-	//}
 
 }

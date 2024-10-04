@@ -158,9 +158,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Application\AudioManager\ClearAudioManager.cpp" />
-    <ClCompile Include="Application\AudioManager\GameAudioManager.cpp" />
-    <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp" />
     <ClCompile Include="Application\Collider\ColliderParentIdentification.cpp" />
     <ClCompile Include="Application\GPUParticle\BloadParticle.cpp" />
     <ClCompile Include="Application\GPUParticle\FieldSparksParticle.cpp" />
@@ -365,9 +362,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\3D\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application\AudioManager\ClearAudioManager.h" />
-    <ClInclude Include="Application\AudioManager\GameAudioManager.h" />
-    <ClInclude Include="Application\AudioManager\TitleAudioManager.h" />
     <ClInclude Include="Application\Collider\ColliderParentIdentification.h" />
     <ClInclude Include="Application\GPUParticle\BloadParticle.h" />
     <ClInclude Include="Application\GPUParticle\FieldSparksParticle.h" />

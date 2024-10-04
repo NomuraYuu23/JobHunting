@@ -91,9 +91,6 @@
     <Filter Include="Application\Collider">
       <UniqueIdentifier>{6e8db13d-e007-4744-a040-88bc34cd30d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Audio">
-      <UniqueIdentifier>{d427ee17-8f5a-4077-9b9a-194749a45066}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\FollowCamera">
       <UniqueIdentifier>{3ad98989-b0b2-461b-bd74-7fda84f7692f}</UniqueIdentifier>
     </Filter>
@@ -625,17 +622,11 @@
     <ClCompile Include="Engine\Audio\AudioManager.cpp">
       <Filter>Engine\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Application\AudioManager\GameAudioManager.cpp">
-      <Filter>Application\Audio</Filter>
-    </ClCompile>
     <ClCompile Include="Application\UI\UI.cpp">
       <Filter>Application\UI</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\UIManager.cpp">
       <Filter>Application\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\AudioManager\ClearAudioManager.cpp">
-      <Filter>Application\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Application\Scene\TutorialScene\TutorialScene.cpp">
       <Filter>Application\Scene</Filter>
@@ -681,9 +672,6 @@
     </ClCompile>
     <ClCompile Include="Engine\3D\ModelNode.cpp">
       <Filter>Engine\3D\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp">
-      <Filter>Application\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Vector2.cpp">
       <Filter>Engine\Math\Vector2</Filter>
@@ -1284,9 +1272,6 @@
     <ClInclude Include="Engine\Collider\ColliderShape.h">
       <Filter>Engine\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Application\AudioManager\GameAudioManager.h">
-      <Filter>Application\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Collision\CollisionData.h">
       <Filter>Engine\Collision</Filter>
     </ClInclude>
@@ -1295,9 +1280,6 @@
     </ClInclude>
     <ClInclude Include="Application\UI\UIManager.h">
       <Filter>Application\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\AudioManager\ClearAudioManager.h">
-      <Filter>Application\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Application\Scene\TutorialScene\TutorialScene.h">
       <Filter>Application\Scene</Filter>
@@ -1358,9 +1340,6 @@
     </ClInclude>
     <ClInclude Include="Engine\3D\ModelNode.h">
       <Filter>Engine\3D\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\AudioManager\TitleAudioManager.h">
-      <Filter>Application\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Vector2.h">
       <Filter>Engine\Math\Vector2</Filter>
