@@ -2,7 +2,7 @@
 #include "../../base/WinApp.h"
 #include <cassert>
 #include "../../base/BufferResource.h"
-#include "../../base/SRVDescriptorHerpManager.h"
+#include "../../base/DescriptorHerpManager/SRVDescriptorHerpManager.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;

@@ -1,8 +1,8 @@
 #include "QueryTimestamp.h"
 #include <cassert>
 
-#include "DxCommand.h"
-#include "../2D/ImguiManager.h"
+#include "../DxCommon/DxCommand.h"
+#include "../../2D/ImguiManager.h"
 
 QueryTimestamp* QueryTimestamp::GetInstance()
 {

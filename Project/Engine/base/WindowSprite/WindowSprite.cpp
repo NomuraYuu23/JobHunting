@@ -1,8 +1,8 @@
 #include "WindowSprite.h"
-#include "WinApp.h"
-#include "BufferResource.h"
-#include "GraphicsPipelineState/GraphicsPipelineState.h"
-#include "SRVDescriptorHerpManager.h"
+#include "../WinApp.h"
+#include "../BufferResource.h"
+#include "../GraphicsPipelineState/GraphicsPipelineState.h"
+#include "../DescriptorHerpManager/SRVDescriptorHerpManager.h"
 
 using namespace Microsoft::WRL;
 

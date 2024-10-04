@@ -1,8 +1,8 @@
 #include "TextureManager.h"
 #include <cassert>
-#include "../../externals/imgui/imgui_impl_dx12.h"
-#include "BufferResource.h"
-#include "DxCommand.h"
+#include "../../../externals/imgui/imgui_impl_dx12.h"
+#include "../BufferResource.h"
+#include "../DxCommon/DxCommand.h"
 
 using namespace DirectX;
 

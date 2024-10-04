@@ -1,5 +1,5 @@
 #include "PointLightManager.h"
-#include "../../base/SRVDescriptorHerpManager.h"
+#include "../../base/DescriptorHerpManager/SRVDescriptorHerpManager.h"
 #include "../../3D/Transform/TransformationMatrix.h"
 #include "../../base/BufferResource.h"
 

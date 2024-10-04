@@ -1,12 +1,12 @@
 #pragma once
 #include "../base/WinApp.h"
-#include "../base/DirectXCommon.h"
+#include "../base/DxCommon/DirectXCommon.h"
 #include <array>
 #include <string>
-#include "../base/TextureUAV.h"
+#include "../base/Texture/TextureUAV.h"
 #include "Velocity2D/Velocity2DManager.h"
 #include "ShockWave/ShockWaveManager.h"
-#include "../base/TextureManager.h"
+#include "../base/Texture/TextureManager.h"
 
 class PostEffect
 {

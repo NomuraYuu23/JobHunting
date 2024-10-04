@@ -1,11 +1,11 @@
 #include "SwapChain.h"
 #include <cassert>
-#include "RTVDescriptorHerpManager.h"
-#include "DSVDescriptorHerpManager.h"
-#include "../Math/Matrix/Matrix4x4.h"
-#include "BufferResource.h"
-#include "TextureManager.h"
-#include "../2D/ImguiManager.h"
+#include "../DescriptorHerpManager/RTVDescriptorHerpManager.h"
+#include "../DescriptorHerpManager/DSVDescriptorHerpManager.h"
+#include "../../Math/Matrix/Matrix4x4.h"
+#include "../BufferResource.h"
+#include "../Texture/TextureManager.h"
+#include "../../2D/ImguiManager.h"
 
 SwapChain* SwapChain::GetInstance()
 {

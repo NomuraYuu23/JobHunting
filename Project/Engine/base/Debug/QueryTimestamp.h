@@ -4,11 +4,11 @@
 #include <chrono>
 #include <cstdlib>
 #include <d3d12.h>
-#include "../../externals/DirectXTex/d3dx12.h"
+#include "../../../externals/DirectXTex/d3dx12.h"
 #include <dxgi1_6.h>
 #include <wrl.h>
 
-#include "DxCommand.h"
+#include "../DxCommon/DxCommand.h"
 
 class QueryTimestamp
 {

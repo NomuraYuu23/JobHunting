@@ -1,23 +1,23 @@
 #pragma once
 #include <array>
-#include "../../externals/DirectXTex/d3dx12.h"
+#include "../../../externals/DirectXTex/d3dx12.h"
 #include <string>
 #include <unordered_map>
 #include <wrl.h>
-#include "../../externals/DirectXTex/DirectXTex.h"
+#include "../../../externals/DirectXTex/DirectXTex.h"
 
-#include "WinApp.h"
-#include "DirectXCommon.h"
+#include "../WinApp.h"
+#include "../DxCommon/DirectXCommon.h"
 
 using namespace DirectX;
 
-class RTVDescriptorHerpManager
+class DSVDescriptorHerpManager
 {
 
 public: // 静的変数
 
 	//ディスクリプタの数
-	static const size_t kNumDescriptors = 64;
+	static const size_t kNumDescriptors = 16;
 	// ディスクリプタヒープ
 	static Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap_;
 
@@ -36,7 +36,7 @@ public: // 静的関数
 	/// シングルトンインスタンスの取得
 	/// </summary>
 	/// <returns></returns>
-	static RTVDescriptorHerpManager* GetInstance();
+	static DSVDescriptorHerpManager* GetInstance();
 
 	/// <summary>
 	///  初期化
@@ -54,10 +54,10 @@ public: // 静的関数
 
 private: // シングルトン
 
-	RTVDescriptorHerpManager() = default;
-	~RTVDescriptorHerpManager() = default;
-	RTVDescriptorHerpManager(const RTVDescriptorHerpManager&) = delete;
-	RTVDescriptorHerpManager& operator=(const RTVDescriptorHerpManager&) = delete;
+	DSVDescriptorHerpManager() = default;
+	~DSVDescriptorHerpManager() = default;
+	DSVDescriptorHerpManager(const DSVDescriptorHerpManager&) = delete;
+	DSVDescriptorHerpManager& operator=(const DSVDescriptorHerpManager&) = delete;
 
 };
 

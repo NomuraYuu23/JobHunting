@@ -1,5 +1,5 @@
 #include "CompileShader.h"
-#include "Log.h"
+#include "DxCommon/Log.h"
 #include <cassert>
 
 // デバイス

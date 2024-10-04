@@ -1,6 +1,6 @@
 #include "SceneTransitionBlackOut.h"
-#include "../../../Engine/base/TextureManager.h"
-#include "../../../Engine/base/DirectXCommon.h"
+#include "../../../Engine/base/Texture/TextureManager.h"
+#include "../../../Engine/base/DxCommon/DirectXCommon.h"
 #include "../../../Engine/base/WinApp.h"
 
 SceneTransitionBlackOut::~SceneTransitionBlackOut()

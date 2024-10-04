@@ -1,23 +1,23 @@
 #pragma once
 #include <array>
-#include "../../externals/DirectXTex/d3dx12.h"
+#include "../../../externals/DirectXTex/d3dx12.h"
 #include <string>
 #include <unordered_map>
 #include <wrl.h>
-#include "../../externals/DirectXTex/DirectXTex.h"
+#include "../../../externals/DirectXTex/DirectXTex.h"
 
-#include "WinApp.h"
-#include "DirectXCommon.h"
+#include "../WinApp.h"
+#include "../DxCommon/DirectXCommon.h"
 
 using namespace DirectX;
 
-class SRVDescriptorHerpManager
+class RTVDescriptorHerpManager
 {
 
 public: // 静的変数
 
 	//ディスクリプタの数
-	static const size_t kNumDescriptors = 2048;
+	static const size_t kNumDescriptors = 64;
 	// ディスクリプタヒープ
 	static Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap_;
 
@@ -36,7 +36,7 @@ public: // 静的関数
 	/// シングルトンインスタンスの取得
 	/// </summary>
 	/// <returns></returns>
-	static SRVDescriptorHerpManager* GetInstance();
+	static RTVDescriptorHerpManager* GetInstance();
 
 	/// <summary>
 	///  初期化
@@ -46,20 +46,18 @@ public: // 静的関数
 
 	static D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle();
 
-	static D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle();
-
 	static void NextIndexDescriptorHeapChange();
-	
+
 	static void DescriptorHeapsMakeNull(uint32_t index);
 
 	static uint32_t GetNextIndexDescriptorHeap() { return nextIndexDescriptorHeap_; }
 
 private: // シングルトン
 
-	SRVDescriptorHerpManager() = default;
-	~SRVDescriptorHerpManager() = default;
-	SRVDescriptorHerpManager(const SRVDescriptorHerpManager&) = delete;
-	SRVDescriptorHerpManager& operator=(const SRVDescriptorHerpManager&) = delete;
+	RTVDescriptorHerpManager() = default;
+	~RTVDescriptorHerpManager() = default;
+	RTVDescriptorHerpManager(const RTVDescriptorHerpManager&) = delete;
+	RTVDescriptorHerpManager& operator=(const RTVDescriptorHerpManager&) = delete;
 
 };
 

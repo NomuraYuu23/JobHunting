@@ -1,7 +1,7 @@
 #include "BaseCamera.h"
 #include "../base/WinApp.h"
 #include "../base/BufferResource.h"
-#include "../base/DirectXCommon.h"
+#include "../base/DxCommon/DirectXCommon.h"
 #include "../Math/RandomEngine.h"
 #include "../Math/Ease.h"
 #include "../Math/DeltaTime.h"

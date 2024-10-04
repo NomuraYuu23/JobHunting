@@ -1,19 +1,19 @@
 #include "DirectXCommon.h"
-#include "SafeDelete.h"
+#include "../Debug/SafeDelete.h"
 #include <algorithm>
 #include <cassert>
 #include <thread>
 #include <timeapi.h>
 #include <vector>
-#include "SRVDescriptorHerpManager.h"
-#include "RTVDescriptorHerpManager.h"
-#include "DSVDescriptorHerpManager.h"
-#include "BufferResource.h"
-#include "../Math/Matrix/Matrix4x4.h"
+#include "../DescriptorHerpManager/SRVDescriptorHerpManager.h"
+#include "../DescriptorHerpManager/RTVDescriptorHerpManager.h"
+#include "../DescriptorHerpManager/DSVDescriptorHerpManager.h"
+#include "../BufferResource.h"
+#include "../../Math/Matrix/Matrix4x4.h"
 #include "Log.h"
-#include "GraphicsPipelineState/GraphicsPipelineState.h"
-#include "../base/CompileShader.h"
-#include "QueryTimestamp.h"
+#include "../GraphicsPipelineState/GraphicsPipelineState.h"
+#include "../CompileShader.h"
+#include "../Debug/QueryTimestamp.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")

@@ -1,5 +1,5 @@
 #include "Audio.h"
-#include "../base/Log.h"
+#include "../base/DxCommon/Log.h"
 #include <vector>
 
 #pragma comment(lib, "Mf.lib")

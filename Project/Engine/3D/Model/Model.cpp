@@ -1,5 +1,5 @@
 #include "Model.h"
-#include "../../base/TextureManager.h"
+#include "../../base/Texture/TextureManager.h"
 #include "../../base/WinApp.h"
 #include <cassert>
 

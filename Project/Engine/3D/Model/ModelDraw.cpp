@@ -1,7 +1,7 @@
 #include "ModelDraw.h"
-#include "../../base/SRVDescriptorHerpManager.h"
-#include "../../base/TextureManager.h"
-#include "../../base/Log.h"
+#include "../../base/DescriptorHerpManager/SRVDescriptorHerpManager.h"
+#include "../../base/Texture/TextureManager.h"
+#include "../../base/DxCommon/Log.h"
 #include "../../base/CompileShader.h"
 
 using namespace DirectX;

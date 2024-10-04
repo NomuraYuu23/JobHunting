@@ -1,11 +1,11 @@
 #pragma once
 #include <memory>
-#include "../../externals/DirectXTex/d3dx12.h"
-#include "../2D/SpriteVertex.h"
-#include "../Math/Matrix/Matrix4x4.h"
-#include "../2D/SpriteForGPU.h"
-#include "../3D/Material/Material.h"
-#include "TextureUAV.h"
+#include "../../../externals/DirectXTex/d3dx12.h"
+#include "../../2D/SpriteVertex.h"
+#include "../../Math/Matrix/Matrix4x4.h"
+#include "../../2D/SpriteForGPU.h"
+#include "../../3D/Material/Material.h"
+#include "../Texture/TextureUAV.h"
 
 class WindowSprite
 {

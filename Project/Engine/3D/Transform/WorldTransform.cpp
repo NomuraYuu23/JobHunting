@@ -2,8 +2,8 @@
 
 #include "../../base/BufferResource.h"
 #include "../../base/WinApp.h"
-#include "../../base/DirectXCommon.h"
-#include "../../base/SRVDescriptorHerpManager.h"
+#include "../../base/DxCommon/DirectXCommon.h"
+#include "../../base/DescriptorHerpManager/SRVDescriptorHerpManager.h"
 
 // コマンドリスト
 ID3D12GraphicsCommandList* WorldTransform::sCommandList = nullptr;

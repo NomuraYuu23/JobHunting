@@ -3,14 +3,14 @@
 #include <chrono>
 #include <cstdlib>
 #include <d3d12.h>
-#include "../../externals/DirectXTex/d3dx12.h"
+#include "../../../externals/DirectXTex/d3dx12.h"
 #include <dxgi1_6.h>
 #include <wrl.h>
 
-#include "WinApp.h"
-#include "../2D/SpriteVertex.h"
+#include "../WinApp.h"
+#include "../../2D/SpriteVertex.h"
 
-#include "GraphicsPipelineState/GraphicsPipelineState.h"
+#include "../GraphicsPipelineState/GraphicsPipelineState.h"
 
 class RenderTargetTexture
 {

@@ -475,6 +475,9 @@
     <Filter Include="Engine\3D\ManyObjects">
       <UniqueIdentifier>{2d14ea3a-d23c-4ad2-bfb7-1a8307ab367f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Base\Debug">
+      <UniqueIdentifier>{0e33bd43-b4da-43ad-abe5-4c0e868bb3da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -721,33 +724,6 @@
     <ClCompile Include="Engine\Math\Matrix\Matrix3x3.cpp">
       <Filter>Engine\Math\Matrix3x3</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\base\SRVDescriptorHerpManager.cpp">
-      <Filter>Engine\Base\DescriptorHerpManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\DSVDescriptorHerpManager.cpp">
-      <Filter>Engine\Base\DescriptorHerpManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\RTVDescriptorHerpManager.cpp">
-      <Filter>Engine\Base\DescriptorHerpManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\DirectXCommon.cpp">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\DxCommand.cpp">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\DXGIDevice.cpp">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\Log.cpp">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\SwapChain.cpp">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp">
-      <Filter>Application\Audio</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\base\CompileShader.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
@@ -841,23 +817,8 @@
     <ClCompile Include="Engine\3D\Transform\WorldTransform.cpp">
       <Filter>Engine\3D\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\base\TextureManager.cpp">
-      <Filter>Engine\Base\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\TextureUAV.cpp">
-      <Filter>Engine\Base\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\RenderTargetTexture.cpp">
-      <Filter>Engine\Base\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\WindowSprite.cpp">
+    <ClCompile Include="Engine\base\WindowSprite\WindowSprite.cpp">
       <Filter>Engine\Base\WindowSprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\CrashHandler.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\QueryTimestamp.cpp">
-      <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Particle\BillBoardMatrix.cpp">
       <Filter>Engine\Particle</Filter>
@@ -1081,6 +1042,45 @@
     <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole2.cpp">
       <Filter>Application\Object\Flag</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\base\Debug\CrashHandler.cpp">
+      <Filter>Engine\Base\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\Debug\QueryTimestamp.cpp">
+      <Filter>Engine\Base\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\Texture\TextureUAV.cpp">
+      <Filter>Engine\Base\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\Texture\TextureManager.cpp">
+      <Filter>Engine\Base\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DescriptorHerpManager\SRVDescriptorHerpManager.cpp">
+      <Filter>Engine\Base\DescriptorHerpManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DescriptorHerpManager\RTVDescriptorHerpManager.cpp">
+      <Filter>Engine\Base\DescriptorHerpManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DescriptorHerpManager\DSVDescriptorHerpManager.cpp">
+      <Filter>Engine\Base\DescriptorHerpManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\Texture\RenderTargetTexture.cpp">
+      <Filter>Engine\Base\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DxCommon\DirectXCommon.cpp">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DxCommon\DxCommand.cpp">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DxCommon\DXGIDevice.cpp">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DxCommon\Log.cpp">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DxCommon\SwapChain.cpp">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1108,12 +1108,6 @@
       <Filter>Engine\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Engine\base\BufferResource.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\D3DResourceLeakChecker.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\SafeDelete.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\base\WinApp.h">
@@ -1404,33 +1398,6 @@
     <ClInclude Include="Engine\Math\Matrix\Matrix3x3.h">
       <Filter>Engine\Math\Matrix3x3</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\base\SRVDescriptorHerpManager.h">
-      <Filter>Engine\Base\DescriptorHerpManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\DSVDescriptorHerpManager.h">
-      <Filter>Engine\Base\DescriptorHerpManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\RTVDescriptorHerpManager.h">
-      <Filter>Engine\Base\DescriptorHerpManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\DirectXCommon.h">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\DxCommand.h">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\DXGIDevice.h">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\Log.h">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\SwapChain.h">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\AudioManager\TitleAudioManager.h">
-      <Filter>Application\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\base\CompileShader.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
@@ -1566,23 +1533,8 @@
     <ClInclude Include="Engine\Animation\SkinningInformation.h">
       <Filter>Engine\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\base\TextureUAV.h">
-      <Filter>Engine\Base\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\TextureManager.h">
-      <Filter>Engine\Base\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\RenderTargetTexture.h">
-      <Filter>Engine\Base\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\WindowSprite.h">
+    <ClInclude Include="Engine\base\WindowSprite\WindowSprite.h">
       <Filter>Engine\Base\WindowSprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\CrashHandler.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\QueryTimestamp.h">
-      <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ContactRecord\ContactRecord.h">
       <Filter>Engine\Contactrecord</Filter>
@@ -1841,6 +1793,51 @@
     </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole2.h">
       <Filter>Application\Object\Flag</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Debug\CrashHandler.h">
+      <Filter>Engine\Base\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Debug\D3DResourceLeakChecker.h">
+      <Filter>Engine\Base\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Debug\QueryTimestamp.h">
+      <Filter>Engine\Base\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Debug\SafeDelete.h">
+      <Filter>Engine\Base\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Texture\TextureUAV.h">
+      <Filter>Engine\Base\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Texture\TextureManager.h">
+      <Filter>Engine\Base\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DescriptorHerpManager\DSVDescriptorHerpManager.h">
+      <Filter>Engine\Base\DescriptorHerpManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DescriptorHerpManager\SRVDescriptorHerpManager.h">
+      <Filter>Engine\Base\DescriptorHerpManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DescriptorHerpManager\RTVDescriptorHerpManager.h">
+      <Filter>Engine\Base\DescriptorHerpManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Texture\RenderTargetTexture.h">
+      <Filter>Engine\Base\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DxCommon\SwapChain.h">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DxCommon\DirectXCommon.h">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DxCommon\DxCommand.h">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DxCommon\DXGIDevice.h">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DxCommon\Log.h">
+      <Filter>Engine\Base\DxCommon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

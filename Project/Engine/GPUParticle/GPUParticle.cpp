@@ -1,10 +1,10 @@
 #include "GPUParticle.h"
 #include "../base/BufferResource.h"
 #include "ParticleCS.h"
-#include "../base/SRVDescriptorHerpManager.h"
+#include "../base/DescriptorHerpManager/SRVDescriptorHerpManager.h"
 #include "../base/CompileShader.h"
-#include "../base/Log.h"
-#include "../base/TextureManager.h"
+#include "../base/DxCommon/Log.h"
+#include "../base/Texture/TextureManager.h"
 #include "../Particle/BillBoardMatrix.h"
 #include "../Math/DeltaTime.h"
 

@@ -1,5 +1,5 @@
 #include "LargeNumberOfObjects.h"
-#include "../../base/SRVDescriptorHerpManager.h"
+#include "../../base/DescriptorHerpManager/SRVDescriptorHerpManager.h"
 #include "../Model/ModelDraw.h"
 
 LargeNumberOfObjects::~LargeNumberOfObjects()

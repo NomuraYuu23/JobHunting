@@ -8,19 +8,19 @@
 #include "../3D/Transform/TransformationMatrix.h"
 #include "../3D/Transform/TransformStructure.h"
 #include "../3D/Material/MaterialData.h"
-#include "../base/SafeDelete.h"
+#include "../base/Debug/SafeDelete.h"
 #include "../base/GraphicsPipelineState/GraphicsPipelineState.h"
 //クラス化
 #include "../base/WinApp.h"
-#include "../base/DirectXCommon.h"
-#include "../base/TextureManager.h"
+#include "../base/DxCommon/DirectXCommon.h"
+#include "../base/Texture/TextureManager.h"
 #include "../2D/Sprite.h"
 #include "../3D/Model/Model.h"
 #include "../3D/Material/Material.h"
 #include "../Light/DirectionalLight/DirectionalLight.h"
 #include "../Light/PointLight/PointLightManager.h"
 #include "../Light/SpotLight/SpotLightManager.h"
-#include "../base/D3DResourceLeakChecker.h"
+#include "../base/Debug/D3DResourceLeakChecker.h"
 #include "../3D/Line/DrawLine.h"
 
 // サウンド再生
@@ -46,7 +46,7 @@
 #include "../GPUParticle/GPUParticle.h"
 
 // Windowサイズのスプライト
-#include "../base/WindowSprite.h"
+#include "../base/WindowSprite/WindowSprite.h"
 
 // PostEffect
 #include "../PostEffect/PostEffect.h"
@@ -58,7 +58,7 @@
 #include "../3D/Model/ModelDraw.h"
 
 // タイムスタンプ
-#include "../base/QueryTimestamp.h"
+#include "../base/Debug/QueryTimestamp.h"
 
 class MyFramework
 {

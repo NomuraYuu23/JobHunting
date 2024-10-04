@@ -1,15 +1,15 @@
 #pragma once
 
 #include <array>
-#include "../../externals/DirectXTex/d3dx12.h"
+#include "../../../externals/DirectXTex/d3dx12.h"
 #include <string>
 #include <unordered_map>
 #include <wrl.h>
-#include "../../externals/DirectXTex/DirectXTex.h"
+#include "../../../externals/DirectXTex/DirectXTex.h"
 
-#include "WinApp.h"
-#include "DirectXCommon.h"
-#include "SRVDescriptorHerpManager.h"
+#include "../WinApp.h"
+#include "../DxCommon/DirectXCommon.h"
+#include "../DescriptorHerpManager/SRVDescriptorHerpManager.h"
 
 using namespace DirectX;
 

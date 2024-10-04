@@ -1,7 +1,7 @@
 #include "Mesh.h"
 #include "../../base/BufferResource.h"
-#include "../../base/SRVDescriptorHerpManager.h"
-#include "../../base/Log.h"
+#include "../../base/DescriptorHerpManager/SRVDescriptorHerpManager.h"
+#include "../../base/DxCommon/Log.h"
 #include "../../base/CompileShader.h"
 
 // ルートシグネチャCS

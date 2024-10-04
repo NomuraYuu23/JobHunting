@@ -1,6 +1,6 @@
 #include "PostEffect.h"
 #include "../base/BufferResource.h"
-#include "../base/Log.h"
+#include "../base/DxCommon/Log.h"
 #include "../base/CompileShader.h"
 #include <fstream>
 #include <cmath>

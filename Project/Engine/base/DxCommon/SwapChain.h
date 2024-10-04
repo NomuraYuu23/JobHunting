@@ -3,12 +3,12 @@
 #include <dxgi1_6.h>
 #include <wrl.h>
 #include <cstdint>
-#include "WinApp.h"
-#include "DXGIDevice.h"
-#include "RenderTargetTexture.h"
+#include "../WinApp.h"
+#include "../DxCommon/DXGIDevice.h"
+#include "../Texture/RenderTargetTexture.h"
 
-#include "../2D/SpriteVertex.h"
-#include "GraphicsPipelineState/GraphicsPipelineState.h"
+#include "../../2D/SpriteVertex.h"
+#include "../GraphicsPipelineState/GraphicsPipelineState.h"
 
 class SwapChain
 {

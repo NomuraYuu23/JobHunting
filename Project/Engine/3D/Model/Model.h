@@ -8,7 +8,7 @@
 
 #pragma comment(lib, "dxcompiler.lib")
 
-#include "../../base/DirectXCommon.h"
+#include "../../base/DxCommon/DirectXCommon.h"
 
 #include "../../Math/Vector/Vector2.h"
 #include "../../Math/Vector/Vector3.h"
