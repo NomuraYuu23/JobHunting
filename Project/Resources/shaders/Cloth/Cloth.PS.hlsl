@@ -386,16 +386,26 @@ PixelShaderOutput main(VertexShaderOutput input) {
 
 	float32_t3 toEye = normalize(gCamera.worldPosition - input.worldPosition);
 
+	float32_t dotN = dot(toEye, input.normal);
+
+	VertexShaderOutput newInput = input;
+
+	if (dotN < 0.0f) {
+		newInput.normal.x *= -1.0f;
+		newInput.normal.y *= -1.0f;
+		newInput.normal.z *= -1.0f;
+	}
+
 	// ポイントライト
 	PointLightCalcData pointLightCalcDatas[4];
 	for (int i = 0; i < 4; i++) {
-		pointLightCalcDatas[i] = CreatePointLightCalcData(input, i);
+		pointLightCalcDatas[i] = CreatePointLightCalcData(newInput, i);
 	}
 
 	// スポットライト
 	SpotLightCalcData spotLightCalcDatas[4];
 	for (int j = 0; j < 4; j++) {
-		spotLightCalcDatas[j] = CreateSpotLightCalcData(input, j);
+		spotLightCalcDatas[j] = CreateSpotLightCalcData(newInput, j);
 	}
 
 	// ライティング無し
@@ -404,19 +414,19 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	}
 	// ランバート
 	else if (gMaterial.enableLighting == 1) {
-		output.color = Lambert(input, textureColor, pointLightCalcDatas, spotLightCalcDatas);
+		output.color = Lambert(newInput, textureColor, pointLightCalcDatas, spotLightCalcDatas);
 	}
 	// ハーフランバート
 	else if (gMaterial.enableLighting == 2) {
-		output.color = HalfLambert(input, textureColor, pointLightCalcDatas, spotLightCalcDatas);
+		output.color = HalfLambert(newInput, textureColor, pointLightCalcDatas, spotLightCalcDatas);
 	}
 	// 鏡面反射
 	else if (gMaterial.enableLighting == 3) {
-		output.color = PhongReflection(input, textureColor, toEye, pointLightCalcDatas, spotLightCalcDatas);
+		output.color = PhongReflection(newInput, textureColor, toEye, pointLightCalcDatas, spotLightCalcDatas);
 	}
 	// ブリン鏡面反射
 	else if (gMaterial.enableLighting == 4) {
-		output.color = BlinnPhongReflection(input, textureColor, toEye, pointLightCalcDatas, spotLightCalcDatas);
+		output.color = BlinnPhongReflection(newInput, textureColor, toEye, pointLightCalcDatas, spotLightCalcDatas);
 	}
 	// その他の数が入ってきた場合
 	else {
@@ -424,7 +434,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	}
 
 	// 霧処理
-	float32_t d = distance(input.worldPosition, gCamera.worldPosition);
+	float32_t d = distance(newInput.worldPosition, gCamera.worldPosition);
 	float32_t fogT = (gFog.fagFar - d) / (gFog.fagFar - gFog.fagNear);
 	fogT = clamp(fogT, 0.0f, 1.0f);
 
