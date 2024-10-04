@@ -8,7 +8,6 @@
 #include "../3D/ModelDraw.h"
 
 #include <cassert>
-#include "../base/OutputLog.h"
 #include "BillBoardMatrix.h"
 
 ParticleManager* ParticleManager::GetInstance()

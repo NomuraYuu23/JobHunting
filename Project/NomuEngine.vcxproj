@@ -471,7 +471,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\base\DxCommand.h" />
     <ClInclude Include="Engine\base\DXGIDevice.h" />
     <ClInclude Include="Engine\base\Log.h" />
-    <ClInclude Include="Engine\base\OutputLog.h" />
     <ClInclude Include="Engine\base\QueryTimestamp.h" />
     <ClInclude Include="Engine\base\RTVDescriptorHerpManager.h" />
     <ClInclude Include="Engine\base\SRVDescriptorHerpManager.h" />

@@ -1581,9 +1581,6 @@
     <ClInclude Include="Engine\base\CrashHandler.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\base\OutputLog.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\base\QueryTimestamp.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
