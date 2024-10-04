@@ -4,8 +4,8 @@
 #include <array>
 #include <string>
 #include "../base/TextureUAV.h"
-#include "Velocity2DManager.h"
-#include "ShockWaveManager.h"
+#include "Velocity2D/Velocity2DManager.h"
+#include "ShockWave/ShockWaveManager.h"
 #include "../base/TextureManager.h"
 
 class PostEffect

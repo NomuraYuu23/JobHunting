@@ -1,6 +1,6 @@
 #include "ShockWaveManager.h"
-#include "../2D/ImguiManager.h"
-#include "../base/BufferResource.h"
+#include "../../2D/ImguiManager.h"
+#include "../../base/BufferResource.h"
 
 void ShockWaveManager::Initialize()
 {

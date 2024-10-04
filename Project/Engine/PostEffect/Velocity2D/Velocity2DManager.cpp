@@ -1,6 +1,6 @@
 #include "Velocity2DManager.h"
-#include "../2D/ImguiManager.h"
-#include "../base/BufferResource.h"
+#include "../../2D/ImguiManager.h"
+#include "../../base/BufferResource.h"
 
 void Velocity2DManager::Initialize()
 {

@@ -973,13 +973,13 @@
     <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManWeapon.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\PostEffect\ShockWaveManager.cpp">
+    <ClCompile Include="Engine\PostEffect\ShockWave\ShockWaveManager.cpp">
       <Filter>Engine\PostEffect\ShockWave</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\PostEffect\Velocity2DData.cpp">
+    <ClCompile Include="Engine\PostEffect\Velocity2D\Velocity2DData.cpp">
       <Filter>Engine\PostEffect\Velocity2D</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\PostEffect\Velocity2DManager.cpp">
+    <ClCompile Include="Engine\PostEffect\Velocity2D\Velocity2DManager.cpp">
       <Filter>Engine\PostEffect\Velocity2D</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManBeam.cpp">
@@ -1725,19 +1725,19 @@
     <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManWeapon.h">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PostEffect\ShockWaveData.h">
+    <ClInclude Include="Engine\PostEffect\ShockWave\ShockWaveData.h">
       <Filter>Engine\PostEffect\ShockWave</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PostEffect\ShockWaveManager.h">
+    <ClInclude Include="Engine\PostEffect\ShockWave\ShockWaveManager.h">
       <Filter>Engine\PostEffect\ShockWave</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PostEffect\Velocity2DManager.h">
+    <ClInclude Include="Engine\PostEffect\Velocity2D\Velocity2DManager.h">
       <Filter>Engine\PostEffect\Velocity2D</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PostEffect\Velocity2DData.h">
+    <ClInclude Include="Engine\PostEffect\Velocity2D\Velocity2DData.h">
       <Filter>Engine\PostEffect\Velocity2D</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PostEffect\HSVFilter.h">
+    <ClInclude Include="Engine\PostEffect\HSV\HSVFilter.h">
       <Filter>Engine\PostEffect\HSVFilter</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManBeam.h">
