@@ -218,7 +218,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Character\Player\PlayerWeapon\PlayerWeapon.cpp" />
     <ClCompile Include="Application\Object\Character\Player\TitlePlayer\TitlePlayer.cpp" />
     <ClCompile Include="Application\Object\StringObject\BaseStringObject.cpp" />
-    <ClCompile Include="Application\Object\StringObject\PlayerMuffler\PlayerMuffler.cpp" />
     <ClCompile Include="Application\Scene\DebugScene\DebugScene.cpp" />
     <ClCompile Include="Application\Scene\SelectScene\SelectScene.cpp" />
     <ClCompile Include="Application\Scene\TitleScene\TitleScene.cpp" />
@@ -425,7 +424,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Character\Player\PlayerWeapon\PlayerWeapon.h" />
     <ClInclude Include="Application\Object\Character\Player\TitlePlayer\TitlePlayer.h" />
     <ClInclude Include="Application\Object\StringObject\BaseStringObject.h" />
-    <ClInclude Include="Application\Object\StringObject\PlayerMuffler\PlayerMuffler.h" />
     <ClInclude Include="Application\Scene\DebugScene\DebugScene.h" />
     <ClInclude Include="Application\Scene\SceneName.h" />
     <ClInclude Include="Application\Scene\SelectScene\SelectScene.h" />

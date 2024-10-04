@@ -13,7 +13,6 @@
 #include "Obstacle/Pillar/PillarFoundation.h"
 #include "../Object/RigidBodyObject/Piller/Pillar.h"
 #include "../Object/Obstacle/BossFog/BossFog.h"
-#include "../Object/StringObject/PlayerMuffler/PlayerMuffler.h"
 #include "../Object/ClothObject/Flag/Flag.h"
 #include "../Object/Obstacle/FlagPole/FlagPole.h"
 #include "../Object/Obstacle/FlagPole/FlagPole2.h"
@@ -81,9 +80,6 @@ void ObjectFactory::Initialize(BaseObjectManager* objectManager, BossSystem* bos
 
 	createObjectFunctions_[kCreateObjectIndexBossFog].first = "BossFog";
 	createObjectFunctions_[kCreateObjectIndexBossFog].second = ObjectFactory::CreateObjectBossFog;
-
-	createObjectFunctions_[kCreateObjectIndexPlayerMuffler].first = "PlayerMuffler";
-	createObjectFunctions_[kCreateObjectIndexPlayerMuffler].second = ObjectFactory::CreateObjectPlayerMuffler;
 
 	createObjectFunctions_[kCreateObjectIndexFlag].first = "Flag";
 	createObjectFunctions_[kCreateObjectIndexFlag].second = ObjectFactory::CreateObjectFlag;
@@ -247,22 +243,6 @@ IObject* ObjectFactory::CreateObjectBossFog(LevelData::ObjectData& objectData)
 	// 初期化
 	static_cast<BossFog*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
 	static_cast<BossFog*>(object)->SetBossSystem(bossSystem_);
-	return object;
-
-}
-
-IObject* ObjectFactory::CreateObjectPlayerMuffler(LevelData::ObjectData& objectData)
-{
-
-	// インスタンス生成
-	IObject* object = new PlayerMuffler();
-
-	// 初期化
-	static_cast<PlayerMuffler*>(object)->Initialize(&std::get<LevelData::MeshData>(objectData));
-	// 親セット
-	static_cast<PlayerMuffler*>(object)->SetParent(
-		static_cast<Player*>(objectManager_->GetObjectPointer(
-			static_cast<PlayerMuffler*>(object)->GetParentName())));
 	return object;
 
 }
