@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../Math/Vector3.h"
-#include "../../Physics/massPoint.h"
+#include "../../Math/Vector/Vector3.h"
+#include "../../Physics/MassPoint/MassPoint.h"
 
 class Spring {
 
