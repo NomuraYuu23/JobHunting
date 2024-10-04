@@ -1,5 +1,5 @@
-#include "../Math/Vector3.h"
-#include "../Math/Vector4.h"
+#include "../Math/Vector/Vector3.h"
+#include "../Math/Vector/Vector4.h"
 
 struct LineForGPU
 {

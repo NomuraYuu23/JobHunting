@@ -5,7 +5,7 @@
 #include "../3D/TransformationMatrix.h"
 #include <wrl.h>
 #include <d3d12.h>
-#include "../Math/Vector4.h"
+#include "../Math/Vector/Vector4.h"
 #include "ParticleForGPU.h"
 #include "ParticleDesc.h"
 #include "../../Application/Particle/ParticleName.h"

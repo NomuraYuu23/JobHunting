@@ -1,5 +1,5 @@
 #pragma once
-#include "Vector3.h"
+#include "Vector/Vector3.h"
 #include "Matrix4x4.h"
 
 class Quaternion

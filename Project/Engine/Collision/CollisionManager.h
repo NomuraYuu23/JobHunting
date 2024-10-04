@@ -1,7 +1,7 @@
 #pragma once
 // コライダー
 
-#include "../../Engine/Math/Vector3.h"
+#include "../../Engine/Math/Vector/Vector3.h"
 #include "../../Engine/Math/Matrix4x4.h"
 #include "../Collider/Collider.h"
 #include "../Collider/ColliderShape.h"

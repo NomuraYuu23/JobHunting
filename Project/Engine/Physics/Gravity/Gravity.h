@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Math/Vector3.h"
+#include "../../Math/Vector/Vector3.h"
 #include "../../Math/DeltaTime.h"
 
 class Gravity

@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Engine/Particle/IParticle.h"
-#include "../../Engine/Math/Vector3.h"
+#include "../../Engine/Math/Vector/Vector3.h"
 
 class MakeParticle
 {

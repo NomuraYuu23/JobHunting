@@ -1,5 +1,5 @@
 #pragma once
-#include "../Math/Vector4.h"
+#include "../Math/Vector/Vector4.h"
 
 struct ColorVertexData
 {

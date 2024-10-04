@@ -1,6 +1,6 @@
 #pragma once
-#include "../Math/Vector2.h"
-#include "../Math/Vector3.h"
+#include "../Math/Vector/Vector2.h"
+#include "../Math/Vector/Vector3.h"
 #include <functional>
 #include "../3D/WorldTransform.h"
 #include "../../Application/Collider/ColliderParentObject.h"

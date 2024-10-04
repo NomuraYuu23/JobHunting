@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include "../IPlayerState.h"
-#include "../../../../../../Engine/Math/Vector3.h"
+#include "../../../../../../Engine/Math/Vector/Vector3.h"
 #include "../../../../../../Engine/3D/WorldTransform.h"
 #include "../../../../../../Engine/Collider/Capsule/Capsule.h"
 #include "../../PlayerAttack/PlayerAttack.h"

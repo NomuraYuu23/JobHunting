@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include "../Math/Vector3.h"
+#include "../Math/Vector/Vector3.h"
 
 struct EmitterCS
 {

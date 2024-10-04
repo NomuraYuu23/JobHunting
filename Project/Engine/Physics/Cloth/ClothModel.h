@@ -9,9 +9,9 @@
 #pragma comment(lib, "dxcompiler.lib")
 
 #include <vector>
-#include "../../Math/Vector2.h"
-#include "../../Math/Vector3.h"
-#include "../../Math/Vector4.h"
+#include "../../Math/Vector/Vector2.h"
+#include "../../Math/Vector/Vector3.h"
+#include "../../Math/Vector/Vector4.h"
 #include "../../3D/Material.h"
 #include "../../Camera/BaseCamera.h"
 #include "../../Light/DirectionalLight/DirectionalLight.h"
