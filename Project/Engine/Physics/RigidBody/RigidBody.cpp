@@ -1,6 +1,6 @@
 #include "RigidBody.h"
 #include "InertiaTensor.h"
-#include "Gravity.h"
+#include "../Gravity/Gravity.h"
 
 void RigidBody::Initialize(float mass, const Vector3& size)
 {

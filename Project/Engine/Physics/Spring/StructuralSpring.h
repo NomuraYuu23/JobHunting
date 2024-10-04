@@ -1,5 +1,5 @@
 #pragma once
-#include "MassPoint.h"
+#include "../MassPoint/MassPoint.h"
 
 class StructuralSpring
 {

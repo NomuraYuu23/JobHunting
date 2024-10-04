@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Engine/Particle/GPUParticle.h"
+#include "../../Engine/GPUParticle/GPUParticle.h"
 
 class PillarSmokeParticle :
     public GPUParticle

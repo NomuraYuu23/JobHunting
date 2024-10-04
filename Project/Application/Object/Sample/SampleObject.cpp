@@ -1,7 +1,7 @@
 #include "SampleObject.h"
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../../Engine/2D/ImguiManager.h"
-#include "../../../Engine/Physics/InertiaTensor.h"
+#include "../../../Engine/Physics/RigidBody/InertiaTensor.h"
 #include "../../../Engine/Math/DeltaTime.h"
 #include "../../../Engine/Input/Input.h"
 #include "../../../Engine/3D/ModelDraw.h"

@@ -700,13 +700,13 @@
     <ClCompile Include="Engine\Collision2D\Collision2DManager.cpp">
       <Filter>Engine\Collision2D</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\MassPoint.cpp">
+    <ClCompile Include="Engine\Physics\MassPoint\MassPoint.cpp">
       <Filter>Engine\Physics\MassPoint</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\InertiaTensor.cpp">
+    <ClCompile Include="Engine\Physics\RigidBody\InertiaTensor.cpp">
       <Filter>Engine\Physics\RigidBody</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\RigidBody.cpp">
+    <ClCompile Include="Engine\Physics\RigidBody\RigidBody.cpp">
       <Filter>Engine\Physics\RigidBody</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Animation\NodeAnimationData.cpp">
@@ -766,13 +766,13 @@
     <ClCompile Include="Engine\3D\ModelDraw.cpp">
       <Filter>Engine\3D\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\Spring.cpp">
+    <ClCompile Include="Engine\Physics\Spring\Spring.cpp">
       <Filter>Engine\Physics\Spring</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\String.cpp">
+    <ClCompile Include="Engine\Physics\String\String.cpp">
       <Filter>Engine\Physics\Spring</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\StructuralSpring.cpp">
+    <ClCompile Include="Engine\Physics\Spring\StructuralSpring.cpp">
       <Filter>Engine\Physics\Spring</Filter>
     </ClCompile>
     <ClCompile Include="Application\Camera\FollowCamera.cpp">
@@ -862,7 +862,7 @@
     <ClCompile Include="Engine\Particle\BillBoardMatrix.cpp">
       <Filter>Engine\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Particle\GPUParticle.cpp">
+    <ClCompile Include="Engine\GPUParticle\GPUParticle.cpp">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Level\LevelData.cpp">
@@ -991,7 +991,7 @@
     <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateBeam.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\Gravity.cpp">
+    <ClCompile Include="Engine\Physics\Gravity\Gravity.cpp">
       <Filter>Engine\Physics\Gravity</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Weapon\BaseWeapon.cpp">
@@ -1066,7 +1066,7 @@
     <ClCompile Include="Application\Scene\DebugScene\DebugScene.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\Cloth\ClothGPU.cpp">
+    <ClCompile Include="Engine\Physics\ClothGPU\ClothGPU.cpp">
       <Filter>Engine\Physics\ClothGPU</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Physics\Cloth\ClothModel.cpp">
@@ -1078,7 +1078,7 @@
     <ClCompile Include="Application\Object\ClothObject\Flag\Flag.cpp">
       <Filter>Application\Object\Flag</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\Cloth\ClothGPUCollision.cpp">
+    <ClCompile Include="Engine\Physics\ClothGPU\ClothGPUCollision.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole2.cpp">
@@ -1383,13 +1383,13 @@
     <ClInclude Include="Engine\Collision2D\Collision2D.h">
       <Filter>Engine\Collision2D</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\MassPoint.h">
+    <ClInclude Include="Engine\Physics\MassPoint\MassPoint.h">
       <Filter>Engine\Physics\MassPoint</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\RigidBody.h">
+    <ClInclude Include="Engine\Physics\RigidBody\RigidBody.h">
       <Filter>Engine\Physics\RigidBody</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\InertiaTensor.h">
+    <ClInclude Include="Engine\Physics\RigidBody\InertiaTensor.h">
       <Filter>Engine\Physics\RigidBody</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Camera\ViewProjectionMatrix.h">
@@ -1455,13 +1455,13 @@
     <ClInclude Include="Engine\3D\ModelNodeData.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\StructuralSpring.h">
+    <ClInclude Include="Engine\Physics\Spring\StructuralSpring.h">
       <Filter>Engine\Physics\Spring</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\Spring.h">
+    <ClInclude Include="Engine\Physics\Spring\Spring.h">
       <Filter>Engine\Physics\Spring</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\String.h">
+    <ClInclude Include="Engine\Physics\String\String.h">
       <Filter>Engine\Physics\Spring</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ContactRecord\ContactRecord.h">
@@ -1596,16 +1596,16 @@
     <ClInclude Include="Engine\Particle\BillBoardMatrix.h">
       <Filter>Engine\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Particle\GPUParticle.h">
+    <ClInclude Include="Engine\GPUParticle\GPUParticle.h">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Particle\EmitterDesc.h">
       <Filter>Engine\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Particle\GPUPerticleView.h">
+    <ClInclude Include="Engine\GPUParticle\GPUPerticleView.h">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Particle\ParticleCS.h">
+    <ClInclude Include="Engine\GPUParticle\ParticleCS.h">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Particle\ParticleDesc.h">
@@ -1749,13 +1749,13 @@
     <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateBeam.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\Gravity.h">
+    <ClInclude Include="Engine\Physics\Gravity\Gravity.h">
       <Filter>Engine\Physics\Gravity</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Weapon\BaseWeapon.h">
       <Filter>Application\Object\BaseWeapon</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Particle\EmitterCS.h">
+    <ClInclude Include="Engine\GPUParticle\EmitterCS.h">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\PerFrame.h">
@@ -1830,7 +1830,7 @@
     <ClInclude Include="Application\Scene\DebugScene\DebugScene.h">
       <Filter>Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\Cloth\ClothGPU.h">
+    <ClInclude Include="Engine\Physics\ClothGPU\ClothGPU.h">
       <Filter>Engine\Physics\ClothGPU</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Physics\Cloth\ClothModel.h">
@@ -1842,7 +1842,7 @@
     <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole.h">
       <Filter>Application\Object\Flag</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\Cloth\ClothGPUCollision.h">
+    <ClInclude Include="Engine\Physics\ClothGPU\ClothGPUCollision.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole2.h">

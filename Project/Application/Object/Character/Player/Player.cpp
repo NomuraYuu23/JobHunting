@@ -4,7 +4,7 @@
 #include "../../../Engine/3D/ModelDraw.h"
 #include "../../../Engine/Animation/LocalMatrixDraw.h"
 #include "../../../Engine/Math/DeltaTime.h"
-#include "../../../Engine/Physics/Gravity.h"
+#include "../../../Engine/Physics/Gravity/Gravity.h"
 #include "../../../Engine/Collision/Extrusion.h"
 
 #include "../../Obstacle/BaseObstacle.h"

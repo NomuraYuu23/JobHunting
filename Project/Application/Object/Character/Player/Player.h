@@ -13,7 +13,7 @@
 #include "../../../Engine/Level/LevelData.h"
 #include "../../../Engine/Object/MeshObject.h"
 #include "../../../GPUParticle/FieldSparksParticle.h"
-#include "../../../../Engine/Physics/Cloth/ClothGPU.h"
+#include "../../../../Engine/Physics/ClothGPU/ClothGPU.h"
 
 /// <summary>
 /// プレイヤーのモーション一覧

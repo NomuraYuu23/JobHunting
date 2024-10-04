@@ -1,6 +1,6 @@
 #include "BaseStringObject.h"
 #include "../../../Engine/3D/ModelDraw.h"
-#include "../../../Engine/Physics/Gravity.h"
+#include "../../../Engine/Physics/Gravity/Gravity.h"
 
 void BaseStringObject::Initialize(LevelData::MeshData* data)
 {

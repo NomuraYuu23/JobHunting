@@ -4,7 +4,7 @@
 #include "../../../Engine/Object/MeshObject.h"
 #include "../../../Engine/Animation/Animation.h"
 #include "../../../Engine/3D/DrawLine.h"
-#include "../../../Engine/Physics/RigidBody.h"
+#include "../../../Engine/Physics/RigidBody/RigidBody.h"
 #include "../Enemy/BaseEnemyAttack.h"
 
 class BaseEnemy : public MeshObject

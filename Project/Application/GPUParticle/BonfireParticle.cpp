@@ -1,6 +1,6 @@
 #include "BonfireParticle.h"
 #include "../../Engine/base/BufferResource.h"
-#include "../../Engine/Particle/ParticleCS.h"
+#include "../../Engine/GPUParticle/ParticleCS.h"
 #include "../../Engine/base/SRVDescriptorHerpManager.h"
 #include "../../Engine/base/CompileShader.h"
 #include "../../Engine/base/Log.h"

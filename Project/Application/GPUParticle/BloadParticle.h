@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Engine/Particle/GPUParticle.h"
+#include "../../Engine/GPUParticle/GPUParticle.h"
 
 class BloadParticle :
     public GPUParticle

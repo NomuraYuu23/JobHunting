@@ -1,6 +1,6 @@
 #include "BaseRigidBodyObject.h"
 #include "../../../Engine/Math/DeltaTime.h"
-#include "../../../Engine/Physics/Gravity.h"
+#include "../../../Engine/Physics/Gravity/Gravity.h"
 #include "../../../Engine/Collision/Extrusion.h"
 #include "../../Collider/ColliderParentIdentification.h"
 #include "../Obstacle/Ground/Ground.h"

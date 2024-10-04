@@ -1,8 +1,8 @@
 #pragma once
-#include "MassPoint.h"
-#include "../Math/Matrix4x4.h"
-#include "../Math/Quaternion.h"
-#include "../Collider/OBB/OBB.h"
+#include "../MassPoint/MassPoint.h"
+#include "../../Math/Matrix4x4.h"
+#include "../../Math/Quaternion.h"
+#include "../../Collider/OBB/OBB.h"
 
 class RigidBody
 {

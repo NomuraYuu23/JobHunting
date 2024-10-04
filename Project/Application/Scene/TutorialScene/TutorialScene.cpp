@@ -13,7 +13,7 @@
 
 #include "../../Object/Character/Player/Player.h"
 #include "../../Object/Character/Enemy/BaseEnemy.h"
-#include "../../../Engine/Physics/Cloth/ClothGPU.h"
+#include "../../../Engine/Physics/ClothGPU/ClothGPU.h"
 
 TutorialScene::~TutorialScene()
 {

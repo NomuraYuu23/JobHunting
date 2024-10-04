@@ -5,7 +5,7 @@
 #include "../base/CompileShader.h"
 #include "../base/Log.h"
 #include "../base/TextureManager.h"
-#include "BillBoardMatrix.h"
+#include "../Particle/BillBoardMatrix.h"
 #include "../Math/DeltaTime.h"
 
 // パーティクルの最大数

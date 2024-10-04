@@ -3,7 +3,7 @@
 #include "../../../Engine/Scene/IScene/IScene.h"
 #include "../../Skydome/Skydome.h"
 #include "../../../Engine/Physics/Cloth/Cloth.h"
-#include "../../../Engine/Physics/Cloth/ClothGPU.h"
+#include "../../../Engine/Physics/ClothGPU/ClothGPU.h"
 
 class DebugScene : public IScene
 {

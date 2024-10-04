@@ -1,5 +1,5 @@
 #include "Cloth.h"
-#include "../Gravity.h"
+#include "../Gravity/Gravity.h"
 #include "../../2D/ImguiManager.h"
 #include "../../Math/RandomEngine.h"
 
