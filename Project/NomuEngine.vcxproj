@@ -274,7 +274,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Collision2D\Collision2DManager.cpp" />
     <ClCompile Include="Engine\Collision\Extrusion.cpp" />
     <ClCompile Include="Engine\ContactRecord\ContactRecord.cpp" />
-    <ClCompile Include="Engine\Level\LevelData.cpp" />
     <ClCompile Include="Engine\Level\LevelDataLoader.cpp" />
     <ClCompile Include="Engine\Level\LevelDataManager.cpp" />
     <ClCompile Include="Engine\Level\LevelDataViewing.cpp" />

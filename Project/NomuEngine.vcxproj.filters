@@ -865,9 +865,6 @@
     <ClCompile Include="Engine\GPUParticle\GPUParticle.cpp">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Level\LevelData.cpp">
-      <Filter>Engine\Level</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Level\LevelDataLoader.cpp">
       <Filter>Engine\Level</Filter>
     </ClCompile>
