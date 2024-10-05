@@ -32,16 +32,31 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 		float32_t3 origin = massPoint.prePosition_;
 		float32_t3 diff = massPoint.position_ - origin;
 
-		// 内積
-		float32_t pDotL = dot(gPlane.normal_, diff);
+		// 元から埋まってるやつ確認
+		float32_t3 planePosition = gPlane.normal_ * gPlane.distance_;
+		float32_t3 prePositionDiff = origin - planePosition;
+		float32_t planePositionDot = dot(gPlane.normal_, prePositionDiff);
+		bool buried = false;
 
-		// 垂直または向き合ってないなら衝突しない
-		if (pDotL >= 0.0f) {
+		// 向き合ってたら埋まってる
+		if (planePositionDot < 0.0f) {
+			
+			// 線情報の修正 diff = 面の向き * 絶対当たる距離
+			diff = gPlane.normal_ * 1000.0f;
+			buried = true;
+
+		}
+
+		// 内積
+		float32_t planeDot = dot(gPlane.normal_, diff);
+
+		// 垂直または向き合ってないなら衝突しない 埋まってる場合は関係無し
+		if (planeDot >= 0.0f && !buried) {
 			return;
 		}
 
 		// tを求める
-		float32_t t = (gPlane.distance_ - dot(origin, gPlane.normal_)) / pDotL;
+		float32_t t = (gPlane.distance_ - dot(origin, gPlane.normal_)) / planeDot;
 
 		// tが1.0f以内でないなら衝突してない
 		if (t > 1.0f) {
