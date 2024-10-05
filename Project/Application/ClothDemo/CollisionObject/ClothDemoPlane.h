@@ -2,8 +2,9 @@
 #include "../../../Engine/3D/Transform/WorldTransform.h"
 #include "../../../Engine/3D/Model/Model.h"
 #include "../../../Engine/Physics/ClothGPU/ClothGPUCollision.h"
+#include "ClothDemoObject.h"
 
-class ClothDemoPlane
+class ClothDemoPlane : public ClothDemoObject
 {
 
 public:
@@ -11,42 +12,25 @@ public:
     /// <summary>
     /// 初期化
     /// </summary>
-    void Initialize();
+    void Initialize() override;
 
     /// <summary>
     /// 更新
     /// </summary>
-    void Update();
-
-    /// <summary>
-    /// 描画
-    /// </summary>
-    /// <param name="camera">カメラ</param>
-    void Draw(BaseCamera& camera);
+    void Update() override;
 
     /// <summary>
     /// ImGui描画
     /// </summary>
-    void ImGuiDraw();
+    void ImGuiDraw() override;
 
+    /// <summary>
+    /// データ取得
+    /// </summary>
+    /// <returns></returns>
     ClothGPUCollision::Plane GetData() { return data_; }
 
 private:
-
-	// トランスフォーム
-	WorldTransform worldTransform_;
-
-    // ファイル名前
-    std::string fileName_;
-
-    // ディレクトリパス
-    std::string directoryPath_;
-
-    // モデル
-    std::unique_ptr<Model> model_ = nullptr;
-
-    // マテリアル
-    std::unique_ptr<Material> material_;
 
     // ClothGPUに渡すデータ
     ClothGPUCollision::Plane data_;

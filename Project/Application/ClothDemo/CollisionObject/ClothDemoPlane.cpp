@@ -47,20 +47,6 @@ void ClothDemoPlane::Update()
 
 }
 
-void ClothDemoPlane::Draw(BaseCamera& camera)
-{
-
-    ModelDraw::NormalObjectDesc desc;
-
-    desc.model = model_.get();
-    desc.material = material_.get();
-    desc.camera = &camera;
-    desc.worldTransform = &worldTransform_;
-
-    ModelDraw::NormalObjectDraw(desc);
-
-}
-
 void ClothDemoPlane::ImGuiDraw()
 {
 
