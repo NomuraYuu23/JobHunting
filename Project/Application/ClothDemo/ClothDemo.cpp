@@ -41,9 +41,14 @@ void ClothDemo::Initilalize(
 	plane_->Initialize();
 	planeName_ = "plane";
 
+	// 球
+	sphere_ = std::make_unique<ClothDemoSphere>();
+	sphere_->Initialize();
+	sphereName_ = "sphere";
+
 	// 衝突オブジェクト登録
 	clothGPU_->CollisionDataRegistration(planeName_, ClothGPUCollision::kCollisionTypeIndexPlane);
-	//clothGPU_->CollisionDataRegistration("sphere", ClothGPUCollision::kCollisionTypeIndexSphere);
+	clothGPU_->CollisionDataRegistration(sphereName_, ClothGPUCollision::kCollisionTypeIndexSphere);
 
 }
 
@@ -71,6 +76,11 @@ void ClothDemo::Update()
 	ClothGPUCollision::CollisionDataMap planeData = plane_->GetData();
 	clothGPU_->CollisionDataUpdate(planeName_, planeData);
 
+	// 球
+	sphere_->Update();
+	ClothGPUCollision::CollisionDataMap sphereData = sphere_->GetData();
+	clothGPU_->CollisionDataUpdate(sphereName_, sphereData);
+
 }
 
 void ClothDemo::Draw(BaseCamera* camera)
@@ -90,6 +100,8 @@ void ClothDemo::ImGuiDraw()
 	ImGui::DragFloat3("ResetPosition", &resetPosition_.x, 0.01f);
 	// 平面
 	plane_->ImGuiDraw();
+	// 球
+	sphere_->ImGuiDraw();
 	ImGui::End();
 
 }
@@ -98,6 +110,7 @@ void ClothDemo::CollisionObjectDraw(BaseCamera* camera)
 {
 
 	plane_->Draw(*camera);
+	sphere_->Draw(*camera);
 
 }
 

@@ -2,7 +2,7 @@
 #include "ClothDemoObject.h"
 #include "../../../Engine/Physics/ClothGPU/ClothGPUCollision.h"
 
-class ClothDemoPlane : 
+class ClothDemoSphere :
     public ClothDemoObject
 {
 
@@ -27,17 +27,15 @@ public:
     /// データ取得
     /// </summary>
     /// <returns></returns>
-    ClothGPUCollision::Plane GetData() { return data_; }
+    ClothGPUCollision::Sphere GetData() { return data_; }
 
 private:
 
     // ClothGPUに渡すデータ
-    ClothGPUCollision::Plane data_;
+    ClothGPUCollision::Sphere data_;
 
     // 画面ちらつかないようの値
     float screenDoesNotFlickerValue_;
 
-    // 大きさ
-    const Vector3 kScale_ = { 10.0f,10.0f,10.0f };
-
 };
+

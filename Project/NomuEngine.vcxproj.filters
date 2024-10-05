@@ -1094,6 +1094,9 @@
       <Filter>Application\ClothDemo\CollisionObject</Filter>
     </ClCompile>
     <ClCompile Include="Application\ClothDemo\CollisionObject\ClothDemoObject.cpp">
+      <Filter>Application\ClothDemo\CollisionObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\ClothDemo\CollisionObject\ClothDemoSphere.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1858,6 +1861,9 @@
       <Filter>Application\ClothDemo\CollisionObject</Filter>
     </ClInclude>
     <ClInclude Include="Application\ClothDemo\CollisionObject\ClothDemoObject.h">
+      <Filter>Application\ClothDemo\CollisionObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\ClothDemo\CollisionObject\ClothDemoSphere.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

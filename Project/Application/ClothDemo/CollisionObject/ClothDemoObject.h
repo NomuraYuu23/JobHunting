@@ -5,7 +5,6 @@
 class ClothDemoObject
 {
 
-
 public:
 
     /// <summary>

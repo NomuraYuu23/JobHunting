@@ -5,6 +5,7 @@
 #include "../../Engine/base/DxCommon/DirectXCommon.h"
 #include "../../Engine/Input/Input.h"
 #include "CollisionObject/ClothDemoPlane.h"
+#include "CollisionObject/ClothDemoSphere.h"
 
 class ClothDemo
 {
@@ -110,6 +111,10 @@ private: // 衝突オブジェクト
 	// 平面
 	std::unique_ptr<ClothDemoPlane> plane_;
 	std::string planeName_;
+
+	// 球
+	std::unique_ptr<ClothDemoSphere> sphere_;
+	std::string sphereName_;
 
 };
 
