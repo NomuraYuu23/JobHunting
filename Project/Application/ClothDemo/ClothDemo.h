@@ -4,6 +4,7 @@
 #include "../../../Engine/Physics/ClothGPU/ClothGPU.h"
 #include "../../Engine/base/DxCommon/DirectXCommon.h"
 #include "../../Engine/Input/Input.h"
+#include "CollisionObject/ClothDemoPlane.h"
 
 class ClothDemo
 {
@@ -48,6 +49,12 @@ public: // メンバ関数
 	/// </summary>
 	void ImGuiDraw();
 
+	/// <summary>
+	/// 衝突オブジェクト描画
+	/// </summary>
+	/// <param name="camera">カメラ</param>
+	void CollisionObjectDraw(BaseCamera* camera);
+	
 private: // メンバ関数
 
 	/// <summary>
@@ -87,6 +94,8 @@ private: // メンバ変数
 	// リセット位置
 	Vector3 resetPosition_;
 
+private: // システム
+
 	// 布固定関数群
 	std::array<std::function<void()>, FixedIndex::kFixedIndexOfCount> clothFixedFunctions_;
 
@@ -95,6 +104,12 @@ private: // メンバ変数
 
 	// 入力
 	Input* input_;
+
+private: // 衝突オブジェクト
+
+	// 平面
+	std::unique_ptr<ClothDemoPlane> plane_;
+	std::string planeName_;
 
 };
 

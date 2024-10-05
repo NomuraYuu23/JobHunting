@@ -32,12 +32,18 @@ void ClothDemo::Initilalize(
 	// 布の初期化
 	clothGPU_ = std::make_unique<ClothGPU>();
 	clothGPU_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), clothScale_, clothDiv_, "Resources/default/clothDemo.png");
-	
-	// 衝突オブジェクト
-	clothGPU_->CollisionDataRegistration("plane", ClothGPUCollision::kCollisionTypeIndexPlane);
-	//clothGPU_->CollisionDataRegistration("sphere", ClothGPUCollision::kCollisionTypeIndexSphere);
 
+	// リセット
 	ClothReset(kFixedIndexEnd);
+
+	// 平面
+	plane_ = std::make_unique<ClothDemoPlane>();
+	plane_->Initialize();
+	planeName_ = "plane";
+
+	// 衝突オブジェクト登録
+	clothGPU_->CollisionDataRegistration(planeName_, ClothGPUCollision::kCollisionTypeIndexPlane);
+	//clothGPU_->CollisionDataRegistration("sphere", ClothGPUCollision::kCollisionTypeIndexSphere);
 
 }
 
@@ -59,6 +65,12 @@ void ClothDemo::Update()
 		ClothReset(kFixedIndexTop);
 	}
 
+
+	// 平面
+	plane_->Update();
+	ClothGPUCollision::CollisionDataMap planeData = plane_->GetData();
+	clothGPU_->CollisionDataUpdate(planeName_, planeData);
+
 }
 
 void ClothDemo::Draw(BaseCamera* camera)
@@ -74,8 +86,18 @@ void ClothDemo::ImGuiDraw()
 	clothGPU_->ImGuiDraw("clothGPU");
 
 	ImGui::Begin("ClothDemo");
+	// リセット位置
 	ImGui::DragFloat3("ResetPosition", &resetPosition_.x, 0.01f);
+	// 平面
+	plane_->ImGuiDraw();
 	ImGui::End();
+
+}
+
+void ClothDemo::CollisionObjectDraw(BaseCamera* camera)
+{
+
+	plane_->Draw(*camera);
 
 }
 

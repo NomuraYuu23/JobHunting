@@ -484,6 +484,9 @@
     <Filter Include="Engine\Base\Debug">
       <UniqueIdentifier>{0e33bd43-b4da-43ad-abe5-4c0e868bb3da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\ClothDemo\CollisionObject">
+      <UniqueIdentifier>{8a962efb-b360-4e42-bc0e-70047c6bf3e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1083,6 +1086,12 @@
     </ClCompile>
     <ClCompile Include="Application\Object\ClothObject\BaseClothObject.cpp">
       <Filter>Application\Object\Flag</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\ClothDemo\ClothDemo.cpp">
+      <Filter>Application\ClothDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\ClothDemo\CollisionObject\ClothDemoPlane.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1840,6 +1849,9 @@
       <Filter>Application\Object\Flag</Filter>
     </ClInclude>
     <ClInclude Include="Application\ClothDemo\ClothDemo.h">
+      <Filter>Application\ClothDemo</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\ClothDemo\CollisionObject\ClothDemoPlane.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

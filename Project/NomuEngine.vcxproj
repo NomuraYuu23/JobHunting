@@ -158,8 +158,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-
     <ClCompile Include="Application\ClothDemo\ClothDemo.cpp" />
+    <ClCompile Include="Application\ClothDemo\CollisionObject\ClothDemoPlane.cpp" />
     <ClCompile Include="Application\Collider\ColliderParentIdentification.cpp" />
     <ClCompile Include="Application\GPUParticle\BloadParticle.cpp" />
     <ClCompile Include="Application\GPUParticle\FieldSparksParticle.cpp" />
@@ -362,8 +362,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\3D\Transform\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
-
     <ClInclude Include="Application\ClothDemo\ClothDemo.h" />
+    <ClInclude Include="Application\ClothDemo\CollisionObject\ClothDemoPlane.h" />
     <ClInclude Include="Application\Collider\ColliderParentIdentification.h" />
     <ClInclude Include="Application\GPUParticle\BloadParticle.h" />
     <ClInclude Include="Application\GPUParticle\FieldSparksParticle.h" />

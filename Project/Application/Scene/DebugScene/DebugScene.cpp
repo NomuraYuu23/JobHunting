@@ -49,6 +49,8 @@ void DebugScene::Draw()
 	// スカイドーム
 	skydome_->Draw(camera_);
 
+	clothDemo_->CollisionObjectDraw(&camera_);
+
 	ModelDraw::PostDraw();
 
 #pragma region 線描画
