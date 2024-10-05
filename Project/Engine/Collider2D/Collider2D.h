@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Application/Collider2D/ColliderParentObject2D.h"
 #include <cstdint>
-#include "../Math/Vector2.h"
+#include "../Math/Vector/Vector2.h"
 
 class Collider2D
 {

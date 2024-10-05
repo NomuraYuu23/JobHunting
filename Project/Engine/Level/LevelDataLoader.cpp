@@ -2,7 +2,6 @@
 #include <fstream>
 #include <cassert>
 #include "../Collider/OBB/OBB.h"
-#include "../base/OutputLog.h"
 
 const std::string LevelDataLoader::kFileDirectoryName = "Resources/Level/";
 

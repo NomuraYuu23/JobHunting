@@ -4,7 +4,6 @@
 
 #include "../../../Engine/Scene/IScene/IScene.h"
 #include "../../UI/UIManager.h"
-#include "../../AudioManager/GameAudioManager.h"
 #include "../../Skydome/Skydome.h"
 
 #include "../../Object/Sample/SampleObject.h" // サンプルオブジェクト
@@ -70,13 +69,6 @@ private: // メンバ関数
 
 private:
 
-	/// <summary>
-	/// 音量
-	/// </summary>
-	void LowerVolumeBGM();
-
-private:
-
 	// パーティクルマネージャー
 	ParticleManager* particleManager_ = nullptr;
 	std::unique_ptr<Model> particleUvcheckerModel_ = nullptr;
@@ -87,10 +79,6 @@ private:
 	// UIマネージャー
 	std::unique_ptr<TutorialUIManager> uiManager_;
 	std::array<uint32_t, TutorialUIManager::UIIndex::kUIIndexOfCount> uiTextureHandles_;
-
-	// オーディオマネージャー
-	std::unique_ptr<GameAudioManager> audioManager_;
-	bool isDecreasingVolume = true;
 
 	// スカイドーム
 	std::unique_ptr<Skydome> skydome_;

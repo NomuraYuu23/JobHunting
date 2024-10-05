@@ -1,7 +1,7 @@
 #include "PlayerWeapon.h"
 
 #include "../Player.h"
-#include "../../../Engine/Physics/InertiaTensor.h"
+#include "../../../Engine/Physics/RigidBody/InertiaTensor.h"
 #include "../../../Engine/Math/DeltaTime.h"
 
 void PlayerWeapon::Initialize(LevelData::MeshData* data)

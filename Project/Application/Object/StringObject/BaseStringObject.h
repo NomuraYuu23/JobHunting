@@ -1,6 +1,6 @@
 #pragma once
 #include "../../../Engine/Object/MeshObject.h"
-#include "../../../Engine/Physics/StructuralSpring.h"
+#include "../../../Engine/Physics/Spring/StructuralSpring.h"
 class BaseStringObject :
     public MeshObject
 {

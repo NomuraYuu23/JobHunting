@@ -1,17 +1,11 @@
 #include "ClearScene.h"
-#include "../../../Engine/base/TextureManager.h"
+#include "../../../Engine/base/Texture/TextureManager.h"
 #include "../../../Engine/2D/ImguiManager.h"
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../../Engine/Math/Ease.h"
 
 ClearScene::~ClearScene()
 {
-
-	if (stopAudio_) {
-		for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
-			audioManager_->StopWave(i);
-		}
-	}
 
 }
 
@@ -22,9 +16,6 @@ void ClearScene::Initialize()
 
 	ModelCreate();
 	TextureLoad();
-
-	audioManager_ = std::make_unique<ClearAudioManager>();
-	audioManager_->Initialize();
 
 	clearSprite_.reset(Sprite::Create(clearTextureHandle_, { 640.0f, 360.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
 	buttonSprite_.reset(Sprite::Create(buttonTextureHandle_, { 640.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
@@ -100,28 +91,5 @@ void ClearScene::TextureLoad()
 
 	clearTextureHandle_ = TextureManager::Load("Resources/OutGame/clear.png", dxCommon_);
 	buttonTextureHandle_ = TextureManager::Load("Resources/OutGame/button.png", dxCommon_);
-
-}
-
-void ClearScene::LowerVolumeBGM()
-{
-
-	const uint32_t startHandleIndex = 13;
-
-	//for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
-	//	if (audioManager_->GetPlayingSoundDatas()[i].handle_ == kClearAudioNameIndexBGM + startHandleIndex) {
-	//		float decreasingVolume = 1.0f / 60.0f;
-	//		float volume = audioManager_->GetPlayingSoundDatas()[i].volume_ - decreasingVolume;
-	//		if (volume < 0.0f) {
-	//			volume = 0.0f;
-	//			audioManager_->StopWave(i);
-	//			isDecreasingVolume = false;
-	//		}
-	//		else {
-	//			audioManager_->SetPlayingSoundDataVolume(i, volume);
-	//			audioManager_->SetVolume(i, audioManager_->GetPlayingSoundDatas()[i].volume_);
-	//		}
-	//	}
-	//}
 
 }

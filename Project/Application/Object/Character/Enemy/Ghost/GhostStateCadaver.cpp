@@ -1,7 +1,7 @@
 #include "GhostStateCadaver.h"
 #include "Ghost.h"
 
-#include "../../../Engine/Physics/Gravity.h"
+#include "../../../Engine/Physics/Gravity/Gravity.h"
 #include "../../../Engine/Math/DeltaTime.h"
 
 void GhostStateCadaver::Initialize()

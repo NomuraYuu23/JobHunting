@@ -1,6 +1,6 @@
 #pragma once
 #include "AnimationData.h"
-#include "../3D/TransformStructure.h"
+#include "../3D/Transform/TransformStructure.h"
 
 class Animation
 {

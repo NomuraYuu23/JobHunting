@@ -1,6 +1,6 @@
 #pragma once
 #include "../BaseObstacle.h"
-#include "../../../../Engine/Physics/Cloth/ClothGPU.h"
+#include "../../../../Engine/Physics/ClothGPU/ClothGPU.h"
 class FlagPole :
     public BaseObstacle
 {

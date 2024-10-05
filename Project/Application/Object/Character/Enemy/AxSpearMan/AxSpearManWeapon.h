@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../Engine/Physics/RigidBody.h"
+#include "../../../Engine/Physics/RigidBody/RigidBody.h"
 
 #include "../../../Weapon/BaseWeapon.h"
 

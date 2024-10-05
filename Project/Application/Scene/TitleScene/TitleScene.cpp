@@ -1,19 +1,14 @@
 #include "TitleScene.h"
-#include "../../../Engine/base/TextureManager.h"
+#include "../../../Engine/base/Texture/TextureManager.h"
 #include "../../../Engine/2D/ImguiManager.h"
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../../Engine/Math/Ease.h"
-#include "../../../Engine/3D/ModelDraw.h"
+#include "../../../Engine/3D/Model/ModelDraw.h"
 #include "../../Object/Manager/TitleSceneObjectManager.h"
 #include "../../Object/ObjectFactory.h"
 
 TitleScene::~TitleScene()
 {
-	if (stopAudio_) {
-		for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
-			audioManager_->StopWave(i);
-		}
-	}
 
 }
 
@@ -24,10 +19,6 @@ void TitleScene::Initialize()
 
 	ModelCreate();
 	TextureLoad();
-
-	audioManager_ = std::make_unique<TitleAudioManager>();
-	audioManager_->StaticInitialize();
-	audioManager_->Initialize();
 
 	buttonSprite_.reset(Sprite::Create(buttonTextureHandle_, { 640.0f, 600.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
 	buttonAlphaT_ = 0.0f;
@@ -292,26 +283,5 @@ void TitleScene::TextureLoad()
 	buttonTextureHandle_ = TextureManager::Load("Resources/OutGame/titleString_00.png", dxCommon_);
 
 	skyboxTextureHandle_ = TextureManager::Load("Resources/default/rostock_laage_airport_4k.dds", DirectXCommon::GetInstance());
-
-}
-
-void TitleScene::LowerVolumeBGM()
-{
-
-	//for (uint32_t i = 0; i < audioManager_->kMaxPlayingSoundData; ++i) {
-	//	if (audioManager_->GetPlayingSoundDatas()[i].handle_ == kTitleAudioNameIndexBGM) {
-	//		float decreasingVolume = 1.0f / 60.0f;
-	//		float volume = audioManager_->GetPlayingSoundDatas()[i].volume_ - decreasingVolume;
-	//		if (volume < 0.0f) {
-	//			volume = 0.0f;
-	//			audioManager_->StopWave(i);
-	//			isDecreasingVolume = false;
-	//		}
-	//		else {
-	//			audioManager_->SetPlayingSoundDataVolume(i, volume);
-	//			audioManager_->SetVolume(i, audioManager_->GetPlayingSoundDatas()[i].volume_);
-	//		}
-	//	}
-	//}
 
 }

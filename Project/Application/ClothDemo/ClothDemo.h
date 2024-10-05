@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../../../Engine/Physics/Cloth/Cloth.h"
-#include "../../../Engine/Physics/Cloth/ClothGPU.h"
-#include "../../Engine/base/DirectXCommon.h"
+#include "../../../Engine/Physics/ClothGPU/ClothGPU.h"
+#include "../../Engine/base/DxCommon/DirectXCommon.h"
 #include "../../Engine/Input/Input.h"
 
 class ClothDemo

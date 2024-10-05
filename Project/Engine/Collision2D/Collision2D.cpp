@@ -1,5 +1,5 @@
 #include "Collision2D.h"
-#include "../Math/Matrix3x3.h"
+#include "../Math/Matrix/Matrix3x3.h"
 #include <numbers>
 
 bool Collision2D::IsCollision(const Box& box1, const Box& box2)

@@ -7,10 +7,10 @@
 
 #include <list>
 #include <vector>
-#include "../../3D/Model.h"
-#include "../../3D/Material.h"
+#include "../../3D/Model/Model.h"
+#include "../../3D/Material/Material.h"
 #include "../ColliderShape.h"
-#include "../../3D/DrawLine.h"
+#include "../../3D/Line/DrawLine.h"
 
 /// <summary>
 /// コライダーの描画関数デバッグ用

@@ -1,7 +1,7 @@
 #include "IParticle.h"
 #include "../base/BufferResource.h"
 #include "../base/WinApp.h"
-#include "../base/DirectXCommon.h"
+#include "../base/DxCommon/DirectXCommon.h"
 #include "ParticleManager.h"
 #include <cassert>
 #include <numbers>

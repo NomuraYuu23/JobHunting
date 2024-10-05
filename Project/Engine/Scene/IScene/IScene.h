@@ -1,13 +1,15 @@
 #pragma once
 
 // 基盤
-#include "../../base/DirectXCommon.h" // DirectX関連
+#include "../../base/DxCommon/DirectXCommon.h" // DirectX関連
 #include "../../Audio/Audio.h"// サウンド再生
 #include "../../Input/Input.h"//入力デバイス
-#include "../../base/TextureManager.h" // テクスチャマネージャー
-#include "../../base/D3DResourceLeakChecker.h" // リソース解放確認
+#include "../../base/Texture/TextureManager.h" // テクスチャマネージャー
+#include "../../base/Debug/D3DResourceLeakChecker.h" // リソース解放確認
 #include "../../2D/ImguiManager.h" // imGuiマネージャー
 #include "../../GlobalVariables/GlobalVariables.h" // グローバル変数
+#include "../../Level/LevelDataManager.h" // レベルデータ
+#include "../../Object/BaseObjectManager.h" // オブジェクトマネージャー
 
 // カメラ
 #include "../../Camera/BaseCamera.h" // ベースカメラ
@@ -16,15 +18,16 @@
 
 // 描画系
 #include "../../2D/Sprite.h" // スプライト
-#include "../../3D/Model.h" // モデル
-#include "../../3D/LargeNumberOfObjects.h" // 大量のオブジェクト用モデル
-#include "../../3D/DrawLine.h" // 線描画
-#include "../../3D/Material.h"// マテリアル
+#include "../../3D/Model/Model.h" // モデル
+#include "../../3D/ManyObjects/LargeNumberOfObjects.h" // 大量のオブジェクト用モデル
+#include "../../3D/Line/DrawLine.h" // 線描画
+#include "../../3D/Material/Material.h"// マテリアル
 #include "../../Particle/ParticleManager.h" // パーティクルマネージャー
 #include "../../PostEffect/PostEffect.h" // ポストエフェクト
-#include "../../../Engine/3D/ModelDraw.h" // モデル描画
-#include "../../../Engine/base/WindowSprite.h" // ウインドウスプライト
-#include "../../Particle/GPUParticle.h" // GPUパーティクル
+#include "../../../Engine/3D/Model/ModelDraw.h" // モデル描画
+#include "../../../Engine/base/WindowSprite/WindowSprite.h" // ウインドウスプライト
+#include "../../GPUParticle/GPUParticle.h" // GPUパーティクル
+#include "../../3D/Model/ModelManager.h" // モデルマネージャー
 
 // 数学系
 #include "../../Math/DeltaTime.h" // デルタタイム
@@ -43,9 +46,6 @@
 
 // アプリケーション側
 #include "../../../Application/Scene/SceneName.h" // シーンの名前
-#include "../../Level/LevelDataManager.h"
-#include "../../Object/BaseObjectManager.h"
-#include "../../3D/ModelManager.h"
 
 /// <summary>
 /// シーンの元になるクラス

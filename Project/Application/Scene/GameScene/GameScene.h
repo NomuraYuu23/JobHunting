@@ -3,7 +3,6 @@
 
 #include "../../../Engine/Scene/IScene/IScene.h"
 #include "../../UI/UIManager.h"
-#include "../../AudioManager/GameAudioManager.h"
 #include "../../Skydome/Skydome.h"
 
 #include "../../Object/Sample/SampleObject.h" // サンプルオブジェクト
@@ -68,13 +67,6 @@ private: // メンバ関数
 	void TextureLoad() override;
 
 private:
-	  
-	/// <summary>
-	/// 音量
-	/// </summary>
-	void LowerVolumeBGM();
-
-private:
 
 	// パーティクルマネージャー
 	ParticleManager* particleManager_ = nullptr;
@@ -86,10 +78,6 @@ private:
 	// UIマネージャー
 	std::unique_ptr<UIManager> uiManager_;
 	std::array<uint32_t, UIIndex::kUIIndexOfCount> uiTextureHandles_;
-
-	// オーディオマネージャー
-	std::unique_ptr<GameAudioManager> audioManager_;
-	bool isDecreasingVolume = true;
 
 	// スカイドーム
 	std::unique_ptr<Skydome> skydome_;

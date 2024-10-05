@@ -1,8 +1,8 @@
 #pragma once
 #include <cstdint>
 #include "../../../Engine/Input/Input.h"
-#include "../../../Engine/Math/Vector3.h"
-#include "../../../Engine/Math/Matrix4x4.h"
+#include "../../../Engine/Math/Vector/Vector3.h"
+#include "../../../Engine/Math/Matrix/Matrix4x4.h"
 
 class Player;
 

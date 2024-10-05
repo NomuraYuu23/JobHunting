@@ -1,6 +1,6 @@
 #pragma once
 #include "../../../Engine/Object/MeshObject.h"
-#include "../../../Engine/Physics/RigidBody.h"
+#include "../../../Engine/Physics/RigidBody/RigidBody.h"
 
 class BaseWeapon : public MeshObject
 {

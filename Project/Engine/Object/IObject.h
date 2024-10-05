@@ -8,7 +8,7 @@
 #include <dxgi1_6.h>
 #include <wrl.h>
 
-#include "../3D/WorldTransform.h"
+#include "../3D/Transform/WorldTransform.h"
 
 class IObject
 {

@@ -1,7 +1,7 @@
 #pragma once
 #include "../IPlayerState.h"
-#include "../../../../../../Engine/Math/Vector3.h"
-#include "../../../../../../Engine/3D/WorldTransform.h"
+#include "../../../../../../Engine/Math/Vector/Vector3.h"
+#include "../../../../../../Engine/3D/Transform/WorldTransform.h"
 
 class PlayerStateRoot : public IPlayerState
 {

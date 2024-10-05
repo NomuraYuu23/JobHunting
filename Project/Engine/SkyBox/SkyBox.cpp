@@ -1,7 +1,7 @@
 #include "Skybox.h"
-#include "../base/DirectXCommon.h"
+#include "../base/DxCommon/DirectXCommon.h"
 #include "../base/BufferResource.h"
-#include "../base/TextureManager.h"
+#include "../base/Texture/TextureManager.h"
 
 const size_t Skybox::kVertNum = 8;
 const size_t Skybox::kIndexNum = 36;

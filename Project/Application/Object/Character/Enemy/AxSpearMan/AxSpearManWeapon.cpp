@@ -1,6 +1,6 @@
 #include "AxSpearManWeapon.h"
 #include "AxSpearMan.h"
-#include "../../../Engine/Physics/InertiaTensor.h"
+#include "../../../Engine/Physics/RigidBody/InertiaTensor.h"
 #include "../../../Engine/Math/DeltaTime.h"
 
 void AxSpearManWeapon::Initialize(LevelData::MeshData* data)

@@ -1,8 +1,6 @@
 #pragma once
 #include "../../../Engine/Scene/IScene/IScene.h"
 
-#include "../../AudioManager/ClearAudioManager.h"
-
 #include "../../Skydome/Skydome.h"
 
 class ClearScene : public IScene
@@ -44,19 +42,7 @@ private: // メンバ関数
 	/// </summary>
 	void TextureLoad() override;
 
-private:
-
-	/// <summary>
-	/// 音量
-	/// </summary>
-	void LowerVolumeBGM();
-
 private: // メンバ変数
-
-	// オーディオマネージャー
-	std::unique_ptr<ClearAudioManager> audioManager_;
-
-	bool isDecreasingVolume = true;
 
 	// クリア
 	std::unique_ptr<Sprite> clearSprite_;

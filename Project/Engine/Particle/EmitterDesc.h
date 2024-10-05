@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include "../3D/TransformStructure.h"
+#include "../3D/Transform/TransformStructure.h"
 
 // エミッタ引数
 struct EmitterDesc

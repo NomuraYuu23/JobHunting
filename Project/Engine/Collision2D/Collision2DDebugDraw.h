@@ -7,8 +7,8 @@
 #include <dxcapi.h>
 #include <list>
 #include <memory>
-#include "../3D/VertexData.h"
-#include "../3D/Material.h"
+#include "../3D/Vertex/VertexData.h"
+#include "../3D/Material/Material.h"
 #include "../Collider2D/Collider2D.h"
 #include "../Collider2D/ColliderShape2D.h"
 #include "../Collider2D/Collider2DDebugDrawForGPU.h"

@@ -1,14 +1,13 @@
 #include "ParticleManager.h"
 #include <d3d12.h>
-#include "../base/TextureManager.h"
-#include "../3D/Model.h"
+#include "../base/Texture/TextureManager.h"
+#include "../3D/Model/Model.h"
 #include "../Math/DeltaTime.h"
 #include "../../Application/Particle/MakeEmitter.h"
-#include "../base/SRVDescriptorHerpManager.h"
-#include "../3D/ModelDraw.h"
+#include "../base/DescriptorHerpManager/SRVDescriptorHerpManager.h"
+#include "../3D/Model/ModelDraw.h"
 
 #include <cassert>
-#include "../base/OutputLog.h"
 #include "BillBoardMatrix.h"
 
 ParticleManager* ParticleManager::GetInstance()

@@ -3,8 +3,8 @@
 #include <variant>
 #include <string>
 #include <map>
-#include "../Math/Vector3.h"
-#include "../Math/Vector2.h"
+#include "../Math/Vector/Vector3.h"
+#include "../Math/Vector/Vector2.h"
 
 class GlobalVariables {
 

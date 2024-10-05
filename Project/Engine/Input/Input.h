@@ -9,7 +9,7 @@
 #pragma comment(lib, "dxguid.lib")
 #include <Xinput.h>
 
-#include "../Math/Vector2.h"
+#include "../Math/Vector/Vector2.h"
 
 enum JoystickButton {
 	kJoystickButtonA,

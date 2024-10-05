@@ -1,6 +1,6 @@
 #pragma once
-#include "../3D/TransformStructure.h"
-#include "../Math/Matrix4x4.h"
+#include "../3D/Transform/TransformStructure.h"
+#include "../Math/Matrix/Matrix4x4.h"
 #include <wrl.h>
 #include <d3d12.h>
 #include "CameraForGPU.h"

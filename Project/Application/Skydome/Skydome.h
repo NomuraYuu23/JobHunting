@@ -1,7 +1,7 @@
 #pragma once
-#include "../../Engine/3D/Model.h"
-#include "../../Engine/3D/Material.h"
-#include "../../Engine/3D/WorldTransform.h"
+#include "../../Engine/3D/Model/Model.h"
+#include "../../Engine/3D/Material/Material.h"
+#include "../../Engine/3D/Transform/WorldTransform.h"
 
 class Skydome {
 

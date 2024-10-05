@@ -1,7 +1,7 @@
 #include "BaseWeapon.h"
-#include "../../../Engine/Physics/InertiaTensor.h"
+#include "../../../Engine/Physics/RigidBody/InertiaTensor.h"
 #include "../../../Engine/Math/DeltaTime.h"
-#include "../../../Engine/Physics/Gravity.h"
+#include "../../../Engine/Physics/Gravity/Gravity.h"
 #include "../Obstacle/BaseObstacle.h"
 #include "../../../Engine/Collision/Extrusion.h"
 

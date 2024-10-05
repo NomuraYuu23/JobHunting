@@ -7,13 +7,13 @@
 #include "../../../Engine/Collider/ColliderShape.h"
 #include "../../../Engine/Collision/CollisionData.h"
 #include "../../../Engine/Camera/BaseCamera.h"
-#include "../../../Engine/3D/Model.h"
+#include "../../../Engine/3D/Model/Model.h"
 #include "../../../Engine/Animation/Animation.h"
-#include "../../../Engine/3D/DrawLine.h"
+#include "../../../Engine/3D/Line/DrawLine.h"
 #include "../../../Engine/Level/LevelData.h"
 #include "../../../Engine/Object/MeshObject.h"
 #include "../../../GPUParticle/FieldSparksParticle.h"
-#include "../../../../Engine/Physics/Cloth/ClothGPU.h"
+#include "../../../../Engine/Physics/ClothGPU/ClothGPU.h"
 
 /// <summary>
 /// プレイヤーのモーション一覧

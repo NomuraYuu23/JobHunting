@@ -1,8 +1,8 @@
 #include "ClothModel.h"
-#include "../../base/DirectXCommon.h"
+#include "../../base/DxCommon/DirectXCommon.h"
 #include "../../base/BufferResource.h"
-#include "../../base/SRVDescriptorHerpManager.h"
-#include "../../base/TextureManager.h"
+#include "../../base/DescriptorHerpManager/SRVDescriptorHerpManager.h"
+#include "../../base/Texture/TextureManager.h"
 
 //	平行光源
 DirectionalLight* ClothModel::sDirectionalLight_ = nullptr;

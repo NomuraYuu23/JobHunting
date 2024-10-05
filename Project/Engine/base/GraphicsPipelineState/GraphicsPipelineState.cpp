@@ -1,6 +1,6 @@
 #include "GraphicsPipelineState.h"
 #include "../CompileShader.h"
-#include "../Log.h"
+#include "../DxCommon/Log.h"
 
 using namespace Microsoft::WRL;
 

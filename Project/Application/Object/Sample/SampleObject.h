@@ -1,8 +1,8 @@
 #pragma once
-#include "../../../Engine/3D/Model.h"
-#include "../../../Engine/Physics/RigidBody.h"
+#include "../../../Engine/3D/Model/Model.h"
+#include "../../../Engine/Physics/RigidBody/RigidBody.h"
 #include "../../../Engine/Animation/Animation.h"
-#include "../../../Engine/PostEffect/Velocity2DData.h"
+#include "../../../Engine/PostEffect/Velocity2D/Velocity2DData.h"
 
 class SampleObject
 {

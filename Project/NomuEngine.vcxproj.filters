@@ -91,9 +91,6 @@
     <Filter Include="Application\Collider">
       <UniqueIdentifier>{6e8db13d-e007-4744-a040-88bc34cd30d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Audio">
-      <UniqueIdentifier>{d427ee17-8f5a-4077-9b9a-194749a45066}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\FollowCamera">
       <UniqueIdentifier>{3ad98989-b0b2-461b-bd74-7fda84f7692f}</UniqueIdentifier>
     </Filter>
@@ -219,9 +216,6 @@
     </Filter>
     <Filter Include="Engine\3D\Material">
       <UniqueIdentifier>{ef334e55-1060-40c1-9a67-32c7b428f998}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\3D\Objects">
-      <UniqueIdentifier>{2d14ea3a-d23c-4ad2-bfb7-1a8307ab367f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\3D\Outline">
       <UniqueIdentifier>{a4eb2646-fb2d-462f-a789-bc5ae8660989}</UniqueIdentifier>
@@ -484,6 +478,12 @@
     <Filter Include="Application\ClothDemo">
       <UniqueIdentifier>{f090aa4e-2837-4aea-bdc8-9f1862f60153}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\3D\ManyObjects">
+      <UniqueIdentifier>{2d14ea3a-d23c-4ad2-bfb7-1a8307ab367f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\Debug">
+      <UniqueIdentifier>{0e33bd43-b4da-43ad-abe5-4c0e868bb3da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -631,17 +631,11 @@
     <ClCompile Include="Engine\Audio\AudioManager.cpp">
       <Filter>Engine\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Application\AudioManager\GameAudioManager.cpp">
-      <Filter>Application\Audio</Filter>
-    </ClCompile>
     <ClCompile Include="Application\UI\UI.cpp">
       <Filter>Application\UI</Filter>
     </ClCompile>
     <ClCompile Include="Application\UI\UIManager.cpp">
       <Filter>Application\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\AudioManager\ClearAudioManager.cpp">
-      <Filter>Application\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Application\Scene\TutorialScene\TutorialScene.cpp">
       <Filter>Application\Scene</Filter>
@@ -676,28 +670,25 @@
     <ClCompile Include="Engine\Light\SpotLight\SpotLightManager.cpp">
       <Filter>Engine\Light\SpotLight</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\Model.cpp">
+    <ClCompile Include="Engine\3D\Model\Model.cpp">
       <Filter>Engine\3D\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\Mesh.cpp">
+    <ClCompile Include="Engine\3D\Model\Mesh.cpp">
       <Filter>Engine\3D\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\ModelLoader.cpp">
+    <ClCompile Include="Engine\3D\Model\ModelLoader.cpp">
       <Filter>Engine\3D\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\ModelNode.cpp">
+    <ClCompile Include="Engine\3D\Model\ModelNode.cpp">
       <Filter>Engine\3D\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp">
-      <Filter>Application\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Math\Vector2.cpp">
+    <ClCompile Include="Engine\Math\Vector\Vector2.cpp">
       <Filter>Engine\Math\Vector2</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Math\Vector3.cpp">
+    <ClCompile Include="Engine\Math\Vector\Vector3.cpp">
       <Filter>Engine\Math\vector3</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Math\Matrix4x4.cpp">
+    <ClCompile Include="Engine\Math\Matrix\Matrix4x4.cpp">
       <Filter>Engine\Math\Matrix4x4</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Collider2D\Box.cpp">
@@ -718,13 +709,13 @@
     <ClCompile Include="Engine\Collision2D\Collision2DManager.cpp">
       <Filter>Engine\Collision2D</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\MassPoint.cpp">
+    <ClCompile Include="Engine\Physics\MassPoint\MassPoint.cpp">
       <Filter>Engine\Physics\MassPoint</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\InertiaTensor.cpp">
+    <ClCompile Include="Engine\Physics\RigidBody\InertiaTensor.cpp">
       <Filter>Engine\Physics\RigidBody</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\RigidBody.cpp">
+    <ClCompile Include="Engine\Physics\RigidBody\RigidBody.cpp">
       <Filter>Engine\Physics\RigidBody</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Animation\NodeAnimationData.cpp">
@@ -736,35 +727,8 @@
     <ClCompile Include="Engine\Animation\AnimationData.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Math\Matrix3x3.cpp">
+    <ClCompile Include="Engine\Math\Matrix\Matrix3x3.cpp">
       <Filter>Engine\Math\Matrix3x3</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\SRVDescriptorHerpManager.cpp">
-      <Filter>Engine\Base\DescriptorHerpManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\DSVDescriptorHerpManager.cpp">
-      <Filter>Engine\Base\DescriptorHerpManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\RTVDescriptorHerpManager.cpp">
-      <Filter>Engine\Base\DescriptorHerpManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\DirectXCommon.cpp">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\DxCommand.cpp">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\DXGIDevice.cpp">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\Log.cpp">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\SwapChain.cpp">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\AudioManager\TitleAudioManager.cpp">
-      <Filter>Application\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Engine\base\CompileShader.cpp">
       <Filter>Engine\Base</Filter>
@@ -781,16 +745,16 @@
     <ClCompile Include="Engine\Animation\LocalMatrixManager.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\ModelDraw.cpp">
+    <ClCompile Include="Engine\3D\Model\ModelDraw.cpp">
       <Filter>Engine\3D\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\Spring.cpp">
+    <ClCompile Include="Engine\Physics\Spring\Spring.cpp">
       <Filter>Engine\Physics\Spring</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\String.cpp">
+    <ClCompile Include="Engine\Physics\String\String.cpp">
       <Filter>Engine\Physics\Spring</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\StructuralSpring.cpp">
+    <ClCompile Include="Engine\Physics\Spring\StructuralSpring.cpp">
       <Filter>Engine\Physics\Spring</Filter>
     </ClCompile>
     <ClCompile Include="Application\Camera\FollowCamera.cpp">
@@ -835,56 +799,38 @@
     <ClCompile Include="Engine\2D\Sprite.cpp">
       <Filter>Engine\2D\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\FogManager.cpp">
+    <ClCompile Include="Engine\3D\Fog\FogManager.cpp">
       <Filter>Engine\3D\Fog</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\DrawLine.cpp">
+    <ClCompile Include="Engine\3D\Line\DrawLine.cpp">
       <Filter>Engine\3D\Line</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\Material.cpp">
+    <ClCompile Include="Engine\3D\Material\Material.cpp">
       <Filter>Engine\3D\Material</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\ModelManager.cpp">
+    <ClCompile Include="Engine\3D\Model\ModelManager.cpp">
       <Filter>Engine\3D\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\LargeNumberOfObjects.cpp">
-      <Filter>Engine\3D\Objects</Filter>
+    <ClCompile Include="Engine\3D\ManyObjects\LargeNumberOfObjects.cpp">
+      <Filter>Engine\3D\ManyObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\OneOfManyObjects.cpp">
-      <Filter>Engine\3D\Objects</Filter>
+    <ClCompile Include="Engine\3D\ManyObjects\OneOfManyObjects.cpp">
+      <Filter>Engine\3D\ManyObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\Outline.cpp">
+    <ClCompile Include="Engine\3D\Outline\Outline.cpp">
       <Filter>Engine\3D\Outline</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\WorldTransform.cpp">
+    <ClCompile Include="Engine\3D\Transform\WorldTransform.cpp">
       <Filter>Engine\3D\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\base\TextureManager.cpp">
-      <Filter>Engine\Base\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\TextureUAV.cpp">
-      <Filter>Engine\Base\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\RenderTargetTexture.cpp">
-      <Filter>Engine\Base\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\WindowSprite.cpp">
+    <ClCompile Include="Engine\base\WindowSprite\WindowSprite.cpp">
       <Filter>Engine\Base\WindowSprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\CrashHandler.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\base\QueryTimestamp.cpp">
-      <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Particle\BillBoardMatrix.cpp">
       <Filter>Engine\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Particle\GPUParticle.cpp">
+    <ClCompile Include="Engine\GPUParticle\GPUParticle.cpp">
       <Filter>Engine\Particle\GPUParticle</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Level\LevelData.cpp">
-      <Filter>Engine\Level</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Level\LevelDataLoader.cpp">
       <Filter>Engine\Level</Filter>
@@ -991,13 +937,13 @@
     <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManWeapon.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\PostEffect\ShockWaveManager.cpp">
+    <ClCompile Include="Engine\PostEffect\ShockWave\ShockWaveManager.cpp">
       <Filter>Engine\PostEffect\ShockWave</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\PostEffect\Velocity2DData.cpp">
+    <ClCompile Include="Engine\PostEffect\Velocity2D\Velocity2DData.cpp">
       <Filter>Engine\PostEffect\Velocity2D</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\PostEffect\Velocity2DManager.cpp">
+    <ClCompile Include="Engine\PostEffect\Velocity2D\Velocity2DManager.cpp">
       <Filter>Engine\PostEffect\Velocity2D</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManBeam.cpp">
@@ -1009,7 +955,7 @@
     <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateBeam.cpp">
       <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\Gravity.cpp">
+    <ClCompile Include="Engine\Physics\Gravity\Gravity.cpp">
       <Filter>Engine\Physics\Gravity</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Weapon\BaseWeapon.cpp">
@@ -1072,19 +1018,13 @@
     <ClCompile Include="Application\Object\StringObject\BaseStringObject.cpp">
       <Filter>Application\Object\String</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\StringObject\PlayerMuffler\PlayerMuffler.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\ClothObject\BaseClothObject.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Physics\Cloth\Cloth.cpp">
       <Filter>Engine\Physics\Cloth</Filter>
     </ClCompile>
     <ClCompile Include="Application\Scene\DebugScene\DebugScene.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\Cloth\ClothGPU.cpp">
+    <ClCompile Include="Engine\Physics\ClothGPU\ClothGPU.cpp">
       <Filter>Engine\Physics\ClothGPU</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Physics\Cloth\ClothModel.cpp">
@@ -1096,14 +1036,53 @@
     <ClCompile Include="Application\Object\ClothObject\Flag\Flag.cpp">
       <Filter>Application\Object\Flag</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Physics\Cloth\ClothGPUCollision.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole2.cpp">
       <Filter>Application\Object\Flag</Filter>
     </ClCompile>
-    <ClCompile Include="Application\ClothDemo\ClothDemo.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\base\Debug\CrashHandler.cpp">
+      <Filter>Engine\Base\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\Debug\QueryTimestamp.cpp">
+      <Filter>Engine\Base\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\Texture\TextureUAV.cpp">
+      <Filter>Engine\Base\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\Texture\TextureManager.cpp">
+      <Filter>Engine\Base\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DescriptorHerpManager\SRVDescriptorHerpManager.cpp">
+      <Filter>Engine\Base\DescriptorHerpManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DescriptorHerpManager\RTVDescriptorHerpManager.cpp">
+      <Filter>Engine\Base\DescriptorHerpManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DescriptorHerpManager\DSVDescriptorHerpManager.cpp">
+      <Filter>Engine\Base\DescriptorHerpManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\Texture\RenderTargetTexture.cpp">
+      <Filter>Engine\Base\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DxCommon\DirectXCommon.cpp">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DxCommon\DxCommand.cpp">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DxCommon\DXGIDevice.cpp">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DxCommon\Log.cpp">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\base\DxCommon\SwapChain.cpp">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\ClothGPU\ClothGPUCollision.cpp">
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\ClothObject\BaseClothObject.cpp">
+      <Filter>Application\Object\Flag</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1132,12 +1111,6 @@
       <Filter>Engine\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Engine\base\BufferResource.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\D3DResourceLeakChecker.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\SafeDelete.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\base\WinApp.h">
@@ -1188,7 +1161,7 @@
     <ClInclude Include="Engine\Input\Input.h">
       <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Math\Vector4.h">
+    <ClInclude Include="Engine\Math\Vector\Vector4.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\DeltaTime.h">
@@ -1293,9 +1266,6 @@
     <ClInclude Include="Engine\Collider\ColliderShape.h">
       <Filter>Engine\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Application\AudioManager\GameAudioManager.h">
-      <Filter>Application\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Collision\CollisionData.h">
       <Filter>Engine\Collision</Filter>
     </ClInclude>
@@ -1304,9 +1274,6 @@
     </ClInclude>
     <ClInclude Include="Application\UI\UIManager.h">
       <Filter>Application\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\AudioManager\ClearAudioManager.h">
-      <Filter>Application\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Application\Scene\TutorialScene\TutorialScene.h">
       <Filter>Application\Scene</Filter>
@@ -1356,28 +1323,25 @@
     <ClInclude Include="Engine\Light\SpotLight\SpotLightManager.h">
       <Filter>Engine\Light\SpotLight</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\Model.h">
+    <ClInclude Include="Engine\3D\Model\Model.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\Mesh.h">
+    <ClInclude Include="Engine\3D\Model\Mesh.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\ModelLoader.h">
+    <ClInclude Include="Engine\3D\Model\ModelLoader.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\ModelNode.h">
+    <ClInclude Include="Engine\3D\Model\ModelNode.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Application\AudioManager\TitleAudioManager.h">
-      <Filter>Application\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Math\Vector2.h">
+    <ClInclude Include="Engine\Math\Vector\Vector2.h">
       <Filter>Engine\Math\Vector2</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Math\Vector3.h">
+    <ClInclude Include="Engine\Math\Vector\Vector3.h">
       <Filter>Engine\Math\vector3</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Math\Matrix4x4.h">
+    <ClInclude Include="Engine\Math\Matrix\Matrix4x4.h">
       <Filter>Engine\Math\Matrix4x4</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
@@ -1413,13 +1377,13 @@
     <ClInclude Include="Engine\Collision2D\Collision2D.h">
       <Filter>Engine\Collision2D</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\MassPoint.h">
+    <ClInclude Include="Engine\Physics\MassPoint\MassPoint.h">
       <Filter>Engine\Physics\MassPoint</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\RigidBody.h">
+    <ClInclude Include="Engine\Physics\RigidBody\RigidBody.h">
       <Filter>Engine\Physics\RigidBody</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\InertiaTensor.h">
+    <ClInclude Include="Engine\Physics\RigidBody\InertiaTensor.h">
       <Filter>Engine\Physics\RigidBody</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Camera\ViewProjectionMatrix.h">
@@ -1434,35 +1398,8 @@
     <ClInclude Include="Engine\Animation\Animation.h">
       <Filter>Engine\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Math\Matrix3x3.h">
+    <ClInclude Include="Engine\Math\Matrix\Matrix3x3.h">
       <Filter>Engine\Math\Matrix3x3</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\SRVDescriptorHerpManager.h">
-      <Filter>Engine\Base\DescriptorHerpManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\DSVDescriptorHerpManager.h">
-      <Filter>Engine\Base\DescriptorHerpManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\RTVDescriptorHerpManager.h">
-      <Filter>Engine\Base\DescriptorHerpManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\DirectXCommon.h">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\DxCommand.h">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\DXGIDevice.h">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\Log.h">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\SwapChain.h">
-      <Filter>Engine\Base\DxCommon</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\AudioManager\TitleAudioManager.h">
-      <Filter>Application\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Engine\base\CompileShader.h">
       <Filter>Engine\Base</Filter>
@@ -1479,19 +1416,19 @@
     <ClInclude Include="Engine\Animation\LocalMatrix.h">
       <Filter>Engine\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\ModelDraw.h">
+    <ClInclude Include="Engine\3D\Model\ModelDraw.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\ModelNodeData.h">
+    <ClInclude Include="Engine\3D\Model\ModelNodeData.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\StructuralSpring.h">
+    <ClInclude Include="Engine\Physics\Spring\StructuralSpring.h">
       <Filter>Engine\Physics\Spring</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\Spring.h">
+    <ClInclude Include="Engine\Physics\Spring\Spring.h">
       <Filter>Engine\Physics\Spring</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\String.h">
+    <ClInclude Include="Engine\Physics\String\String.h">
       <Filter>Engine\Physics\Spring</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ContactRecord\ContactRecord.h">
@@ -1545,80 +1482,62 @@
     <ClInclude Include="Engine\2D\Sprite.h">
       <Filter>Engine\2D\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\FogManager.h">
+    <ClInclude Include="Engine\3D\Fog\FogManager.h">
       <Filter>Engine\3D\Fog</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\FogData.h">
+    <ClInclude Include="Engine\3D\Fog\FogData.h">
       <Filter>Engine\3D\Fog</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\DrawLine.h">
+    <ClInclude Include="Engine\3D\Line\DrawLine.h">
       <Filter>Engine\3D\Line</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\LineForGPU.h">
+    <ClInclude Include="Engine\3D\Line\LineForGPU.h">
       <Filter>Engine\3D\Line</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\MaterialData.h">
+    <ClInclude Include="Engine\3D\Material\MaterialData.h">
       <Filter>Engine\3D\Material</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\Material.h">
+    <ClInclude Include="Engine\3D\Material\Material.h">
       <Filter>Engine\3D\Material</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\ModelManager.h">
+    <ClInclude Include="Engine\3D\Model\ModelManager.h">
       <Filter>Engine\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\LargeNumberOfObjects.h">
-      <Filter>Engine\3D\Objects</Filter>
+    <ClInclude Include="Engine\3D\ManyObjects\LargeNumberOfObjects.h">
+      <Filter>Engine\3D\ManyObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\OneOfManyObjects.h">
-      <Filter>Engine\3D\Objects</Filter>
+    <ClInclude Include="Engine\3D\ManyObjects\OneOfManyObjects.h">
+      <Filter>Engine\3D\ManyObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\OutLineData.h">
+    <ClInclude Include="Engine\3D\Outline\OutLineData.h">
       <Filter>Engine\3D\Outline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\Outline.h">
+    <ClInclude Include="Engine\3D\Outline\Outline.h">
       <Filter>Engine\3D\Outline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\TransformationMatrix.h">
+    <ClInclude Include="Engine\3D\Transform\TransformationMatrix.h">
       <Filter>Engine\3D\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\TransformStructure.h">
+    <ClInclude Include="Engine\3D\Transform\TransformStructure.h">
       <Filter>Engine\3D\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\WorldTransform.h">
+    <ClInclude Include="Engine\3D\Transform\WorldTransform.h">
       <Filter>Engine\3D\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\VertexInfluence.h">
+    <ClInclude Include="Engine\3D\Vertex\VertexInfluence.h">
       <Filter>Engine\3D\Vertex</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\VertexData.h">
+    <ClInclude Include="Engine\3D\Vertex\VertexData.h">
       <Filter>Engine\3D\Vertex</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\ColorVertexData.h">
+    <ClInclude Include="Engine\3D\Vertex\ColorVertexData.h">
       <Filter>Engine\3D\Vertex</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Animation\SkinningInformation.h">
       <Filter>Engine\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\base\TextureUAV.h">
-      <Filter>Engine\Base\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\TextureManager.h">
-      <Filter>Engine\Base\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\RenderTargetTexture.h">
-      <Filter>Engine\Base\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\WindowSprite.h">
+    <ClInclude Include="Engine\base\WindowSprite\WindowSprite.h">
       <Filter>Engine\Base\WindowSprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\CrashHandler.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\OutputLog.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\base\QueryTimestamp.h">
-      <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ContactRecord\ContactRecord.h">
       <Filter>Engine\Contactrecord</Filter>
@@ -1626,16 +1545,16 @@
     <ClInclude Include="Engine\Particle\BillBoardMatrix.h">
       <Filter>Engine\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Particle\GPUParticle.h">
+    <ClInclude Include="Engine\GPUParticle\GPUParticle.h">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Particle\EmitterDesc.h">
       <Filter>Engine\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Particle\GPUPerticleView.h">
+    <ClInclude Include="Engine\GPUParticle\GPUPerticleView.h">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Particle\ParticleCS.h">
+    <ClInclude Include="Engine\GPUParticle\ParticleCS.h">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Particle\ParticleDesc.h">
@@ -1755,19 +1674,19 @@
     <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManWeapon.h">
       <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PostEffect\ShockWaveData.h">
+    <ClInclude Include="Engine\PostEffect\ShockWave\ShockWaveData.h">
       <Filter>Engine\PostEffect\ShockWave</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PostEffect\ShockWaveManager.h">
+    <ClInclude Include="Engine\PostEffect\ShockWave\ShockWaveManager.h">
       <Filter>Engine\PostEffect\ShockWave</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PostEffect\Velocity2DManager.h">
+    <ClInclude Include="Engine\PostEffect\Velocity2D\Velocity2DManager.h">
       <Filter>Engine\PostEffect\Velocity2D</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PostEffect\Velocity2DData.h">
+    <ClInclude Include="Engine\PostEffect\Velocity2D\Velocity2DData.h">
       <Filter>Engine\PostEffect\Velocity2D</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PostEffect\HSVFilter.h">
+    <ClInclude Include="Engine\PostEffect\HSV\HSVFilter.h">
       <Filter>Engine\PostEffect\HSVFilter</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManBeam.h">
@@ -1779,13 +1698,13 @@
     <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateBeam.h">
       <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\Gravity.h">
+    <ClInclude Include="Engine\Physics\Gravity\Gravity.h">
       <Filter>Engine\Physics\Gravity</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Weapon\BaseWeapon.h">
       <Filter>Application\Object\BaseWeapon</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Particle\EmitterCS.h">
+    <ClInclude Include="Engine\GPUParticle\EmitterCS.h">
       <Filter>Engine\Particle\GPUParticle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\PerFrame.h">
@@ -1848,19 +1767,13 @@
     <ClInclude Include="Application\Object\StringObject\BaseStringObject.h">
       <Filter>Application\Object\String</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\StringObject\PlayerMuffler\PlayerMuffler.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\ClothObject\BaseClothObject.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Physics\Cloth\Cloth.h">
       <Filter>Engine\Physics\Cloth</Filter>
     </ClInclude>
     <ClInclude Include="Application\Scene\DebugScene\DebugScene.h">
       <Filter>Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\Cloth\ClothGPU.h">
+    <ClInclude Include="Engine\Physics\ClothGPU\ClothGPU.h">
       <Filter>Engine\Physics\ClothGPU</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Physics\Cloth\ClothModel.h">
@@ -1872,10 +1785,58 @@
     <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole.h">
       <Filter>Application\Object\Flag</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Physics\Cloth\ClothGPUCollision.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole2.h">
+      <Filter>Application\Object\Flag</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Debug\CrashHandler.h">
+      <Filter>Engine\Base\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Debug\D3DResourceLeakChecker.h">
+      <Filter>Engine\Base\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Debug\QueryTimestamp.h">
+      <Filter>Engine\Base\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Debug\SafeDelete.h">
+      <Filter>Engine\Base\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Texture\TextureUAV.h">
+      <Filter>Engine\Base\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Texture\TextureManager.h">
+      <Filter>Engine\Base\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DescriptorHerpManager\DSVDescriptorHerpManager.h">
+      <Filter>Engine\Base\DescriptorHerpManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DescriptorHerpManager\SRVDescriptorHerpManager.h">
+      <Filter>Engine\Base\DescriptorHerpManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DescriptorHerpManager\RTVDescriptorHerpManager.h">
+      <Filter>Engine\Base\DescriptorHerpManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\Texture\RenderTargetTexture.h">
+      <Filter>Engine\Base\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DxCommon\SwapChain.h">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DxCommon\DirectXCommon.h">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DxCommon\DxCommand.h">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DxCommon\DXGIDevice.h">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\base\DxCommon\Log.h">
+      <Filter>Engine\Base\DxCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\ClothGPU\ClothGPUCollision.h">
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\ClothObject\BaseClothObject.h">
       <Filter>Application\Object\Flag</Filter>
     </ClInclude>
     <ClInclude Include="Application\ClothDemo\ClothDemo.h">

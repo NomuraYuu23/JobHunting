@@ -1,5 +1,5 @@
 #include "BaseClothObject.h"
-#include "../../../Engine/3D/ModelDraw.h"
+#include "../../../Engine/3D/Model/ModelDraw.h"
 
 void BaseClothObject::Initialize(LevelData::MeshData* data)
 {
