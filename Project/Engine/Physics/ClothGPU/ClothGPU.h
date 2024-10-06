@@ -151,20 +151,20 @@ public: // サブクラス
 	/// バネの種類
 	/// </summary>
 	enum ClothSpringBufferStructIndex {
-		kClothSpringBufferStructIndexStructural0,
-		kClothSpringBufferStructIndexStructural1,
-		kClothSpringBufferStructIndexStructural2,
-		kClothSpringBufferStructIndexStructural3,
+		kClothSpringBufferStructIndexStructural0, // 構成バネ、質点がかぶらないよう4つ
+		kClothSpringBufferStructIndexStructural1, // 構成バネ
+		kClothSpringBufferStructIndexStructural2, // 構成バネ
+		kClothSpringBufferStructIndexStructural3, // 構成バネ
 
-		kClothSpringBufferStructIndexShear0,
-		kClothSpringBufferStructIndexShear1,
-		kClothSpringBufferStructIndexShear2,
-		kClothSpringBufferStructIndexShear3,
+		kClothSpringBufferStructIndexShear0, // せん断バネ、質点がかぶらないよう4つ
+		kClothSpringBufferStructIndexShear1, // せん断バネ
+		kClothSpringBufferStructIndexShear2, // せん断バネ
+		kClothSpringBufferStructIndexShear3, // せん断バネ
 
-		kClothSpringBufferStructIndexBending0,
-		kClothSpringBufferStructIndexBending1,
-		kClothSpringBufferStructIndexBending2,
-		kClothSpringBufferStructIndexBending3,
+		kClothSpringBufferStructIndexBending0, // 曲げバネ、質点がかぶらないよう4つ
+		kClothSpringBufferStructIndexBending1, // 曲げバネ
+		kClothSpringBufferStructIndexBending2, // 曲げバネ
+		kClothSpringBufferStructIndexBending3, // 曲げバネ
 
 		kClothSpringBufferStructIndexOfCount // 数える用
 	};
@@ -275,6 +275,21 @@ private: // CSの初期化、設定
 	/// </summary>
 	/// <param name="device"></param>
 	static void PipelineStateCSInitializeForUpdateVertex(ID3D12Device* device);
+
+	/// <summary>
+	/// パイプラインステートの初期化 共通関数
+	/// </summary>
+	/// <param name="device">デバイス</param>
+	/// <param name="rootParameters">ルートパラメータ</param>
+	/// <param name="numParameters">ルートパラメータ数</param>
+	/// <param name="pipelineStateCSIndex">どのパイプラインか</param>
+	/// <param name="filePath">HLSLのファイルパス</param>
+	static void PipelineStateCSCommonInitialize(
+		ID3D12Device* device,
+		D3D12_ROOT_PARAMETER* rootParameters,
+		uint32_t numParameters,
+		PipelineStateCSIndex pipelineStateCSIndex,
+		const std::wstring& filePath);
 
 public: // メンバ関数
 

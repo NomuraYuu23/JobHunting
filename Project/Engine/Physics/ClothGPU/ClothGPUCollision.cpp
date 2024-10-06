@@ -244,10 +244,6 @@ void ClothGPUCollision::PlaneExecution(
 	uint32_t dispatchNum)
 {
 
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-
 	commandList->SetPipelineState(pipelineStatesCS_[kCollisionTypeIndexPlane].Get());//PS0を設定
 	commandList->SetComputeRootSignature(rootSignaturesCS_[kCollisionTypeIndexPlane].Get());
 
@@ -268,10 +264,6 @@ void ClothGPUCollision::SphereExecution(
 	ID3D12Resource* numsBuffer, 
 	uint32_t dispatchNum)
 {
-
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	commandList->SetPipelineState(pipelineStatesCS_[kCollisionTypeIndexSphere].Get());//PS0を設定
 	commandList->SetComputeRootSignature(rootSignaturesCS_[kCollisionTypeIndexSphere].Get());

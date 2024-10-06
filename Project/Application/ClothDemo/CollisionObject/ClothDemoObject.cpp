@@ -4,6 +4,7 @@
 void ClothDemoObject::Draw(BaseCamera& camera)
 {
 
+    // 出現してないなら描画しない
     if (!exist_) {
         return;
     }

@@ -49,6 +49,7 @@ void ClothGPU::StaticInitialize(
 void ClothGPU::PipelineStateCSInitialize(ID3D12Device* device)
 {
 
+	// それぞれCS初期化
 	PipelineStateCSInitializeForInitVertex(device);
 	PipelineStateCSInitializeForInitMassPoint(device);
 	PipelineStateCSInitializeForInitSurface(device);
@@ -62,9 +63,6 @@ void ClothGPU::PipelineStateCSInitialize(ID3D12Device* device)
 
 void ClothGPU::PipelineStateCSInitializeForInitVertex(ID3D12Device* device)
 {
-
-	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
-	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
 	D3D12_ROOT_PARAMETER rootParameters[4] = {};
@@ -100,64 +98,18 @@ void ClothGPU::PipelineStateCSInitializeForInitVertex(ID3D12Device* device)
 	rootParameters[3].DescriptorTable.pDescriptorRanges = massPointDescriptorRange;//Tableの中身の配列を指定
 	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(massPointDescriptorRange);//Tableで利用する数
 
-	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
-	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
-
-	// サンプラー
-	D3D12_STATIC_SAMPLER_DESC samplerDesc[1] = {};
-	samplerDesc[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-	samplerDesc[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].MipLODBias = 0.0f;
-	samplerDesc[0].MaxAnisotropy = 0;
-	samplerDesc[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	samplerDesc[0].BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
-	samplerDesc[0].MinLOD = 0.0f;
-	samplerDesc[0].MaxLOD = 3.402823466e+38f;
-	samplerDesc[0].RegisterSpace = 0;
-	samplerDesc[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-	descriptionRootsignature.pStaticSamplers = samplerDesc;
-	descriptionRootsignature.NumStaticSamplers = _countof(samplerDesc);
-
-	//シリアライズしてバイナリにする
-	ID3DBlob* signatureBlob = nullptr;
-	ID3DBlob* errorBlob = nullptr;
-	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootsignature,
-		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
-	if (FAILED(hr)) {
-		Log::Message(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
-		assert(false);
-	}
-
-	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
-		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexInitVertex]));
-	assert(SUCCEEDED(hr));
-
-	// シェーダコンパイル
-	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/ClothGPU/ClothInitVertex.CS.hlsl",
-		L"cs_6_0",
-		L"main");
-
-	// パイプライン
-	D3D12_COMPUTE_PIPELINE_STATE_DESC desc{};
-	desc.CS.pShaderBytecode = shader->GetBufferPointer();
-	desc.CS.BytecodeLength = shader->GetBufferSize();
-	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-	desc.NodeMask = 0;
-	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexInitVertex].Get();
-
-	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexInitVertex]));
-	assert(SUCCEEDED(hr));
+	// 共通関数に送る
+	PipelineStateCSCommonInitialize(
+		device,
+		rootParameters,
+		_countof(rootParameters),
+		kPipelineStateCSIndexInitVertex,
+		L"Resources/shaders/ClothGPU/ClothInitVertex.CS.hlsl");
 
 }
 
 void ClothGPU::PipelineStateCSInitializeForInitMassPoint(ID3D12Device* device)
 {
-
-	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
-	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
 	D3D12_ROOT_PARAMETER rootParameters[4] = {};
@@ -193,64 +145,18 @@ void ClothGPU::PipelineStateCSInitializeForInitMassPoint(ID3D12Device* device)
 	rootParameters[3].DescriptorTable.pDescriptorRanges = descriptorRange1;//Tableの中身の配列を指定
 	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange1);//Tableで利用する数
 
-	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
-	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
-
-	// サンプラー
-	D3D12_STATIC_SAMPLER_DESC samplerDesc[1] = {};
-	samplerDesc[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-	samplerDesc[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].MipLODBias = 0.0f;
-	samplerDesc[0].MaxAnisotropy = 0;
-	samplerDesc[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	samplerDesc[0].BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
-	samplerDesc[0].MinLOD = 0.0f;
-	samplerDesc[0].MaxLOD = 3.402823466e+38f;
-	samplerDesc[0].RegisterSpace = 0;
-	samplerDesc[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-	descriptionRootsignature.pStaticSamplers = samplerDesc;
-	descriptionRootsignature.NumStaticSamplers = _countof(samplerDesc);
-
-	//シリアライズしてバイナリにする
-	ID3DBlob* signatureBlob = nullptr;
-	ID3DBlob* errorBlob = nullptr;
-	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootsignature,
-		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
-	if (FAILED(hr)) {
-		Log::Message(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
-		assert(false);
-	}
-
-	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
-		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexInitMassPoint]));
-	assert(SUCCEEDED(hr));
-
-	// シェーダコンパイル
-	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/ClothGPU/ClothInitMassPoint.CS.hlsl",
-		L"cs_6_0",
-		L"main");
-
-	// パイプライン
-	D3D12_COMPUTE_PIPELINE_STATE_DESC desc{};
-	desc.CS.pShaderBytecode = shader->GetBufferPointer();
-	desc.CS.BytecodeLength = shader->GetBufferSize();
-	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-	desc.NodeMask = 0;
-	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexInitMassPoint].Get();
-
-	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexInitMassPoint]));
-	assert(SUCCEEDED(hr));
+	// 共通関数に送る
+	PipelineStateCSCommonInitialize(
+		device,
+		rootParameters,
+		_countof(rootParameters),
+		kPipelineStateCSIndexInitMassPoint,
+		L"Resources/shaders/ClothGPU/ClothInitMassPoint.CS.hlsl");
 
 }
 
 void ClothGPU::PipelineStateCSInitializeForInitSurface(ID3D12Device* device)
 {
-
-	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
-	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
 	D3D12_ROOT_PARAMETER rootParameters[3] = {};
@@ -282,64 +188,18 @@ void ClothGPU::PipelineStateCSInitializeForInitSurface(ID3D12Device* device)
 	rootParameters[2].DescriptorTable.pDescriptorRanges = massPointDescriptorRange;//Tableの中身の配列を指定
 	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(massPointDescriptorRange);//Tableで利用する数
 
-	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
-	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
-
-	// サンプラー
-	D3D12_STATIC_SAMPLER_DESC samplerDesc[1] = {};
-	samplerDesc[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-	samplerDesc[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].MipLODBias = 0.0f;
-	samplerDesc[0].MaxAnisotropy = 0;
-	samplerDesc[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	samplerDesc[0].BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
-	samplerDesc[0].MinLOD = 0.0f;
-	samplerDesc[0].MaxLOD = 3.402823466e+38f;
-	samplerDesc[0].RegisterSpace = 0;
-	samplerDesc[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-	descriptionRootsignature.pStaticSamplers = samplerDesc;
-	descriptionRootsignature.NumStaticSamplers = _countof(samplerDesc);
-
-	//シリアライズしてバイナリにする
-	ID3DBlob* signatureBlob = nullptr;
-	ID3DBlob* errorBlob = nullptr;
-	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootsignature,
-		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
-	if (FAILED(hr)) {
-		Log::Message(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
-		assert(false);
-	}
-
-	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
-		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexInitSurface]));
-	assert(SUCCEEDED(hr));
-
-	// シェーダコンパイル
-	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/ClothGPU/ClothInitSurface.CS.hlsl",
-		L"cs_6_0",
-		L"main");
-
-	// パイプライン
-	D3D12_COMPUTE_PIPELINE_STATE_DESC desc{};
-	desc.CS.pShaderBytecode = shader->GetBufferPointer();
-	desc.CS.BytecodeLength = shader->GetBufferSize();
-	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-	desc.NodeMask = 0;
-	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexInitSurface].Get();
-
-	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexInitSurface]));
-	assert(SUCCEEDED(hr));
+	// 共通関数に送る
+	PipelineStateCSCommonInitialize(
+		device,
+		rootParameters,
+		_countof(rootParameters),
+		kPipelineStateCSIndexInitSurface,
+		L"Resources/shaders/ClothGPU/ClothInitSurface.CS.hlsl");
 
 }
 
 void ClothGPU::PipelineStateCSInitializeForUpdateExternalOperation(ID3D12Device* device)
 {
-
-	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
-	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
 	D3D12_ROOT_PARAMETER rootParameters[3] = {};
@@ -371,64 +231,18 @@ void ClothGPU::PipelineStateCSInitializeForUpdateExternalOperation(ID3D12Device*
 	rootParameters[2].DescriptorTable.pDescriptorRanges = descriptorRange1;//Tableの中身の配列を指定
 	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange1);//Tableで利用する数
 
-	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
-	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
-
-	// サンプラー
-	D3D12_STATIC_SAMPLER_DESC samplerDesc[1] = {};
-	samplerDesc[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-	samplerDesc[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].MipLODBias = 0.0f;
-	samplerDesc[0].MaxAnisotropy = 0;
-	samplerDesc[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	samplerDesc[0].BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
-	samplerDesc[0].MinLOD = 0.0f;
-	samplerDesc[0].MaxLOD = 3.402823466e+38f;
-	samplerDesc[0].RegisterSpace = 0;
-	samplerDesc[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-	descriptionRootsignature.pStaticSamplers = samplerDesc;
-	descriptionRootsignature.NumStaticSamplers = _countof(samplerDesc);
-
-	//シリアライズしてバイナリにする
-	ID3DBlob* signatureBlob = nullptr;
-	ID3DBlob* errorBlob = nullptr;
-	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootsignature,
-		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
-	if (FAILED(hr)) {
-		Log::Message(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
-		assert(false);
-	}
-
-	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
-		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexUpdateExternalOperation]));
-	assert(SUCCEEDED(hr));
-
-	// シェーダコンパイル
-	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/ClothGPU/ClothUpdateExternalOperation.CS.hlsl",
-		L"cs_6_0",
-		L"main");
-
-	// パイプライン
-	D3D12_COMPUTE_PIPELINE_STATE_DESC desc{};
-	desc.CS.pShaderBytecode = shader->GetBufferPointer();
-	desc.CS.BytecodeLength = shader->GetBufferSize();
-	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-	desc.NodeMask = 0;
-	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexUpdateExternalOperation].Get();
-
-	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexUpdateExternalOperation]));
-	assert(SUCCEEDED(hr));
+	// 共通関数に送る
+	PipelineStateCSCommonInitialize(
+		device,
+		rootParameters,
+		_countof(rootParameters),
+		kPipelineStateCSIndexUpdateExternalOperation,
+		L"Resources/shaders/ClothGPU/ClothUpdateExternalOperation.CS.hlsl");
 
 }
 
 void ClothGPU::PipelineStateCSInitializeForUpdateIntegral(ID3D12Device* device)
 {
-
-	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
-	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
 	D3D12_ROOT_PARAMETER rootParameters[4] = {};
@@ -457,64 +271,18 @@ void ClothGPU::PipelineStateCSInitializeForUpdateIntegral(ID3D12Device* device)
 	rootParameters[3].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableの中身の配列を指定
 	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);//Tableで利用する数
 
-	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
-	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
-
-	// サンプラー
-	D3D12_STATIC_SAMPLER_DESC samplerDesc[1] = {};
-	samplerDesc[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-	samplerDesc[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].MipLODBias = 0.0f;
-	samplerDesc[0].MaxAnisotropy = 0;
-	samplerDesc[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	samplerDesc[0].BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
-	samplerDesc[0].MinLOD = 0.0f;
-	samplerDesc[0].MaxLOD = 3.402823466e+38f;
-	samplerDesc[0].RegisterSpace = 0;
-	samplerDesc[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-	descriptionRootsignature.pStaticSamplers = samplerDesc;
-	descriptionRootsignature.NumStaticSamplers = _countof(samplerDesc);
-
-	//シリアライズしてバイナリにする
-	ID3DBlob* signatureBlob = nullptr;
-	ID3DBlob* errorBlob = nullptr;
-	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootsignature,
-		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
-	if (FAILED(hr)) {
-		Log::Message(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
-		assert(false);
-	}
-
-	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
-		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexUpdateIntegral]));
-	assert(SUCCEEDED(hr));
-
-	// シェーダコンパイル
-	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/ClothGPU/ClothUpdateIntegral.CS.hlsl",
-		L"cs_6_0",
-		L"main");
-
-	// パイプライン
-	D3D12_COMPUTE_PIPELINE_STATE_DESC desc{};
-	desc.CS.pShaderBytecode = shader->GetBufferPointer();
-	desc.CS.BytecodeLength = shader->GetBufferSize();
-	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-	desc.NodeMask = 0;
-	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexUpdateIntegral].Get();
-
-	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexUpdateIntegral]));
-	assert(SUCCEEDED(hr));
+	// 共通関数に送る
+	PipelineStateCSCommonInitialize(
+		device,
+		rootParameters,
+		_countof(rootParameters),
+		kPipelineStateCSIndexUpdateIntegral,
+		L"Resources/shaders/ClothGPU/ClothUpdateIntegral.CS.hlsl");
 
 }
 
 void ClothGPU::PipelineStateCSInitializeForUpdateSpring(ID3D12Device* device)
 {
-
-	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
-	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
 	D3D12_ROOT_PARAMETER rootParameters[6] = {};
@@ -565,63 +333,18 @@ void ClothGPU::PipelineStateCSInitializeForUpdateSpring(ID3D12Device* device)
 	rootParameters[5].DescriptorTable.pDescriptorRanges = descriptorRange2;//Tableの中身の配列を指定
 	rootParameters[5].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange2);//Tableで利用する数
 
-	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
-	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
-
-	// サンプラー
-	D3D12_STATIC_SAMPLER_DESC samplerDesc[1] = {};
-	samplerDesc[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-	samplerDesc[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].MipLODBias = 0.0f;
-	samplerDesc[0].MaxAnisotropy = 0;
-	samplerDesc[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	samplerDesc[0].BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
-	samplerDesc[0].MinLOD = 0.0f;
-	samplerDesc[0].MaxLOD = 3.402823466e+38f;
-	samplerDesc[0].RegisterSpace = 0;
-	samplerDesc[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-	descriptionRootsignature.pStaticSamplers = samplerDesc;
-	descriptionRootsignature.NumStaticSamplers = _countof(samplerDesc);
-
-	//シリアライズしてバイナリにする
-	ID3DBlob* signatureBlob = nullptr;
-	ID3DBlob* errorBlob = nullptr;
-	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootsignature,
-		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
-	if (FAILED(hr)) {
-		Log::Message(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
-		assert(false);
-	}
-
-	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
-		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexUpdateSpring]));
-	assert(SUCCEEDED(hr));
-
-	// シェーダコンパイル
-	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/ClothGPU/ClothUpdateSpring.CS.hlsl",
-		L"cs_6_0",
-		L"main");
-
-	// パイプライン
-	D3D12_COMPUTE_PIPELINE_STATE_DESC desc{};
-	desc.CS.pShaderBytecode = shader->GetBufferPointer();
-	desc.CS.BytecodeLength = shader->GetBufferSize();
-	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-	desc.NodeMask = 0;
-	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexUpdateSpring].Get();
-
-	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexUpdateSpring]));
-	assert(SUCCEEDED(hr));
+	// 共通関数に送る
+	PipelineStateCSCommonInitialize(
+		device,
+		rootParameters,
+		_countof(rootParameters),
+		kPipelineStateCSIndexUpdateSpring,
+		L"Resources/shaders/ClothGPU/ClothUpdateSpring.CS.hlsl");
 
 }
 
 void ClothGPU::PipelineStateCSInitializeForUpdateSurface(ID3D12Device* device)
 {
-	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
-	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
 	D3D12_ROOT_PARAMETER rootParameters[3] = {};
@@ -653,64 +376,18 @@ void ClothGPU::PipelineStateCSInitializeForUpdateSurface(ID3D12Device* device)
 	rootParameters[2].DescriptorTable.pDescriptorRanges = descriptorRange1;//Tableの中身の配列を指定
 	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange1);//Tableで利用する数
 
-	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
-	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
-
-	// サンプラー
-	D3D12_STATIC_SAMPLER_DESC samplerDesc[1] = {};
-	samplerDesc[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-	samplerDesc[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc[0].MipLODBias = 0.0f;
-	samplerDesc[0].MaxAnisotropy = 0;
-	samplerDesc[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	samplerDesc[0].BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
-	samplerDesc[0].MinLOD = 0.0f;
-	samplerDesc[0].MaxLOD = 3.402823466e+38f;
-	samplerDesc[0].RegisterSpace = 0;
-	samplerDesc[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-	descriptionRootsignature.pStaticSamplers = samplerDesc;
-	descriptionRootsignature.NumStaticSamplers = _countof(samplerDesc);
-
-	//シリアライズしてバイナリにする
-	ID3DBlob* signatureBlob = nullptr;
-	ID3DBlob* errorBlob = nullptr;
-	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootsignature,
-		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
-	if (FAILED(hr)) {
-		Log::Message(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
-		assert(false);
-	}
-
-	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
-		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexUpdateSurface]));
-	assert(SUCCEEDED(hr));
-
-	// シェーダコンパイル
-	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/ClothGPU/ClothUpdateSurface.CS.hlsl",
-		L"cs_6_0",
-		L"main");
-
-	// パイプライン
-	D3D12_COMPUTE_PIPELINE_STATE_DESC desc{};
-	desc.CS.pShaderBytecode = shader->GetBufferPointer();
-	desc.CS.BytecodeLength = shader->GetBufferSize();
-	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-	desc.NodeMask = 0;
-	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexUpdateSurface].Get();
-
-	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexUpdateSurface]));
-	assert(SUCCEEDED(hr));
+	// 共通関数に送る
+	PipelineStateCSCommonInitialize(
+		device,
+		rootParameters,
+		_countof(rootParameters),
+		kPipelineStateCSIndexUpdateSurface,
+		L"Resources/shaders/ClothGPU/ClothUpdateSurface.CS.hlsl");
 
 }
 
 void ClothGPU::PipelineStateCSInitializeForUpdateVertex(ID3D12Device* device)
 {
-
-	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
-	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// ルートパラメータ
 	D3D12_ROOT_PARAMETER rootParameters[5] = {};
@@ -764,8 +441,29 @@ void ClothGPU::PipelineStateCSInitializeForUpdateVertex(ID3D12Device* device)
 	rootParameters[4].DescriptorTable.pDescriptorRanges = descriptorRange3;//Tableの中身の配列を指定
 	rootParameters[4].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange3);//Tableで利用する数
 
+	// 共通関数に送る
+	PipelineStateCSCommonInitialize(
+		device,
+		rootParameters,
+		_countof(rootParameters),
+		kPipelineStateCSIndexUpdateVertex,
+		L"Resources/shaders/ClothGPU/ClothUpdateVertex.CS.hlsl");
+
+}
+
+void ClothGPU::PipelineStateCSCommonInitialize(
+	ID3D12Device* device, 
+	D3D12_ROOT_PARAMETER* rootParameters,
+	uint32_t numParameters,
+	PipelineStateCSIndex pipelineStateCSIndex, 
+	const std::wstring& filePath)
+{
+
+	D3D12_ROOT_SIGNATURE_DESC descriptionRootsignature{};
+	descriptionRootsignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
 	descriptionRootsignature.pParameters = rootParameters; //ルートパラメータ配列へのポインタ
-	descriptionRootsignature.NumParameters = _countof(rootParameters); //配列の長さ
+	descriptionRootsignature.NumParameters = numParameters; //配列の長さ
 
 	// サンプラー
 	D3D12_STATIC_SAMPLER_DESC samplerDesc[1] = {};
@@ -795,12 +493,12 @@ void ClothGPU::PipelineStateCSInitializeForUpdateVertex(ID3D12Device* device)
 	}
 
 	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
-		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[kPipelineStateCSIndexUpdateVertex]));
+		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignaturesCS_[pipelineStateCSIndex]));
 	assert(SUCCEEDED(hr));
 
 	// シェーダコンパイル
 	IDxcBlob* shader = CompileShader::Compile(
-		L"Resources/shaders/ClothGPU/ClothUpdateVertex.CS.hlsl",
+		filePath,
 		L"cs_6_0",
 		L"main");
 
@@ -810,9 +508,9 @@ void ClothGPU::PipelineStateCSInitializeForUpdateVertex(ID3D12Device* device)
 	desc.CS.BytecodeLength = shader->GetBufferSize();
 	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
 	desc.NodeMask = 0;
-	desc.pRootSignature = rootSignaturesCS_[kPipelineStateCSIndexUpdateVertex].Get();
+	desc.pRootSignature = rootSignaturesCS_[pipelineStateCSIndex].Get();
 
-	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[kPipelineStateCSIndexUpdateVertex]));
+	hr = device->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pipelineStatesCS_[pipelineStateCSIndex]));
 	assert(SUCCEEDED(hr));
 
 }
@@ -820,6 +518,7 @@ void ClothGPU::PipelineStateCSInitializeForUpdateVertex(ID3D12Device* device)
 ClothGPU::~ClothGPU()
 {
 
+	// ディスクリプタヒープの場所を開ける
 	// 頂点
 	SRVDescriptorHerpManager::DescriptorHeapsMakeNull(vertUavIndexDescriptorHeap_);
 	SRVDescriptorHerpManager::DescriptorHeapsMakeNull(vertSrvIndexDescriptorHeap_);
@@ -846,14 +545,19 @@ void ClothGPU::Initialize(
 	const std::string textureName)
 {
 
+	// 数の初期化
 	NumInitialize(device, div);
 
+	// マテリアル初期化
 	MaterialInitialize(textureName);
 
+	// バッファ初期化
 	BufferInitialize(device, commandList, scale, div);
 
+	// CSでUAV初期化
 	InitializeCS(commandList);
 
+	// 衝突データをクリア
 	collisionDatas_.clear();
 
 }
@@ -971,11 +675,13 @@ void ClothGPU::NumInitialize(ID3D12Device* device, const Vector2& div)
 	NumsMap_->massPointNum_ = (static_cast<uint32_t>(div.y) + 1) * (static_cast<uint32_t>(div.x) + 1);
 
 	// バネ数
+	// 構成バネ
 	NumsMap_->structuralSpringNums_[0] = (static_cast<uint32_t>(div.y) + 1) * (static_cast<uint32_t>(div.x) / 2);
 	NumsMap_->structuralSpringNums_[1] = (static_cast<uint32_t>(div.y) + 1) * (static_cast<uint32_t>(div.x) / 2);
 	NumsMap_->structuralSpringNums_[2] = (static_cast<uint32_t>(div.y) / 2) * (static_cast<uint32_t>(div.x) + 1);
 	NumsMap_->structuralSpringNums_[3] = (static_cast<uint32_t>(div.y) / 2) * (static_cast<uint32_t>(div.x) + 1);
 
+	// 軸の分割数が奇数の場合追加する
 	if (static_cast<uint32_t>(div.x) % 2 == 1) {
 		NumsMap_->structuralSpringNums_[0] += static_cast<uint32_t>(div.y) + 1;
 	}
@@ -983,24 +689,29 @@ void ClothGPU::NumInitialize(ID3D12Device* device, const Vector2& div)
 		NumsMap_->structuralSpringNums_[2] += static_cast<uint32_t>(div.x) + 1;
 	}
 
+	// せん断バネ
 	NumsMap_->shearSpringNums_[0] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
 	NumsMap_->shearSpringNums_[1] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
 	NumsMap_->shearSpringNums_[2] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
 	NumsMap_->shearSpringNums_[3] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
 
+	//  Xの分割数が奇数の場合追加する
 	if (static_cast<uint32_t>(div.x) % 2 == 1) {
 		NumsMap_->shearSpringNums_[0] += static_cast<uint32_t>(div.y);
 		NumsMap_->shearSpringNums_[2] += static_cast<uint32_t>(div.y);
 	}
 
-
+	// 曲げバネ
+	// X
 	uint32_t bendingX = static_cast<uint32_t>(div.x) - 1;
 	uint32_t base = bendingX / 4;
 	uint32_t add = bendingX % 4;
 
+	// 4で割れる分の処理
 	NumsMap_->bendingSpringNums_[0] = (static_cast<uint32_t>(div.y) + 1) * 2 * base;
 	NumsMap_->bendingSpringNums_[1] = (static_cast<uint32_t>(div.y) + 1) * 2 * base;
 
+	// あまりが0以外の場合それぞれ追加する
 	if (add == 1 || add == 2) {
 		NumsMap_->bendingSpringNums_[0] += (static_cast<uint32_t>(div.y) + 1) * add;
 	}
@@ -1009,14 +720,16 @@ void ClothGPU::NumInitialize(ID3D12Device* device, const Vector2& div)
 		NumsMap_->bendingSpringNums_[1] += (static_cast<uint32_t>(div.y) + 1);
 	}
 
-
+	// Y
 	uint32_t bendingY = static_cast<uint32_t>(div.y) - 1;
 	base = bendingY / 4;
 	add = bendingY % 4;
 
+	// 4で割れる分の処理
 	NumsMap_->bendingSpringNums_[2] = (static_cast<uint32_t>(div.x) + 1) * 2 * base;
 	NumsMap_->bendingSpringNums_[3] = (static_cast<uint32_t>(div.x) + 1) * 2 * base;
 
+	// あまりが0以外の場合それぞれ追加する
 	if (add == 1 || add == 2) {
 		NumsMap_->bendingSpringNums_[2] += (static_cast<uint32_t>(div.x) + 1) * add;
 	}
@@ -1050,14 +763,19 @@ void ClothGPU::BufferInitialize(ID3D12Device* device,
 	const Vector2& div)
 {
 
+	// CBN
 	CBVInitialize(device, scale, div);
 
+	// SRV
 	SRVInitialize(device);
 
+	// バネバッファ
 	SpringBufferInitialize(device);
 
+	// 頂点バッファ
 	VertexBufferInitialize(device, commandList);
 
+	// UAV
 	UAVInitialize(device, commandList);
 
 }
@@ -1065,6 +783,7 @@ void ClothGPU::BufferInitialize(ID3D12Device* device,
 void ClothGPU::SpringBufferInitialize(ID3D12Device* device)
 {
 
+	// 初期化
 	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructural0].Initialize(device, NumsMap_->structuralSpringNums_[0]);
 	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructural1].Initialize(device, NumsMap_->structuralSpringNums_[1]);
 	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructural2].Initialize(device, NumsMap_->structuralSpringNums_[2]);
@@ -1257,23 +976,25 @@ void ClothGPU::SRVInitialize(ID3D12Device* device)
 		uint32_t mod = i % 6;
 		switch (mod)
 		{
+		// 左上
 		case 0:
 			massPointIndexMap_[i] = y * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + x;
 			break;
+		// 右上
 		case 1:
-			massPointIndexMap_[i] = y * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + x + 1;
-			break;
-		case 2:
-			massPointIndexMap_[i] = (y + 1) * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + x;
-			break;
 		case 3:
 			massPointIndexMap_[i] = y * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + x + 1;
 			break;
+		// 左下
+		case 2:
 		case 4:
 			massPointIndexMap_[i] = (y + 1) * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + x;
 			break;
+		// 右下
 		case 5:
 			massPointIndexMap_[i] = (y + 1) * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + x + 1;
+			
+			// 一周終了
 			x++;
 			if (x >= (createDataMap_->div_.x)) {
 				x = 0;
@@ -1352,6 +1073,10 @@ void ClothGPU::CBVInitialize(
 void ClothGPU::InitializeCS(ID3D12GraphicsCommandList* commandList)
 {
 
+	// SRV
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
 	InitVertexCS(commandList);
 
 	InitSurfaceCS(commandList);
@@ -1397,10 +1122,6 @@ void ClothGPU::InitializeCS(ID3D12GraphicsCommandList* commandList)
 void ClothGPU::InitVertexCS(ID3D12GraphicsCommandList* commandList)
 {
 
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-
 	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexInitVertex].Get());//PS0を設定
 	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexInitVertex].Get());
 
@@ -1418,10 +1139,6 @@ void ClothGPU::InitVertexCS(ID3D12GraphicsCommandList* commandList)
 
 void ClothGPU::InitMassPointCS(ID3D12GraphicsCommandList* commandList)
 {
-
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexInitMassPoint].Get());//PS0を設定
 	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexInitMassPoint].Get());
@@ -1441,10 +1158,6 @@ void ClothGPU::InitMassPointCS(ID3D12GraphicsCommandList* commandList)
 void ClothGPU::InitSurfaceCS(ID3D12GraphicsCommandList* commandList)
 {
 
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-
 	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexInitSurface].Get());//PS0を設定
 	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexInitSurface].Get());
 
@@ -1460,6 +1173,9 @@ void ClothGPU::InitSurfaceCS(ID3D12GraphicsCommandList* commandList)
 
 void ClothGPU::UpdateCS(ID3D12GraphicsCommandList* commandList)
 {
+
+	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	UpdateExternalOperationCS(commandList);
 
@@ -1478,10 +1194,6 @@ void ClothGPU::UpdateCS(ID3D12GraphicsCommandList* commandList)
 void ClothGPU::UpdateExternalOperationCS(ID3D12GraphicsCommandList* commandList)
 {
 
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-
 	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexUpdateExternalOperation].Get());//PS0を設定
 	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexUpdateExternalOperation].Get());
 
@@ -1499,10 +1211,6 @@ void ClothGPU::UpdateExternalOperationCS(ID3D12GraphicsCommandList* commandList)
 
 void ClothGPU::UpdateIntegralCS(ID3D12GraphicsCommandList* commandList)
 {
-
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexUpdateIntegral].Get());//PS0を設定
 	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexUpdateIntegral].Get());
@@ -1524,10 +1232,6 @@ void ClothGPU::UpdateIntegralCS(ID3D12GraphicsCommandList* commandList)
 void ClothGPU::UpdateSpringCS(ID3D12GraphicsCommandList* commandList)
 {
 
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-
 	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexUpdateSpring].Get());//PS0を設定
 	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexUpdateSpring].Get());
 
@@ -1541,6 +1245,7 @@ void ClothGPU::UpdateSpringCS(ID3D12GraphicsCommandList* commandList)
 
 	commandList->SetComputeRootDescriptorTable(5, springIndexUavHandleGPU_);
 
+	// 繰り返し計算してよりリアルに
 	for (int32_t i = 0; i < relaxation_; ++i) {
 
 		for (int32_t j = 0; j < kClothSpringBufferStructIndexOfCount; ++j) {
@@ -1571,10 +1276,6 @@ void ClothGPU::UpdateSpringCS(ID3D12GraphicsCommandList* commandList)
 void ClothGPU::UpdateCollisionCS(ID3D12GraphicsCommandList* commandList)
 {
 
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-
 	for (std::list<std::pair<std::string, std::unique_ptr<ClothGPUCollision>>>::iterator itr = collisionDatas_.begin();
 		itr != collisionDatas_.end(); ++itr) {
 	
@@ -1593,9 +1294,6 @@ void ClothGPU::UpdateCollisionCS(ID3D12GraphicsCommandList* commandList)
 
 void ClothGPU::UpdateSurfaceCS(ID3D12GraphicsCommandList* commandList)
 {
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexUpdateSurface].Get());//PS0を設定
 	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexUpdateSurface].Get());
@@ -1613,10 +1311,6 @@ void ClothGPU::UpdateSurfaceCS(ID3D12GraphicsCommandList* commandList)
 
 void ClothGPU::UpdateVertexCS(ID3D12GraphicsCommandList* commandList)
 {
-
-	// SRV
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	commandList->SetPipelineState(pipelineStatesCS_[kPipelineStateCSIndexUpdateVertex].Get());//PS0を設定
 	commandList->SetComputeRootSignature(rootSignaturesCS_[kPipelineStateCSIndexUpdateVertex].Get());
@@ -1754,31 +1448,30 @@ void ClothGPU::SpringGeneration(uint32_t x, uint32_t y, int32_t offsetX, int32_t
 		spring.naturalLength_ = Vector2::Length(distance);
 		// バネの種類
 		spring.type_ = type;
+
+		// バネのindex
+		uint32_t springIndex = 0;
 		
 		// 登録
 		if (spring.type_ == 0) {
 			if (offsetX == -1) {
 				// 0
 				if (targetX % 2 == 0) {
-					clothSpringBufferStructs_[0].map_[springInitNextIndexes_[0]] = spring;
-					springInitNextIndexes_[0]++;
+					springIndex = 0;
 				}
 				// 1
 				else {
-					clothSpringBufferStructs_[1].map_[springInitNextIndexes_[1]] = spring;
-					springInitNextIndexes_[1]++;
+					springIndex = 1;
 				}
 			}
 			else {
 				// 2
 				if (targetY % 2 == 0) {
-					clothSpringBufferStructs_[2].map_[springInitNextIndexes_[2]] = spring;
-					springInitNextIndexes_[2]++;
+					springIndex = 2;
 				}
 				// 3
 				else {
-					clothSpringBufferStructs_[3].map_[springInitNextIndexes_[3]] = spring;
-					springInitNextIndexes_[3]++;
+					springIndex = 3;
 				}
 			}
 		}
@@ -1786,25 +1479,21 @@ void ClothGPU::SpringGeneration(uint32_t x, uint32_t y, int32_t offsetX, int32_t
 			if (offsetX == -1) {
 				// 4
 				if (targetX % 2 == 0) {
-					clothSpringBufferStructs_[4].map_[springInitNextIndexes_[4]] = spring;
-					springInitNextIndexes_[4]++;
+					springIndex = 4;
 				}
 				// 5
 				else {
-					clothSpringBufferStructs_[5].map_[springInitNextIndexes_[5]] = spring;
-					springInitNextIndexes_[5]++;
+					springIndex = 5;
 				}
 			}
 			else {
 				// 6
 				if (targetX % 2 == 0) {
-					clothSpringBufferStructs_[6].map_[springInitNextIndexes_[6]] = spring;
-					springInitNextIndexes_[6]++;
+					springIndex = 6;
 				}
 				// 7
 				else {
-					clothSpringBufferStructs_[7].map_[springInitNextIndexes_[7]] = spring;
-					springInitNextIndexes_[7]++;
+					springIndex = 7;
 				}
 			}
 		}
@@ -1812,32 +1501,30 @@ void ClothGPU::SpringGeneration(uint32_t x, uint32_t y, int32_t offsetX, int32_t
 			if (offsetX == -2) {
 				// 8
 				if (targetX % 4 <= 1) {
-					clothSpringBufferStructs_[8].map_[springInitNextIndexes_[8]] = spring;
-					springInitNextIndexes_[8]++;
+					springIndex = 8;
 				}
 				// 9
 				else {
-					clothSpringBufferStructs_[9].map_[springInitNextIndexes_[9]] = spring;
-					springInitNextIndexes_[9]++;
+					springIndex = 9;
 				}
 			}
 			else {
 				// 10
 				if (targetY % 4 <= 1) {
-					clothSpringBufferStructs_[10].map_[springInitNextIndexes_[10]] = spring;
-					springInitNextIndexes_[10]++;
+					springIndex = 10;
 				}
 				// 11
 				else {
-					clothSpringBufferStructs_[11].map_[springInitNextIndexes_[11]] = spring;
-					springInitNextIndexes_[11]++;
+					springIndex = 11;
 				}
 			}
 
 		}
 
-	}
+		clothSpringBufferStructs_[springIndex].map_[springInitNextIndexes_[springIndex]] = spring;
+		springInitNextIndexes_[springIndex]++;
 
+	}
 
 }
 
@@ -1863,6 +1550,7 @@ void ClothGPU::CollisionDataRegistration(
 	ClothGPUCollision::CollisionTypeIndex collisionType)
 {
 
+	// 登録して初期化
 	collisionDatas_.emplace_back();
 	collisionDatas_.back().first = name;
 	collisionDatas_.back().second = std::make_unique<ClothGPUCollision>();
@@ -1874,7 +1562,7 @@ void ClothGPU::CollisionDataDelete(const std::string& name)
 {
 
 	uint32_t count = 0;
-
+	// 名前が一致したら削除
 	for (std::list<std::pair<std::string, std::unique_ptr<ClothGPUCollision>>>::iterator itr = collisionDatas_.begin();
 		itr != collisionDatas_.end(); ++itr) {
 		if (itr->first == name) {
@@ -1883,10 +1571,12 @@ void ClothGPU::CollisionDataDelete(const std::string& name)
 		count++;
 	}
 
+	// 名前が見つからない
 	if (static_cast<uint32_t>(collisionDatas_.size()) == count) {
 		return;
 	}
 
+	// 削除
 	collisionDatas_.erase(std::next(collisionDatas_.begin(), count));
 
 }
@@ -1896,6 +1586,7 @@ void ClothGPU::CollisionDataUpdate(
 	ClothGPUCollision::CollisionDataMap& collisionDataMap)
 {
 
+	// 名前が一致したら更新
 	for (std::list<std::pair<std::string, std::unique_ptr<ClothGPUCollision>>>::iterator itr = collisionDatas_.begin();
 		itr != collisionDatas_.end(); ++itr) {
 
