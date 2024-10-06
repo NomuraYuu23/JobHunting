@@ -279,6 +279,11 @@ private: // CSの初期化、設定
 public: // メンバ関数
 
 	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~ClothGPU();
+
+	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name="device">デバイス</param>

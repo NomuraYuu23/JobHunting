@@ -817,6 +817,27 @@ void ClothGPU::PipelineStateCSInitializeForUpdateVertex(ID3D12Device* device)
 
 }
 
+ClothGPU::~ClothGPU()
+{
+
+	// 頂点
+	SRVDescriptorHerpManager::DescriptorHeapsMakeNull(vertUavIndexDescriptorHeap_);
+	SRVDescriptorHerpManager::DescriptorHeapsMakeNull(vertSrvIndexDescriptorHeap_);
+
+	// SRV
+	SRVDescriptorHerpManager::DescriptorHeapsMakeNull(externalSrvIndexDescriptorHeap_);
+	SRVDescriptorHerpManager::DescriptorHeapsMakeNull(massPointIndexSrvIndexDescriptorHeap_);
+	for (uint32_t i = 0; i < kClothSpringBufferStructIndexOfCount; ++i) {
+		SRVDescriptorHerpManager::DescriptorHeapsMakeNull(clothSpringBufferStructs_[i].srvIndexDescriptorHeap_);
+	}
+
+	// URV
+	SRVDescriptorHerpManager::DescriptorHeapsMakeNull(surfaceDataUavIndexDescriptorHeap_);
+	SRVDescriptorHerpManager::DescriptorHeapsMakeNull(massPointUavIndexDescriptorHeap_);
+	SRVDescriptorHerpManager::DescriptorHeapsMakeNull(springIndexUavIndexDescriptorHeap_);
+
+}
+
 void ClothGPU::Initialize(
 	ID3D12Device* device, 
 	ID3D12GraphicsCommandList* commandList, 
