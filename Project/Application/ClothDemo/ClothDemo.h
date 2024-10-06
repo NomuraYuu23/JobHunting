@@ -81,6 +81,18 @@ private: // 布固定関数
 	/// </summary>
 	void ClothFixedTop();
 
+private: // オブジェクトの切り替え
+
+	/// <summary>
+	/// 平面
+	/// </summary>
+	void PlaneSwitching();
+
+	/// <summary>
+	/// 球
+	/// </summary>
+	void SphereSwitching();
+
 private: // メンバ変数
 
 	// 布
@@ -110,11 +122,9 @@ private: // 衝突オブジェクト
 
 	// 平面
 	std::unique_ptr<ClothDemoPlane> plane_;
-	std::string planeName_;
 
 	// 球
 	std::unique_ptr<ClothDemoSphere> sphere_;
-	std::string sphereName_;
 
 };
 

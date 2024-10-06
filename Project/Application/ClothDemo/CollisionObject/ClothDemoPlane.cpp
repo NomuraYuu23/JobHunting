@@ -1,7 +1,7 @@
 #include "ClothDemoPlane.h"
 #include "../../../Engine/2D/ImguiManager.h"
 
-void ClothDemoPlane::Initialize()
+void ClothDemoPlane::Initialize(const std::string& name)
 {
 
     // ファイル名前
@@ -28,6 +28,12 @@ void ClothDemoPlane::Initialize()
     
     // 大きさ
     worldTransform_.transform_.scale = kScale_;
+    
+    // デモに存在するか
+    exist_ = false;
+
+    // 名前
+   name_ = name;
 
 }
 

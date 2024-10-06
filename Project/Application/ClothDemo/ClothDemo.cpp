@@ -7,8 +7,8 @@ void ClothDemo::Initilalize(
 	SpotLightManager* spotLightManager)
 {
 
+	// エンジン
 	dxCommon_ = DirectXCommon::GetInstance();
-
 	input_ = Input::GetInstance();
 
 	// 布の静的初期化
@@ -18,7 +18,6 @@ void ClothDemo::Initilalize(
 		pointLightManager,
 		spotLightManager,
 		FogManager::GetInstance());
-
 	clothFixedFunctions_[kFixedIndexEnd] = std::bind(&ClothDemo::ClothFixedEnd, this);
 	clothFixedFunctions_[kFixedIndexTop] = std::bind(&ClothDemo::ClothFixedTop, this);
 
@@ -32,23 +31,20 @@ void ClothDemo::Initilalize(
 	// 布の初期化
 	clothGPU_ = std::make_unique<ClothGPU>();
 	clothGPU_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), clothScale_, clothDiv_, "Resources/default/clothDemo.png");
-
 	// リセット
 	ClothReset(kFixedIndexEnd);
 
 	// 平面
 	plane_ = std::make_unique<ClothDemoPlane>();
-	plane_->Initialize();
-	planeName_ = "plane";
+	plane_->Initialize("plane");
 
 	// 球
 	sphere_ = std::make_unique<ClothDemoSphere>();
-	sphere_->Initialize();
-	sphereName_ = "sphere";
+	sphere_->Initialize("sphere");
 
 	// 衝突オブジェクト登録
-	clothGPU_->CollisionDataRegistration(planeName_, ClothGPUCollision::kCollisionTypeIndexPlane);
-	clothGPU_->CollisionDataRegistration(sphereName_, ClothGPUCollision::kCollisionTypeIndexSphere);
+	PlaneSwitching();
+	SphereSwitching();
 
 }
 
@@ -57,29 +53,15 @@ void ClothDemo::Update()
 	// 布CPU側処理
 	clothGPU_->Update(dxCommon_->GetCommadList());
 
-	// 入力処理
-	if (input_->TriggerKey(DIK_P)) {
-		RemoveFixation();
-	}
-
-	if (input_->TriggerKey(DIK_R)) {
-		ClothReset(kFixedIndexEnd);
-	}
-
-	if (input_->TriggerKey(DIK_T)) {
-		ClothReset(kFixedIndexTop);
-	}
-
-
 	// 平面
 	plane_->Update();
 	ClothGPUCollision::CollisionDataMap planeData = plane_->GetData();
-	clothGPU_->CollisionDataUpdate(planeName_, planeData);
+	clothGPU_->CollisionDataUpdate(plane_->GetName(), planeData);
 
 	// 球
 	sphere_->Update();
 	ClothGPUCollision::CollisionDataMap sphereData = sphere_->GetData();
-	clothGPU_->CollisionDataUpdate(sphereName_, sphereData);
+	clothGPU_->CollisionDataUpdate(sphere_->GetName(), sphereData);
 
 }
 
@@ -96,12 +78,28 @@ void ClothDemo::ImGuiDraw()
 	clothGPU_->ImGuiDraw("clothGPU");
 
 	ImGui::Begin("ClothDemo");
-	// リセット位置
+	// 布
+	ImGui::Text("Cloth");
 	ImGui::DragFloat3("ResetPosition", &resetPosition_.x, 0.01f);
+	if (ImGui::Button("RemoveFixation")) {
+		RemoveFixation();
+	}
+	if (ImGui::Button("Reset_FixedEnd")) {
+		ClothReset(kFixedIndexEnd);
+	}
+	if (ImGui::Button("Reset_FixedTop")) {
+		ClothReset(kFixedIndexTop);
+	}
 	// 平面
 	plane_->ImGuiDraw();
+	if (ImGui::Button("PlaneSwitching")) {
+		PlaneSwitching();
+	}
 	// 球
 	sphere_->ImGuiDraw();
+	if (ImGui::Button("SphereSwitching")) {
+		SphereSwitching();
+	}
 	ImGui::End();
 
 }
@@ -171,6 +169,38 @@ void ClothDemo::ClothFixedTop()
 		clothGPU_->SetPosition(0, x, 
 			{ resetPosition_.x - (clothScale_.x / 2.0f) + (clothScale_.x * (static_cast<float>(x) / clothDiv_.x)),
 			resetPosition_.y, resetPosition_.z});
+	}
+
+}
+
+void ClothDemo::PlaneSwitching()
+{
+
+	if (plane_->GetExist()) {
+		// 削除
+		clothGPU_->CollisionDataDelete(plane_->GetName());
+		plane_->SetExsit(false);
+	}
+	else {
+		// 登録
+		clothGPU_->CollisionDataRegistration(plane_->GetName(), ClothGPUCollision::kCollisionTypeIndexPlane);
+		plane_->SetExsit(true);
+	}
+
+}
+
+void ClothDemo::SphereSwitching()
+{
+
+	if (sphere_->GetExist()) {
+		// 削除
+		clothGPU_->CollisionDataDelete(sphere_->GetName());
+		sphere_->SetExsit(false);
+	}
+	else {
+		// 登録
+		clothGPU_->CollisionDataRegistration(sphere_->GetName(), ClothGPUCollision::kCollisionTypeIndexSphere);
+		sphere_->SetExsit(true);
 	}
 
 }

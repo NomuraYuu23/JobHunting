@@ -541,6 +541,12 @@ public: // その他関数
 		ClothGPUCollision::CollisionTypeIndex collisionType);
 
 	/// <summary>
+	/// 衝突判定削除
+	/// </summary>
+	/// <param name="name">名前</param>
+	void CollisionDataDelete(const std::string& name);
+
+	/// <summary>
 	/// 衝突判定更新
 	/// </summary>
 	/// <param name="name">名前</param>
@@ -688,7 +694,7 @@ private: // 変数
 	int32_t relaxation_;
 
 	// 衝突データ
-	std::vector<std::pair<std::string, std::unique_ptr<ClothGPUCollision>>> collisionDatas_;
+	std::list<std::pair<std::string, std::unique_ptr<ClothGPUCollision>>> collisionDatas_;
 
 };
 

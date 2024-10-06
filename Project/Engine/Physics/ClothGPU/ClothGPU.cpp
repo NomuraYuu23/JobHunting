@@ -1575,9 +1575,10 @@ void ClothGPU::UpdateCollisionCS(ID3D12GraphicsCommandList* commandList)
 	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
 	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
-	for (size_t i = 0; i < collisionDatas_.size(); ++i) {
-
-		collisionDatas_[i].second->ExecutionCS(
+	for (std::list<std::pair<std::string, std::unique_ptr<ClothGPUCollision>>>::iterator itr = collisionDatas_.begin();
+		itr != collisionDatas_.end(); ++itr) {
+	
+		itr->second->ExecutionCS(
 			commandList,
 			&massPointUavHandleGPU_,
 			NumsBuff_.Get(),
@@ -1869,15 +1870,37 @@ void ClothGPU::CollisionDataRegistration(
 
 }
 
+void ClothGPU::CollisionDataDelete(const std::string& name)
+{
+
+	uint32_t count = 0;
+
+	for (std::list<std::pair<std::string, std::unique_ptr<ClothGPUCollision>>>::iterator itr = collisionDatas_.begin();
+		itr != collisionDatas_.end(); ++itr) {
+		if (itr->first == name) {
+			break;
+		}
+		count++;
+	}
+
+	if (static_cast<uint32_t>(collisionDatas_.size()) == count) {
+		return;
+	}
+
+	collisionDatas_.erase(std::next(collisionDatas_.begin(), count));
+
+}
+
 void ClothGPU::CollisionDataUpdate(
 	const std::string& name,
 	ClothGPUCollision::CollisionDataMap& collisionDataMap)
 {
 
-	for (size_t i = 0; i < collisionDatas_.size(); ++i) {
+	for (std::list<std::pair<std::string, std::unique_ptr<ClothGPUCollision>>>::iterator itr = collisionDatas_.begin();
+		itr != collisionDatas_.end(); ++itr) {
 
-		if (name == collisionDatas_[i].first) {
-			collisionDatas_[i].second->Update(collisionDataMap);
+		if (name == itr->first) {
+			itr->second->Update(collisionDataMap);
 			break;
 		}
 

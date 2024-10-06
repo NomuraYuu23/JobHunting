@@ -1,7 +1,7 @@
 #include "ClothDemoSphere.h"
 #include "../../../Engine/2D/ImguiManager.h"
 
-void ClothDemoSphere::Initialize()
+void ClothDemoSphere::Initialize(const std::string& name)
 {
 
     // ファイル名前
@@ -25,6 +25,12 @@ void ClothDemoSphere::Initialize()
 
     // 画面ちらつかないようの値
     screenDoesNotFlickerValue_ = 0.01f;
+
+    // デモに存在するか
+    exist_ = false;
+
+    // 名前
+    name_ = name;
 
 }
 

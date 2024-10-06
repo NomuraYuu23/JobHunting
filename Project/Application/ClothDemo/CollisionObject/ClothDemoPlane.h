@@ -11,7 +11,8 @@ public:
     /// <summary>
     /// 初期化
     /// </summary>
-    void Initialize() override;
+    /// <param name="name">名前</param>
+    void Initialize(const std::string& name) override;
 
     /// <summary>
     /// 更新

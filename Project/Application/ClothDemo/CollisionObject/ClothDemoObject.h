@@ -10,7 +10,8 @@ public:
     /// <summary>
     /// 初期化
     /// </summary>
-    virtual void Initialize() = 0;
+    /// <param name="name">名前</param>
+    virtual void Initialize(const std::string& name) = 0;
 
     /// <summary>
     /// 更新
@@ -28,6 +29,26 @@ public:
     /// </summary>
     virtual void ImGuiDraw() = 0;
 
+public: // アクセッサ
+
+    /// <summary>
+    /// デモに存在するか
+    /// </summary>
+    /// <returns></returns>
+    bool GetExist() { return exist_; }
+
+    /// <summary>
+    /// デモに存在するか
+    /// </summary>
+    /// <param name="exist"></param>
+    void SetExsit(bool exist) { exist_ = exist; }
+
+    /// <summary>
+    /// 名前
+    /// </summary>
+    /// <returns></returns>
+    std::string GetName() { return name_; }
+
 protected:
 
     // トランスフォーム
@@ -44,6 +65,12 @@ protected:
 
     // マテリアル
     std::unique_ptr<Material> material_;
+
+    // デモに存在するか
+    bool exist_;
+
+    // 名前
+    std::string name_;
 
 };
 

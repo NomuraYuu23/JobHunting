@@ -4,6 +4,10 @@
 void ClothDemoObject::Draw(BaseCamera& camera)
 {
 
+    if (!exist_) {
+        return;
+    }
+
     ModelDraw::NormalObjectDesc desc;
 
     desc.model = model_.get();
