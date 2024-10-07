@@ -341,10 +341,10 @@ void Player::OnCollisionObstacle(ColliderParentObject colliderPartner, const Col
 
 }
 
-void Player::SetCloakPosition()
+void Player::ResetCloakPosition()
 {
 
-	// 
+	// 位置をリセット
 	for (uint32_t y = 0; y <= static_cast<uint32_t>(cloakDiv_.y); ++y) {
 		for (uint32_t x = 0; x <= static_cast<uint32_t>(cloakDiv_.x); ++x) {
 			cloak_->SetWeight(y, x, true);
@@ -363,7 +363,7 @@ void Player::CloakNodeFollowing()
 	parentRightNodeData_->matrix.m[3][1],
 	parentRightNodeData_->matrix.m[3][2] };
 
-	pos += cloakRightLocalPos_;
+	pos += Matrix4x4::TransformNormal(kCloakRightLocalPos_, parentRightNodeData_->matrix);
 	pos = Matrix4x4::Transform(pos, worldTransform_.parentMatrix_);
 
 	// 回転行列
@@ -393,7 +393,7 @@ void Player::CloakNodeFollowing()
 	parentLeftNodeData_->matrix.m[3][1],
 	parentLeftNodeData_->matrix.m[3][2] };
 
-	pos += cloakLeftLocalPos_;
+	pos += Matrix4x4::TransformNormal(kCloakLeftLocalPos_, parentLeftNodeData_->matrix);
 	pos = Matrix4x4::Transform(pos, worldTransform_.parentMatrix_);
 
 	// 回転行列
@@ -422,17 +422,20 @@ void Player::CloakNodeFollowing()
 void Player::CloakInitialize()
 {
 
+	// 分割数決定
 	cloakDiv_ = Vector2{ 15.0f, 15.0f };
-
+	// 大きさ
 	cloakScale_ = Vector2{ 2.0f, 0.6f };
 
+	// 初期化
 	cloak_ = std::make_unique<ClothGPU>();
 	cloak_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), cloakScale_, cloakDiv_, "Resources/Sprite/Cloth/PlayerCloth.png");
 
-	cloakIsPosSet_ = true;
+	// 位置を設定する
+	cloakIsPositionSet_ = true;
 
+	// 親ノード作成
 	std::vector<std::string> names = localMatrixManager_->GetNodeNames();
-
 	const std::string& parentRightName = "mixamorig:RightArm";
 	const std::string& parentLeftName = "mixamorig:LeftArm";
 
@@ -445,7 +448,8 @@ void Player::CloakInitialize()
 		}
 	}
 
-	cloak_->SetStiffness(200.0f);
+	// 布のバネ設定
+	cloak_->SetStiffness(100.0f);
 	cloak_->SetSpeedResistance(0.9f);
 	cloak_->SetStructuralShrink(50.0f);
 	cloak_->SetStructuralStretch(50.0f);
@@ -454,12 +458,7 @@ void Player::CloakInitialize()
 	cloak_->SetBendingShrink(50.0f);
 	cloak_->SetBendingStretch(50.0f);
 
-
-	cloakRightLocalPos_ = {0.15f, 0.3f, 0.0f};
-	cloakLeftLocalPos_ = { -0.15f, 0.3f, 0.0f };
-
-	SetCloakPosition();
-
+	// ノード追従
 	CloakNodeFollowing();
 
 	// 固定する
@@ -476,10 +475,18 @@ void Player::CloakInitialize()
 	cloak_->SetPosition(static_cast<uint32_t>(cloakDiv_.y) - 1, 0, cloakLeftPos_);
 	cloak_->SetWeight(static_cast<uint32_t>(cloakDiv_.y) - 2, 0, false);
 	cloak_->SetPosition(static_cast<uint32_t>(cloakDiv_.y) - 2, 0, cloakLeftPos_);
-
+	
+	// 衝突で移動制限
 	cloak_->CollisionDataRegistration("Ceiling", ClothGPUCollision::kCollisionTypeIndexPlane);
-	ClothGPUCollision::CollisionDataMap collisiondata = kCloakCeiling_;
+	cloakCeiling_ = { { 0.0f,-1.0f,0.0f }, -2.5f };
+	ClothGPUCollision::CollisionDataMap collisiondata = cloakCeiling_;
 	cloak_->CollisionDataUpdate("Ceiling", collisiondata);
+
+	cloak_->CollisionDataRegistration("Back", ClothGPUCollision::kCollisionTypeIndexSphere);
+	cloakBack_.radius_ = kCloakBackRadius_;
+	cloakBack_.position_ = worldTransform_.GetWorldPosition() + Matrix4x4::TransformNormal(kCloakBackLocalPositon_, worldTransform_.rotateMatrix_);
+	collisiondata = cloakBack_;
+	cloak_->CollisionDataUpdate("Back", collisiondata);
 
 }
 
@@ -493,17 +500,21 @@ void Player::CloakUpdate()
 
 	Vector3 dir = worldTransform_.direction_ * -1.0f;
 
-	Vector3 wind = { 0.0f, 0.0f, dir.z * distribution(randomEngine) };
+	Vector3 wind = { dir.x * distribution(randomEngine), 0.0f, dir.z * distribution(randomEngine) };
 
+	//風
 	cloak_->SetWind(wind);
 
+	// 布更新
 	cloak_->Update(dxCommon_->GetCommadList());
 
-	if (cloakIsPosSet_) {
-		SetCloakPosition();
-		cloakIsPosSet_ = false;
+	// 位置をリセット
+	if (cloakIsPositionSet_){
+		ResetCloakPosition();
+		cloakIsPositionSet_ = false;
 	}
 
+	// ノード追従
 	CloakNodeFollowing();
 
 	// 固定する
@@ -520,6 +531,15 @@ void Player::CloakUpdate()
 	cloak_->SetPosition(static_cast<uint32_t>(cloakDiv_.y) - 1, 0, cloakLeftPos_);
 	cloak_->SetWeight(static_cast<uint32_t>(cloakDiv_.y) - 2, 0, false);
 	cloak_->SetPosition(static_cast<uint32_t>(cloakDiv_.y) - 2, 0, cloakLeftPos_);
+
+	// 衝突更新
+	cloakCeiling_.distance_ = -3.0f + -worldTransform_.GetWorldPosition().y;
+	ClothGPUCollision::CollisionDataMap collisiondata = cloakCeiling_;
+	cloak_->CollisionDataUpdate("Ceiling", collisiondata);
+
+	cloakBack_.position_ = worldTransform_.GetWorldPosition() + Matrix4x4::TransformNormal(kCloakBackLocalPositon_, worldTransform_.rotateMatrix_);
+	collisiondata = cloakBack_;
+	cloak_->CollisionDataUpdate("Back", collisiondata);
 
 }
 

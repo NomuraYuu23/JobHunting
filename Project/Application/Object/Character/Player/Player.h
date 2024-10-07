@@ -217,7 +217,12 @@ private:
 
 	// マント
 	std::unique_ptr<ClothGPU> cloak_;
-	const ClothGPUCollision::Plane kCloakCeiling_ = { { 0.0f,-1.0f,0.0f }, -2.5f };
+	
+	// マント移動制限
+	ClothGPUCollision::Plane cloakCeiling_;
+	ClothGPUCollision::Sphere cloakBack_;
+	const Vector3 kCloakBackLocalPositon_ = {0.0f,1.0f,50.3f};
+	const float kCloakBackRadius_ = 50.0f;
 
 	// 分割数
 	Vector2 cloakDiv_;
@@ -226,23 +231,26 @@ private:
 	Vector2 cloakScale_;
 
 	// 位置を設定する
-	bool cloakIsPosSet_;
+	bool cloakIsPositionSet_;
 
+	// マント用ノード
 	NodeData* parentRightNodeData_;
 	NodeData* parentLeftNodeData_;
 
+	// 布の固定位置
 	Vector3 cloakRightPos_;
 	Vector3 cloakLeftPos_;
 
-	Vector3 cloakRightLocalPos_;
-	Vector3 cloakLeftLocalPos_;
+	// 布のローカル位置
+	const Vector3 kCloakRightLocalPos_ = { 15.0f, -19.0f, -21.0f};
+	const Vector3 kCloakLeftLocalPos_ = { -15.0f, -19.0f, -21.0f };
 
 private:
 
 	/// <summary>
-	/// 位置を設定
+	/// 位置をリセット
 	/// </summary>
-	void SetCloakPosition();
+	void ResetCloakPosition();
 
 	/// <summary>
 	/// ノード追従
