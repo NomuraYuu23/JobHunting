@@ -7,8 +7,7 @@ void AxSpearMan::Initialize(LevelData::MeshData* data)
 
 	BaseEnemy::Initialize(data);
 
-	height_ = 1.0f;
-	worldTransform_.transform_.translate.y = height_;
+	height_ = 3.0f;
 	worldTransform_.transform_.translate.x = 0.01f;
 	worldTransform_.direction_ = { 0.0f,0.0f,-1.0f };
 	worldTransform_.UpdateMatrix();
@@ -185,7 +184,7 @@ void AxSpearMan::ColliderUpdate()
 	OBB obb = std::get<OBB>(*collider_.get());
 
 	obb.center_ = worldTransform_.GetWorldPosition();
-	obb.center_.y += 2.0f;
+	obb.center_.y += height_;
 
 	ColliderShape* colliderShape = new ColliderShape();
 

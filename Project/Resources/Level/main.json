@@ -7,7 +7,7 @@
             "transform": {
                 "translation": [
                     0.0,
-                    20.0,
+                    -180.0,
                     0.0
                 ],
                 "rotation": [
@@ -44,7 +44,7 @@
             "transform": {
                 "translation": [
                     50.0,
-                    -50.0,
+                    -250.0,
                     10.0
                 ],
                 "rotation": [
@@ -81,7 +81,7 @@
             "transform": {
                 "translation": [
                     -50.0,
-                    50.0,
+                    -150.0,
                     10.0
                 ],
                 "rotation": [
@@ -118,7 +118,7 @@
             "transform": {
                 "translation": [
                     -50.0,
-                    -50.0,
+                    -250.0,
                     10.0
                 ],
                 "rotation": [
@@ -155,7 +155,7 @@
             "transform": {
                 "translation": [
                     50.0,
-                    50.0,
+                    -150.0,
                     10.0
                 ],
                 "rotation": [
@@ -192,7 +192,7 @@
             "transform": {
                 "translation": [
                     30.0,
-                    -50.0,
+                    -250.0,
                     10.0
                 ],
                 "rotation": [
@@ -229,7 +229,7 @@
             "transform": {
                 "translation": [
                     20.0,
-                    -70.0,
+                    -270.0,
                     10.0
                 ],
                 "rotation": [
@@ -266,7 +266,7 @@
             "transform": {
                 "translation": [
                     -20.0,
-                    -70.0,
+                    -270.0,
                     10.0
                 ],
                 "rotation": [
@@ -303,7 +303,7 @@
             "transform": {
                 "translation": [
                     -30.0,
-                    -50.0,
+                    -250.0,
                     10.0
                 ],
                 "rotation": [
@@ -340,7 +340,7 @@
             "transform": {
                 "translation": [
                     -50.0,
-                    -30.0,
+                    -230.0,
                     10.0
                 ],
                 "rotation": [
@@ -377,7 +377,7 @@
             "transform": {
                 "translation": [
                     -50.0,
-                    -10.0,
+                    -210.0,
                     10.0
                 ],
                 "rotation": [
@@ -414,7 +414,7 @@
             "transform": {
                 "translation": [
                     -50.0,
-                    10.0,
+                    -190.0,
                     10.0
                 ],
                 "rotation": [
@@ -451,7 +451,7 @@
             "transform": {
                 "translation": [
                     -50.0,
-                    30.0,
+                    -170.0,
                     10.0
                 ],
                 "rotation": [
@@ -488,7 +488,7 @@
             "transform": {
                 "translation": [
                     -30.0,
-                    50.0,
+                    -150.0,
                     10.0
                 ],
                 "rotation": [
@@ -525,7 +525,7 @@
             "transform": {
                 "translation": [
                     -10.0,
-                    50.0,
+                    -150.0,
                     10.0
                 ],
                 "rotation": [
@@ -562,7 +562,7 @@
             "transform": {
                 "translation": [
                     10.0,
-                    50.0,
+                    -150.0,
                     10.0
                 ],
                 "rotation": [
@@ -599,7 +599,7 @@
             "transform": {
                 "translation": [
                     30.0,
-                    50.0,
+                    -150.0,
                     10.0
                 ],
                 "rotation": [
@@ -636,7 +636,7 @@
             "transform": {
                 "translation": [
                     50.0,
-                    30.0,
+                    -170.0,
                     10.0
                 ],
                 "rotation": [
@@ -673,7 +673,7 @@
             "transform": {
                 "translation": [
                     50.0,
-                    10.0,
+                    -190.0,
                     10.0
                 ],
                 "rotation": [
@@ -710,7 +710,7 @@
             "transform": {
                 "translation": [
                     50.0,
-                    -10.0,
+                    -210.0,
                     10.0
                 ],
                 "rotation": [
@@ -747,7 +747,7 @@
             "transform": {
                 "translation": [
                     50.0,
-                    -30.0,
+                    -230.0,
                     10.0
                 ],
                 "rotation": [
@@ -821,7 +821,7 @@
             "transform": {
                 "translation": [
                     0.0,
-                    30.0,
+                    -170.0,
                     1.0
                 ],
                 "rotation": [
@@ -859,7 +859,7 @@
             "transform": {
                 "translation": [
                     -3.009931802749634,
-                    30.37826156616211,
+                    -169.62173461914062,
                     1.9278526306152344
                 ],
                 "rotation": [
@@ -926,784 +926,6 @@
                     1.0,
                     0.20000000298023224,
                     3.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Pillar0",
-            "transform": {
-                "translation": [
-                    0.0,
-                    -7.25,
-                    1.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "PillarFoundation.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "PillarFoundation",
-            "parentName": "",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block02.001",
-            "transform": {
-                "translation": [
-                    20.0,
-                    -90.00694274902344,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block03.001",
-            "transform": {
-                "translation": [
-                    -20.0,
-                    -90.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block19.001",
-            "transform": {
-                "translation": [
-                    -50.0,
-                    -110.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block18.001",
-            "transform": {
-                "translation": [
-                    -50.0,
-                    -210.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block17.001",
-            "transform": {
-                "translation": [
-                    -50.0,
-                    -130.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block16.001",
-            "transform": {
-                "translation": [
-                    -50.0,
-                    -150.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block15.001",
-            "transform": {
-                "translation": [
-                    -50.0,
-                    -170.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block14.001",
-            "transform": {
-                "translation": [
-                    -50.0,
-                    -190.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block13.001",
-            "transform": {
-                "translation": [
-                    50.0,
-                    -110.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block12.001",
-            "transform": {
-                "translation": [
-                    50.0,
-                    -190.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block11.001",
-            "transform": {
-                "translation": [
-                    50.0,
-                    -170.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block10.001",
-            "transform": {
-                "translation": [
-                    50.0,
-                    -150.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block09.001",
-            "transform": {
-                "translation": [
-                    50.0,
-                    -130.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block08.001",
-            "transform": {
-                "translation": [
-                    30.0,
-                    -110.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block05.001",
-            "transform": {
-                "translation": [
-                    -30.0,
-                    -110.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block04.001",
-            "transform": {
-                "translation": [
-                    -30.0,
-                    -210.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block01.001",
-            "transform": {
-                "translation": [
-                    30.0,
-                    -210.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block00.001",
-            "transform": {
-                "translation": [
-                    50.0,
-                    -210.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Ground.001",
-            "transform": {
-                "translation": [
-                    0.0,
-                    -180.0,
-                    0.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Ground.obj",
-            "directoryPath": "Resources/Model/Ground",
-            "className": "Ground",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    200.0,
-                    200.0,
-                    1.899999976158142
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block19.002",
-            "transform": {
-                "translation": [
-                    -50.0,
-                    -270.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
                 ]
             }
         },
@@ -1894,43 +1116,6 @@
         },
         {
             "type": "MESH",
-            "name": "Block13.002",
-            "transform": {
-                "translation": [
-                    50.0,
-                    -270.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
             "name": "Block12.002",
             "transform": {
                 "translation": [
@@ -2079,233 +1264,11 @@
         },
         {
             "type": "MESH",
-            "name": "Block08.002",
-            "transform": {
-                "translation": [
-                    30.0,
-                    -270.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block05.002",
-            "transform": {
-                "translation": [
-                    -30.0,
-                    -270.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
             "name": "Block04.002",
             "transform": {
                 "translation": [
                     -30.0,
                     -370.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block03.002",
-            "transform": {
-                "translation": [
-                    -20.0,
-                    -250.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block03.003",
-            "transform": {
-                "translation": [
-                    -20.0,
-                    -230.0,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block02.002",
-            "transform": {
-                "translation": [
-                    20.0,
-                    -250.00694274902344,
-                    10.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
-                ]
-            },
-            "fileName": "Block.obj",
-            "directoryPath": "Resources/Model/Block",
-            "className": "Block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    20.0,
-                    20.0,
-                    20.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Block02.003",
-            "transform": {
-                "translation": [
-                    20.0,
-                    -230.0,
                     10.0
                 ],
                 "rotation": [
@@ -2523,505 +1486,11 @@
         },
         {
             "type": "MESH",
-            "name": "Pillar1",
-            "transform": {
-                "translation": [
-                    -19.964828491210938,
-                    -180.0806884765625,
-                    0.8916335701942444
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "PillarFoundation.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "PillarFoundation",
-            "parentName": "",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Pillar2",
-            "transform": {
-                "translation": [
-                    -19.964828491210938,
-                    -160.0806884765625,
-                    0.8916335701942444
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "PillarFoundation.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "PillarFoundation",
-            "parentName": "",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Pillar3",
-            "transform": {
-                "translation": [
-                    -19.964828491210938,
-                    -140.0806884765625,
-                    0.8916335701942444
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "PillarFoundation.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "PillarFoundation",
-            "parentName": "",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Pillar4",
-            "transform": {
-                "translation": [
-                    20.035171508789062,
-                    -160.0806884765625,
-                    0.8916335701942444
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "PillarFoundation.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "PillarFoundation",
-            "parentName": "",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Pillar5",
-            "transform": {
-                "translation": [
-                    20.035171508789062,
-                    -180.0806884765625,
-                    0.8916335701942444
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "PillarFoundation.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "PillarFoundation",
-            "parentName": "",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "Pillar6",
-            "transform": {
-                "translation": [
-                    20.035171508789062,
-                    -140.0806884765625,
-                    0.8916335701942444
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "PillarFoundation.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "PillarFoundation",
-            "parentName": "",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "PillarR6",
-            "transform": {
-                "translation": [
-                    20.035171508789062,
-                    -140.0806884765625,
-                    2.8916332721710205
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "Pillar.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "Pillar",
-            "parentName": "Pillar6",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    3.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    6.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "PillarR5",
-            "transform": {
-                "translation": [
-                    20.035171508789062,
-                    -160.0806884765625,
-                    2.8916332721710205
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "Pillar.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "Pillar",
-            "parentName": "Pillar5",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    3.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    6.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "PillarR4",
-            "transform": {
-                "translation": [
-                    20.035171508789062,
-                    -180.0806884765625,
-                    2.8916332721710205
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "Pillar.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "Pillar",
-            "parentName": "Pillar4",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    3.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    6.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "PillarR3",
-            "transform": {
-                "translation": [
-                    -19.964828491210938,
-                    -140.0806884765625,
-                    2.8916332721710205
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "Pillar.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "Pillar",
-            "parentName": "Pillar3",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    3.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    6.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "PillarR2",
-            "transform": {
-                "translation": [
-                    -19.964828491210938,
-                    -160.0806884765625,
-                    2.8916332721710205
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "Pillar.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "Pillar",
-            "parentName": "Pillar2",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    3.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    6.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "PillarR1",
-            "transform": {
-                "translation": [
-                    -19.964828491210938,
-                    -180.0806884765625,
-                    2.8916332721710205
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "Pillar.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "Pillar",
-            "parentName": "Pillar1",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    3.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    6.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "PillarR0",
-            "transform": {
-                "translation": [
-                    0.0,
-                    -7.25,
-                    3.0
-                ],
-                "rotation": [
-                    -0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "fileName": "Pillar.obj",
-            "directoryPath": "Resources/Model/Pillar",
-            "className": "Pillar",
-            "parentName": "Pillar0",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    3.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    6.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
             "name": "Block03.006",
             "transform": {
                 "translation": [
                     0.0,
-                    -70.0,
+                    -270.0,
                     10.0
                 ],
                 "rotation": [
@@ -3096,7 +1565,7 @@
             "transform": {
                 "translation": [
                     17.160810470581055,
-                    -292.18182373046875,
+                    -196.18182373046875,
                     1.0
                 ],
                 "rotation": [
@@ -3132,8 +1601,8 @@
             "name": "FlagPole.001",
             "transform": {
                 "translation": [
-                    -22.839189529418945,
-                    -292.18182373046875,
+                    -14.839189529418945,
+                    -180.18182373046875,
                     1.0
                 ],
                 "rotation": [
@@ -3169,8 +1638,8 @@
             "name": "FlagPole.002",
             "transform": {
                 "translation": [
-                    17.160810470581055,
-                    -304.18182373046875,
+                    26.160810470581055,
+                    -176.18182373046875,
                     1.0
                 ],
                 "rotation": [
@@ -3280,8 +1749,8 @@
             "name": "FlagPole.005",
             "transform": {
                 "translation": [
-                    15.484236717224121,
-                    -305.71600341796875,
+                    24.484237670898438,
+                    -177.71600341796875,
                     1.0
                 ],
                 "rotation": [
@@ -3354,8 +1823,8 @@
             "name": "FlagPole2.001",
             "transform": {
                 "translation": [
-                    -23.65079689025879,
-                    -320.3360290527344,
+                    -21.65079689025879,
+                    -210.33602905273438,
                     1.0
                 ],
                 "rotation": [
@@ -3465,8 +1934,8 @@
             "name": "FlagPole2.004",
             "transform": {
                 "translation": [
-                    21.761516571044922,
-                    -324.329833984375,
+                    23.761516571044922,
+                    -214.329833984375,
                     1.0
                 ],
                 "rotation": [
@@ -3605,6 +2074,80 @@
                     0.30000001192092896,
                     0.30000001192092896,
                     9.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Block09.001",
+            "transform": {
+                "translation": [
+                    30.0,
+                    -290.0,
+                    10.0
+                ],
+                "rotation": [
+                    -0.0,
+                    0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    10.0,
+                    10.0
+                ]
+            },
+            "fileName": "Block.obj",
+            "directoryPath": "Resources/Model/Block",
+            "className": "Block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    20.0,
+                    20.0,
+                    20.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Block17.001",
+            "transform": {
+                "translation": [
+                    -30.0,
+                    -290.0,
+                    10.0
+                ],
+                "rotation": [
+                    -0.0,
+                    0.0,
+                    0.0
+                ],
+                "scaling": [
+                    10.0,
+                    10.0,
+                    10.0
+                ]
+            },
+            "fileName": "Block.obj",
+            "directoryPath": "Resources/Model/Block",
+            "className": "Block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    20.0,
+                    20.0,
+                    20.0
                 ]
             }
         }
