@@ -1,8 +1,11 @@
 #include "ClothDemoPlane.h"
 #include "../../../Engine/2D/ImguiManager.h"
+#include "../../../Engine/base/Texture/TextureManager.h"
 
 void ClothDemoPlane::Initialize(const std::string& name)
 {
+
+    DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
     // ファイル名前
     fileName_ = "plane.obj";
@@ -11,10 +14,11 @@ void ClothDemoPlane::Initialize(const std::string& name)
     directoryPath_ = "Resources/default/";
 
     // モデル
-    model_.reset(Model::Create(directoryPath_, fileName_, DirectXCommon::GetInstance()));
+    model_.reset(Model::Create(directoryPath_, fileName_, dxCommon));
 
     // マテリアル
     material_.reset(Material::Create());
+    material_->SetColor(Vector4{0.5f,0.5f,1.0f,1.0f});
 
     // トランスフォーム
     worldTransform_.Initialize(model_->GetRootNode());
@@ -34,6 +38,9 @@ void ClothDemoPlane::Initialize(const std::string& name)
 
     // 名前
    name_ = name;
+
+   // テクスチャハンドル
+   textureHandle_ = TextureManager::Load("Resources/default/white2x2.png", dxCommon);
 
 }
 

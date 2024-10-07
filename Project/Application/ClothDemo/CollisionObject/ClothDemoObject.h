@@ -72,5 +72,8 @@ protected:
     // 名前
     std::string name_;
 
+    // テクスチャハンドル
+    uint32_t textureHandle_;
+
 };
 

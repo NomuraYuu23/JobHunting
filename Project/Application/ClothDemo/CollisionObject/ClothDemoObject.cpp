@@ -10,11 +10,14 @@ void ClothDemoObject::Draw(BaseCamera& camera)
     }
 
     ModelDraw::NormalObjectDesc desc;
+    std::vector<UINT> textureHandles;
+    textureHandles.push_back(textureHandle_);
 
     desc.model = model_.get();
     desc.material = material_.get();
     desc.camera = &camera;
     desc.worldTransform = &worldTransform_;
+    desc.textureHandles = textureHandles;
 
     ModelDraw::NormalObjectDraw(desc);
 
