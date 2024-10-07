@@ -711,5 +711,8 @@ private: // 変数
 	// 衝突データ
 	std::list<std::pair<std::string, std::unique_ptr<ClothGPUCollision>>> collisionDatas_;
 
+	// CSで更新をするか
+	bool csUpdate_;
+
 };
 

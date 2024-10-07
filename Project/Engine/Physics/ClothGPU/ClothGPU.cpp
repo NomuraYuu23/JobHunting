@@ -560,6 +560,9 @@ void ClothGPU::Initialize(
 	// 衝突データをクリア
 	collisionDatas_.clear();
 
+	// 更新するかを一度falseに
+	csUpdate_ = false;
+
 }
 
 void ClothGPU::Update(ID3D12GraphicsCommandList* commandList)
@@ -572,6 +575,9 @@ void ClothGPU::Update(ID3D12GraphicsCommandList* commandList)
 
 	// 時間経過
 	perFrameMap_->time_ += perFrameMap_->deltaTime_;
+
+	// cs更新する
+	csUpdate_ = true;
 
 }
 
@@ -1173,9 +1179,14 @@ void ClothGPU::InitSurfaceCS(ID3D12GraphicsCommandList* commandList)
 
 void ClothGPU::UpdateCS(ID3D12GraphicsCommandList* commandList)
 {
-
-	ID3D12DescriptorHeap* ppHeaps[] = { SRVDescriptorHerpManager::descriptorHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	
+	// cs更新するか確認
+	if (!csUpdate_) {
+		return;
+	}
+	else {
+		csUpdate_ = false;
+	}
 
 	UpdateExternalOperationCS(commandList);
 
