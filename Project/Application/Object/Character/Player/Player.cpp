@@ -477,6 +477,10 @@ void Player::CloakInitialize()
 	cloak_->SetWeight(static_cast<uint32_t>(cloakDiv_.y) - 2, 0, false);
 	cloak_->SetPosition(static_cast<uint32_t>(cloakDiv_.y) - 2, 0, cloakLeftPos_);
 
+	cloak_->CollisionDataRegistration("Ceiling", ClothGPUCollision::kCollisionTypeIndexPlane);
+	ClothGPUCollision::CollisionDataMap collisiondata = kCloakCeiling_;
+	cloak_->CollisionDataUpdate("Ceiling", collisiondata);
+
 }
 
 void Player::CloakUpdate()

@@ -217,6 +217,7 @@ private:
 
 	// マント
 	std::unique_ptr<ClothGPU> cloak_;
+	const ClothGPUCollision::Plane kCloakCeiling_ = { { 0.0f,-1.0f,0.0f }, -2.5f };
 
 	// 分割数
 	Vector2 cloakDiv_;
