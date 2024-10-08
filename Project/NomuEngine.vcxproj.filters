@@ -487,6 +487,9 @@
     <Filter Include="Application\ClothDemo\CollisionObject">
       <UniqueIdentifier>{8a962efb-b360-4e42-bc0e-70047c6bf3e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\LockOn">
+      <UniqueIdentifier>{4dbfbf99-9546-4b3d-9a8e-4544a572f9a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1098,6 +1101,9 @@
     </ClCompile>
     <ClCompile Include="Application\ClothDemo\CollisionObject\ClothDemoSphere.cpp">
       <Filter>Application\ClothDemo\CollisionObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\LockOn\LockOn.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1865,6 +1871,9 @@
     </ClInclude>
     <ClInclude Include="Application\ClothDemo\CollisionObject\ClothDemoSphere.h">
       <Filter>Application\ClothDemo\CollisionObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\LockOn\LockOn.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
