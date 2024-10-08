@@ -7,27 +7,137 @@ void LockOn::Initialize(uint32_t textureHandle)
 {
 }
 
-void LockOn::Update(const std::list<BaseEnemy*>& enemies, Player* player, const BaseCamera& camera)
+void LockOn::Update(const std::list<BaseEnemy*>& enemies, Player* player, BaseCamera* camera)
 {
+
+	// 入力確認
+	Input* input = Input::GetInstance();
+
+	// トリガー変数
+	bool triggerJoystickButtonRST_ = input->TriggerJoystick(kJoystickButtonRST);
+	bool triggerJoystickButtonLB_ = input->TriggerJoystick(kJoystickButtonLB);
+
+	// ロックオン状態なら
+	if (target_) {
+		// ロックオン解除処理
+		if (triggerJoystickButtonRST_) {
+			// ロックオンを外す
+			target_ = nullptr;
+		}
+		// 範囲外判定
+		else if (OutOfRangeJudgment(player, camera)) {
+			// ロックオンを外す
+			target_ = nullptr;
+		}
+		else if (triggerJoystickButtonLB_) {
+			// ロックオン対象の検索
+			// ロックオン対象の絞り込み
+			// 目標
+			std::list<std::pair<float, BaseEnemy*>> targets;
+
+			// 全ての敵に対して順にロックオン判定
+			for (BaseEnemy* enemy : enemies) {
+				// 敵ロックオン座標取得
+				Vector3 enemyWorldPosition = enemy->GetWorldTransformAdress()->GetWorldPosition();
+
+				//プレイヤー
+				Vector3 playerWorldPosition = player->GetWorldTransformAdress()->GetWorldPosition();
+
+				Vector3 dirEnemy = Vector3::Normalize(Vector3::Subtract(enemyWorldPosition, camera->GetTranslate()));
+				Vector3 dirPlayer = Vector3::Normalize(Vector3::Subtract(playerWorldPosition, camera->GetTranslate()));
+				float dot = Vector3::Dot(dirEnemy, dirPlayer);
+
+				float distance = Vector3::Length(Vector3::Subtract(enemyWorldPosition, playerWorldPosition));
+				// 距離条件チェック
+				if (minDistance_ <= distance && distance <= maxDistance_ && dot > 0.0f && enemy != target_) {
+
+					targets.emplace_back(std::make_pair(distance, enemy));
+
+				}
+
+				// ロックオン対象をリセット
+				target_ = nullptr;
+				if (targets.size() > 0) {
+					// 距離で昇順にソート
+					targets.sort([](auto& pair1, auto& pair2) {return pair1.first < pair2.first; });
+					// ソートの結果一番近い敵をロックオン対象とする
+					target_ = targets.front().second;
+				}
+			}
+		}
+
+	}
+	else {
+		// ロックオン対象の検索
+		if (triggerJoystickButtonRST_) {
+			// ロックオン対象の検索
+			// ロックオン対象の絞り込み
+			// 目標
+			std::list<std::pair<float, BaseEnemy*>> targets;
+
+			// 全ての敵に対して順にロックオン判定
+			for (BaseEnemy* enemy : enemies) {
+				// 敵ロックオン座標取得
+				Vector3 enemyWorldPosition = enemy->GetWorldTransformAdress()->GetWorldPosition();
+
+				//プレイヤー
+				Vector3 playerWorldPosition = player->GetWorldTransformAdress()->GetWorldPosition();
+
+				Vector3 dirEnemy = Vector3::Normalize(Vector3::Subtract(enemyWorldPosition, camera->GetTranslate()));
+				Vector3 dirPlayer = Vector3::Normalize(Vector3::Subtract(playerWorldPosition, camera->GetTranslate()));
+				float dot = Vector3::Dot(dirEnemy, dirPlayer);
+
+				float distance = Vector3::Length(Vector3::Subtract(enemyWorldPosition, playerWorldPosition));
+				// 距離条件チェック
+				if (minDistance_ <= distance && distance <= maxDistance_ && dot > 0.0f) {
+
+					targets.emplace_back(std::make_pair(distance, enemy));
+
+				}
+
+
+				// ロックオン対象をリセット
+				target_ = nullptr;
+				if (targets.size() > 0) {
+					// 距離で昇順にソート
+					targets.sort([](auto& pair1, auto& pair2) {return pair1.first < pair2.first; });
+					// ソートの結果一番近い敵をロックオン対象とする
+					target_ = targets.front().second;
+				}
+
+			}
+
+		}
+	}
+
+	// ロックオン状態なら
+	if (target_) {
+		// ロックオンマークの座標計算
+		// 敵のロックオン座標取得
+		Vector3 positionWorld = target_->GetWorldTransformAdress()->GetWorldPosition();
+		// ワールド座標からスクリーン座標に変換
+		Matrix4x4 viewPort = Matrix4x4::MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
+		Matrix4x4 matViewProjectionViewPort = Matrix4x4::Multiply(camera->GetViewProjectionMatrix(), viewPort);
+		Vector3 positionScreen = Matrix4x4::Transform(positionWorld, matViewProjectionViewPort);
+		// Vector2に格納
+		Vector2 positionScreenV2(positionScreen.x, positionScreen.y);
+		// スプライトの座標を設定
+		lockOnMark_->SetPosition(positionScreenV2);
+	}
+
 }
 
 void LockOn::Draw()
 {
 
+	if (target_) {
+		lockOnMark_->Draw();
+	}
 
 }
 
 void LockOn::ImGuiDraw()
 {
-
-	ImGui::Begin("LockOnMode");
-	if (isAutomatic_) {
-		ImGui::Text("Automatic");
-	}
-	else {
-		ImGui::Text("Manual");
-	}
-	ImGui::End();
 
 }
 
@@ -47,7 +157,6 @@ void LockOn::Restart()
 
 	// ロックオンを外す
 	target_ = nullptr;
-	isAutomatic_ = false;
 
 }
 
@@ -74,16 +183,3 @@ bool LockOn::OutOfRangeJudgment(Player* player, BaseCamera* camera)
 
 }
 
-void LockOn::LockOnModeChange()
-{
-
-	if (isAutomatic_) {
-		isAutomatic_ = false;
-	}
-	else {
-		isAutomatic_ = true;
-	}
-
-	target_ = nullptr;
-
-}

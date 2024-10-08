@@ -20,7 +20,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update(const std::list<BaseEnemy*>& enemies, Player* player, const BaseCamera& camera);
+	void Update(const std::list<BaseEnemy*>& enemies, Player* player, BaseCamera* camera);
 
 	/// <summary>
 	/// 描画
@@ -56,11 +56,6 @@ private: // メンバ関数
 	/// </summary>
 	bool OutOfRangeJudgment(Player* player, BaseCamera* camera);
 
-	/// <summary>
-	/// ロックオンモード変更
-	/// </summary>
-	void LockOnModeChange();
-
 private: // メンバ変数
 
 	// ロックオンマーク用スプライト
@@ -77,8 +72,5 @@ private: // メンバ変数
 
 	// 角度範囲
 	float angleRange_ = 20.0f * 3.14f / 180.0f;
-
-	// 自動ロックオンか
-	bool isAutomatic_ = false;
 
 };
