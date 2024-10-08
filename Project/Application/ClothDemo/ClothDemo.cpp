@@ -24,15 +24,26 @@ void ClothDemo::Initilalize(
 	// 布の大きさ
 	clothScale_ = { 2.0f, 2.0f };
 	// 布の分割数
-	clothDiv_ = { 15.0f, 15.0f };
+	clothDiv_ = { 63.0f, 63.0f };
 	// リセット位置
 	resetPosition_ = { 0.0f,3.0f,0.0f };
 
 	// 布の初期化
 	clothGPU_ = std::make_unique<ClothGPU>();
 	clothGPU_->Initialize(dxCommon_->GetDevice(), dxCommon_->GetCommadListLoad(), clothScale_, clothDiv_, "Resources/default/clothDemo.png");
+	
+	// 抵抗
+	clothGPU_->SetStructuralStretch(100);
+	clothGPU_->SetStructuralShrink(100);
+	clothGPU_->SetShearStretch(100);
+	clothGPU_->SetShearShrink(100);
+	clothGPU_->SetBendingStretch(100);
+	clothGPU_->SetBendingShrink(100);
+	// 更新回数
+	clothGPU_->SetRelaxation(6);
+	
 	// リセット
-	ClothReset(kFixedIndexEnd);
+	ClothReset(kFixedIndexTop);
 
 	// 平面
 	plane_ = std::make_unique<ClothDemoPlane>();
