@@ -47,8 +47,6 @@ struct ClothMassPoint
 	float32_t3 position_;
 	float32_t3 prePosition_;
 	float32_t weight_; 
-	uint32_t y_; 
-	uint32_t x_; 
 };
 
 struct ClothSpring

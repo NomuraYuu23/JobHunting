@@ -97,8 +97,6 @@ public: // サブクラス
 		Vector3 position_; // 現在位置
 		Vector3 prePosition_; // 前フレ―ムの位置
 		float weight_; // 運動計算の重み (固定する場合は0.0f, それ以外は1.0f)
-		uint32_t y_; // y 検索用
-		uint32_t x_; // x 検索用
 	};
 
 	/// <summary>
