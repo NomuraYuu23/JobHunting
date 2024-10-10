@@ -571,19 +571,50 @@ public: // その他関数
 public: // アクセッサ
 
 	// 布計算
+
+	// 重力
 	void SetGravity(const Vector3& gravity) { clothCalcDataMap_->gravity_ = gravity; }
+	Vector3 GetGravity() { return clothCalcDataMap_->gravity_; }
+
+	// 風力
 	void SetWind(const Vector3& wind) { clothCalcDataMap_->wind_ = wind; }
+	Vector3 GetWind() { return clothCalcDataMap_->wind_; }
+	
+	// バネ強度
 	void SetStiffness(float stiffness) { clothCalcDataMap_->stiffness_ = stiffness; }
+	float GetStiffness() { return clothCalcDataMap_->stiffness_; }
+
+	// 速度抵抗
 	void SetSpeedResistance(float speedResistance) { clothCalcDataMap_->speedResistance_ = speedResistance; }
+	float GetSpeedResistance() { return clothCalcDataMap_->speedResistance_; }
+	
+	// 構成バネ伸び抵抗
 	void SetStructuralShrink(float structuralShrink) { clothCalcDataMap_->structuralShrink_ = structuralShrink; }
+	float GetStructuralShrink() { return clothCalcDataMap_->structuralShrink_; }
+
+	// 構成バネ縮み抵抗
 	void SetStructuralStretch(float structuralStretch) { clothCalcDataMap_->structuralStretch_ = structuralStretch; }
+	float GetStructuralStretch() { return clothCalcDataMap_->structuralStretch_; }
+
+	// せん断バネ伸び抵抗
 	void SetShearShrink(float shearShrink) { clothCalcDataMap_->shearShrink_ = shearShrink; }
+	float GetShearShrink() { return clothCalcDataMap_->shearShrink_; }
+
+	// せん断バネ縮み抵抗
 	void SetShearStretch(float shearStretch) { clothCalcDataMap_->shearStretch_ = shearStretch; }
+	float GetShearStretch() { return clothCalcDataMap_->shearStretch_; }
+
+	// 曲げバネ伸び抵抗
 	void SetBendingShrink(float bendingShrink) { clothCalcDataMap_->bendingShrink_ = bendingShrink; }
+	float GetBendingShrink() { return clothCalcDataMap_->bendingShrink_; }
+
+	// 曲げバネ縮み抵抗
 	void SetBendingStretch(float bendingStretch) { clothCalcDataMap_->bendingStretch_ = bendingStretch; }
+	float GetBendingStretch() { return clothCalcDataMap_->bendingStretch_; }
 
 	// バネフェーズの反復回数
 	void SetRelaxation(int32_t relaxation) { relaxation_ = relaxation; }
+	int32_t GetRelaxation() { return relaxation_; }
 
 	// マテリアル
 	Material* GetMaterial() { return material_.get(); }

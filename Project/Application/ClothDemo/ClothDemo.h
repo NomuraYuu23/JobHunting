@@ -59,15 +59,21 @@ public: // メンバ関数
 private: // メンバ関数
 
 	/// <summary>
-	/// 布リセット
+	/// 布の位置リセット
 	/// </summary>
 	/// <param name="fixedIndex">固定方法</param>
-	void ClothReset(FixedIndex fixedIndex);
+	void ClothPositionReset(FixedIndex fixedIndex);
 
 	/// <summary>
 	/// 固定をはずす
 	/// </summary>
 	void RemoveFixation();
+
+	/// <summary>
+	/// 布リセット
+	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	void ClothReset(ID3D12GraphicsCommandList* commandList);
 
 private: // 布固定関数
 
