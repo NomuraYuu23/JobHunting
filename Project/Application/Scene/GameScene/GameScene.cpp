@@ -87,6 +87,12 @@ void GameScene::Initialize() {
 	followCamera_->SetTarget(player_->GetWorldTransformAdress());
 	player_->SetCamera(static_cast<BaseCamera*>(followCamera_.get()));
 
+	// ロックオン
+	lockOnTextureHandle_ = TextureManager::Load("Resources/default/clothDemo.png", dxCommon_);
+	lockOn_ = std::make_unique<LockOn>();
+	lockOn_->Initialize(lockOnTextureHandle_);
+	followCamera_->SetLockOn(lockOn_.get());
+
 	gameOverSystem_ = std::make_unique<GameOverSystem>();
 	gameOverSystem_->Initialize(gameOverStringTextureHandle_, gameOverButtonTextureHandle_);
 	gameOverSystem_->SetIsOperation(false);
@@ -148,6 +154,11 @@ void GameScene::Update() {
 	objectManager_->CollisionListRegister(collisionManager_.get());
 
 	collisionManager_->CheakAllCollision();
+
+	// ロックオン更新
+	std::list<BaseEnemy*> enemies;
+	enemies.push_back(bossEnemy_);
+	lockOn_->Update(enemies, player_, followCamera_.get());
 
 	// スカイドーム
 	skydome_->Update();
@@ -300,6 +311,9 @@ void GameScene::Draw() {
 
 	// UIマネージャー
 	uiManager_->Draw();
+
+	// ロックオン
+	lockOn_->Draw();
 
 	if (gameOverSystem_->GetIsOperation() || isBeingReset_) {
 		gameOverSystem_->UIDraw();

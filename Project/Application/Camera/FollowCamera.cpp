@@ -6,14 +6,13 @@
 #include "../../../Engine/GlobalVariables/GlobalVariables.h"
 #include "../../../Engine/Math/Math.h"
 #include "../../../Engine/Math/Ease.h"
-
 #include "../../../Engine/Input/Input.h"
+#include "../LockOn/LockOn.h"
+
 
 void FollowCamera::Initialize() {
 
 	BaseCamera::Initialize();
-
-	//y固定
 
 	BaseCamera::Update();
 
@@ -31,26 +30,21 @@ void FollowCamera::Initialize() {
 
 void FollowCamera::Update(float elapsedTime) {
 
-	//インスタンス
-	Input* input = Input::GetInstance();
-
 #ifdef _DEBUG
 	ApplyGlobalVariables();
 #endif // _DEBUG
 
-	// スティック入力で角度を変更処理
-
-	const float RotateSpeed = 0.000003f;
-
-	destinationAngle_.y += input->GetRightAnalogstick().x * RotateSpeed;
-	destinationAngle_.x += input->GetRightAnalogstick().y * RotateSpeed;
-
-	// xに制限
-	float limit = 3.14f / 4.0f;
-	destinationAngle_.x = std::clamp(destinationAngle_.x, 0.0f, limit);
-
-	transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngle_.y, rotateRate_);
-	transform_.rotate.x = Math::LerpShortAngle(transform_.rotate.x, destinationAngle_.x, rotateRate_);
+	if (lockOn_) {
+		if (lockOn_->ExistTarget()) {
+			LockOnUpdate();
+		}
+		else {
+			NotLockOnUpdate();
+		}
+	}
+	else {
+		NotLockOnUpdate();
+	}
 
 	//追従対象がいれば
 	if (target_) {
@@ -67,6 +61,7 @@ void FollowCamera::Update(float elapsedTime) {
 
 	//ビュー更新
 	BaseCamera::Update();
+
 }
 
 void FollowCamera::SetTarget(const WorldTransform* target)
@@ -118,11 +113,33 @@ void FollowCamera::LockOnUpdate()
 	// ターゲット座標
 	Vector3 targetPosition = { target_->worldMatrix_.m[3][0], target_->worldMatrix_.m[3][1], target_->worldMatrix_.m[3][2] };
 	// 追従対象からロックオン対象へのベクトル(正規化)
-	Vector3 sub = v3Calc->Normalize(v3Calc->Subtract(lockOnPosition, targetPosition));
+	Vector3 sub = Vector3::Normalize(Vector3::Subtract(lockOnPosition, targetPosition));
 
-	viewProjection_.rotateDirectionMatrix_ = m4Calc->DirectionToDirection(Vector3{ 0.0f,0.0f,1.0f }, Vector3{ sub.x, 0.0f, sub.z });
+	lockOnRotateMatrix_ = Matrix4x4::DirectionToDirection(Vector3{ 0.0f,0.0f,1.0f }, Vector3{ sub.x, 0.0f, sub.z });
 	destinationAngle_.y = 0.0f;
 	destinationAngle_.x = 0.0f;
+
+}
+
+void FollowCamera::NotLockOnUpdate()
+{
+
+	//インスタンス
+	Input* input = Input::GetInstance();
+
+	// スティック入力で角度を変更処理
+	// 回転速度
+	const float RotateSpeed = 0.000003f;
+
+	destinationAngle_.y += input->GetRightAnalogstick().x * RotateSpeed;
+	destinationAngle_.x += input->GetRightAnalogstick().y * RotateSpeed;
+
+	// xに制限
+	float limit = 3.14f / 4.0f;
+	destinationAngle_.x = std::clamp(destinationAngle_.x, 0.0f, limit);
+
+	transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngle_.y, rotateRate_);
+	transform_.rotate.x = Math::LerpShortAngle(transform_.rotate.x, destinationAngle_.x, rotateRate_);
 
 }
 

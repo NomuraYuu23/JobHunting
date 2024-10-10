@@ -27,7 +27,17 @@ public:
 
 public: // アクセッサ
 
+	/// <summary>
+	/// 目指すアングル
+	/// </summary>
+	/// <param name="destinationAngle">目指すアングル</param>
 	void SetDestinationAngle(const Vector3& destinationAngle) { destinationAngle_ = destinationAngle; }
+
+	/// <summary>
+	/// ロックオン
+	/// </summary>
+	/// <param name="lockOn">ロックオン</param>
+	void SetLockOn(LockOn* lockOn) { lockOn_ = lockOn; }
 
 private: // メンバ関数
 
@@ -41,6 +51,11 @@ private: // メンバ関数
 	/// ロックオン更新
 	/// </summary>
 	void LockOnUpdate();
+
+	/// <summary>
+	/// ロックオンではない時の更新
+	/// </summary>
+	void NotLockOnUpdate();
 
 	/// <summary>
 	/// 調整項目の適用
@@ -69,6 +84,12 @@ private:
 
 	// ロックオン
 	LockOn* lockOn_ = nullptr;
+
+	// ロックオン用方向ベクトル
+	Vector3 lockOnDirection_;
+
+	// ロックオン用回転行列
+	Matrix4x4 lockOnRotateMatrix_;
 
 };
 

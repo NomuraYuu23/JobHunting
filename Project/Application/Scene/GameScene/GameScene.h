@@ -15,6 +15,7 @@
 #include "../../../Engine/Collision2D/Collision2DDebugDraw.h"
 
 #include "../../Camera/FollowCamera.h"
+#include "../../LockOn/LockOn.h"
 
 // ゲームオーバーシステム
 #include "../../System/GameOverSystem.h"
@@ -85,6 +86,9 @@ private:
 
 	// 追加カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
+	// ロックオン
+	std::unique_ptr<LockOn> lockOn_;
+	uint32_t lockOnTextureHandle_;
 
 	// ゲームオーバーシステム
 	std::unique_ptr<GameOverSystem> gameOverSystem_;

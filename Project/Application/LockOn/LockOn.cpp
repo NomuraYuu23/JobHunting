@@ -5,6 +5,11 @@
 
 void LockOn::Initialize(uint32_t textureHandle)
 {
+
+	//スプライトの生成関数
+	lockOnMark_.reset(
+		Sprite::Create(textureHandle, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }));
+
 }
 
 void LockOn::Update(const std::list<BaseEnemy*>& enemies, Player* player, BaseCamera* camera)
@@ -14,13 +19,13 @@ void LockOn::Update(const std::list<BaseEnemy*>& enemies, Player* player, BaseCa
 	Input* input = Input::GetInstance();
 
 	// トリガー変数
-	bool triggerJoystickButtonRST_ = input->TriggerJoystick(kJoystickButtonRST);
-	bool triggerJoystickButtonLB_ = input->TriggerJoystick(kJoystickButtonLB);
+	bool triggerJoystickButtonRST = input->TriggerJoystick(kJoystickButtonRST);
+	bool triggerJoystickButtonLB = input->TriggerJoystick(kJoystickButtonLB);
 
 	// ロックオン状態なら
 	if (target_) {
 		// ロックオン解除処理
-		if (triggerJoystickButtonRST_) {
+		if (triggerJoystickButtonRST) {
 			// ロックオンを外す
 			target_ = nullptr;
 		}
@@ -29,7 +34,7 @@ void LockOn::Update(const std::list<BaseEnemy*>& enemies, Player* player, BaseCa
 			// ロックオンを外す
 			target_ = nullptr;
 		}
-		else if (triggerJoystickButtonLB_) {
+		else if (triggerJoystickButtonLB) {
 			// ロックオン対象の検索
 			// ロックオン対象の絞り込み
 			// 目標
@@ -69,7 +74,7 @@ void LockOn::Update(const std::list<BaseEnemy*>& enemies, Player* player, BaseCa
 	}
 	else {
 		// ロックオン対象の検索
-		if (triggerJoystickButtonRST_) {
+		if (triggerJoystickButtonRST) {
 			// ロックオン対象の検索
 			// ロックオン対象の絞り込み
 			// 目標
