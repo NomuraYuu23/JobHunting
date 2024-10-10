@@ -48,10 +48,6 @@ void FollowCamera::Update(float elapsedTime) {
 	// xに制限
 	float limit = 3.14f / 4.0f;
 	destinationAngle_.x = std::clamp(destinationAngle_.x, 0.0f, limit);
-	if (input->TriggerJoystick(9)) {
-		//destinationAngle_.y = target_->transform_.rotate.y;
-		//destinationAngle_.x = 0.2f;
-	}
 
 	transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngle_.y, rotateRate_);
 	transform_.rotate.x = Math::LerpShortAngle(transform_.rotate.x, destinationAngle_.x, rotateRate_);
@@ -109,6 +105,24 @@ Vector3 FollowCamera::OffsetCalc() const
 	offset = Matrix4x4::TransformNormal(offset, rotateMatrix);
 
 	return offset;
+
+}
+
+void FollowCamera::LockOnUpdate()
+{
+
+	// カメラをロックオン対象の方に向ける処理
+
+	// ロックオン座標
+	Vector3 lockOnPosition = lockOn_->GetTargetPosition();
+	// ターゲット座標
+	Vector3 targetPosition = { target_->worldMatrix_.m[3][0], target_->worldMatrix_.m[3][1], target_->worldMatrix_.m[3][2] };
+	// 追従対象からロックオン対象へのベクトル(正規化)
+	Vector3 sub = v3Calc->Normalize(v3Calc->Subtract(lockOnPosition, targetPosition));
+
+	viewProjection_.rotateDirectionMatrix_ = m4Calc->DirectionToDirection(Vector3{ 0.0f,0.0f,1.0f }, Vector3{ sub.x, 0.0f, sub.z });
+	destinationAngle_.y = 0.0f;
+	destinationAngle_.x = 0.0f;
 
 }
 
