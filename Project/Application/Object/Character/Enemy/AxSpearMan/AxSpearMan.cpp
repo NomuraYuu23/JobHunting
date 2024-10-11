@@ -7,7 +7,7 @@ void AxSpearMan::Initialize(LevelData::MeshData* data)
 
 	BaseEnemy::Initialize(data);
 
-	height_ = 3.0f;
+	height_ = 4.0f;
 	worldTransform_.transform_.translate.x = 0.01f;
 	worldTransform_.direction_ = { 0.0f,0.0f,-1.0f };
 	worldTransform_.UpdateMatrix();

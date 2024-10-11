@@ -158,6 +158,9 @@ protected:
 	// 反発係数
 	float coefficientOfRestitution = 0.0f;
 
+	// 中心までの高さ
+	float height_;
+
 protected:
 
 	/// <summary>
@@ -202,6 +205,8 @@ public: // アクセッサ
 	void SetUsedRigidBody(bool usedRigidBody) { usedRigidBody_ = usedRigidBody; }
 
 	uint32_t GetCurrentStateNo() { return currentStateNo_; };
+
+	float GetHeight() { return height_; };
 
 };
 

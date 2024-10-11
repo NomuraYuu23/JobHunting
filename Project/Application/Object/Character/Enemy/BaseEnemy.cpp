@@ -55,6 +55,8 @@ void BaseEnemy::Initialize(LevelData::MeshData* data)
 
 	coefficientOfRestitution = 0.8f;
 
+	height_ = 0.0f;
+
 }
 
 void BaseEnemy::Update()

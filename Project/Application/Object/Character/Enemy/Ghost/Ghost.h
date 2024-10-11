@@ -104,9 +104,6 @@ private:  // パーツ,アニメーション定数
 
 private: 
 
-	// 高さ
-	float height_;
-
 	// プレイヤー
 	Player* player_;
 

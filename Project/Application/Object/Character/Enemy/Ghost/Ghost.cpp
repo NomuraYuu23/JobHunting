@@ -7,7 +7,6 @@ void Ghost::Initialize(LevelData::MeshData* data)
 	BaseEnemy::Initialize(data);
 
 	height_ = 3.0f;
-	worldTransform_.transform_.translate.y = height_;
 	worldTransform_.UpdateMatrix();
 	prePosition_ = worldTransform_.GetWorldPosition();
 

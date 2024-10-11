@@ -138,9 +138,6 @@ private:  // パーツ,アニメーション定数
 
 private:
 
-	// 高さ
-	float height_;
-
 	// 前フレームの座標
 	Vector3 prePosition_;
 

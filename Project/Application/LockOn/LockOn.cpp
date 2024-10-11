@@ -100,7 +100,6 @@ void LockOn::Update(const std::list<BaseEnemy*>& enemies, Player* player, BaseCa
 
 				}
 
-
 				// ロックオン対象をリセット
 				target_ = nullptr;
 				if (targets.size() > 0) {
@@ -120,6 +119,7 @@ void LockOn::Update(const std::list<BaseEnemy*>& enemies, Player* player, BaseCa
 		// ロックオンマークの座標計算
 		// 敵のロックオン座標取得
 		Vector3 positionWorld = target_->GetWorldTransformAdress()->GetWorldPosition();
+		positionWorld.y = target_->GetHeight();
 		// ワールド座標からスクリーン座標に変換
 		Matrix4x4 viewPort = Matrix4x4::MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
 		Matrix4x4 matViewProjectionViewPort = Matrix4x4::Multiply(camera->GetViewProjectionMatrix(), viewPort);
