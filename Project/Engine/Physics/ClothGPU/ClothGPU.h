@@ -29,6 +29,55 @@ class ClothGPU
 public: // サブクラス
 
 	/// <summary>
+	/// バネの種類
+	/// </summary>
+	enum ClothSpringBufferStructIndex {
+		kClothSpringBufferStructIndexStructuralLeftOdd, // 構成バネ、左、奇数
+		kClothSpringBufferStructIndexStructuralLeftEven, // 構成バネ、左、偶数
+		kClothSpringBufferStructIndexStructuralTopOdd, // 構成バネ、上、奇数
+		kClothSpringBufferStructIndexStructuralTopEven, // 構成バネ、上、偶数
+
+		kClothSpringBufferStructIndexShearLeftOdd, // せん断バネ、左上、奇数
+		kClothSpringBufferStructIndexShearLeftEven, // せん断バネ、左上、偶数
+		kClothSpringBufferStructIndexShearRightOdd, // せん断バネ、右上、奇数
+		kClothSpringBufferStructIndexShearRightEven, // せん断バネ、右上、偶数
+
+		kClothSpringBufferStructIndexBendingLeftNotPrime, // 曲げバネ、左、(質点index % 4 <= 1)
+		kClothSpringBufferStructIndexBendingLeftPrime, // 曲げバネ、左、(質点index % 4 > 1)
+		kClothSpringBufferStructIndexBendingTopNotPrime, // 曲げバネ、上、(質点index % 4 <= 1)
+		kClothSpringBufferStructIndexBendingTopPrime, // 曲げバネ、上、(質点index % 4 > 1)
+
+		kClothSpringBufferStructIndexOfCount // 数える用
+	};
+
+	/// <summary>
+	/// CSのパイプラインステート
+	/// </summary>
+	enum PipelineStateCSIndex {
+		kPipelineStateCSIndexInitVertex,// 初期化 頂点
+		kPipelineStateCSIndexInitMassPoint,// 初期化 質点
+		kPipelineStateCSIndexInitSurface,// 初期化 面
+
+		kPipelineStateCSIndexUpdateExternalOperation,// 更新 外部操作フェーズ
+		kPipelineStateCSIndexUpdateIntegral,// 更新 積分フェーズ
+		kPipelineStateCSIndexUpdateSpring,// 更新 バネフェーズ
+		kPipelineStateCSIndexUpdateSurface,// 更新 面
+		kPipelineStateCSIndexUpdateVertex,// 更新 頂点フェーズ
+
+		kPipelineStateCSIndexOfCount // 数える用
+	};
+
+	/// <summary>
+	/// バネの種類
+	/// </summary>
+	enum TypeOfSpring {
+		kTypeOfSpringStructuralSpring = 0, // 構成バネ
+		kTypeOfSpringShearSpring = 1, // せん断バネ
+		kTypeOfSpringBendingSpring = 2, // 曲げバネ
+		kTypeOfSpringOfCount // 数える用
+	};
+
+	/// <summary>
 	/// 頂点
 	/// </summary>
 	struct VertexData {
@@ -49,7 +98,7 @@ public: // サブクラス
 	/// </summary>
 	struct SurfaceData {
 		Vector3 normal_; // 法線
-		std::array<int32_t, 4> indexes_; // 頂点
+		std::array<int32_t, 4> indexes_; // 頂点 四角形固定なので四つ
 	};
 
 	/// <summary>
@@ -115,7 +164,7 @@ public: // サブクラス
 	/// </summary>
 	struct Nums
 	{
-		std::array<uint32_t,4> structuralSpringNums_;
+		std::array<uint32_t,4> structuralSpringNums_; // 構成バネ、4つバッファがある
 		std::array<uint32_t, 4> shearSpringNums_;
 		std::array<uint32_t, 4> bendingSpringNums_;
 
@@ -143,46 +192,6 @@ public: // サブクラス
 		/// <param name="device">デバイス</param>
 		/// <param name="num">数</param>
 		void Initialize(ID3D12Device* device, uint32_t num);
-	};
-
-	/// <summary>
-	/// バネの種類
-	/// </summary>
-	enum ClothSpringBufferStructIndex {
-		kClothSpringBufferStructIndexStructural0, // 構成バネ、質点がかぶらないよう4つ
-		kClothSpringBufferStructIndexStructural1, // 構成バネ
-		kClothSpringBufferStructIndexStructural2, // 構成バネ
-		kClothSpringBufferStructIndexStructural3, // 構成バネ
-
-		kClothSpringBufferStructIndexShear0, // せん断バネ、質点がかぶらないよう4つ
-		kClothSpringBufferStructIndexShear1, // せん断バネ
-		kClothSpringBufferStructIndexShear2, // せん断バネ
-		kClothSpringBufferStructIndexShear3, // せん断バネ
-
-		kClothSpringBufferStructIndexBending0, // 曲げバネ、質点がかぶらないよう4つ
-		kClothSpringBufferStructIndexBending1, // 曲げバネ
-		kClothSpringBufferStructIndexBending2, // 曲げバネ
-		kClothSpringBufferStructIndexBending3, // 曲げバネ
-
-		kClothSpringBufferStructIndexOfCount // 数える用
-	};
-
-	/// <summary>
-	/// CSのパイプラインステート
-	/// </summary>
-	enum PipelineStateCSIndex {
-		kPipelineStateCSIndexInitVertex,// 初期化 頂点
-		kPipelineStateCSIndexInitMassPoint,// 初期化 質点
-		kPipelineStateCSIndexInitSurface,// 初期化 面
-
-		kPipelineStateCSIndexUpdateExternalOperation,// 更新 外部操作フェーズ
-		kPipelineStateCSIndexUpdateIntegral,// 更新 積分フェーズ
-		kPipelineStateCSIndexUpdateSpring,// 更新 バネフェーズ
-		kPipelineStateCSIndexUpdateSurface,// 更新 面
-
-		kPipelineStateCSIndexUpdateVertex,// 更新 頂点フェーズ
-
-		kPipelineStateCSIndexOfCount // 数える用
 	};
 
 private: // 静的メンバ変数
@@ -522,8 +531,8 @@ private: // その他関数
 		uint32_t x,
 		uint32_t y,
 		int32_t offsetX,
-		int32_t offsetY,
-		uint32_t type);
+		int32_t offsetY, 
+		TypeOfSpring type);
 
 private: // その他関数
 

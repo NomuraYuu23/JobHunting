@@ -790,20 +790,20 @@ void ClothGPU::SpringBufferInitialize(ID3D12Device* device)
 {
 
 	// 初期化
-	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructural0].Initialize(device, NumsMap_->structuralSpringNums_[0]);
-	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructural1].Initialize(device, NumsMap_->structuralSpringNums_[1]);
-	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructural2].Initialize(device, NumsMap_->structuralSpringNums_[2]);
-	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructural3].Initialize(device, NumsMap_->structuralSpringNums_[3]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructuralLeftOdd].Initialize(device, NumsMap_->structuralSpringNums_[0]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructuralLeftEven].Initialize(device, NumsMap_->structuralSpringNums_[1]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructuralTopOdd].Initialize(device, NumsMap_->structuralSpringNums_[2]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexStructuralTopEven].Initialize(device, NumsMap_->structuralSpringNums_[3]);
 
-	clothSpringBufferStructs_[kClothSpringBufferStructIndexShear0].Initialize(device, NumsMap_->shearSpringNums_[0]);
-	clothSpringBufferStructs_[kClothSpringBufferStructIndexShear1].Initialize(device, NumsMap_->shearSpringNums_[1]);
-	clothSpringBufferStructs_[kClothSpringBufferStructIndexShear2].Initialize(device, NumsMap_->shearSpringNums_[2]);
-	clothSpringBufferStructs_[kClothSpringBufferStructIndexShear3].Initialize(device, NumsMap_->shearSpringNums_[3]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexShearLeftOdd].Initialize(device, NumsMap_->shearSpringNums_[0]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexShearLeftEven].Initialize(device, NumsMap_->shearSpringNums_[1]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexShearRightOdd].Initialize(device, NumsMap_->shearSpringNums_[2]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexShearRightEven].Initialize(device, NumsMap_->shearSpringNums_[3]);
 
-	clothSpringBufferStructs_[kClothSpringBufferStructIndexBending0].Initialize(device, NumsMap_->bendingSpringNums_[0]);
-	clothSpringBufferStructs_[kClothSpringBufferStructIndexBending1].Initialize(device, NumsMap_->bendingSpringNums_[1]);
-	clothSpringBufferStructs_[kClothSpringBufferStructIndexBending2].Initialize(device, NumsMap_->bendingSpringNums_[2]);
-	clothSpringBufferStructs_[kClothSpringBufferStructIndexBending3].Initialize(device, NumsMap_->bendingSpringNums_[3]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexBendingLeftNotPrime].Initialize(device, NumsMap_->bendingSpringNums_[0]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexBendingLeftPrime].Initialize(device, NumsMap_->bendingSpringNums_[1]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexBendingTopNotPrime].Initialize(device, NumsMap_->bendingSpringNums_[2]);
+	clothSpringBufferStructs_[kClothSpringBufferStructIndexBendingTopPrime].Initialize(device, NumsMap_->bendingSpringNums_[3]);
 
 	// マッピング
 	for (uint32_t i = 0; i < kClothSpringBufferStructIndexOfCount; ++i) {
@@ -814,16 +814,16 @@ void ClothGPU::SpringBufferInitialize(ID3D12Device* device)
 		for (uint32_t x = 0; x < static_cast<uint32_t>(createDataMap_->div_.x) + 1; ++x) {
 
 			// 構成バネ
-			SpringGeneration(x, y, -1, 0, 0); // xが0
-			SpringGeneration(x, y, 0, -1, 0); // yが0
+			SpringGeneration(x, y, -1, 0, kTypeOfSpringStructuralSpring); // 左の質点とつなぐ
+			SpringGeneration(x, y, 0, -1, kTypeOfSpringStructuralSpring); // 上の質点とつなぐ
 
 			// せん断バネ
-			SpringGeneration(x, y, -1, -1, 1); // xまたはyが0
-			SpringGeneration(x, y, 1, -1, 1); // xがstatic_cast<uint32_t>(div_.x) または yが0
+			SpringGeneration(x, y, -1, -1, kTypeOfSpringShearSpring); // 左上の質点とつなぐ
+			SpringGeneration(x, y, 1, -1, kTypeOfSpringShearSpring); // 右上の質点とつなぐ
 
 			// 曲げバネ
-			SpringGeneration(x, y, -2, 0, 2); // xが0,1
-			SpringGeneration(x, y, 0, -2, 2); // yが0,1
+			SpringGeneration(x, y, -2, 0, kTypeOfSpringBendingSpring); // 左一つ先の質点とつなぐ
+			SpringGeneration(x, y, 0, -2, kTypeOfSpringBendingSpring); // 右一つ先の質点とつなぐ
 
 		}
 	}
@@ -1428,9 +1428,8 @@ void ClothGPU::SetPosition(
 
 }
 
-void ClothGPU::SpringGeneration(uint32_t x, uint32_t y, int32_t offsetX, int32_t offsetY, uint32_t type)
+void ClothGPU::SpringGeneration(uint32_t x, uint32_t y, int32_t offsetX, int32_t offsetY, TypeOfSpring type)
 {
-
 
 	// 終点位置
 	int32_t targetX = x + offsetX;
@@ -1464,47 +1463,47 @@ void ClothGPU::SpringGeneration(uint32_t x, uint32_t y, int32_t offsetX, int32_t
 		uint32_t springIndex = 0;
 		
 		// 登録
-		if (spring.type_ == 0) {
+		if (spring.type_ == kTypeOfSpringStructuralSpring) {
 			if (offsetX == -1) {
 				// 0
 				if (targetX % 2 == 0) {
-					springIndex = 0;
+					springIndex = kClothSpringBufferStructIndexStructuralLeftOdd;
 				}
 				// 1
 				else {
-					springIndex = 1;
+					springIndex = kClothSpringBufferStructIndexStructuralLeftEven;
 				}
 			}
 			else {
 				// 2
 				if (targetY % 2 == 0) {
-					springIndex = 2;
+					springIndex = kClothSpringBufferStructIndexStructuralTopOdd;
 				}
 				// 3
 				else {
-					springIndex = 3;
+					springIndex = kClothSpringBufferStructIndexStructuralTopEven;
 				}
 			}
 		}
-		else if (spring.type_ == 1) {
+		else if (spring.type_ == kTypeOfSpringShearSpring) {
 			if (offsetX == -1) {
 				// 4
 				if (targetX % 2 == 0) {
-					springIndex = 4;
+					springIndex = kClothSpringBufferStructIndexShearLeftOdd;
 				}
 				// 5
 				else {
-					springIndex = 5;
+					springIndex = kClothSpringBufferStructIndexShearLeftEven;
 				}
 			}
 			else {
 				// 6
 				if (targetX % 2 == 0) {
-					springIndex = 6;
+					springIndex = kClothSpringBufferStructIndexShearRightOdd;
 				}
 				// 7
 				else {
-					springIndex = 7;
+					springIndex = kClothSpringBufferStructIndexShearRightEven;
 				}
 			}
 		}
@@ -1512,21 +1511,21 @@ void ClothGPU::SpringGeneration(uint32_t x, uint32_t y, int32_t offsetX, int32_t
 			if (offsetX == -2) {
 				// 8
 				if (targetX % 4 <= 1) {
-					springIndex = 8;
+					springIndex = kClothSpringBufferStructIndexBendingLeftNotPrime;
 				}
 				// 9
 				else {
-					springIndex = 9;
+					springIndex = kClothSpringBufferStructIndexBendingLeftPrime;
 				}
 			}
 			else {
 				// 10
 				if (targetY % 4 <= 1) {
-					springIndex = 10;
+					springIndex = kClothSpringBufferStructIndexBendingTopNotPrime;
 				}
 				// 11
 				else {
-					springIndex = 11;
+					springIndex = kClothSpringBufferStructIndexBendingTopPrime;
 				}
 			}
 
