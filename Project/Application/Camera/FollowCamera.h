@@ -25,6 +25,12 @@ public:
 	/// <param name="target"></param>
 	void SetTarget(const WorldTransform* target);
 
+	/// <summary>
+	/// 回転行列の取得
+	/// </summary>
+	/// <returns></returns>
+	Matrix4x4 GetRotateMatrix();
+
 public: // アクセッサ
 
 	/// <summary>
@@ -45,7 +51,7 @@ private: // メンバ関数
 	/// 追従対象からのオフセットを計算する
 	/// </summary>
 	/// <returns></returns>
-	Vector3 OffsetCalc() const;
+	Vector3 OffsetCalc();
 
 	/// <summary>
 	/// ロックオン更新
@@ -90,6 +96,9 @@ private:
 
 	// ロックオン用回転行列
 	Matrix4x4 lockOnRotateMatrix_;
+
+	// ロックオンしているか
+	bool isLockOn_;
 
 };
 

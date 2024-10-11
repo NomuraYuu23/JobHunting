@@ -88,7 +88,6 @@ void GameScene::Initialize() {
 	player_->SetCamera(static_cast<BaseCamera*>(followCamera_.get()));
 
 	// ロックオン
-	lockOnTextureHandle_ = TextureManager::Load("Resources/default/clothDemo.png", dxCommon_);
 	lockOn_ = std::make_unique<LockOn>();
 	lockOn_->Initialize(lockOnTextureHandle_);
 	followCamera_->SetLockOn(lockOn_.get());
@@ -393,6 +392,9 @@ void GameScene::TextureLoad()
 	// ゲームオーバー
 	gameOverButtonTextureHandle_ = TextureManager::Load("Resources/OutGame/button.png", dxCommon_);
 	gameOverStringTextureHandle_ = TextureManager::Load("Resources/UI/gameOver.png", dxCommon_);
+
+	// ロックオン
+	lockOnTextureHandle_ = TextureManager::Load("Resources/Sprite/LockOn/LockOn.png", dxCommon_);
 
 	skyboxTextureHandle_ = TextureManager::Load("Resources/default/rostock_laage_airport_4k.dds", DirectXCommon::GetInstance());
 

@@ -187,18 +187,6 @@ void PlayerStateAttack::Move()
 	// 移動量に速さを反映
 	move = Vector3::Multiply(kConstAttaks[comboIndex_].speed_[inComboPhase_], Vector3::Normalize(move));
 
-	// カメラの角度から回転行列を計算する
-	//Matrix4x4 rotateMatrix = m4Calc_->MakeRotateXYZMatrix(camera->GetTransform().rotate);
-
-	// 移動ベクトルをカメラの角度だけ回転する
-	//move = m4Calc_->TransformNormal(move, rotateMatrix);
-
-	//　親がいれば
-	//if (worldTransform->parent_) {
-		//rotateMatrix = m4Calc_->Inverse(worldTransform->parent_->rotateMatrix_);
-		//move = m4Calc_->TransformNormal(move, rotateMatrix);
-	//}
-
 	// 移動
 	velocity.x = move.x;
 	velocity.z = move.z;

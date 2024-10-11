@@ -1,6 +1,7 @@
 #include "PlayerStateRoot.h"
 #include "../../Player.h"
 #include "../../../../../../Engine/Math/Ease.h"
+#include "../../../../../Camera/FollowCamera.h"
 
 void PlayerStateRoot::Initialize()
 {
@@ -31,7 +32,6 @@ void PlayerStateRoot::Update()
 	if (input_->GetJoystickConnected()) {
 
 		const float kThresholdRunning = 0.9f;
-		const float kThresholdWalk = 0.5f;
 
 		// 移動量
 		Vector3 move = { input_->GetLeftAnalogstick().x, 0.0f, -input_->GetLeftAnalogstick().y };
@@ -46,11 +46,6 @@ void PlayerStateRoot::Update()
 				Move(move, worldTransform, runningSpeed_);
 				playerMotionNo_ = kPlayerMotionRun;
 			}
-		}
-		else if (Vector3::Length(move) > kThresholdWalk) {
-			// walk
-			//Move(move, worldTransform, walkSpeed_);
-			//playerMotionNo_ = kPlayerMotionWalk;
 		}
 		else {
 			playerMotionNo_ = kPlayerMotionWait;
@@ -74,7 +69,7 @@ void PlayerStateRoot::Move(Vector3& move, WorldTransform* worldTransform, float 
 	move = Vector3::Multiply(speed, Vector3::Normalize(move));
 
 	// カメラの角度から回転行列を計算する
-	Matrix4x4 rotateMatrix = Matrix4x4::MakeRotateXYZMatrix(camera->GetRotate());
+	Matrix4x4 rotateMatrix = static_cast<FollowCamera*>(camera)->GetRotateMatrix();
 
 	// 移動ベクトルをカメラの角度だけ回転する
 	move = Matrix4x4::TransformNormal(move, rotateMatrix);

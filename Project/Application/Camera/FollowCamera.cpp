@@ -9,12 +9,38 @@
 #include "../../../Engine/Input/Input.h"
 #include "../LockOn/LockOn.h"
 
-
 void FollowCamera::Initialize() {
 
 	BaseCamera::Initialize();
 
 	BaseCamera::Update();
+
+	// 追従対象の残像座標
+	interTarget_ = { 0.0f,0.0f,0.0f };
+
+	// 目指すアングル
+	destinationAngle_ = { 0.0f,0.0f,0.0f };
+
+	// 移動レート
+	moveRate_ = 0.2f;
+
+	// 回転レート
+	rotateRate_ = 0.1f;
+
+	// オフセットの長さ
+	offsetLength_ = -10.0f;
+
+	// ロックオン
+	lockOn_ = nullptr;
+
+	// ロックオン用方向ベクトル
+	lockOnDirection_ = { 0.0f,0.0f,1.0f };
+
+	// ロックオン用回転行列
+	lockOnRotateMatrix_ = Matrix4x4::MakeIdentity4x4();
+
+	// ロックオンしているか
+	isLockOn_ = false;
 
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const char* groupName = "FollowCamera";
@@ -59,8 +85,27 @@ void FollowCamera::Update(float elapsedTime) {
 
 	}
 
-	//ビュー更新
-	BaseCamera::Update();
+	// ズーム
+	Zoom(elapsedTime);
+
+	// シェイク
+	if (isShake_) {
+		ShakeUpdate(elapsedTime);
+	}
+
+	// マッピング
+	Matrix4x4 scaleMatrix = Matrix4x4::MakeScaleMatrix(transform_.scale);
+	Matrix4x4 rotateMatrix = GetRotateMatrix();
+	Matrix4x4 translateMatrix = Matrix4x4::MakeTranslateMatrix(transform_.translate + shakeAddPosition_);
+
+	transformMatrix_ = Matrix4x4::Multiply(scaleMatrix, Matrix4x4::Multiply(rotateMatrix, translateMatrix));
+	viewMatrix_ = Matrix4x4::Inverse(transformMatrix_);
+	projectionMatrix_ = Matrix4x4::MakePerspectiveFovMatrix(fovY_, aspectRatio_, nearClip_, farClip_);
+
+	viewProjectionMatrix_->matrix = Matrix4x4::Multiply(viewMatrix_, projectionMatrix_);
+
+	worldPositionMap_->worldPosition = { transformMatrix_.m[3][0],transformMatrix_.m[3][1], transformMatrix_.m[3][2] };
+
 
 }
 
@@ -83,18 +128,25 @@ void FollowCamera::SetTarget(const WorldTransform* target)
 
 }
 
+Matrix4x4 FollowCamera::GetRotateMatrix()
+{
 
-Vector3 FollowCamera::OffsetCalc() const
+	if (isLockOn_) {
+		return lockOnRotateMatrix_;
+	}
+
+	return Matrix4x4::Multiply(Matrix4x4::MakeRotateXYZMatrix(transform_.rotate), lockOnRotateMatrix_);
+
+}
+
+
+Vector3 FollowCamera::OffsetCalc()
 {
 
 	//追従対象からカメラまでのオフセット
 	Vector3 offset = { 0.0f, 3.0f, offsetLength_ };
 
-	Matrix4x4 rotateMatrix;
-
-	//カメラの角度から回転行列を計算する
-	rotateMatrix = Matrix4x4::MakeRotateXYZMatrix(transform_.rotate);
-
+	Matrix4x4 rotateMatrix = GetRotateMatrix();
 
 	//オフセットをカメラの回転に合わせて回転させる
 	offset = Matrix4x4::TransformNormal(offset, rotateMatrix);
@@ -118,6 +170,9 @@ void FollowCamera::LockOnUpdate()
 	lockOnRotateMatrix_ = Matrix4x4::DirectionToDirection(Vector3{ 0.0f,0.0f,1.0f }, Vector3{ sub.x, 0.0f, sub.z });
 	destinationAngle_.y = 0.0f;
 	destinationAngle_.x = 0.0f;
+	transform_.rotate = { 0.0f,0.0f,0.0f };
+
+	isLockOn_ = true;
 
 }
 
@@ -140,6 +195,8 @@ void FollowCamera::NotLockOnUpdate()
 
 	transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngle_.y, rotateRate_);
 	transform_.rotate.x = Math::LerpShortAngle(transform_.rotate.x, destinationAngle_.x, rotateRate_);
+
+	isLockOn_ = false;
 
 }
 
