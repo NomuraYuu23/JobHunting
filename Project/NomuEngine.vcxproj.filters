@@ -2176,5 +2176,8 @@
     <FxCompile Include="Resources\shaders\ClothGPU\Collision\ClothCollisionSphere.CS.hlsl">
       <Filter>shaders\ClothGPU\Collision</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\Collision\ClothCollisionCapsule.CS.hlsl">
+      <Filter>shaders\ClothGPU\Collision</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

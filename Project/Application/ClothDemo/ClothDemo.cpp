@@ -217,6 +217,10 @@ void ClothDemo::ClothReset(ID3D12GraphicsCommandList* commandList)
 	clothGPU_->CollisionDataRegistration(sphere_->GetName(), ClothGPUCollision::kCollisionTypeIndexSphere);
 	sphere_->SetExsit(true);
 
+
+
+	clothGPU_->CollisionDataRegistration("capsule", ClothGPUCollision::kCollisionTypeIndexCapsule);
+
 }
 
 void ClothDemo::ClothFixedEnd()
