@@ -54,7 +54,7 @@ void LockOn::Update(const std::list<BaseEnemy*>& enemies, Player* player, BaseCa
 
 				float distance = Vector3::Length(Vector3::Subtract(enemyWorldPosition, playerWorldPosition));
 				// 距離条件チェック
-				if (minDistance_ <= distance && distance <= maxDistance_ && dot > 0.0f && enemy != target_) {
+				if (minDistance_ <= distance && distance <= maxDistance_ && dot > angleRange_ && enemy != target_) {
 
 					targets.emplace_back(std::make_pair(distance, enemy));
 
@@ -94,7 +94,7 @@ void LockOn::Update(const std::list<BaseEnemy*>& enemies, Player* player, BaseCa
 
 				float distance = Vector3::Length(Vector3::Subtract(enemyWorldPosition, playerWorldPosition));
 				// 距離条件チェック
-				if (minDistance_ <= distance && distance <= maxDistance_ && dot > 0.0f) {
+				if (minDistance_ <= distance && distance <= maxDistance_ && dot > angleRange_) {
 
 					targets.emplace_back(std::make_pair(distance, enemy));
 
@@ -180,7 +180,7 @@ bool LockOn::OutOfRangeJudgment(Player* player, BaseCamera* camera)
 
 	float distance = Vector3::Length(Vector3::Subtract(enemyWorldPosition, playerWorldPosition));
 	// 距離条件チェック
-	if (minDistance_ <= distance && distance <= maxDistance_ && dot > 0.0f) {
+	if (minDistance_ <= distance && distance <= maxDistance_ && dot > angleRange_) {
 		return false;
 	}
 
