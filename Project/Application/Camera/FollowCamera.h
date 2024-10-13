@@ -100,5 +100,8 @@ private:
 	// ロックオンしているか
 	bool isLockOn_;
 
+	// ロックオンレート
+	const float kLockOnRate_ = 0.1f;
+
 };
 

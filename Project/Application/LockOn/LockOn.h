@@ -71,6 +71,6 @@ private: // メンバ変数
 	float maxDistance_ = 150.0f;
 
 	// 角度範囲
-	float angleRange_ = 20.0f * 3.14f / 180.0f;
+	float angleRange_ = 5.0f * 3.14f / 180.0f;
 
 };

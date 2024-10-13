@@ -165,13 +165,19 @@ void FollowCamera::LockOnUpdate()
 	// ターゲット座標
 	Vector3 targetPosition = { target_->worldMatrix_.m[3][0], target_->worldMatrix_.m[3][1], target_->worldMatrix_.m[3][2] };
 	// 追従対象からロックオン対象へのベクトル(正規化)
-	Vector3 sub = Vector3::Normalize(Vector3::Subtract(lockOnPosition, targetPosition));
+	Vector3 sub = Vector3::Subtract(lockOnPosition, targetPosition);
+	sub = Vector3::Normalize(Vector3{ sub.x, 0.0f, sub.z });
+	lockOnDirection_ = Ease::Easing(Ease::EaseName::Lerp, lockOnDirection_, sub, kLockOnRate_);
 
-	lockOnRotateMatrix_ = Matrix4x4::DirectionToDirection(Vector3{ 0.0f,0.0f,1.0f }, Vector3{ sub.x, 0.0f, sub.z });
+	// ロックオン行列変更
+	lockOnRotateMatrix_ = Matrix4x4::DirectionToDirection(Vector3{ 0.0f,0.0f,1.0f }, lockOnDirection_);
+	
+	// ロックオンではない時の変数を0へ
 	destinationAngle_.y = 0.0f;
 	destinationAngle_.x = 0.0f;
 	transform_.rotate = { 0.0f,0.0f,0.0f };
-
+	
+	// ロックオンである
 	isLockOn_ = true;
 
 }
@@ -193,10 +199,14 @@ void FollowCamera::NotLockOnUpdate()
 	float limit = 3.14f / 4.0f;
 	destinationAngle_.x = std::clamp(destinationAngle_.x, 0.0f, limit);
 
+	// 回転を決定
 	transform_.rotate.y = Math::LerpShortAngle(transform_.rotate.y, destinationAngle_.y, rotateRate_);
 	transform_.rotate.x = Math::LerpShortAngle(transform_.rotate.x, destinationAngle_.x, rotateRate_);
 
+	// ロックオンではない
 	isLockOn_ = false;
+	// ロックオン方向をプレイヤーの向きに合わせておく
+	lockOnDirection_ = Matrix4x4::Transform(Vector3{0.0f,0.0f,1.0f}, Matrix4x4::Multiply(Matrix4x4::MakeRotateXYZMatrix(transform_.rotate), lockOnRotateMatrix_));
 
 }
 
