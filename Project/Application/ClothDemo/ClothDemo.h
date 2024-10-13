@@ -6,6 +6,7 @@
 #include "../../Engine/Input/Input.h"
 #include "CollisionObject/ClothDemoPlane.h"
 #include "CollisionObject/ClothDemoSphere.h"
+#include "CollisionObject/ClothDemoCapsule.h"
 
 class ClothDemo
 {
@@ -99,6 +100,11 @@ private: // オブジェクトの切り替え
 	/// </summary>
 	void SphereSwitching();
 
+	/// <summary>
+	/// カプセル
+	/// </summary>
+	void CapsuleSwitching();
+
 private: // メンバ変数
 
 	// 布
@@ -131,6 +137,9 @@ private: // 衝突オブジェクト
 
 	// 球
 	std::unique_ptr<ClothDemoSphere> sphere_;
+
+	// カプセル
+	std::unique_ptr<ClothDemoCapsule> capsule_;
 
 };
 

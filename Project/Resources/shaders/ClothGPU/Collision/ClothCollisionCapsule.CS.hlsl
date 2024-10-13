@@ -31,7 +31,7 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 		}
 
 		// カプセルと質点の最も近い点
-		float32_t t = dot(massPoint.position_ - gCapsule.origin_, gCapsule.diff_) / rcp(pow(length(gCapsule.diff_), 2.0f));
+		float32_t t = dot(massPoint.position_ - gCapsule.origin_, gCapsule.diff_) * rcp(pow(length(gCapsule.diff_), 2.0f));
 		t = clamp(t, 0.0f, 1.0f);
 		float32_t3 closestPoint = gCapsule.origin_ + gCapsule.diff_* t;
 

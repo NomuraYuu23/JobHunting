@@ -37,6 +37,10 @@ void ClothDemo::Initilalize(
 	sphere_ = std::make_unique<ClothDemoSphere>();
 	sphere_->Initialize("sphere");
 
+	// カプセル
+	capsule_ = std::make_unique<ClothDemoCapsule>();
+	capsule_->Initialize("capsule");
+
 	// 布の初期化
 	ClothReset(dxCommon_->GetCommadListLoad());
 	
@@ -59,6 +63,11 @@ void ClothDemo::Update()
 	sphere_->Update();
 	ClothGPUCollision::CollisionDataMap sphereData = sphere_->GetData();
 	clothGPU_->CollisionDataUpdate(sphere_->GetName(), sphereData);
+
+	// カプセル
+	capsule_->Update();
+	ClothGPUCollision::CollisionDataMap capsuleData = capsule_->GetData();
+	clothGPU_->CollisionDataUpdate(capsule_->GetName(), capsuleData);
 
 }
 
@@ -104,6 +113,10 @@ void ClothDemo::ImGuiDraw()
 	if (ImGui::Button("SphereSwitching")) {
 		SphereSwitching();
 	}
+	capsule_->ImGuiDraw();
+	if (ImGui::Button("CapsuleSwitching")) {
+		CapsuleSwitching();
+	}
 	ImGui::End();
 
 }
@@ -113,6 +126,7 @@ void ClothDemo::CollisionObjectDraw(BaseCamera* camera)
 
 	plane_->Draw(*camera);
 	sphere_->Draw(*camera);
+	capsule_->Draw(*camera);
 
 }
 
@@ -216,11 +230,9 @@ void ClothDemo::ClothReset(ID3D12GraphicsCommandList* commandList)
 	// 登録
 	clothGPU_->CollisionDataRegistration(sphere_->GetName(), ClothGPUCollision::kCollisionTypeIndexSphere);
 	sphere_->SetExsit(true);
-
-
-
-	clothGPU_->CollisionDataRegistration("capsule", ClothGPUCollision::kCollisionTypeIndexCapsule);
-
+	// 登録
+	clothGPU_->CollisionDataRegistration(capsule_->GetName(), ClothGPUCollision::kCollisionTypeIndexCapsule);
+	capsule_->SetExsit(true);
 }
 
 void ClothDemo::ClothFixedEnd()
@@ -285,6 +297,22 @@ void ClothDemo::SphereSwitching()
 		// 登録
 		clothGPU_->CollisionDataRegistration(sphere_->GetName(), ClothGPUCollision::kCollisionTypeIndexSphere);
 		sphere_->SetExsit(true);
+	}
+
+}
+
+void ClothDemo::CapsuleSwitching()
+{
+
+	if (capsule_->GetExist()) {
+		// 削除
+		clothGPU_->CollisionDataDelete(capsule_->GetName());
+		capsule_->SetExsit(false);
+	}
+	else {
+		// 登録
+		clothGPU_->CollisionDataRegistration(capsule_->GetName(), ClothGPUCollision::kCollisionTypeIndexCapsule);
+		capsule_->SetExsit(true);
 	}
 
 }
