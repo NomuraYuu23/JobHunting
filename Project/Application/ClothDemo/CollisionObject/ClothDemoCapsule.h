@@ -47,5 +47,14 @@ private:
     // トランスフォーム、カプセルの下用
     WorldTransform diffWorldTransform_;
 
+    // 円柱モデル
+    std::unique_ptr<Model> cylinderModel_;
+
+    // 円柱モデルファイル名前
+    std::string cylinderFileName_;
+
+    // トランスフォーム、円柱用
+    WorldTransform cylinderWorldTransform_;
+
 };
 

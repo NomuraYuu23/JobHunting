@@ -46,25 +46,51 @@ void ClothDemoCapsule::Initialize(const std::string& name)
     // トランスフォーム、カプセルの下用
     diffWorldTransform_.Initialize(model_->GetRootNode());
 
+    // 円柱モデルファイル名前
+    cylinderFileName_ = "Cylinder.obj";
+
+    // 円柱モデル
+    cylinderModel_.reset(Model::Create(directoryPath_, cylinderFileName_, dxCommon));
+
+    // トランスフォーム、円柱
+    cylinderWorldTransform_.Initialize(cylinderModel_->GetRootNode());
+
 }
 
 void ClothDemoCapsule::Update()
 {
 
+    // 原点球
     // 位置
     worldTransform_.transform_.translate = data_.origin_;
+    // 大きさ
     float size = data_.radius_ - screenDoesNotFlickerValue_;
     worldTransform_.transform_.scale = { size, size, size };
 
     // 行列更新
     worldTransform_.UpdateMatrix();
 
+    // 線分球
     // 位置
     diffWorldTransform_.transform_.translate = data_.origin_ + data_.diff_;
+    // 大きさ
     diffWorldTransform_.transform_.scale = { size, size, size };
 
     // 行列更新
     diffWorldTransform_.UpdateMatrix();
+
+    // 円柱
+    // 位置
+    cylinderWorldTransform_.transform_.translate = data_.diff_ * 0.5f + data_.origin_;
+    // 大きさ
+    size = data_.radius_ - screenDoesNotFlickerValue_;
+    cylinderWorldTransform_.transform_.scale = { size, size, Vector3::Length(data_.diff_) * 0.5f };
+    // 回転
+    cylinderWorldTransform_.usedDirection_ = true;
+    cylinderWorldTransform_.direction_ = Vector3::Normalize(data_.diff_);
+
+    // 行列更新
+    cylinderWorldTransform_.UpdateMatrix();
 
 }
 
@@ -80,6 +106,7 @@ void ClothDemoCapsule::Draw(BaseCamera& camera)
     std::vector<UINT> textureHandles;
     textureHandles.push_back(textureHandle_);
 
+    // 原点球
     desc.model = model_.get();
     desc.material = material_.get();
     desc.camera = &camera;
@@ -88,7 +115,13 @@ void ClothDemoCapsule::Draw(BaseCamera& camera)
 
     ModelDraw::NormalObjectDraw(desc);
 
+    // 線分球
     desc.worldTransform = &diffWorldTransform_;
+    ModelDraw::NormalObjectDraw(desc);
+
+    // 円柱
+    desc.model = cylinderModel_.get();
+    desc.worldTransform = &cylinderWorldTransform_;
     ModelDraw::NormalObjectDraw(desc);
 
 }
@@ -98,10 +131,10 @@ void ClothDemoCapsule::ImGuiDraw()
 
     ImGui::Text("capsule");
     // 原点
-    ImGui::DragFloat3("sphere.origin", &data_.origin_.x, 0.01f);
+    ImGui::DragFloat3("capsule.origin", &data_.origin_.x, 0.01f);
     // 終点までのベクトル
-    ImGui::DragFloat3("sphere.diff", &data_.diff_.x, 0.01f);
+    ImGui::DragFloat3("capsule.diff", &data_.diff_.x, 0.01f);
     // 距離
-    ImGui::DragFloat("sphere.radius", &data_.radius_, 0.01f);
+    ImGui::DragFloat("capsule.radius", &data_.radius_, 0.01f);
 
 }
