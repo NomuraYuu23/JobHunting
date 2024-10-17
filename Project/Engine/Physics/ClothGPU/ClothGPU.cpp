@@ -545,11 +545,11 @@ void ClothGPU::Initialize(
 	const std::string textureName)
 {
 
-	// 数の初期化
-	NumInitialize(device, div);
-
 	// マテリアル初期化
 	MaterialInitialize(textureName);
+
+	// 数の初期化
+	NumInitialize(device, div);
 
 	// バッファ初期化
 	BufferInitialize(device, commandList, scale, div);
@@ -696,10 +696,11 @@ void ClothGPU::NumInitialize(ID3D12Device* device, const Vector2& div)
 	}
 
 	// せん断バネ
-	NumsMap_->shearSpringNums_[0] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
-	NumsMap_->shearSpringNums_[1] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
-	NumsMap_->shearSpringNums_[2] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
-	NumsMap_->shearSpringNums_[3] = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
+	uint32_t shearSpringNum = (static_cast<uint32_t>(div.y) * (static_cast<uint32_t>(div.x) / 2));
+	NumsMap_->shearSpringNums_[0] = shearSpringNum;
+	NumsMap_->shearSpringNums_[1] = shearSpringNum;
+	NumsMap_->shearSpringNums_[2] = shearSpringNum;
+	NumsMap_->shearSpringNums_[3] = shearSpringNum;
 
 	//  Xの分割数が奇数の場合追加する
 	if (static_cast<uint32_t>(div.x) % 2 == 1) {
@@ -769,7 +770,7 @@ void ClothGPU::BufferInitialize(ID3D12Device* device,
 	const Vector2& div)
 {
 
-	// CBN
+	// CBV
 	CBVInitialize(device, scale, div);
 
 	// SRV
