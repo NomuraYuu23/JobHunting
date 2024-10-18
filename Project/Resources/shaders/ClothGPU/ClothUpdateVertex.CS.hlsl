@@ -18,8 +18,10 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 
 	if (gNums.vertexNum_ > index) {
 
+		// 頂点の持つ質点の番号取得
 		uint32_t massPointIndex = gMassPointIndexes[index];
 
+		// 位置設定
 		float32_t3 position = gClothMassPoints[massPointIndex].position_;
 
 		gVertexDatas[index].position_ =
@@ -36,6 +38,7 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 		uint32_t j = 0;
 		uint32_t k = 0;
 
+		// 最大4つの法線情報を取得
 		for (j = 0; j < gNums.surfaceNum_; ++j) {
 			for (k = 0; k < 4; ++k) {
 				if (gSurfaceDatas[j].indexes_[k] == massPointIndex) {
@@ -53,9 +56,10 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 
 		float32_t3 normal = { 0.0f,0.0f,0.0f };
 		for (j = 0; j < normalNum; ++j) {
-			normal = normals[j];
+			normal += normals[j];
 		}
 
+		// 法線代入
 		gVertexDatas[index].normal_ = normalize(normal);
 
 	}
