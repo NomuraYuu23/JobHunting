@@ -1102,6 +1102,9 @@
     <ClCompile Include="Application\ClothDemo\CollisionObject\ClothDemoSphere.cpp">
       <Filter>Application\ClothDemo\CollisionObject</Filter>
     </ClCompile>
+    <ClCompile Include="Application\ClothDemo\CollisionObject\ClothDemoCapsule.cpp">
+      <Filter>Application\ClothDemo\CollisionObject</Filter>
+    </ClCompile>
     <ClCompile Include="Application\LockOn\LockOn.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -1872,6 +1875,9 @@
     <ClInclude Include="Application\ClothDemo\CollisionObject\ClothDemoSphere.h">
       <Filter>Application\ClothDemo\CollisionObject</Filter>
     </ClInclude>
+    <ClInclude Include="Application\ClothDemo\CollisionObject\ClothDemoCapsule.h">
+      <Filter>Application\ClothDemo\CollisionObject</Filter>
+    </ClInclude>
     <ClInclude Include="Application\LockOn\LockOn.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -2183,6 +2189,9 @@
       <Filter>shaders\ClothGPU\Collision</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\ClothGPU\Collision\ClothCollisionSphere.CS.hlsl">
+      <Filter>shaders\ClothGPU\Collision</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ClothGPU\Collision\ClothCollisionCapsule.CS.hlsl">
       <Filter>shaders\ClothGPU\Collision</Filter>
     </FxCompile>
   </ItemGroup>

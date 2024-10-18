@@ -6,6 +6,7 @@
 #include "../../Engine/Input/Input.h"
 #include "CollisionObject/ClothDemoPlane.h"
 #include "CollisionObject/ClothDemoSphere.h"
+#include "CollisionObject/ClothDemoCapsule.h"
 
 class ClothDemo
 {
@@ -59,15 +60,21 @@ public: // メンバ関数
 private: // メンバ関数
 
 	/// <summary>
-	/// 布リセット
+	/// 布の位置リセット
 	/// </summary>
 	/// <param name="fixedIndex">固定方法</param>
-	void ClothReset(FixedIndex fixedIndex);
+	void ClothPositionReset(FixedIndex fixedIndex);
 
 	/// <summary>
 	/// 固定をはずす
 	/// </summary>
 	void RemoveFixation();
+
+	/// <summary>
+	/// 布リセット
+	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	void ClothReset(ID3D12GraphicsCommandList* commandList);
 
 private: // 布固定関数
 
@@ -92,6 +99,11 @@ private: // オブジェクトの切り替え
 	/// 球
 	/// </summary>
 	void SphereSwitching();
+
+	/// <summary>
+	/// カプセル
+	/// </summary>
+	void CapsuleSwitching();
 
 private: // メンバ変数
 
@@ -125,6 +137,9 @@ private: // 衝突オブジェクト
 
 	// 球
 	std::unique_ptr<ClothDemoSphere> sphere_;
+
+	// カプセル
+	std::unique_ptr<ClothDemoCapsule> capsule_;
 
 };
 

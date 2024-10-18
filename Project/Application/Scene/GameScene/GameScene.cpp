@@ -371,7 +371,7 @@ void GameScene::ModelCreate()
 {
 
 	// パーティクル
-	particleUvcheckerModel_.reset(Model::Create("Resources/default/", "plane.gltf", dxCommon_));
+	particleUvcheckerModel_.reset(Model::Create("Resources/default/", "plane.obj", dxCommon_));
 	particleCircleModel_.reset(Model::Create("Resources/Particle/", "plane.obj", dxCommon_));
 
 	// スカイドーム

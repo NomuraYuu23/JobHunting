@@ -19,6 +19,7 @@ void ClothDemoSphere::Initialize(const std::string& name)
     // マテリアル
     material_.reset(Material::Create());
     material_->SetColor(Vector4{ 1.0f,0.5f,0.5f,1.0f });
+    material_->SetEnableLighting(HalfLambert);
 
     // トランスフォーム
     worldTransform_.Initialize(model_->GetRootNode());

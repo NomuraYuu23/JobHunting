@@ -14,8 +14,6 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 
 	if (gNums.surfaceNum_ > index) {
 
-		gSurfaceDatas[index].indexes_[0];
-
 		// 左上
 		float32_t3 leftTop = gClothMassPoints[gSurfaceDatas[index].indexes_[0]].position_;
 		// 右上

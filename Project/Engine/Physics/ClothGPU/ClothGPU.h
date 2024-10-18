@@ -29,6 +29,55 @@ class ClothGPU
 public: // サブクラス
 
 	/// <summary>
+	/// バネの種類
+	/// </summary>
+	enum ClothSpringBufferStructIndex {
+		kClothSpringBufferStructIndexStructuralLeftOdd, // 構成バネ、左、奇数
+		kClothSpringBufferStructIndexStructuralLeftEven, // 構成バネ、左、偶数
+		kClothSpringBufferStructIndexStructuralTopOdd, // 構成バネ、上、奇数
+		kClothSpringBufferStructIndexStructuralTopEven, // 構成バネ、上、偶数
+
+		kClothSpringBufferStructIndexShearLeftOdd, // せん断バネ、左上、奇数
+		kClothSpringBufferStructIndexShearLeftEven, // せん断バネ、左上、偶数
+		kClothSpringBufferStructIndexShearRightOdd, // せん断バネ、右上、奇数
+		kClothSpringBufferStructIndexShearRightEven, // せん断バネ、右上、偶数
+
+		kClothSpringBufferStructIndexBendingLeftNotPrime, // 曲げバネ、左、(質点index % 4 <= 1)
+		kClothSpringBufferStructIndexBendingLeftPrime, // 曲げバネ、左、(質点index % 4 > 1)
+		kClothSpringBufferStructIndexBendingTopNotPrime, // 曲げバネ、上、(質点index % 4 <= 1)
+		kClothSpringBufferStructIndexBendingTopPrime, // 曲げバネ、上、(質点index % 4 > 1)
+
+		kClothSpringBufferStructIndexOfCount // 数える用
+	};
+
+	/// <summary>
+	/// CSのパイプラインステート
+	/// </summary>
+	enum PipelineStateCSIndex {
+		kPipelineStateCSIndexInitVertex,// 初期化 頂点
+		kPipelineStateCSIndexInitMassPoint,// 初期化 質点
+		kPipelineStateCSIndexInitSurface,// 初期化 面
+
+		kPipelineStateCSIndexUpdateExternalOperation,// 更新 外部操作フェーズ
+		kPipelineStateCSIndexUpdateIntegral,// 更新 積分フェーズ
+		kPipelineStateCSIndexUpdateSpring,// 更新 バネフェーズ
+		kPipelineStateCSIndexUpdateSurface,// 更新 面
+		kPipelineStateCSIndexUpdateVertex,// 更新 頂点フェーズ
+
+		kPipelineStateCSIndexOfCount // 数える用
+	};
+
+	/// <summary>
+	/// バネの種類
+	/// </summary>
+	enum TypeOfSpring {
+		kTypeOfSpringStructuralSpring = 0, // 構成バネ
+		kTypeOfSpringShearSpring = 1, // せん断バネ
+		kTypeOfSpringBendingSpring = 2, // 曲げバネ
+		kTypeOfSpringOfCount // 数える用
+	};
+
+	/// <summary>
 	/// 頂点
 	/// </summary>
 	struct VertexData {
@@ -49,7 +98,7 @@ public: // サブクラス
 	/// </summary>
 	struct SurfaceData {
 		Vector3 normal_; // 法線
-		std::array<int32_t, 4> indexes_; // 頂点
+		std::array<int32_t, 4> indexes_; // 頂点 四角形固定なので四つ
 	};
 
 	/// <summary>
@@ -94,11 +143,9 @@ public: // サブクラス
 	/// </summary>
 	struct ClothMassPoint
 	{
-		Vector3 position_; // 現在位置
+		Vector3 position_; // 現在の位置
 		Vector3 prePosition_; // 前フレ―ムの位置
 		float weight_; // 運動計算の重み (固定する場合は0.0f, それ以外は1.0f)
-		uint32_t y_; // y 検索用
-		uint32_t x_; // x 検索用
 	};
 
 	/// <summary>
@@ -117,7 +164,7 @@ public: // サブクラス
 	/// </summary>
 	struct Nums
 	{
-		std::array<uint32_t,4> structuralSpringNums_;
+		std::array<uint32_t,4> structuralSpringNums_; // 構成バネ、4つバッファがある
 		std::array<uint32_t, 4> shearSpringNums_;
 		std::array<uint32_t, 4> bendingSpringNums_;
 
@@ -145,46 +192,6 @@ public: // サブクラス
 		/// <param name="device">デバイス</param>
 		/// <param name="num">数</param>
 		void Initialize(ID3D12Device* device, uint32_t num);
-	};
-
-	/// <summary>
-	/// バネの種類
-	/// </summary>
-	enum ClothSpringBufferStructIndex {
-		kClothSpringBufferStructIndexStructural0, // 構成バネ、質点がかぶらないよう4つ
-		kClothSpringBufferStructIndexStructural1, // 構成バネ
-		kClothSpringBufferStructIndexStructural2, // 構成バネ
-		kClothSpringBufferStructIndexStructural3, // 構成バネ
-
-		kClothSpringBufferStructIndexShear0, // せん断バネ、質点がかぶらないよう4つ
-		kClothSpringBufferStructIndexShear1, // せん断バネ
-		kClothSpringBufferStructIndexShear2, // せん断バネ
-		kClothSpringBufferStructIndexShear3, // せん断バネ
-
-		kClothSpringBufferStructIndexBending0, // 曲げバネ、質点がかぶらないよう4つ
-		kClothSpringBufferStructIndexBending1, // 曲げバネ
-		kClothSpringBufferStructIndexBending2, // 曲げバネ
-		kClothSpringBufferStructIndexBending3, // 曲げバネ
-
-		kClothSpringBufferStructIndexOfCount // 数える用
-	};
-
-	/// <summary>
-	/// CSのパイプラインステート
-	/// </summary>
-	enum PipelineStateCSIndex {
-		kPipelineStateCSIndexInitVertex,// 初期化 頂点
-		kPipelineStateCSIndexInitMassPoint,// 初期化 質点
-		kPipelineStateCSIndexInitSurface,// 初期化 面
-
-		kPipelineStateCSIndexUpdateExternalOperation,// 更新 外部操作フェーズ
-		kPipelineStateCSIndexUpdateIntegral,// 更新 積分フェーズ
-		kPipelineStateCSIndexUpdateSpring,// 更新 バネフェーズ
-		kPipelineStateCSIndexUpdateSurface,// 更新 面
-
-		kPipelineStateCSIndexUpdateVertex,// 更新 頂点フェーズ
-
-		kPipelineStateCSIndexOfCount // 数える用
 	};
 
 private: // 静的メンバ変数
@@ -524,8 +531,8 @@ private: // その他関数
 		uint32_t x,
 		uint32_t y,
 		int32_t offsetX,
-		int32_t offsetY,
-		uint32_t type);
+		int32_t offsetY, 
+		TypeOfSpring type);
 
 private: // その他関数
 
@@ -573,19 +580,50 @@ public: // その他関数
 public: // アクセッサ
 
 	// 布計算
+
+	// 重力
 	void SetGravity(const Vector3& gravity) { clothCalcDataMap_->gravity_ = gravity; }
+	Vector3 GetGravity() { return clothCalcDataMap_->gravity_; }
+
+	// 風力
 	void SetWind(const Vector3& wind) { clothCalcDataMap_->wind_ = wind; }
+	Vector3 GetWind() { return clothCalcDataMap_->wind_; }
+	
+	// バネ強度
 	void SetStiffness(float stiffness) { clothCalcDataMap_->stiffness_ = stiffness; }
+	float GetStiffness() { return clothCalcDataMap_->stiffness_; }
+
+	// 速度抵抗
 	void SetSpeedResistance(float speedResistance) { clothCalcDataMap_->speedResistance_ = speedResistance; }
+	float GetSpeedResistance() { return clothCalcDataMap_->speedResistance_; }
+	
+	// 構成バネ伸び抵抗
 	void SetStructuralShrink(float structuralShrink) { clothCalcDataMap_->structuralShrink_ = structuralShrink; }
+	float GetStructuralShrink() { return clothCalcDataMap_->structuralShrink_; }
+
+	// 構成バネ縮み抵抗
 	void SetStructuralStretch(float structuralStretch) { clothCalcDataMap_->structuralStretch_ = structuralStretch; }
+	float GetStructuralStretch() { return clothCalcDataMap_->structuralStretch_; }
+
+	// せん断バネ伸び抵抗
 	void SetShearShrink(float shearShrink) { clothCalcDataMap_->shearShrink_ = shearShrink; }
+	float GetShearShrink() { return clothCalcDataMap_->shearShrink_; }
+
+	// せん断バネ縮み抵抗
 	void SetShearStretch(float shearStretch) { clothCalcDataMap_->shearStretch_ = shearStretch; }
+	float GetShearStretch() { return clothCalcDataMap_->shearStretch_; }
+
+	// 曲げバネ伸び抵抗
 	void SetBendingShrink(float bendingShrink) { clothCalcDataMap_->bendingShrink_ = bendingShrink; }
+	float GetBendingShrink() { return clothCalcDataMap_->bendingShrink_; }
+
+	// 曲げバネ縮み抵抗
 	void SetBendingStretch(float bendingStretch) { clothCalcDataMap_->bendingStretch_ = bendingStretch; }
+	float GetBendingStretch() { return clothCalcDataMap_->bendingStretch_; }
 
 	// バネフェーズの反復回数
 	void SetRelaxation(int32_t relaxation) { relaxation_ = relaxation; }
+	int32_t GetRelaxation() { return relaxation_; }
 
 	// マテリアル
 	Material* GetMaterial() { return material_.get(); }
