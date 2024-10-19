@@ -30,7 +30,7 @@ private: // メンバ変数
 	uint32_t frameCount_;
 
 	// 移動開始フレーム
-	uint32_t moveStartFrame_ = 12;
+	uint32_t moveStartFrame_ = 0;
 
 };
 
