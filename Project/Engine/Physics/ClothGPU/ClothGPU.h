@@ -752,5 +752,8 @@ private: // 変数
 	// CSで更新をするか
 	bool csUpdate_;
 
+	// 初期化移動したか
+	bool didYouMoveInit_;
+
 };
 

@@ -563,14 +563,22 @@ void ClothGPU::Initialize(
 	// 更新するかを一度falseに
 	csUpdate_ = false;
 
+	// 初期化移動したか
+	didYouMoveInit_ = false;
+
 }
 
 void ClothGPU::Update(ID3D12GraphicsCommandList* commandList)
 {
 
 	// 外部操作リセット
-	for (uint32_t i = 0; i < NumsMap_->massPointNum_; ++i) {
-		externalMap_[i].isMove_ = 0;
+	if (didYouMoveInit_) {
+		for (uint32_t i = 0; i < NumsMap_->massPointNum_; ++i) {
+			externalMap_[i].isMove_ = 0;
+		}
+	}
+	else {
+		didYouMoveInit_ = true;
 	}
 
 	// 時間経過
@@ -1394,15 +1402,18 @@ void ClothGPU::ResouseBarrierToUnorderedAccess(ID3D12GraphicsCommandList* comman
 }
 
 void ClothGPU::SetWeight(
-	uint32_t y, 
-	uint32_t x, 
+	uint32_t y,
+	uint32_t x,
 	bool isWight)
 {
 
+	// 質点があるか
 	if (y < static_cast<uint32_t>(createDataMap_->div_.y) + 1 &&
 		x < static_cast<uint32_t>(createDataMap_->div_.x) + 1) {
 
+		// index取得
 		uint32_t index = y * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + x;
+		// 重み
 		float value = 0.0f;
 		if (isWight) {
 			value = 1.0f;
@@ -1413,17 +1424,21 @@ void ClothGPU::SetWeight(
 }
 
 void ClothGPU::SetPosition(
-	uint32_t y, 
-	uint32_t x, 
+	uint32_t y,
+	uint32_t x,
 	const Vector3& position)
 {
 
+	// 質点があるか
 	if (y < static_cast<uint32_t>(createDataMap_->div_.y) + 1 &&
 		x < static_cast<uint32_t>(createDataMap_->div_.x) + 1) {
 
+		// index取得
 		uint32_t index = y * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + x;
 
+		// 位置
 		externalMap_[index].position_ = position;
+		// フラグを立てる
 		externalMap_[index].isMove_ = 1;
 	}
 

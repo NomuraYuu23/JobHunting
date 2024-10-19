@@ -27,8 +27,8 @@ void ClothDemoCapsule::Initialize(const std::string& name)
     worldTransform_.Initialize(model_->GetRootNode());
 
     // データ
-    data_.origin_ = { 0.0f, 0.0f, 0.0f };
-    data_.diff_ = { 0.0f, 1.0f, 0.0f };
+    data_.origin_ = { 0.0f, -0.5f, 0.0f };
+    data_.diff_ = { 0.0f, 0.5f, 0.0f };
     data_.radius_ = 0.5f;
 
     // 画面ちらつかないようの値
