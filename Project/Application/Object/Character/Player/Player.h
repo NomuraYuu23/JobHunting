@@ -25,7 +25,7 @@ enum PlayerMotionIndex {
 	kPlayerMotionAttack2nd, // 攻撃時(2段目)
 	kPlayerMotionAvoidance, // 回避時
 	kPlayerMotionRest, // 座る
-
+	kPlayerMotionDamage, // ダメージ
 
 	kPlayerMotionDash, // ダッシュ時
 	kPlayerMotionWalk, // 歩行時
@@ -102,6 +102,9 @@ private: // ベースのメンバ変数
 
 	// コマンドを受け取るか
 	bool receiveCommand_;
+
+	// 割り込みコマンドがあるか
+	bool interruptCommand_;
 
 private: // ステート関数
 

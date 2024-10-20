@@ -169,6 +169,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\GPUParticle\PillarSmokeParticle.cpp" />
     <ClCompile Include="Application\LockOn\LockOn.cpp" />
     <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitingForBattle.cpp" />
+    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateDamage\PlayerStateDamage.cpp" />
     <ClCompile Include="Application\Object\ClothObject\BaseClothObject.cpp" />
     <ClCompile Include="Application\Object\ClothObject\Flag\Flag.cpp" />
     <ClCompile Include="Application\Object\Obstacle\Block\Block.cpp" />
@@ -377,6 +378,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\GPUParticle\PillarSmokeParticle.h" />
     <ClInclude Include="Application\LockOn\LockOn.h" />
     <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitingForBattle.h" />
+    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateDamage\PlayerStateDamage.h" />
     <ClInclude Include="Application\Object\ClothObject\BaseClothObject.h" />
     <ClInclude Include="Application\Object\ClothObject\Flag\Flag.h" />
     <ClInclude Include="Application\Object\Obstacle\Block\Block.h" />

@@ -13,6 +13,7 @@ enum PlayerState {
 	kPlayerStateRecovery, // 回復
 	kPlayerStateGuard, // ガード
 	kPlayerStateAttack, // 攻撃
+	kPlayerStateDamage, // ダメージ
 	kPlayerStateOfCount // 数
 };
 

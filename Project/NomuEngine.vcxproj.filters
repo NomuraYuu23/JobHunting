@@ -1108,6 +1108,9 @@
     <ClCompile Include="Application\LockOn\LockOn.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateDamage\PlayerStateDamage.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1879,6 +1882,9 @@
       <Filter>Application\ClothDemo\CollisionObject</Filter>
     </ClInclude>
     <ClInclude Include="Application\LockOn\LockOn.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateDamage\PlayerStateDamage.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -45,6 +45,9 @@ void Player::Initialize(LevelData::MeshData* data)
 	// コマンドを受け取るか
 	receiveCommand_ = true;
 
+	// 割り込みコマンドがあるか
+	interruptCommand_ = false;
+
 	// ステート
 	StateInitialize();
 
@@ -93,7 +96,7 @@ void Player::Update()
 
 	MeshObject::Update();
 
-	if (receiveCommand_) {
+	if (receiveCommand_ && !interruptCommand_) {
 		nextStateNo_ = playerCommand_->Command();
 	}
 
@@ -253,8 +256,9 @@ void Player::StateUpdate()
 
 	// ステートのチェック
 	prevStateNo_ = currentStateNo_;
-	if (receiveCommand_) {
+	if (receiveCommand_ || interruptCommand_) {
 		currentStateNo_ = nextStateNo_;
+		interruptCommand_ = false;
 	}
 	else {
 		currentStateNo_ = playerState_->GetPlaryerStateNo();
@@ -550,6 +554,10 @@ void Player::Damage(uint32_t damage)
 
 	if (hp_ <= 0) {
 		isDead_ = true;
+	}
+	else {
+		nextStateNo_ = kPlayerStateDamage;
+		interruptCommand_ = true;
 	}
 
 }
