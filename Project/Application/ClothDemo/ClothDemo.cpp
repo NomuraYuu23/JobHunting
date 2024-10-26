@@ -207,7 +207,7 @@ void ClothDemo::ClothReset(ID3D12GraphicsCommandList* commandList)
 	// 布の初期化
 	clothGPU_.reset(nullptr);
 	clothGPU_ = std::make_unique<ClothGPU>();
-	clothGPU_->Initialize(dxCommon_->GetDevice(), commandList, clothScale_, clothDiv_, "Resources/default/clothDemo.png");
+	clothGPU_->Initialize(dxCommon_->GetDevice(), commandList, clothScale_, clothDiv_, "Resources/Sprite/Cloth/BlueCloth.png");
 
 	// 布の計算データを戻す
 	clothGPU_->SetGravity(gravity); // 重力
