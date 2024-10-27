@@ -16,10 +16,21 @@ public: // 関数
 	/// <param name="lifeTime">生存時間</param>
 	void Initialize(Model* model, uint32_t textureHandle, float lifeTime);
 	
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="camera">カメラ</param>
 	void Update(BaseCamera& camera);
 
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="camera">カメラ</param>
 	void Draw(BaseCamera& camera);
 
+	/// <summary>
+	/// リセット
+	/// </summary>
 	void Reset();
 
 public: // アクセッサ

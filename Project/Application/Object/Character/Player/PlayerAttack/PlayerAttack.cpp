@@ -31,28 +31,12 @@ void PlayerAttack::Initialize(WorldTransform* parent)
 	// あたり判定を取るか
 	isAttackJudgment_ = false;
 
-	// パーティクル
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
-
-	bloadParticle_ = std::make_unique<BloadParticle>();
-
-	bloadParticle_->Initialize(
-		dxCommon->GetDevice(),
-		dxCommon->GetCommadListLoad(),
-		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
-		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get());
-
-	EmitterCS emitter;
-	emitter.count = 10;
-	emitter.frequency = 0.1f;
-	emitter.frequencyTime = 0.0f;
-	emitter.translate = worldTransform_.GetWorldPosition();
-	emitter.radius = 1.0f;
-	emitter.emit = 0;
-
-	bloadParticle_->SetEmitter(emitter);
-
-	particleTime_ = particleTimeMax_;
+	// エフェクトマネージャー
+	bloadEffect_ = EffectManager::GetInstance()->GetBillboardEffect(EffectManager::BillboardEffectIndexPlayerAttackBload);
+	bloadEffect_->SetColor(Vector4{ 0.3f,0.0f,0.0f,1.0f });
+	bloadEffect_->SetLifeTime(0.2f);
+	bloadEffect_->SetEaseName(Ease::EaseName::EaseOutQuad);
+	bloadEffectPositionAdd_ = { 0.0f,1.0f,0.0f };
 
 }
 
@@ -123,36 +107,6 @@ void PlayerAttack::CollisionListRegister(CollisionManager* collisionManager, Col
 
 }
 
-void PlayerAttack::ParticleDraw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
-{
-
-	bloadParticle_->Draw(commandList, camera);
-
-}
-
-void PlayerAttack::ParticleUpdate()
-{
-	particleTime_ += kDeltaTime_;
-
-	if (particleTimeMax_ <= particleTime_) {
-		particleTime_ = particleTimeMax_;
-		EmitterCS emitter;
-		emitter.count = 10;
-		emitter.frequency = 0.1f;
-		emitter.frequencyTime = 0.0f;
-		emitter.translate = worldTransform_.GetWorldPosition();
-		emitter.radius = 1.0f;
-		emitter.emit = 0;
-
-		bloadParticle_->SetEmitter(emitter);
-
-	}
-	else {
-		bloadParticle_->Update();
-	}
-
-}
-
 Vector3 PlayerAttack::GetParentPos()
 {
 	return worldTransform_.parent_->GetWorldPosition();
@@ -175,15 +129,9 @@ void PlayerAttack::OnCollisionEnemy(ColliderParentObject colliderPartner, const 
 	// 衝突処理
 	enemy->Damage(damage_);
 
-	EmitterCS emitter;
-	emitter.count = 10;
-	emitter.frequency = 0.1f;
-	emitter.frequencyTime = 0.0f;
-	emitter.translate = enemy->GetWorldTransformAdress()->GetWorldPosition();
-	emitter.radius = 1.0f;
-	emitter.emit = 0;
-
-	bloadParticle_->SetEmitter(emitter);
-	particleTime_ = 0.0f;
+	// エフェクトマネージャー
+	bloadEffect_->SetInitPosition(enemy->GetWorldTransformAdress()->GetWorldPosition() + bloadEffectPositionAdd_);
+	bloadEffect_->SetEndPosition(enemy->GetWorldTransformAdress()->GetWorldPosition() + bloadEffectPositionAdd_);
+	bloadEffect_->Reset();
 
 }

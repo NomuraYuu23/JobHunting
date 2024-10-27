@@ -30,7 +30,7 @@ void BaseEnemyAttack::Initialize(WorldTransform* parent)
 	isAttackJudgment_ = false;
 
 	// エフェクトマネージャー
-	bloadEffect_ = EffectManager::GetInstance()->GetBillboardEffect(EffectManager::BillboardEffectIndexBload);
+	bloadEffect_ = EffectManager::GetInstance()->GetBillboardEffect(EffectManager::BillboardEffectIndexEnemyAttackBload);
 	bloadEffect_->SetColor(Vector4{ 0.3f,0.0f,0.0f,1.0f });
 	bloadEffect_->SetLifeTime(0.2f);
 	bloadEffect_->SetEaseName(Ease::EaseName::EaseOutQuad);
@@ -103,16 +103,6 @@ void BaseEnemyAttack::CollisionListRegister(CollisionManager* collisionManager, 
 	collisionManager->ListRegister(collider_.get());
 
 	colliderDebugDraw->AddCollider(*collider_.get());
-
-}
-
-void BaseEnemyAttack::ParticleDraw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
-{
-
-}
-
-void BaseEnemyAttack::ParticleUpdate()
-{
 
 }
 

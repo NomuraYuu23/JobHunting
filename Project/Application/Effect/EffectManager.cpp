@@ -10,6 +10,12 @@ const std::array<std::string, EffectManager::EffectTextureIndexOfCount> EffectMa
 	"bload.png"
 };
 
+// ビルボードエフェクトが使うテクスチャ番号
+const std::array<EffectManager::EffectTextureIndex, EffectManager::BillboardEffectIndexOfCount> EffectManager::billboardEffectTextureHandleIndexes_ = {
+	EffectManager::EffectTextureIndexBload,
+	EffectManager::EffectTextureIndexBload
+};
+
 EffectManager* EffectManager::GetInstance()
 {
 	static EffectManager instance;
@@ -34,7 +40,7 @@ void EffectManager::Initialize(Model* model)
 	// ビルボードエフェクト
 	for (uint32_t i = 0; i < BillboardEffectIndexOfCount; ++i) {
 		billboardEffects_[i] = std::make_unique<BillboardEffect>();
-		billboardEffects_[i]->Initialize(model_, effectTextureHandles_[i], 1.0f);
+		billboardEffects_[i]->Initialize(model_, effectTextureHandles_[billboardEffectTextureHandleIndexes_[i]], 1.0f);
 	}
 
 }

@@ -122,8 +122,6 @@ void Player::Update()
 	// 速度保存
 	SaveVelocityUpdate();
 
-	attack_->ParticleUpdate();
-
 	// フィールドパーティクル
 	fieldSparksParticle_->Update();
 	fieldSparksEmitter_.translate = worldTransform_.GetWorldPosition();
@@ -227,8 +225,6 @@ void Player::ParticleDraw(BaseCamera& camera)
 {
 
 	assert(commandList_);
-
-	attack_->ParticleDraw(commandList_, camera);
 
 	fieldSparksParticle_->Draw(commandList_, camera);
 

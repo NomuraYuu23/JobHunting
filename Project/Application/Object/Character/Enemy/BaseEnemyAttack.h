@@ -4,7 +4,6 @@
 #include "../../../Engine/ContactRecord/ContactRecord.h"
 #include "../../../Engine/Collision/CollisionManager.h"
 #include "../../../Engine/Collider/ColliderDebugDraw/ColliderDebugDraw.h"
-#include "../../../GPUParticle/BloadParticle.h"
 #include "../../../Effect/EffectManager.h"
 
 class BaseEnemyAttack
@@ -51,18 +50,6 @@ public: // 変数
 	/// </summary>
 	/// <param name="collisionManager"></param>
 	void CollisionListRegister(CollisionManager* collisionManager, ColliderDebugDraw* colliderDebugDraw);
-
-	/// <summary>
-	/// パーティクル描画
-	/// </summary>
-	/// <param name="camera">カメラ</param>
-	/// <param name="commandList">コマンドリスト</param>
-	void ParticleDraw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera);
-
-	/// <summary>
-	/// パーティクル更新
-	/// </summary>
-	void ParticleUpdate();
 
 	/// <summary>
 	/// 親のワールドポジション

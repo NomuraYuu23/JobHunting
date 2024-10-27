@@ -64,8 +64,6 @@ void BaseEnemy::Update()
 
 	MeshObject::Update();
 
-	attack_->ParticleUpdate();
-
 }
 
 void BaseEnemy::Draw(BaseCamera& camera)
@@ -111,8 +109,6 @@ void BaseEnemy::CollisionListRegister(CollisionManager* collisionManager, Collid
 
 void BaseEnemy::ParticleDraw(BaseCamera& camera)
 {
-
-	attack_->ParticleDraw(commandList_, camera);
 
 }
 

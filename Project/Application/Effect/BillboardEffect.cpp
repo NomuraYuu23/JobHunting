@@ -79,7 +79,7 @@ void BillboardEffect::Update(BaseCamera& camera)
 	// ワールドトランスフォーム更新
 	worldTransform_.transform_.translate = position_;
 	worldTransform_.transform_.scale = scale_;
-	worldTransform_.UpdateMatrix(BillBoardMatrix::GetBillBoardMatrixY(camera));
+	worldTransform_.UpdateMatrix(BillBoardMatrix::GetBillBoardMatrixAll(camera));
 
 }
 

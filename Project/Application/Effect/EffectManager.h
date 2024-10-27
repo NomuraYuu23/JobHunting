@@ -10,7 +10,8 @@ public: // サブクラス
 	/// ビルボードエフェクト番号
 	/// </summary>
 	enum BillboardEffectIndex{
-		BillboardEffectIndexBload, // 血エフェクト
+		BillboardEffectIndexEnemyAttackBload, // 血エフェクト
+		BillboardEffectIndexPlayerAttackBload, // 血エフェクト
 		BillboardEffectIndexOfCount,
 	};
 
@@ -63,6 +64,9 @@ private: // 静的メンバ変数
 
 	// テクスチャ名前
 	static const std::array<std::string, EffectTextureIndexOfCount> effectTextureNames_;
+
+	// ビルボードエフェクトが使うテクスチャ番号
+	static const std::array<EffectTextureIndex, BillboardEffectIndexOfCount> billboardEffectTextureHandleIndexes_;
 
 private: // 変数
 
