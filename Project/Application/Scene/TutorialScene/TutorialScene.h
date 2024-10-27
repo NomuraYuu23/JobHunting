@@ -19,6 +19,7 @@
 
 #include "../../UI/TutorialUIManager.h"
 #include "../../GPUParticle/BonfireParticle.h"
+#include "../../Effect/EffectManager.h"
 
 
 class TutorialScene : public IScene
@@ -90,6 +91,10 @@ private:
 	// スカイボックス
 	uint32_t skyboxTextureHandle_ = 0;
 
+	// プレイヤー
 	Player* player_;
+
+	// エフェクトマネージャー
+	EffectManager* effectManager_ = nullptr;
 
 };

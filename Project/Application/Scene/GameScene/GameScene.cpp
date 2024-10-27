@@ -44,6 +44,10 @@ void GameScene::Initialize() {
 	particleModel[ParticleModelIndex::kCircle] = particleCircleModel_.get();
 	particleManager_->ModelCreate(particleModel);
 
+	// エフェクトマネージャー
+	effectManager_ = EffectManager::GetInstance();
+	effectManager_->Initialize(particleCircleModel_.get());
+
 	isDebugCameraActive_ = false;
 
 	collisionManager_.reset(new CollisionManager);
@@ -169,6 +173,8 @@ void GameScene::Update() {
 
 	//パーティクル
 	particleManager_->Update(camera_);
+	// エフェクトマネージャー
+	effectManager_->Update(camera_);
 
 }
 
@@ -176,6 +182,13 @@ void GameScene::Update() {
 /// 描画処理
 /// </summary>
 void GameScene::Draw() {
+
+	// ポストエフェクト設定
+	PostEffect::GetInstance()->SetKernelSize(33);
+	PostEffect::GetInstance()->SetGaussianSigma(33.0f);
+	PostEffect::GetInstance()->SetProjectionInverse(Matrix4x4::Inverse(camera_.GetProjectionMatrix()));
+	PostEffect::GetInstance()->SetRadialBlurStrength(0.2f);
+	PostEffect::GetInstance()->SetThreshold(0.25f);
 
 	//ゲームの処理 
 
@@ -208,6 +221,27 @@ void GameScene::Draw() {
 	skydome_->Draw(camera_);
 
 	objectManager_->Draw(camera_, drawLine_);
+
+	// アウトライン
+	PostEffect::GetInstance()->Execution(
+		dxCommon_->GetCommadList(),
+		renderTargetTexture_,
+		PostEffect::kCommandIndexOutline
+	);
+	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+	// ブルーム
+	if (!(gameOverSystem_->GetIsOperation() || isBeingReset_)) {
+		PostEffect::GetInstance()->Execution(
+			dxCommon_->GetCommadList(),
+			renderTargetTexture_,
+			PostEffect::kCommandIndexBloom
+		);
+		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+	}
+	renderTargetTexture_->ClearDepthBuffer();
+
+	// エフェクトマネージャー
+	effectManager_->Draw(camera_);
 
 	ModelDraw::PostDraw();
 
@@ -252,25 +286,6 @@ void GameScene::Draw() {
 		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
 
 	}
-	else {
-
-		PostEffect::GetInstance()->Execution(
-			dxCommon_->GetCommadList(),
-			renderTargetTexture_,
-			PostEffect::kCommandIndexBloom
-		);
-
-		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
-
-	}
-
-	PostEffect::GetInstance()->Execution(
-		dxCommon_->GetCommadList(),
-		renderTargetTexture_,
-		PostEffect::kCommandIndexOutline
-	);
-
-	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
 
 	renderTargetTexture_->ClearDepthBuffer();
 

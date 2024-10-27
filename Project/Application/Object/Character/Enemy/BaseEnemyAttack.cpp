@@ -29,28 +29,12 @@ void BaseEnemyAttack::Initialize(WorldTransform* parent)
 	// あたり判定を取るか
 	isAttackJudgment_ = false;
 
-	// パーティクル
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
-
-	bloadParticle_ = std::make_unique<BloadParticle>();
-
-	bloadParticle_->Initialize(
-		dxCommon->GetDevice(),
-		dxCommon->GetCommadListLoad(),
-		GraphicsPipelineState::sRootSignature[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get(),
-		GraphicsPipelineState::sPipelineState[GraphicsPipelineState::kPipelineStateIndexGPUParticle].Get());
-
-	EmitterCS emitter;
-	emitter.count = 10;
-	emitter.frequency = 0.1f;
-	emitter.frequencyTime = 0.0f;
-	emitter.translate = worldTransform_.GetWorldPosition();
-	emitter.radius = 1.0f;
-	emitter.emit = 0;
-
-	bloadParticle_->SetEmitter(emitter);
-
-	particleTime_ = particleTimeMax_;
+	// エフェクトマネージャー
+	bloadEffect_ = EffectManager::GetInstance()->GetBillboardEffect(EffectManager::BillboardEffectIndexBload);
+	bloadEffect_->SetColor(Vector4{ 0.3f,0.0f,0.0f,1.0f });
+	bloadEffect_->SetLifeTime(0.2f);
+	bloadEffect_->SetEaseName(Ease::EaseName::EaseOutQuad);
+	bloadEffectPositionAdd_ = { 0.0f,1.0f,0.0f };
 
 }
 
@@ -125,30 +109,10 @@ void BaseEnemyAttack::CollisionListRegister(CollisionManager* collisionManager, 
 void BaseEnemyAttack::ParticleDraw(ID3D12GraphicsCommandList* commandList, BaseCamera& camera)
 {
 
-	bloadParticle_->Draw(commandList, camera);
-
 }
 
 void BaseEnemyAttack::ParticleUpdate()
 {
-	particleTime_ += kDeltaTime_;
-
-	if (particleTimeMax_ <= particleTime_) {
-		particleTime_ = particleTimeMax_;
-		EmitterCS emitter;
-		emitter.count = 10;
-		emitter.frequency = 0.1f;
-		emitter.frequencyTime = 0.0f;
-		emitter.translate = worldTransform_.GetWorldPosition();
-		emitter.radius = 1.0f;
-		emitter.emit = 0;
-
-		bloadParticle_->SetEmitter(emitter);
-
-	}
-	else {
-		bloadParticle_->Update();
-	}
 
 }
 
@@ -174,15 +138,9 @@ void BaseEnemyAttack::OnCollisionPlayer(ColliderParentObject colliderPartner, co
 	// 衝突処理
 	player->Damage(damage_);
 
-	EmitterCS emitter;
-	emitter.count = 10;
-	emitter.frequency = 0.1f;
-	emitter.frequencyTime = 0.0f;
-	emitter.translate = player->GetWorldTransformAdress()->GetWorldPosition();
-	emitter.radius = 1.0f;
-	emitter.emit = 0;
-
-	bloadParticle_->SetEmitter(emitter);
-	particleTime_ = 0.0f;
+	// エフェクトマネージャー
+	bloadEffect_->SetInitPosition(player->GetWorldTransformAdress()->GetWorldPosition() + bloadEffectPositionAdd_);
+	bloadEffect_->SetEndPosition(player->GetWorldTransformAdress()->GetWorldPosition() + bloadEffectPositionAdd_);
+	bloadEffect_->Reset();
 
 }

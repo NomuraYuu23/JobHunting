@@ -10,6 +10,12 @@ const std::array<std::string, EffectManager::EffectTextureIndexOfCount> EffectMa
 	"bload.png"
 };
 
+EffectManager* EffectManager::GetInstance()
+{
+	static EffectManager instance;
+	return &instance;
+}
+
 void EffectManager::Initialize(Model* model)
 {
 

@@ -43,6 +43,9 @@ void TutorialScene::Initialize() {
 	particleModel[ParticleModelIndex::kCircle] = particleCircleModel_.get();
 	particleManager_->ModelCreate(particleModel);
 
+	// エフェクトマネージャー
+	effectManager_ = EffectManager::GetInstance();
+	effectManager_->Initialize(particleCircleModel_.get());
 
 	isDebugCameraActive_ = false;
 
@@ -134,12 +137,23 @@ void TutorialScene::Update() {
 	//パーティクル
 	particleManager_->Update(camera_);
 
+	// エフェクトマネージャー
+	effectManager_->Update(camera_);
+
 }
 
 /// <summary>
 /// 描画処理
 /// </summary>
 void TutorialScene::Draw() {
+
+
+	// ポストエフェクト設定
+	PostEffect::GetInstance()->SetKernelSize(33);
+	PostEffect::GetInstance()->SetGaussianSigma(33.0f);
+	PostEffect::GetInstance()->SetProjectionInverse(Matrix4x4::Inverse(camera_.GetProjectionMatrix()));
+	PostEffect::GetInstance()->SetRadialBlurStrength(0.2f);
+	PostEffect::GetInstance()->SetThreshold(0.25f);
 
 	//ゲームの処理 
 
@@ -174,6 +188,25 @@ void TutorialScene::Draw() {
 	// オブジェクトマネージャー
 	objectManager_->Draw(camera_, drawLine_);
 
+	// アウトライン
+	PostEffect::GetInstance()->Execution(
+		dxCommon_->GetCommadList(),
+		renderTargetTexture_,
+		PostEffect::kCommandIndexOutline
+	);
+	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+	// ブルーム
+	PostEffect::GetInstance()->Execution(
+		dxCommon_->GetCommadList(),
+		renderTargetTexture_,
+		PostEffect::kCommandIndexBloom
+	);
+	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
+	renderTargetTexture_->ClearDepthBuffer();
+
+	// エフェクトマネージャー
+	effectManager_->Draw(camera_);
+
 	ModelDraw::PostDraw();
 
 #pragma endregion
@@ -185,7 +218,7 @@ void TutorialScene::Draw() {
 #pragma endregion
 
 
-#pragma region パーティクル描画
+#pragma region パーティクルとエフェクト描画
 
 	// パーティクルはここ
 	particleManager_->Draw(camera_.GetViewProjectionMatrix(), dxCommon_->GetCommadList());
@@ -195,42 +228,14 @@ void TutorialScene::Draw() {
 
 #pragma endregion
 
-
-
-	PostEffect::GetInstance()->SetKernelSize(33);
-	PostEffect::GetInstance()->SetGaussianSigma(33.0f);
-	PostEffect::GetInstance()->SetProjectionInverse(Matrix4x4::Inverse(camera_.GetProjectionMatrix()));
-	PostEffect::GetInstance()->SetRadialBlurStrength(0.2f);
-	PostEffect::GetInstance()->SetThreshold(0.25f);
-
-	PostEffect::GetInstance()->Execution(
-		dxCommon_->GetCommadList(),
-		renderTargetTexture_,
-		PostEffect::kCommandIndexBloom
-	);
-
-	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
-
-	PostEffect::GetInstance()->Execution(
-		dxCommon_->GetCommadList(),
-		renderTargetTexture_,
-		PostEffect::kCommandIndexOutline
-	);
-
-	WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
-
-	renderTargetTexture_->ClearDepthBuffer();
-
+	// プレイヤー回避時のみラジアルブラー
 	if (player_->GetCurrentStateNo() == kPlayerStateAvoidance) {
-
 		PostEffect::GetInstance()->Execution(
 			dxCommon_->GetCommadList(),
 			renderTargetTexture_,
 			PostEffect::kCommandIndexRadialBlur
 		);
-
 		WindowSprite::GetInstance()->DrawSRV(PostEffect::GetInstance()->GetEditTextures(0));
-
 	}
 
 #pragma region 前景スプライト描画

@@ -25,6 +25,11 @@ public: // サブクラス
 public: // 関数
 
 	/// <summary>
+	/// インスタンス取得
+	/// </summary>
+	static EffectManager* GetInstance();
+
+	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name="model">モデル</param>
@@ -69,6 +74,12 @@ private: // 変数
 
 	// テクスチャハンドル
 	std::array<uint32_t, EffectTextureIndexOfCount> effectTextureHandles_;
+
+private: // シングルトン
+	EffectManager() = default;
+	~EffectManager() = default;
+	EffectManager(const EffectManager&) = delete;
+	const EffectManager& operator=(const EffectManager&) = delete;
 
 };
 

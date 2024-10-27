@@ -107,4 +107,7 @@ private:
 	// ボスシステム
 	std::unique_ptr<BossSystem> bossSystem_;
 
+	// エフェクトマネージャー
+	EffectManager* effectManager_ = nullptr;
+
 };

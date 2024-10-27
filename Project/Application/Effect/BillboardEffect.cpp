@@ -1,6 +1,5 @@
 #include "BillboardEffect.h"
 #include "../../Engine/Particle/BillBoardMatrix.h"
-#include "../../Engine/Math/Ease.h"
 #include "../../Engine/Math/DeltaTime.h"
 #include "../../Engine/3D/Model/ModelDraw.h"
 
@@ -29,13 +28,13 @@ void BillboardEffect::Initialize(Model* model, uint32_t textureHandle, float lif
 	initScale_ = { 1.0f, 1.0f, 1.0f };
 
 	// 終了大きさ
-	endScale_ = { 1.0f, 1.0f, 1.0f };
+	endScale_ = { 10.0f, 10.0f, 10.0f };
 
 	// 初期透明度
 	initAlpha_ = 1.0f;
 
 	// 終了透明度
-	endAlppha_ = 1.0f;
+	endAlppha_ = 0.0f;
 
 	// 色
 	color_ = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -48,6 +47,9 @@ void BillboardEffect::Initialize(Model* model, uint32_t textureHandle, float lif
 
 	// 死んでるか
 	isDead_ = true;
+	
+	// Ease名前
+	easeName_ = Ease::EaseName::Lerp;
 
 }
 
@@ -64,20 +66,20 @@ void BillboardEffect::Update(BaseCamera& camera)
 	}
 
 	// 位置
-	position_ = Ease::Easing(Ease::EaseName::Lerp, initPosition_, endPosition_, t_);
+	position_ = Ease::Easing(easeName_, initPosition_, endPosition_, t_);
 
 	// 大きさ
-	scale_ = Ease::Easing(Ease::EaseName::Lerp, initScale_, endScale_, t_);
+	scale_ = Ease::Easing(easeName_, initScale_, endScale_, t_);
 
 	// 透明度
-	alpha_ = Ease::Easing(Ease::EaseName::Lerp, initAlpha_, endAlppha_, t_);
+	alpha_ = Ease::Easing(easeName_, initAlpha_, endAlppha_, t_);
 	color_.w = alpha_;
 	material_->SetColor(color_);
 
 	// ワールドトランスフォーム更新
 	worldTransform_.transform_.translate = position_;
 	worldTransform_.transform_.scale = scale_;
-	worldTransform_.UpdateMatrix(BillBoardMatrix::GetBillBoardMatrixZ(camera));
+	worldTransform_.UpdateMatrix(BillBoardMatrix::GetBillBoardMatrixY(camera));
 
 }
 
@@ -92,6 +94,7 @@ void BillboardEffect::Draw(BaseCamera& camera)
 	desc.camera = &camera;
 	desc.material = material_.get();
 	desc.model = model_;
+	desc.textureHandles.push_back(textureHnadle_);
 	desc.worldTransform = &worldTransform_;
 
 	ModelDraw::NormalObjectDraw(desc);

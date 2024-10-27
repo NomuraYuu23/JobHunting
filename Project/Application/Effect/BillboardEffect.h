@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Engine/Camera/BaseCamera.h"
 #include "../../Engine/3D/Model/Model.h"
+#include "../../Engine/Math/Ease.h"
 
 class BillboardEffect
 {
@@ -71,6 +72,12 @@ public: // アクセッサ
 	/// <param name="lifeTime"></param>
 	void SetLifeTime(float lifeTime) { lifeTime_ = lifeTime; }
 
+	/// <summary>
+	/// ease名前
+	/// </summary>
+	/// <param name="easeName"></param>
+	void SetEaseName(Ease::EaseName easeName) { easeName_ = easeName; }
+
 private: // 変数
 
 	// モデル
@@ -123,6 +130,9 @@ private: // 変数
 
 	// 死んでるか
 	bool isDead_;
+
+	// Ease名前
+	Ease::EaseName easeName_;
 
 };
 
