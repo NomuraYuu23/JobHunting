@@ -164,6 +164,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\ClothDemo\CollisionObject\ClothDemoPlane.cpp" />
     <ClCompile Include="Application\ClothDemo\CollisionObject\ClothDemoSphere.cpp" />
     <ClCompile Include="Application\Collider\ColliderParentIdentification.cpp" />
+    <ClCompile Include="Application\Effect\BillboardEffect.cpp" />
+    <ClCompile Include="Application\Effect\EffectManager.cpp" />
     <ClCompile Include="Application\GPUParticle\BloadParticle.cpp" />
     <ClCompile Include="Application\GPUParticle\FieldSparksParticle.cpp" />
     <ClCompile Include="Application\GPUParticle\PillarSmokeParticle.cpp" />
@@ -373,6 +375,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\ClothDemo\CollisionObject\ClothDemoPlane.h" />
     <ClInclude Include="Application\ClothDemo\CollisionObject\ClothDemoSphere.h" />
     <ClInclude Include="Application\Collider\ColliderParentIdentification.h" />
+    <ClInclude Include="Application\Effect\BillboardEffect.h" />
     <ClInclude Include="Application\GPUParticle\BloadParticle.h" />
     <ClInclude Include="Application\GPUParticle\FieldSparksParticle.h" />
     <ClInclude Include="Application\GPUParticle\PillarSmokeParticle.h" />
@@ -450,6 +453,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\UI\UIManager.h" />
     <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateFactory.h" />
     <ClInclude Include="Application\Object\Weapon\BaseWeapon.h" />
+    <ClInclude Include="Application\Effect\EffectManager.h" />
     <ClInclude Include="Engine\2D\ImGuiManager.h" />
     <ClInclude Include="Engine\2D\SpriteForGPU.h" />
     <ClInclude Include="Engine\2D\SpriteVertex.h" />

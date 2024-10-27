@@ -490,6 +490,9 @@
     <Filter Include="Application\LockOn">
       <UniqueIdentifier>{4dbfbf99-9546-4b3d-9a8e-4544a572f9a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Effect">
+      <UniqueIdentifier>{1faec693-bdd0-4789-84da-e1bc7cce53ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -1106,9 +1109,15 @@
       <Filter>Application\ClothDemo\CollisionObject</Filter>
     </ClCompile>
     <ClCompile Include="Application\LockOn\LockOn.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Application\LockOn</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateDamage\PlayerStateDamage.cpp">
+      <Filter>Application\Object\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Effect\BillboardEffect.cpp">
+      <Filter>Application\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Effect\EffectManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1882,9 +1891,15 @@
       <Filter>Application\ClothDemo\CollisionObject</Filter>
     </ClInclude>
     <ClInclude Include="Application\LockOn\LockOn.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Application\LockOn</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateDamage\PlayerStateDamage.h">
+      <Filter>Application\Object\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Effect\BillboardEffect.h">
+      <Filter>Application\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Effect\EffectManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

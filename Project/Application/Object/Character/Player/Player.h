@@ -14,6 +14,7 @@
 #include "../../../Engine/Object/MeshObject.h"
 #include "../../../GPUParticle/FieldSparksParticle.h"
 #include "../../../../Engine/Physics/ClothGPU/ClothGPU.h"
+#include "../../../Effect/BillboardEffect.h"
 
 /// <summary>
 /// プレイヤーのモーション一覧
@@ -216,7 +217,7 @@ private: // プレイヤーデータ
 
 	DirectXCommon* dxCommon_;
 
-private:
+private: // マント
 
 	// マント
 	std::unique_ptr<ClothGPU> cloak_;

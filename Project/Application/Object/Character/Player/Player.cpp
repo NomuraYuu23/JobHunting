@@ -87,6 +87,7 @@ void Player::Initialize(LevelData::MeshData* data)
 
 	fieldSparksParticle_->SetEmitter(fieldSparksEmitter_);
 
+	// マント
 	CloakInitialize();
 
 }
