@@ -92,6 +92,8 @@ void ClothDemo::ImGuiDraw()
 	if (ImGui::Button("ClothReset")) {
 		// 布の初期化
 		ClothReset(dxCommon_->GetCommadList());
+		// リセット
+		ClothPositionReset(kFixedIndexTop);
 	}
 	ImGui::DragFloat3("ResetPosition", &resetPosition_.x, 0.01f);
 	if (ImGui::Button("RemoveFixation")) {
