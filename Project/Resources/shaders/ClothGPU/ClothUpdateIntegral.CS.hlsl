@@ -19,9 +19,9 @@ void main(uint32_t3 dispatchId : SV_DispatchThreadID)
 
 		ClothMassPoint massPoint = gClothMassPoints[index];
 		// 重力
-		float32_t3 force = gClothCalcData.gravity_;
+		float32_t3 force = gClothCalcData.gravity_ * gClothCalcData.mass_;
 		// 風力
-		float32_t3 wind = gClothCalcData.wind_;
+		float32_t3 wind = gClothCalcData.wind_ * gClothCalcData.mass_;
 		force += wind;
 		// 変位に変換
 		force = force * (gPerFrame.deltaTime * gPerFrame.deltaTime * 0.5f * rcp(gClothCalcData.mass_));
