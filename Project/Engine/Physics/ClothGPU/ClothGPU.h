@@ -581,6 +581,10 @@ public: // アクセッサ
 
 	// 布計算
 
+	// 質量
+	void SetMass(float mass) { clothCalcDataMap_->mass_ = mass; }
+	float GetMass() { return clothCalcDataMap_->mass_; }
+
 	// 重力
 	void SetGravity(const Vector3& gravity) { clothCalcDataMap_->gravity_ = gravity; }
 	Vector3 GetGravity() { return clothCalcDataMap_->gravity_; }
