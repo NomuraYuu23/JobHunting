@@ -19,6 +19,15 @@ void DebugScene::Initialize()
 	clothDemo_ = std::make_unique<ClothDemo>();
 	clothDemo_->Initilalize(directionalLight_.get(), pointLightManager_.get(), spotLightManager_.get());
 
+	isDebugCameraActive_ = true;
+	EulerTransform cameraTransform =
+	{
+		1.0f, 1.0f, 1.0f,
+		0.45f, -0.75f, 0.0f,
+		10.5f, 9.0f, -11.0f
+	};
+	debugCamera_->SetTransform(cameraTransform);
+
 	IScene::InitilaizeCheck();
 
 }
@@ -55,9 +64,6 @@ void DebugScene::Draw()
 
 #pragma region 線描画
 
-
-	//drawLine_->Draw(dxCommon_->GetCommadList(), camera_);
-
 	clothDemo_->Draw(&camera_);
 
 #pragma endregion
@@ -75,15 +81,6 @@ void DebugScene::ImguiDraw()
 
 void DebugScene::DebugCameraUpdate()
 {
-
-	if (input_->TriggerKey(DIK_RSHIFT)) {
-		if (isDebugCameraActive_) {
-			isDebugCameraActive_ = false;
-		}
-		else {
-			isDebugCameraActive_ = true;
-		}
-	}
 
 	// カメラの処理
 	if (isDebugCameraActive_) {
