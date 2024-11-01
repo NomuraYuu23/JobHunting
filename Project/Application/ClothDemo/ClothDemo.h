@@ -27,9 +27,9 @@ public: // メンバ関数
 	/// <summary>
 	///  初期化
 	/// </summary>
-	/// <param name="directionalLight"></param>
-	/// <param name="pointLightManager"></param>
-	/// <param name="spotLightManager"></param>
+	/// <param name="directionalLight">平行光源</param>
+	/// <param name="pointLightManager">ポイントライトマネージャ</param>
+	/// <param name="spotLightManager">スポットライトマネージャ</param>
 	void Initilalize(
 		DirectionalLight* directionalLight,
 		PointLightManager* pointLightManager,

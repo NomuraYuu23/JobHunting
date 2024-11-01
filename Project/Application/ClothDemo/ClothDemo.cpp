@@ -262,6 +262,7 @@ void ClothDemo::ClothFixedEnd()
 void ClothDemo::ClothFixedTop()
 {
 
+	// 布の上部分を止める
 	for (uint32_t x = 0; x <= static_cast<uint32_t>(clothDiv_.x); ++x) {
 		clothGPU_->SetWeight(0, x, false);
 		clothGPU_->SetPosition(0, x, 

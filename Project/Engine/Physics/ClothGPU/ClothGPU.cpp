@@ -1466,7 +1466,6 @@ void ClothGPU::SpringGeneration(uint32_t x, uint32_t y, int32_t offsetX, int32_t
 		index = targetY * (static_cast<uint32_t>(createDataMap_->div_.x) + 1) + targetX;
 		spring.pointIndex1_ = index;
 		// 自然長
-
 		Vector2 distance =
 			Vector2(
 				static_cast<float>(offsetX) * createDataMap_->scale_.x / createDataMap_->div_.x,
