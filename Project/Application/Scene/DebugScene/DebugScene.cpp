@@ -20,6 +20,7 @@ void DebugScene::Initialize()
 	clothDemo_->Initilalize(directionalLight_.get(), pointLightManager_.get(), spotLightManager_.get());
 
 	isDebugCameraActive_ = true;
+	// デバッグカメラ初期位置
 	EulerTransform cameraTransform =
 	{
 		1.0f, 1.0f, 1.0f,
