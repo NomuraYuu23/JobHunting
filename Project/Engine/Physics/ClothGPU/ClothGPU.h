@@ -22,6 +22,13 @@
 #include "../../Light/SpotLight/SpotLightManager.h"
 #include "../../3D/Fog/FogManager.h"
 #include "ClothGPUCollision.h"
+#include "ClothWVP.h"
+#include "ClothCreateData.h"
+#include "ClothExternalOperationData.h"
+#include "ClothCalcData.h"
+#include "ClothSpring.h"
+#include "ClothNums.h"
+#include "ClothSpringBufferData.h"
 
 class ClothGPU
 {
@@ -75,123 +82,6 @@ public: // サブクラス
 		kTypeOfSpringShearSpring = 1, // せん断バネ
 		kTypeOfSpringBendingSpring = 2, // 曲げバネ
 		kTypeOfSpringOfCount // 数える用
-	};
-
-	/// <summary>
-	/// 頂点
-	/// </summary>
-	struct VertexData {
-		Vector4 position_; // 位置
-		Vector2 texcoord_; // テクスチャ座標
-		Vector3 normal_; // 法線
-	};
-
-	/// <summary>
-	/// WVP
-	/// </summary>
-	struct WVP {
-		Matrix4x4 matrix_; // 行列
-	};
-
-	/// <summary>
-	/// 面情報
-	/// </summary>
-	struct SurfaceData {
-		Vector3 normal_; // 法線
-		std::array<int32_t, 4> indexes_; // 頂点 四角形固定なので四つ
-	};
-
-	/// <summary>
-	/// 作成情報
-	/// </summary>
-	struct CreateData
-	{
-		Vector2 scale_; // 大きさ
-		Vector2 div_; // 分割数
-	};
-
-	/// <summary>
-	/// 布計算データ
-	/// </summary>
-	struct ClothCalcData
-	{
-		float mass_; // 質点の質量
-		Vector3 gravity_; // 重力
-		Vector3 wind_; // 風力
-		float stiffness_; // 剛性。バネ定数k
-		float speedResistance_; // 速度抵抗
-		float structuralShrink_; // 構成バネ伸び抵抗
-		float structuralStretch_; // 構成バネ縮み抵抗
-		float shearShrink_; // せん断バネ伸び抵抗
-		float shearStretch_; // せん断バネ縮み抵抗
-		float bendingShrink_; // 曲げバネ伸び抵抗
-		float bendingStretch_; // 曲げバネ縮み抵抗
-	};
-
-	/// <summary>
-	/// 外部操作
-	/// </summary>
-	struct ExternalOperationData
-	{	
-		Vector3 position_; // 位置
-		uint32_t isMove_; // 位置動かすか
-		float weight_; // 重み
-	};
-
-	/// <summary>
-	/// 布用質点
-	/// </summary>
-	struct ClothMassPoint
-	{
-		Vector3 position_; // 現在の位置
-		Vector3 prePosition_; // 前フレ―ムの位置
-		float weight_; // 運動計算の重み (固定する場合は0.0f, それ以外は1.0f)
-	};
-
-	/// <summary>
-	/// 布用バネ
-	/// </summary>
-	struct ClothSpring
-	{
-		uint32_t pointIndex0_; // 質点0
-		uint32_t pointIndex1_; // 質点1
-		float naturalLength_; // 自然長
-		uint32_t type_; // バネの種類
-	};
-
-	/// <summary>
-	/// 数
-	/// </summary>
-	struct Nums
-	{
-		std::array<uint32_t,4> structuralSpringNums_; // 構成バネ、4つバッファがある
-		std::array<uint32_t, 4> shearSpringNums_;
-		std::array<uint32_t, 4> bendingSpringNums_;
-
-		uint32_t vertexNum_;
-		uint32_t massPointNum_;
-		uint32_t surfaceNum_;
-	};
-
-	struct ClothSpringBufferStruct
-	{
-		// バネ情報 (バネの数)
-		Microsoft::WRL::ComPtr<ID3D12Resource> buff_;
-		// 頂点 がどこの質点かマップ
-		ClothSpring* map_ = nullptr;
-		// CPUハンドル
-		D3D12_CPU_DESCRIPTOR_HANDLE srvHandleCPU_{};
-		// GPUハンドル
-		D3D12_GPU_DESCRIPTOR_HANDLE srvHandleGPU_{};
-		// ディスクリプタヒープの位置
-		uint32_t srvIndexDescriptorHeap_ = 0;
-
-		/// <summary>
-		/// 初期化
-		/// </summary>
-		/// <param name="device">デバイス</param>
-		/// <param name="num">数</param>
-		void Initialize(ID3D12Device* device, uint32_t num);
 	};
 
 private: // 静的メンバ変数
@@ -656,7 +546,7 @@ private: // SRV
 	// 外部操作 (質点の数)
 	Microsoft::WRL::ComPtr<ID3D12Resource> externalBuff_;
 	// 外部操作マップ
-	ExternalOperationData* externalMap_ = nullptr;
+	ClothExternalOperationData* externalMap_ = nullptr;
 	// CPUハンドル
 	D3D12_CPU_DESCRIPTOR_HANDLE externalSrvHandleCPU_{};
 	// GPUハンドル
@@ -678,7 +568,7 @@ private: // SRV
 private: // バネ(SRV)
 
 	// バネバッファ
-	std::array<ClothSpringBufferStruct, kClothSpringBufferStructIndexOfCount> clothSpringBufferStructs_;
+	std::array<ClothSpringBufferData, kClothSpringBufferStructIndexOfCount> clothSpringBufferStructs_;
 
 	// バネの初期化時のindex情報
 	std::array<uint32_t, kClothSpringBufferStructIndexOfCount> springInitNextIndexes_;
@@ -688,12 +578,12 @@ private: // CBV
 	// 作成時データバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> createDataBuff_;
 	// マップ
-	CreateData* createDataMap_ = nullptr;
+	ClothCreateData* createDataMap_ = nullptr;
 
 	// WVPバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> wvpBuff_;
 	// WVPマップ
-	WVP* wvpMap_ = nullptr;
+	ClothWVP* wvpMap_ = nullptr;
 
 	// 布計算バッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> clothCalcDataBuff_;
@@ -708,7 +598,7 @@ private: // CBV
 	// 数バッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> NumsBuff_;
 	// 数マップ
-	Nums* NumsMap_ = nullptr;
+	ClothNums* NumsMap_ = nullptr;
 
 private: // UAV
 

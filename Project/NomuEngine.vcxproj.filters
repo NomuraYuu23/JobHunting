@@ -1102,6 +1102,9 @@
     <ClCompile Include="Application\ClothDemo\CollisionObject\ClothDemoCapsule.cpp">
       <Filter>Application\ClothDemo\CollisionObject</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Physics\ClothGPU\ClothSpringBufferData.cpp">
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -1871,6 +1874,33 @@
     </ClInclude>
     <ClInclude Include="Application\ClothDemo\CollisionObject\ClothDemoCapsule.h">
       <Filter>Application\ClothDemo\CollisionObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\ClothGPU\ClothWVP.h">
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\ClothGPU\ClothSurfaceData.h">
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\ClothGPU\ClothCreateData.h">
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\ClothGPU\ClothExternalOperationData.h">
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\ClothGPU\ClothCalcData.h">
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\ClothGPU\ClothMassPoint.h">
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\ClothGPU\ClothSpring.h">
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\ClothGPU\ClothNums.h">
+      <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\ClothGPU\ClothSpringBufferData.h">
+      <Filter>Engine\Physics\ClothGPU</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
