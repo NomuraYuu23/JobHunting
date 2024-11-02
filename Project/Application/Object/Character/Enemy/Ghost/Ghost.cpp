@@ -34,7 +34,9 @@ void Ghost::Update()
 	// アニメーション
 	AnimationUpdate();
 
-	localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
+	if (currentStateNo_ != kGhostMotionCadaver) {
+		localMatrixManager_->SetNodeLocalMatrix(animation_.AnimationUpdate());
+	}
 
 	localMatrixManager_->Map();
 
@@ -42,8 +44,6 @@ void Ghost::Update()
 	if (currentStateNo_ != kGhostMotionCadaver) {
 		worldTransform_.UpdateMatrix();
 	}
-
-
 
 	// コライダー
 	ColliderUpdate();

@@ -23,17 +23,6 @@ void GhostStateCadaver::Initialize()
 	*colliderShape = obb;
 	ghost_->SetCollider(colliderShape);
 
-	// 剛体ちから入れる
-	RigidBody* rigidBody = ghost_->GetRigidBody();
-
-	//テンソルを作り直す
-	rigidBody->Initialize(0.01f, obb.size_);
-
-	rigidBody->ApplyForce(obb.center_, rigidBody->centerOfGravity + Vector3{ 1.0f, 0.0f, 0.0f }, Vector3{ 0.0f, 50.0f, 0.0f });
-	rigidBody->centerOfGravityVelocity.y = 10.0f;
-
-	ghost_->SetUsedRigidBody(true);
-
 }
 
 void GhostStateCadaver::Update()
@@ -64,78 +53,38 @@ void GhostStateCadaver::Update()
 void GhostStateCadaver::RigidBodyUpdate()
 {
 
-	RigidBody* rigidBody = ghost_->GetRigidBody();
-
 	WorldTransform* worldTransform = ghost_->GetWorldTransformAdress();
 
-	// 重力
+	std::vector<NodeData>* nodeDatas = ghost_->GetLocalMatrixManager()->GetNodeDatasAddress();
 
-	rigidBody->centerOfGravityVelocity += Gravity::Execute();
+	std::vector<Matrix4x4> localMatirxes;
+	localMatirxes.resize(nodeDatas->size());
 
-	rigidBody->centerOfGravity = worldTransform->GetWorldPosition();
+	for (uint32_t i = 0; i < nodeDatas->size(); ++i) {
+		
+		// ローカル行列取得
+		localMatirxes[i] = nodeDatas->at(i).localMatrix;
 
-	// 速度算出
-	Vector3 velocity = RigidBody::PointVelocityCalc(
-		rigidBody->angularVelocity,
-		rigidBody->centerOfGravityVelocity,
-		worldTransform->GetWorldPosition(),
-		rigidBody->centerOfGravity
-	);
+		// 更新
 
-	// 速度更新
-	worldTransform->transform_.translate += velocity * kDeltaTime_;
+		// 位置を取り出す
+		Vector3 position = { localMatirxes[i].m[3][0], localMatirxes[i].m[3][1], localMatirxes[i].m[3][2]};
+		localMatirxes[i].m[3][0] = 0.0f;
+		localMatirxes[i].m[3][1] = 0.0f;
+		localMatirxes[i].m[3][2] = 0.0f;
 
-	// 姿勢行列を更新
-	rigidBody->postureMatrix = RigidBody::PostureCalc(rigidBody->postureMatrix, rigidBody->angularVelocity, kDeltaTime_);
+		// 回転させる
+		Matrix4x4 a = Matrix4x4::MakeRotateXYZMatrix(Vector3{ 0.01f,0.0f,0.0f });
 
-	// 慣性テンソルを更新
-	rigidBody->inertiaTensor = RigidBody::InertiaTensorCalc(rigidBody->postureMatrix, rigidBody->basicPostureInertiaTensor);
+		localMatirxes[i] = localMatirxes[i] * a;
 
-	// 角運動量を更新
-	rigidBody->angularMomentum = RigidBody::AngularMomentumCalc(rigidBody->angularMomentum, rigidBody->torque, kDeltaTime_);
+		localMatirxes[i].m[3][0] = position.x;
+		localMatirxes[i].m[3][1] = position.y;
+		localMatirxes[i].m[3][2] = position.z;
 
-	// 角速度を更新
-	rigidBody->angularVelocity = RigidBody::AngularVelocityCalc(rigidBody->inertiaTensor, rigidBody->angularMomentum);
-
-	// 角速度の制御処理
-	const float kMaxAngularVelocity = 10.0f;
-	if (std::fabsf(rigidBody->angularVelocity.x) > kMaxAngularVelocity) {
-		rigidBody->angularVelocity.x = rigidBody->angularVelocity.x / std::fabsf(rigidBody->angularVelocity.x) * kMaxAngularVelocity;
 	}
 
-	if (std::fabsf(rigidBody->angularVelocity.y) > kMaxAngularVelocity) {
-		rigidBody->angularVelocity.y = rigidBody->angularVelocity.y / std::fabsf(rigidBody->angularVelocity.y) * kMaxAngularVelocity;
-	}
-
-	if (std::fabsf(rigidBody->angularVelocity.z) > kMaxAngularVelocity) {
-		rigidBody->angularVelocity.z = rigidBody->angularVelocity.z / std::fabsf(rigidBody->angularVelocity.z) * kMaxAngularVelocity;
-	}
-
-	// 抵抗
-	const float kResistAngularVelocity = 1.0f;
-
-	if (rigidBody->angularVelocity.x != 0.0f) {
-		rigidBody->angularVelocity.x =
-			rigidBody->angularVelocity.x / std::fabsf(rigidBody->angularVelocity.x)
-			* std::fmaxf(0.0f, std::fabsf(rigidBody->angularVelocity.x) - kResistAngularVelocity);
-	}
-
-	if (rigidBody->angularVelocity.y != 0.0f) {
-		rigidBody->angularVelocity.y =
-			rigidBody->angularVelocity.y / std::fabsf(rigidBody->angularVelocity.y)
-			* std::fmaxf(0.0f, std::fabsf(rigidBody->angularVelocity.y) - kResistAngularVelocity);
-	}
-
-	if (rigidBody->angularVelocity.z != 0.0f) {
-		rigidBody->angularVelocity.z =
-			rigidBody->angularVelocity.z / std::fabsf(rigidBody->angularVelocity.z)
-			* std::fmaxf(0.0f, std::fabsf(rigidBody->angularVelocity.z) - kResistAngularVelocity);
-	}
-
-	// ひねり力を0に
-	rigidBody->torque = { 0.0f,0.0f,0.0f };
-
-	// ワールドトランスフォーム更新
-	worldTransform->UpdateMatrix(rigidBody->postureMatrix);
+	// 代入
+	ghost_->GetLocalMatrixManager()->SetNodeLocalMatrix(localMatirxes);
 
 }
