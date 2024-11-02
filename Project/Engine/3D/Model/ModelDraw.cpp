@@ -620,7 +620,7 @@ void ModelDraw::UpdateVertexUAV(
 	sCommandList->SetComputeRootConstantBufferView(0, mesh->GetSkinningInformationBuff()->GetGPUVirtualAddress());
 	mesh->SetComputeRootDescriptorTableVertHandleGPU(sCommandList, 1);
 	mesh->SetComputeRootDescriptorTableInfluenceHandleGPU(sCommandList, 2);
-	sCommandList->SetComputeRootDescriptorTable(3, localMatrixManager->localMatrixesHandleGPU_);
+	sCommandList->SetComputeRootDescriptorTable(3, localMatrixManager->GetLocalMatrixesHandleGPU());
 	mesh->SetComputeRootDescriptorTableAnimVertHandleGPU(sCommandList, 4);
 
 	sCommandList->Dispatch(static_cast<UINT>(model->GetModelData().vertices.size() + 1023 ) / 1024, 1, 1);

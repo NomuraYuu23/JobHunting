@@ -30,11 +30,6 @@ public:
 	/// マップ
 	/// </summary>
 	void Map();
-
-	/// <summary>
-	/// マップ
-	/// </summary>
-	void Map2();
 	
 	/// <summary>
 	/// GPUに送る
@@ -85,7 +80,13 @@ public:
 	/// <returns></returns>
 	uint32_t GetNum() { return num_; }
 
-public:
+	/// <summary>
+	/// GPUハンドル
+	/// </summary>
+	/// <returns></returns>
+	D3D12_GPU_DESCRIPTOR_HANDLE GetLocalMatrixesHandleGPU() { return localMatrixesHandleGPU_; }
+
+private:
 
 	// local
 	Microsoft::WRL::ComPtr<ID3D12Resource> localMatrixesBuff_;

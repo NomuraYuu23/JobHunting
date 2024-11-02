@@ -8,25 +8,25 @@ void LocalMatrixDraw::DrawMap(
 
 	LineForGPU lineForGPU;
 
-	for (uint32_t i = 0; i < localMatrixManager->num_; ++i) {
+	for (uint32_t i = 0; i < localMatrixManager->GetNum(); ++i) {
 		// 親
-		int32_t parentIndex = localMatrixManager->nodeDatas_[i].parentIndex;
+		int32_t parentIndex = localMatrixManager->GetNodeDatasAddress()->at(i).parentIndex;
 		if (parentIndex == -1) {
 			// 親ないので帰る
 			continue;
 		}
 		Vector3 startPosition = {
-		localMatrixManager->nodeDatas_[parentIndex].matrix.m[3][0],
-		localMatrixManager->nodeDatas_[parentIndex].matrix.m[3][1],
-		localMatrixManager->nodeDatas_[parentIndex].matrix.m[3][2] };
+		localMatrixManager->GetNodeDatasAddress()->at(parentIndex).matrix.m[3][0],
+		localMatrixManager->GetNodeDatasAddress()->at(parentIndex).matrix.m[3][1],
+		localMatrixManager->GetNodeDatasAddress()->at(parentIndex).matrix.m[3][2] };
 
 		lineForGPU.position[0] = Matrix4x4::Transform(startPosition, worldTransform->worldMatrix_);
 
 		// 本体
 		Vector3 endPosition = {
-		localMatrixManager->nodeDatas_[i].matrix.m[3][0],
-		localMatrixManager->nodeDatas_[i].matrix.m[3][1],
-		localMatrixManager->nodeDatas_[i].matrix.m[3][2] };
+		localMatrixManager->GetNodeDatasAddress()->at(i).matrix.m[3][0],
+		localMatrixManager->GetNodeDatasAddress()->at(i).matrix.m[3][1],
+		localMatrixManager->GetNodeDatasAddress()->at(i).matrix.m[3][2] };
 
 		lineForGPU.position[1] = Matrix4x4::Transform(endPosition, worldTransform->worldMatrix_);
 
