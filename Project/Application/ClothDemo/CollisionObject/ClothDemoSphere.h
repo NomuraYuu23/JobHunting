@@ -30,6 +30,13 @@ public:
     /// <returns></returns>
     ClothGPUCollision::Sphere GetData() { return data_; }
 
+
+    /// <summary>
+    /// データ取得
+    /// </summary>
+    /// <returns></returns>
+    void SetData(const ClothGPUCollision::Sphere& data) { data_ = data; }
+
 private:
 
     // ClothGPUに渡すデータ

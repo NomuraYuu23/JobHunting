@@ -76,6 +76,16 @@ private: // メンバ関数
 	/// <param name="commandList">コマンドリスト</param>
 	void ClothReset(ID3D12GraphicsCommandList* commandList);
 
+	/// <summary>
+	/// 球移動スタート
+	/// </summary>
+	void SphereMoveStart();
+
+	/// <summary>
+	/// 球移動更新
+	/// </summary>
+	void SphereMoveUpdate();
+
 private: // 布固定関数
 
 	/// <summary>
@@ -118,6 +128,21 @@ private: // メンバ変数
 
 	// リセット位置
 	Vector3 resetPosition_;
+
+	// 球移動しているか
+	bool isSphereMove_;
+
+	// 球が戻ってきているか
+	bool isSphereMoveReturn_;
+
+	// 球移動初期位置
+	Vector3 sphereMovePosition_;
+
+	// 球移動速度
+	Vector3 sphereMoveVelocity_;
+
+	// 戻ってくる距離
+	float sphereMoveReturnDistance_;
 
 private: // システム
 

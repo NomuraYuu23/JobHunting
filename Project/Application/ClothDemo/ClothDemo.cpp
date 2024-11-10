@@ -24,9 +24,24 @@ void ClothDemo::Initilalize(
 	// 布の大きさ
 	clothScale_ = { 2.0f, 2.0f };
 	// 布の分割数
-	clothDiv_ = { 63.0f, 63.0f };
+	clothDiv_ = { 7.0f, 7.0f };
 	// リセット位置
 	resetPosition_ = { 0.0f,3.0f,0.0f };
+
+	// 球移動しているか
+	isSphereMove_ = false;
+
+	// 球が戻ってきているか
+	isSphereMoveReturn_ = false;
+
+	// 球移動初期位置
+	sphereMovePosition_ = { 0.7f,1.2f, -2.0f };
+
+	// 球移動速度
+	sphereMoveVelocity_ = { 0.0f,0.0f, 0.05f };
+
+	// 戻ってくる距離
+	sphereMoveReturnDistance_ = 4.0f;
 
 	// 衝突オブジェクト
 	// 平面
@@ -60,6 +75,7 @@ void ClothDemo::Update()
 	clothGPU_->CollisionDataUpdate(plane_->GetName(), planeData);
 
 	// 球
+	SphereMoveUpdate();
 	sphere_->Update();
 	ClothGPUCollision::CollisionDataMap sphereData = sphere_->GetData();
 	clothGPU_->CollisionDataUpdate(sphere_->GetName(), sphereData);
@@ -89,6 +105,11 @@ void ClothDemo::ImGuiDraw()
 	ImGui::DragFloat2("ClothDiv", &clothDiv_.x, 1.0f, 4.0f, 256.0f);
 	ImGui::DragFloat2("ClothScale", &clothScale_.x, 0.01f, 1.0f);
 
+	// 球移動
+	if (ImGui::Button("SphereMoveStart")) {
+		SphereMoveStart();
+	}
+
 	if (ImGui::Button("ClothReset")) {
 		// 布の初期化
 		ClothReset(dxCommon_->GetCommadList());
@@ -105,6 +126,7 @@ void ClothDemo::ImGuiDraw()
 	if (ImGui::Button("Reset_FixedTop")) {
 		ClothPositionReset(kFixedIndexTop);
 	}
+
 	// 平面
 	plane_->ImGuiDraw();
 	if (ImGui::Button("PlaneSwitching")) {
@@ -235,6 +257,50 @@ void ClothDemo::ClothReset(ID3D12GraphicsCommandList* commandList)
 	// 登録
 	clothGPU_->CollisionDataRegistration(capsule_->GetName(), ClothGPUCollision::kCollisionTypeIndexCapsule);
 	capsule_->SetExsit(true);
+}
+
+void ClothDemo::SphereMoveStart()
+{
+
+	// 球移動しているか
+	isSphereMove_ = true;
+	isSphereMoveReturn_ = false;
+	
+	ClothGPUCollision::Sphere data = sphere_->GetData();
+	data.position_ = sphereMovePosition_;
+	sphere_->SetData(data);
+	ClothGPUCollision::CollisionDataMap sphereData = data;
+	clothGPU_->CollisionDataUpdate(sphere_->GetName(), sphereData);
+
+}
+
+void ClothDemo::SphereMoveUpdate()
+{
+
+	if (!isSphereMove_) {
+		return;
+	}
+
+	ClothGPUCollision::Sphere data = sphere_->GetData();
+
+	if (!isSphereMoveReturn_) {
+		data.position_ += sphereMoveVelocity_;
+	}
+	else {
+		data.position_ -= sphereMoveVelocity_;
+	}
+
+	sphere_->SetData(data);
+	ClothGPUCollision::CollisionDataMap sphereData = data;
+	clothGPU_->CollisionDataUpdate(sphere_->GetName(), sphereData);
+
+	if (!isSphereMoveReturn_ && sphereMoveReturnDistance_ <= Vector3::Length(data.position_ - sphereMovePosition_)) {
+		isSphereMoveReturn_ = true;
+	}
+	else if (isSphereMoveReturn_&& Vector3::Length(sphereMoveVelocity_) >= Vector3::Length(data.position_ - sphereMovePosition_)) {
+		isSphereMove_ = false;
+	}
+
 }
 
 void ClothDemo::ClothFixedEnd()
