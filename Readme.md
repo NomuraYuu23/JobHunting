@@ -22,9 +22,9 @@
 ![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.](picture/collision_capsule.gif)
 
 * 分割数の変更ができます。  
-8 * 8______________________________________________16 * 16____________________________________________  
+8 * 8________________________________________16 * 16______________________________________  
 <img src="picture/div_8x8.gif" width="300"><img src="picture/div_16x16.gif" width="300">  
-32 * 32____________________________________________64 * 64____________________________________________  
+32 * 32______________________________________64 * 64______________________________________  
 <img src="picture/div_32x32.gif" width="300"><img src="picture/div_64x64.gif" width="300">
 
 ### コード
