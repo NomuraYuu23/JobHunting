@@ -1,8 +1,9 @@
 # 機能
 
 ## クロスシミュレーション
-![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.](picture/cloth1.png)
-![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.](picture/cloth2.png)
+<img src="picture/cloth1.png" width="475">
+<img src="picture/cloth2.png" width="300">
+
 ### 概要
 布の動きを再現する物理シミュレーションです。  
 現在はGPGPUで計算する方式をとり、処理速度の向上も目指しています。  
