@@ -1,8 +1,7 @@
 # 機能
 
 ## クロスシミュレーション
-<img src="picture/cloth1.png" width="475">
-<img src="picture/cloth2.png" width="300">
+<img src="picture/cloth1.png" width="475"><img src="picture/cloth2.png" width="300">
 
 ### 概要
 布の動きを再現する物理シミュレーションです。  
