@@ -2,17 +2,6 @@
 #include "Collision.h"
 #include "CollisionData.h"
 
-#include "../../Application/Object/Character/Player/Player.h"
-#include "../../Application/Object/Character/Player/PlayerAttack/PlayerAttack.h"
-#include "../../Application/Object/Character/Enemy/BaseEnemy.h"
-#include "../../Application/Object/Character/Enemy/BaseEnemyAttack.h"
-#include "../../Application/Object/Weapon/BaseWeapon.h"
-#include "../../Application/Object/Bonfire/Bonfire.h"
-#include "../../Application/Object/Character/Player/TitlePlayer/TitlePlayer.h"
-#include "../../Application/Object/Obstacle/BaseObstacle.h"
-#include "../../Application/Object/RigidBodyObject/BaseRigidBodyObject.h"
-
-
 void CollisionManager::Initialize()
 {
 

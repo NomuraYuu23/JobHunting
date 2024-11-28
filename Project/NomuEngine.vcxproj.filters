@@ -73,9 +73,6 @@
     <Filter Include="Application\Skydome">
       <UniqueIdentifier>{5e2ab7d8-fdc5-492f-bc01-9c18dd7e23a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Particle">
-      <UniqueIdentifier>{2d4d8d71-6bfc-42c4-bf7e-2a8597a09e58}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Scene">
       <UniqueIdentifier>{dafad515-fad3-46a5-9c01-09a32950a793}</UniqueIdentifier>
     </Filter>
@@ -88,15 +85,6 @@
     <Filter Include="Engine\Animation">
       <UniqueIdentifier>{43280e91-b268-4c81-aac7-d52c62b831b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Collider">
-      <UniqueIdentifier>{6e8db13d-e007-4744-a040-88bc34cd30d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\FollowCamera">
-      <UniqueIdentifier>{3ad98989-b0b2-461b-bd74-7fda84f7692f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\UI">
-      <UniqueIdentifier>{0b3658e1-3d24-45eb-85b9-841a9f303cf5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Base\GraphicsPipelineState">
       <UniqueIdentifier>{09734e10-8fc5-4059-932a-21b9f930834c}</UniqueIdentifier>
     </Filter>
@@ -105,12 +93,6 @@
     </Filter>
     <Filter Include="Engine\Light\DirctionalLight">
       <UniqueIdentifier>{730d29a6-eb73-4747-b63e-a560d53d9922}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object">
-      <UniqueIdentifier>{9b49da27-3781-4d42-bc44-35235504c6e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Sample">
-      <UniqueIdentifier>{3cd2eab6-d125-4f00-80a5-f268f1095b83}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Light\PointLight">
       <UniqueIdentifier>{45e944ff-3794-4207-a952-3e887cba860a}</UniqueIdentifier>
@@ -129,9 +111,6 @@
     </Filter>
     <Filter Include="Engine\Math\Matrix4x4">
       <UniqueIdentifier>{358fa42c-da60-4ac5-9e6b-cf5c70c0bda9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Collider2D">
-      <UniqueIdentifier>{9ac58789-fc1d-4653-9fe5-d73a64de3881}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Collider2D">
       <UniqueIdentifier>{803ed6ba-ffb7-4b13-bd75-ec906b55bd5e}</UniqueIdentifier>
@@ -181,21 +160,6 @@
     <Filter Include="Engine\Physics\Spring">
       <UniqueIdentifier>{7a9cc686-8766-4211-817f-206d6be69ea8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Object\Player">
-      <UniqueIdentifier>{b293918d-2bcb-4225-ae76-acb6b9fdcf73}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Player\State">
-      <UniqueIdentifier>{9fff1f53-4f9e-4c83-b3b7-78059ae992e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Player\System">
-      <UniqueIdentifier>{072e4e32-ee4e-4e4e-90e7-21f4d6cbdbb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy">
-      <UniqueIdentifier>{46ce4367-7435-4b32-8c8e-245c987ef51d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\System">
-      <UniqueIdentifier>{dc265678-a7c1-47a4-bfdc-6a41ffedfd1f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="shaders\Model">
       <UniqueIdentifier>{e8b1b387-3420-407b-b41a-60165565e62a}</UniqueIdentifier>
     </Filter>
@@ -244,63 +208,6 @@
     <Filter Include="Engine\Object">
       <UniqueIdentifier>{e07ee63c-28e4-42ff-b09b-caf09754b225}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Object\Enemy\Ghost">
-      <UniqueIdentifier>{6126349a-0e49-4181-9162-1455d53c579e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\Ghost\State">
-      <UniqueIdentifier>{ca8fde60-6e80-4aa4-b151-f35bc103a540}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\AxSpearMan">
-      <UniqueIdentifier>{a9c15fe5-077d-4abf-a9b8-806351193ab3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\AxSpearMan\State">
-      <UniqueIdentifier>{676e1830-9d84-4297-874c-df9edfbc05ff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Manager">
-      <UniqueIdentifier>{7d36b8c3-2e09-4777-9b3e-ab256e224b84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\AxSpearMan\State\DashSwingDown">
-      <UniqueIdentifier>{c62a3fe1-2e67-419a-be93-3a2644e6aca2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\AxSpearMan\State\Root">
-      <UniqueIdentifier>{f2387f7a-ea68-495d-af79-d4f9c5c3139a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\AxSpearMan\State\WaitSee">
-      <UniqueIdentifier>{25c9fa6a-38c5-4467-a6c1-0128f7bca38d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\Ghost\State\Attack">
-      <UniqueIdentifier>{2b419da7-831f-4409-927c-738c151d186c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\Ghost\State\Chase">
-      <UniqueIdentifier>{0840d808-b90f-431a-8351-4ce2dc4d0df6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\Ghost\State\Damage">
-      <UniqueIdentifier>{34020ff4-33a6-44f5-a647-4c947d182482}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\Ghost\State\Root">
-      <UniqueIdentifier>{b91d5223-7f79-4347-a51b-a476c4c6d228}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\Ghost\State\Dead">
-      <UniqueIdentifier>{92bd9917-1fc1-43de-9fea-8ae62e5f3075}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\AxSpearMan\State\ShakeOff">
-      <UniqueIdentifier>{6cbbc51a-fa55-4b80-8acf-062c671e7e66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\AxSpearMan\State\3Consecutive">
-      <UniqueIdentifier>{0c0ca424-de27-4642-b842-29d42bb993b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\AxSpearMan\System">
-      <UniqueIdentifier>{ff5c1db8-9755-47d0-afe0-423bd6a658c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\AxSpearMan\System\Command">
-      <UniqueIdentifier>{175a1125-cc85-42a6-9526-7974551b82b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\AxSpearMan\System\Weapon">
-      <UniqueIdentifier>{cf74641f-2e1b-4259-9fcc-017f443435f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\AxSpearMan\System\Beam">
-      <UniqueIdentifier>{21c90584-4255-4dd3-b49f-3cdc5db180c4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="shaders\Skybox">
       <UniqueIdentifier>{0b26f4fb-a8ff-4992-beb0-5c6b50639ad4}</UniqueIdentifier>
     </Filter>
@@ -316,47 +223,11 @@
     <Filter Include="Engine\PostEffect\HSVFilter">
       <UniqueIdentifier>{a1c50174-1ef5-48db-8ea8-68ace9c260de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Object\Enemy\AxSpearMan\State\Beam">
-      <UniqueIdentifier>{77ebd6b8-3474-4794-a68e-6e0ca378c9e9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\BaseWeapon">
-      <UniqueIdentifier>{10463b8a-d107-4e0d-aec7-b819be3f5c11}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Physics\Gravity">
       <UniqueIdentifier>{fdc13d48-4325-433a-9c95-20e493b58176}</UniqueIdentifier>
     </Filter>
     <Filter Include="shaders\GPUParticle\CS">
       <UniqueIdentifier>{482ae5e3-9be5-4744-8de5-2b31ea21eb45}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\GPUParticle">
-      <UniqueIdentifier>{ea7adfd4-0777-456d-baec-6c83d5512967}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Bonfire">
-      <UniqueIdentifier>{2b4ed839-b0ce-44db-8e0b-9d85684bee39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Player\Title">
-      <UniqueIdentifier>{f2e9c355-4935-4361-8c80-a0131839b051}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Enemy\Ghost\State\Cadaver">
-      <UniqueIdentifier>{87597692-bbb0-48d9-928c-4701c49d6bc9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Obstacle">
-      <UniqueIdentifier>{86476363-7738-4157-a04a-70a59cd5cda7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Obstacle\Block">
-      <UniqueIdentifier>{1d2d094d-bc38-4f06-a0b3-44bff7959339}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Obstacle\Ground">
-      <UniqueIdentifier>{59beeb5c-dcf2-4572-b6ee-2ee83a88d375}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Obstacle\PillarFoundation">
-      <UniqueIdentifier>{e20c0039-5692-417f-8b05-a870c533d65f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Physics">
-      <UniqueIdentifier>{142f1e33-82f0-4c05-8dff-f9a8288dbd7d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Physics\Pillar">
-      <UniqueIdentifier>{fd49b6f0-2fb5-4617-a706-ffe73f043ec7}</UniqueIdentifier>
     </Filter>
     <Filter Include="shaders\PostEffect\BinaryThreshold">
       <UniqueIdentifier>{093be72a-54f4-4c89-9465-faf8cf1c7f5c}</UniqueIdentifier>
@@ -412,18 +283,6 @@
     <Filter Include="shaders\PostEffect\HSVFilter">
       <UniqueIdentifier>{e4bed640-a217-4143-a704-421f4f242a9b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Object\Enemy\AxSpearMan\State\WaitingForBattle">
-      <UniqueIdentifier>{e7155d2d-fb3e-446b-8017-34e4e4a97e93}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Obstacle\BossFog">
-      <UniqueIdentifier>{5048ec20-8169-4b3c-bb62-1d909bc63a36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\GPUParticle\BonfireParticle">
-      <UniqueIdentifier>{68fbc3ac-bccf-4147-a2f7-782eb40ba7c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\GPUParticle\BloadParticle">
-      <UniqueIdentifier>{d302d8dc-09a4-42fb-817a-45f774bdc37c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="shaders\GPUParticle\BonfireParticle">
       <UniqueIdentifier>{2dd60d39-2ed3-40fe-9e5f-3d668d2ccc24}</UniqueIdentifier>
     </Filter>
@@ -436,26 +295,17 @@
     <Filter Include="shaders\GPUParticle\BloadParticle\CS">
       <UniqueIdentifier>{990f24b8-1d49-404f-bae2-03d82e4b1a60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\GPUParticle\FieldSparksParticle">
-      <UniqueIdentifier>{5132098a-f131-4c16-ac30-f940ea391f2e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="shaders\GPUParticle\FieldSparksParticle">
       <UniqueIdentifier>{775d06be-4c4b-4bee-a162-8e3259f528c2}</UniqueIdentifier>
     </Filter>
     <Filter Include="shaders\GPUParticle\FieldSparksParticle\CS">
       <UniqueIdentifier>{0a5136f7-afef-4201-8083-9b99789eadce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\GPUParticle\PillarSmokeParticle">
-      <UniqueIdentifier>{538b787f-36ae-4619-b3f7-3332eac2743b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="shaders\GPUParticle\PillarSmokeParticle">
       <UniqueIdentifier>{1457ec65-2545-4635-b9de-e0155fbc62e5}</UniqueIdentifier>
     </Filter>
     <Filter Include="shaders\GPUParticle\PillarSmokeParticle\CS">
       <UniqueIdentifier>{afe45777-70ea-4ac6-9a41-16b3d960fbd9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\String">
-      <UniqueIdentifier>{852c053a-ada1-4e32-ae99-48e5bb028de1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Physics\Cloth">
       <UniqueIdentifier>{7050e05e-6ae1-451a-aad3-bac8052e41e2}</UniqueIdentifier>
@@ -468,9 +318,6 @@
     </Filter>
     <Filter Include="Engine\Physics\ClothGPU">
       <UniqueIdentifier>{57a7911f-5060-432b-918f-f0ac710f5114}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Object\Flag">
-      <UniqueIdentifier>{84135c1b-2d35-4373-8a67-dfe3bb5821dc}</UniqueIdentifier>
     </Filter>
     <Filter Include="shaders\ClothGPU\Collision">
       <UniqueIdentifier>{b54cd42f-9449-415a-bd9c-9de1e98c42c7}</UniqueIdentifier>
@@ -591,12 +438,6 @@
     <ClCompile Include="Application\Skydome\Skydome.cpp">
       <Filter>Application\Skydome</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Particle\MakeEmitter.cpp">
-      <Filter>Application\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Particle\MakeParticle.cpp">
-      <Filter>Application\Particle</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Scene\ClearScene\ClearScene.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
@@ -634,12 +475,6 @@
     <ClCompile Include="Engine\Audio\AudioManager.cpp">
       <Filter>Engine\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Application\UI\UI.cpp">
-      <Filter>Application\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\UI\UIManager.cpp">
-      <Filter>Application\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Scene\TutorialScene\TutorialScene.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
@@ -663,9 +498,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Light\DirectionalLight\DirectionalLight.cpp">
       <Filter>Engine\Light\DirctionalLight</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Sample\SampleObject.cpp">
-      <Filter>Application\Object\Sample</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Light\PointLight\PointLightManager.cpp">
       <Filter>Engine\Light\PointLight</Filter>
@@ -760,42 +592,6 @@
     <ClCompile Include="Engine\Physics\Spring\StructuralSpring.cpp">
       <Filter>Engine\Physics\Spring</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Camera\FollowCamera.cpp">
-      <Filter>Application\FollowCamera</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateRoot\PlayerStateRoot.cpp">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateAttack\PlayerStateAttack.cpp">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateAvoidance\PlayerStateAvoidance.cpp">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateFactory.cpp">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateGuard\PlayerStateGuard.cpp">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\PlayerState\PlayerStateRecovery\PlayerStateRecovery.cpp">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\PlayerState\IPlayerState.cpp">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\PlayerCommand\PlayerCommand.cpp">
-      <Filter>Application\Object\Player\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\PlayerAttack\PlayerAttack.cpp">
-      <Filter>Application\Object\Player\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\Player.cpp">
-      <Filter>Application\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\UI\TutorialUIManager.cpp">
-      <Filter>Application\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\2D\ImGuiManager.cpp">
       <Filter>Engine\2D\ImGui</Filter>
     </ClCompile>
@@ -856,89 +652,8 @@
     <ClCompile Include="Engine\Animation\LocalMatrixDraw.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\ObjectFactory.cpp">
-      <Filter>Application\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\System\GameOverSystem.cpp">
-      <Filter>Application\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Obstacle\Ground\Ground.cpp">
-      <Filter>Application\Object\Obstacle\Ground</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Obstacle\Block\Block.cpp">
-      <Filter>Application\Object\Obstacle\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\BaseEnemy.cpp">
-      <Filter>Application\Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\Ghost\Ghost.cpp">
-      <Filter>Application\Object\Enemy\Ghost</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostCommand.cpp">
-      <Filter>Application\Object\Enemy\Ghost</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateFactory.cpp">
-      <Filter>Application\Object\Enemy\Ghost\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\Ghost\IGhostState.cpp">
-      <Filter>Application\Object\Enemy\Ghost\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\BaseEnemyAttack.cpp">
-      <Filter>Application\Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearMan.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateFactory.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\IAxSpearManState.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Object\BaseObjectManager.cpp">
       <Filter>Engine\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Manager\GameSceneObjectManager.cpp">
-      <Filter>Application\Object\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\DashSwingDown</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateRoot.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitSee.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\WaitSee</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateAttack.cpp">
-      <Filter>Application\Object\Enemy\Ghost\State\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateChase.cpp">
-      <Filter>Application\Object\Enemy\Ghost\State\Chase</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateDamage.cpp">
-      <Filter>Application\Object\Enemy\Ghost\State\Damage</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateRoot.cpp">
-      <Filter>Application\Object\Enemy\Ghost\State\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateDead.cpp">
-      <Filter>Application\Object\Enemy\Ghost\State\Dead</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Manager\TutorialSceneObjectManager.cpp">
-      <Filter>Application\Object\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateShakeOff.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\ShakeOff</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManState3Consecutive.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\3Consecutive</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManCommand.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan\System\Command</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManWeapon.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Engine\PostEffect\ShockWave\ShockWaveManager.cpp">
       <Filter>Engine\PostEffect\ShockWave</Filter>
@@ -949,77 +664,11 @@
     <ClCompile Include="Engine\PostEffect\Velocity2D\Velocity2DManager.cpp">
       <Filter>Engine\PostEffect\Velocity2D</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManBeam.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan\System\Beam</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManBeamAttack.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan\System\Beam</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateBeam.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Physics\Gravity\Gravity.cpp">
       <Filter>Engine\Physics\Gravity</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Weapon\BaseWeapon.cpp">
-      <Filter>Application\Object\BaseWeapon</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Bonfire\Bonfire.cpp">
-      <Filter>Application\Object\Bonfire</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Manager\TitleSceneObjectManager.cpp">
-      <Filter>Application\Object\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\TitlePlayer\TitlePlayer.cpp">
-      <Filter>Application\Object\Player\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Player\PlayerWeapon\PlayerWeapon.cpp">
-      <Filter>Application\Object\Player\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\Ghost\GhostStateCadaver.cpp">
-      <Filter>Application\Object\Enemy\Ghost\State\Cadaver</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Obstacle\BaseObstacle.cpp">
-      <Filter>Application\Object\Obstacle</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Obstacle\Pillar\PillarFoundation.cpp">
-      <Filter>Application\Object\Obstacle\PillarFoundation</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\RigidBodyObject\BaseRigidBodyObject.cpp">
-      <Filter>Application\Object\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\RigidBodyObject\Piller\Pillar.cpp">
-      <Filter>Application\Object\Physics\Pillar</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Collision\Extrusion.cpp">
       <Filter>Engine\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Collider\ColliderParentIdentification.cpp">
-      <Filter>Application\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitingForBattle.cpp">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\WaitingForBattle</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\System\BossSystem.cpp">
-      <Filter>Application\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Obstacle\BossFog\BossFog.cpp">
-      <Filter>Application\Object\Obstacle\BossFog</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\GPUParticle\BonfireParticle.cpp">
-      <Filter>Application\GPUParticle\BonfireParticle</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\GPUParticle\BloadParticle.cpp">
-      <Filter>Application\GPUParticle\BloadParticle</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\GPUParticle\FieldSparksParticle.cpp">
-      <Filter>Application\GPUParticle\FieldSparksParticle</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\GPUParticle\PillarSmokeParticle.cpp">
-      <Filter>Application\GPUParticle\PillarSmokeParticle</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\StringObject\BaseStringObject.cpp">
-      <Filter>Application\Object\String</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Physics\Cloth\Cloth.cpp">
       <Filter>Engine\Physics\Cloth</Filter>
@@ -1032,15 +681,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Physics\Cloth\ClothModel.cpp">
       <Filter>Engine\Physics\Cloth</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole.cpp">
-      <Filter>Application\Object\Flag</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\ClothObject\Flag\Flag.cpp">
-      <Filter>Application\Object\Flag</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Object\Obstacle\FlagPole\FlagPole2.cpp">
-      <Filter>Application\Object\Flag</Filter>
     </ClCompile>
     <ClCompile Include="Engine\base\Debug\CrashHandler.cpp">
       <Filter>Engine\Base\Debug</Filter>
@@ -1084,9 +724,6 @@
     <ClCompile Include="Engine\Physics\ClothGPU\ClothGPUCollision.cpp">
       <Filter>Engine\Physics\ClothGPU</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\ClothObject\BaseClothObject.cpp">
-      <Filter>Application\Object\Flag</Filter>
-    </ClCompile>
     <ClCompile Include="Application\ClothDemo\ClothDemo.cpp">
       <Filter>Application\ClothDemo</Filter>
     </ClCompile>
@@ -1104,6 +741,15 @@
     </ClCompile>
     <ClCompile Include="Engine\Physics\ClothGPU\ClothSpringBufferData.cpp">
       <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Particle\MakeEmitter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Particle\MakeParticle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Collider\ColliderParentIdentification.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1224,21 +870,6 @@
     <ClInclude Include="Application\Skydome\Skydome.h">
       <Filter>Application\Skydome</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Particle\EmitterName.h">
-      <Filter>Application\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Particle\MakeParticle.h">
-      <Filter>Application\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Particle\MakeEmitter.h">
-      <Filter>Application\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Particle\ParticleName.h">
-      <Filter>Application\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Particle\ParticleModelIndex.h">
-      <Filter>Application\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Scene\SceneName.h">
       <Filter>Application\Scene</Filter>
     </ClInclude>
@@ -1278,9 +909,6 @@
     <ClInclude Include="Engine\Camera\CameraForGPU.h">
       <Filter>Engine\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Collider\ColliderParentObject.h">
-      <Filter>Application\Collider</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Audio\AudioManager.h">
       <Filter>Engine\Audio</Filter>
     </ClInclude>
@@ -1290,12 +918,6 @@
     <ClInclude Include="Engine\Collision\CollisionData.h">
       <Filter>Engine\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Application\UI\UI.h">
-      <Filter>Application\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\UI\UIManager.h">
-      <Filter>Application\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Scene\TutorialScene\TutorialScene.h">
       <Filter>Application\Scene</Filter>
     </ClInclude>
@@ -1304,9 +926,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\RandomEngine.h">
       <Filter>Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Collider\CollisionConfig.h">
-      <Filter>Application\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Engine\base\GraphicsPipelineState\GraphicsPipelineState.h">
       <Filter>Engine\Base\GraphicsPipelineState</Filter>
@@ -1328,9 +947,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Light\DirectionalLight\DirectionalLightData.h">
       <Filter>Engine\Light\DirctionalLight</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Sample\SampleObject.h">
-      <Filter>Application\Object\Sample</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Light\PointLight\PointLightData.h">
       <Filter>Engine\Light\PointLight</Filter>
@@ -1367,12 +983,6 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Collider2D\CollisionConfig2D.h">
-      <Filter>Application\Collider2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Collider2D\ColliderParentObject2D.h">
-      <Filter>Application\Collider2D</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Collider2D\Box.h">
       <Filter>Engine\Collider2D</Filter>
@@ -1454,42 +1064,6 @@
     </ClInclude>
     <ClInclude Include="Engine\ContactRecord\ContactRecord.h">
       <Filter>Engine\Contactrecord</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Camera\FollowCamera.h">
-      <Filter>Application\FollowCamera</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\PlayerState\IPlayerState.h">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateRoot\PlayerStateRoot.h">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateAttack\PlayerStateAttack.h">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateAvoidance\PlayerStateAvoidance.h">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateFactory.h">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateGuard\PlayerStateGuard.h">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\PlayerState\PlayerStateRecovery\PlayerStateRecovery.h">
-      <Filter>Application\Object\Player\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\PlayerAttack\PlayerAttack.h">
-      <Filter>Application\Object\Player\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\Player.h">
-      <Filter>Application\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\PlayerCommand\PlayerCommand.h">
-      <Filter>Application\Object\Player\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\UI\TutorialUIManager.h">
-      <Filter>Application\UI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\2D\ImGuiManager.h">
       <Filter>Engine\2D\ImGui</Filter>
@@ -1611,89 +1185,8 @@
     <ClInclude Include="Engine\Animation\LocalMatrixDraw.h">
       <Filter>Engine\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\ObjectFactory.h">
-      <Filter>Application\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\System\GameOverSystem.h">
-      <Filter>Application\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Obstacle\Ground\Ground.h">
-      <Filter>Application\Object\Obstacle\Ground</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Obstacle\Block\Block.h">
-      <Filter>Application\Object\Obstacle\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\BaseEnemy.h">
-      <Filter>Application\Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\Ghost\Ghost.h">
-      <Filter>Application\Object\Enemy\Ghost</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostCommand.h">
-      <Filter>Application\Object\Enemy\Ghost</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\Ghost\IGhostState.h">
-      <Filter>Application\Object\Enemy\Ghost\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateFactory.h">
-      <Filter>Application\Object\Enemy\Ghost\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\BaseEnemyAttack.h">
-      <Filter>Application\Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearMan.h">
-      <Filter>Application\Object\Enemy\AxSpearMan</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateFactory.h">
-      <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\IAxSpearManState.h">
-      <Filter>Application\Object\Enemy\AxSpearMan\State</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Object\BaseObjectManager.h">
       <Filter>Engine\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Manager\GameSceneObjectManager.h">
-      <Filter>Application\Object\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateDashSwingDown.h">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\DashSwingDown</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateRoot.h">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitSee.h">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\WaitSee</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateAttack.h">
-      <Filter>Application\Object\Enemy\Ghost\State\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateChase.h">
-      <Filter>Application\Object\Enemy\Ghost\State\Chase</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateDamage.h">
-      <Filter>Application\Object\Enemy\Ghost\State\Damage</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateRoot.h">
-      <Filter>Application\Object\Enemy\Ghost\State\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateDead.h">
-      <Filter>Application\Object\Enemy\Ghost\State\Dead</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Manager\TutorialSceneObjectManager.h">
-      <Filter>Application\Object\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateShakeOff.h">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\ShakeOff</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManState3Consecutive.h">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\3Consecutive</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManCommand.h">
-      <Filter>Application\Object\Enemy\AxSpearMan\System\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManWeapon.h">
-      <Filter>Application\Object\Enemy\AxSpearMan\System\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Engine\PostEffect\ShockWave\ShockWaveData.h">
       <Filter>Engine\PostEffect\ShockWave</Filter>
@@ -1710,20 +1203,8 @@
     <ClInclude Include="Engine\PostEffect\HSV\HSVFilter.h">
       <Filter>Engine\PostEffect\HSVFilter</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManBeam.h">
-      <Filter>Application\Object\Enemy\AxSpearMan\System\Beam</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManBeamAttack.h">
-      <Filter>Application\Object\Enemy\AxSpearMan\System\Beam</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateBeam.h">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\Beam</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Physics\Gravity\Gravity.h">
       <Filter>Engine\Physics\Gravity</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Weapon\BaseWeapon.h">
-      <Filter>Application\Object\BaseWeapon</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GPUParticle\EmitterCS.h">
       <Filter>Engine\Particle\GPUParticle</Filter>
@@ -1731,62 +1212,8 @@
     <ClInclude Include="Engine\Math\PerFrame.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\Manager\TitleSceneObjectManager.h">
-      <Filter>Application\Object\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\TitlePlayer\TitlePlayer.h">
-      <Filter>Application\Object\Player\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Player\PlayerWeapon\PlayerWeapon.h">
-      <Filter>Application\Object\Player\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Bonfire\Bonfire.h">
-      <Filter>Application\Object\Bonfire</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\Ghost\GhostStateCadaver.h">
-      <Filter>Application\Object\Enemy\Ghost\State\Cadaver</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Obstacle\BaseObstacle.h">
-      <Filter>Application\Object\Obstacle</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Obstacle\Pillar\PillarFoundation.h">
-      <Filter>Application\Object\Obstacle\PillarFoundation</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\RigidBodyObject\BaseRigidBodyObject.h">
-      <Filter>Application\Object\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\RigidBodyObject\Piller\Pillar.h">
-      <Filter>Application\Object\Physics\Pillar</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Collision\Extrusion.h">
       <Filter>Engine\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Collider\ColliderParentIdentification.h">
-      <Filter>Application\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Character\Enemy\AxSpearMan\AxSpearManStateWaitingForBattle.h">
-      <Filter>Application\Object\Enemy\AxSpearMan\State\WaitingForBattle</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\System\BossSystem.h">
-      <Filter>Application\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Obstacle\BossFog\BossFog.h">
-      <Filter>Application\Object\Obstacle\BossFog</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\GPUParticle\BonfireParticle.h">
-      <Filter>Application\GPUParticle\BonfireParticle</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\GPUParticle\BloadParticle.h">
-      <Filter>Application\GPUParticle\BloadParticle</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\GPUParticle\FieldSparksParticle.h">
-      <Filter>Application\GPUParticle\FieldSparksParticle</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\GPUParticle\PillarSmokeParticle.h">
-      <Filter>Application\GPUParticle\PillarSmokeParticle</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\StringObject\BaseStringObject.h">
-      <Filter>Application\Object\String</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Physics\Cloth\Cloth.h">
       <Filter>Engine\Physics\Cloth</Filter>
@@ -1799,15 +1226,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Physics\Cloth\ClothModel.h">
       <Filter>Engine\Physics\Cloth</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\ClothObject\Flag\Flag.h">
-      <Filter>Application\Object\Flag</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole.h">
-      <Filter>Application\Object\Flag</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Object\Obstacle\FlagPole\FlagPole2.h">
-      <Filter>Application\Object\Flag</Filter>
     </ClInclude>
     <ClInclude Include="Engine\base\Debug\CrashHandler.h">
       <Filter>Engine\Base\Debug</Filter>
@@ -1857,9 +1275,6 @@
     <ClInclude Include="Engine\Physics\ClothGPU\ClothGPUCollision.h">
       <Filter>Engine\Physics\ClothGPU</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\ClothObject\BaseClothObject.h">
-      <Filter>Application\Object\Flag</Filter>
-    </ClInclude>
     <ClInclude Include="Application\ClothDemo\ClothDemo.h">
       <Filter>Application\ClothDemo</Filter>
     </ClInclude>
@@ -1901,6 +1316,33 @@
     </ClInclude>
     <ClInclude Include="Engine\Physics\ClothGPU\ClothSpringBufferData.h">
       <Filter>Engine\Physics\ClothGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Collider\ColliderParentObject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Particle\EmitterName.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Particle\MakeEmitter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Particle\MakeParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Particle\ParticleModelIndex.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Particle\ParticleName.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Collider\ColliderParentIdentification.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Collider2D\ColliderParentObject2D.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Collider2D\CollisionConfig2D.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
