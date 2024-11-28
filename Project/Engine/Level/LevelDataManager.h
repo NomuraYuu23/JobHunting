@@ -33,8 +33,6 @@ private: // 定数
 
 	// ファイルの名前
 	const std::array<const std::string, LevelIndex::kLevelIndexOfCount> fileNames_{
-		"title",
-		"tutorial",
 		"main",
 	};
 

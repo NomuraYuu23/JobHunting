@@ -6,7 +6,7 @@ const std::array<const std::string, LevelIndex::kLevelIndexOfCount>* LevelDataVi
 
 std::array<std::unique_ptr<LevelData>, LevelIndex::kLevelIndexOfCount>* LevelDataViewing::levelDatas_ = nullptr;
 
-LevelIndex LevelDataViewing::viewingIndex_ = LevelIndex::kLevelIndexTutorial;
+LevelIndex LevelDataViewing::viewingIndex_ = LevelIndex::kLevelIndexMain;
 
 void LevelDataViewing::Initialize(std::array<std::unique_ptr<LevelData>, LevelIndex::kLevelIndexOfCount>* levelDatas,
 	const std::array<const std::string, LevelIndex::kLevelIndexOfCount>* fileNames)
@@ -14,7 +14,7 @@ void LevelDataViewing::Initialize(std::array<std::unique_ptr<LevelData>, LevelIn
 
 	levelDatas_ = levelDatas;
 	fileNames_ = fileNames;
-	viewingIndex_ = LevelIndex::kLevelIndexTutorial;
+	viewingIndex_ = LevelIndex::kLevelIndexMain;
 
 }
 
