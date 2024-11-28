@@ -665,17 +665,17 @@ void ClothGPU::ImGuiDraw(const std::string& name)
 	ImGui::DragInt("バネの更新の反復の回数", &relaxation_, 0.2f, 1, 6);
 
 	//clothCalcDataMap_
-	ImGui::DragFloat("質量", &clothCalcDataMap_->mass_, 0.01f, 0.0f);
-	ImGui::DragFloat3("重力", &clothCalcDataMap_->gravity_.x, 0.01f, 0.0f);
-	ImGui::DragFloat3("風力", &clothCalcDataMap_->wind_.x, 0.01f, 0.0f);
-	ImGui::DragFloat("抵抗", &clothCalcDataMap_->speedResistance_, 0.01f, 0.0f);
-	ImGui::DragFloat("バネの強度", &clothCalcDataMap_->stiffness_, 0.1f, 1.0f);
-	ImGui::DragFloat("構成バネ伸び抵抗", &clothCalcDataMap_->structuralShrink_, 0.1f, 0.0f);
-	ImGui::DragFloat("構成バネ縮み抵抗", &clothCalcDataMap_->structuralStretch_, 0.1f, 0.0f);
-	ImGui::DragFloat("せん断バネ伸び抵抗", &clothCalcDataMap_->shearShrink_, 0.1f, 0.0f);
-	ImGui::DragFloat("せん断バネ縮み抵抗", &clothCalcDataMap_->shearStretch_, 0.1f, 0.0f);
-	ImGui::DragFloat("曲げバネ伸び抵抗", &clothCalcDataMap_->bendingShrink_, 0.1f, 0.0f);
-	ImGui::DragFloat("曲げバネ縮み抵抗", &clothCalcDataMap_->bendingStretch_, 0.1f, 0.0f);
+	ImGui::DragFloat("質量", &clothCalcDataMap_->mass_, 0.01f, 0.1f, 10.0f);
+	ImGui::DragFloat3("重力", &clothCalcDataMap_->gravity_.x, 0.01f, -100.0f, 100.0f);
+	ImGui::DragFloat3("風力", &clothCalcDataMap_->wind_.x, 0.01f, -100.0f, 100.0f);
+	ImGui::DragFloat("抵抗", &clothCalcDataMap_->speedResistance_, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("バネの強度", &clothCalcDataMap_->stiffness_, 0.1f, 1.0f, 1000.0f);
+	ImGui::DragFloat("構成バネ伸び抵抗", &clothCalcDataMap_->structuralShrink_, 0.1f, 0.0f, 1000.0f);
+	ImGui::DragFloat("構成バネ縮み抵抗", &clothCalcDataMap_->structuralStretch_, 0.1f, 0.0f, 1000.0f);
+	ImGui::DragFloat("せん断バネ伸び抵抗", &clothCalcDataMap_->shearShrink_, 0.1f, 0.0f, 1000.0f);
+	ImGui::DragFloat("せん断バネ縮み抵抗", &clothCalcDataMap_->shearStretch_, 0.1f, 0.0f, 1000.0f);
+	ImGui::DragFloat("曲げバネ伸び抵抗", &clothCalcDataMap_->bendingShrink_, 0.1f, 0.0f, 1000.0f);
+	ImGui::DragFloat("曲げバネ縮み抵抗", &clothCalcDataMap_->bendingStretch_, 0.1f, 0.0f, 1000.0f);
 
 	ImGui::End();
 
@@ -1068,7 +1068,7 @@ void ClothGPU::CBVInitialize(
 	clothCalcDataBuff_ = BufferResource::CreateBufferResource(device, (sizeof(ClothCalcData) + 0xff) & ~0xff);
 	clothCalcDataBuff_->Map(0, nullptr, reinterpret_cast<void**>(&clothCalcDataMap_));
 	//マップ
-	clothCalcDataMap_->mass_ = 1.0f;// 質点の質量
+	clothCalcDataMap_->mass_ = 3.0f;// 質点の質量
 	clothCalcDataMap_->gravity_ = { 0.0f, -9.8f, 0.0f};// 重力
 	clothCalcDataMap_->wind_ = { 0.0f, 0.0f, 0.0f };// 風力
 	clothCalcDataMap_->stiffness_ = 100.0f; // 剛性。バネ定数k

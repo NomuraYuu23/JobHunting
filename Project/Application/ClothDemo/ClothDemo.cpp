@@ -24,7 +24,7 @@ void ClothDemo::Initilalize(
 	// 布の大きさ
 	clothScale_ = { 2.0f, 2.0f };
 	// 布の分割数
-	clothDiv_ = { 7.0f, 7.0f };
+	clothDiv_ = { 16.0f, 16.0f };
 	// リセット位置
 	resetPosition_ = { 0.0f,3.0f,0.0f };
 
@@ -102,13 +102,8 @@ void ClothDemo::ImGuiDraw()
 	ImGui::Begin("ClothDemo");
 	// 布
 	ImGui::Text("Cloth");
-	ImGui::DragFloat2("ClothDiv", &clothDiv_.x, 1.0f, 4.0f, 256.0f);
-	ImGui::DragFloat2("ClothScale", &clothScale_.x, 0.01f, 1.0f);
-
-	// 球移動
-	if (ImGui::Button("SphereMoveStart")) {
-		SphereMoveStart();
-	}
+	ImGui::DragFloat2("ClothDiv", &clothDiv_.x, 1.0f, 4.0f, 64.0f);
+	ImGui::DragFloat2("ClothScale", &clothScale_.x, 0.01f, 1.0f, 10.0f);
 
 	if (ImGui::Button("ClothReset")) {
 		// 布の初期化
@@ -141,6 +136,12 @@ void ClothDemo::ImGuiDraw()
 	if (ImGui::Button("CapsuleSwitching")) {
 		CapsuleSwitching();
 	}
+
+	// 球移動
+	if (ImGui::Button("SphereMoveStart")) {
+		SphereMoveStart();
+	}
+
 	ImGui::End();
 
 }
@@ -214,10 +215,10 @@ void ClothDemo::ClothReset(ID3D12GraphicsCommandList* commandList)
 	}
 	else {
 		gravity = {0.0f,-9.8f, 0.0f}; // 重力
-		wind = { 0.0f, 0.0f, 0.0f }; // 風力
+		wind = { 0.0f, 0.0f, -5.0f }; // 風力
 		stiffness = 100.0f; // 剛性。バネ定数k
 		speedResistance = 0.2f; // 速度抵抗
-		// 抵抗 (structural > shear >= bending)の大きさが酔良い
+		// 抵抗 (structural > shear >= bending)の大きさが良い
 		structuralShrink = 100.0f;
 		structuralStretch = 100.0f;
 		shearShrink = 80.0f;
